@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--公共颜色-->
+    <color name="white">#ffffffff</color>
+
+    <!--登陆选择页面开始-->
+    <color name="login_login_background">#01A3AE</color>
+    <color name="login_try_background">#AAAAAA</color>
+    <!--登陆选择页面结束-->
 </resources>
