@@ -1,0 +1,28 @@
+<!--介绍2布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@color/introduce2_background"
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              tools:context="workshop1024.com.xproject.fragment.IntroduceFragment">
+
+    <!--标题-->
+    <TextView
+        style="@style/introduce_title"
+        android:text="@string/introduce2_title"/>
+
+    <!--介绍图-->
+    <ImageView
+        style="@style/introduce_icon"
+        android:src="@drawable/introduce_icon2"/>
+
+    <!--说明-->
+    <TextView
+        style="@style/introduce_description"
+        android:text="@string/introduce2_description"/>
+
+    <!--分割线-->
+    <View
+        style="@style/introduce_line"/>
+</LinearLayout>

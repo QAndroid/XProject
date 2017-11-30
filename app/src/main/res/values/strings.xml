@@ -5,4 +5,13 @@
     <string name="login_login">LOGIN TO FEEDLY</string>
     <string name="login_try">TRY THINGS OUT</string>
     <!--登陆选择页面结束-->
+
+    <!--介绍页面开始-->
+    <string name="introduce1_description">Thank you for installing Paperboy.What makes Paperboy different form other news reader apps is its simplicity and elegant design.</string>
+    <string name="introduce1_title">Welcome</string>
+    <string name="introduce2_title">Customizations</string>
+    <string name="introduce2_description">We believe tha each user is unique and hence several customization options are provided to suit different reading styles.To customize please visit the settings page.</string>
+    <string name="introduce3_title">Reading pattern learner</string>
+    <string name="introduce3_description">The home screen tiles will automatically reaarrange based on reading patterns for better user experence.All data is stored locally kepping in mind user privacy.</string>
+    <!--介绍页面结束-->
 </resources>
