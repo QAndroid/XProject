@@ -14,4 +14,24 @@
     <string name="introduce3_title">Reading pattern learner</string>
     <string name="introduce3_description">The home screen tiles will automatically reaarrange based on reading patterns for better user experence.All data is stored locally kepping in mind user privacy.</string>
     <!--介绍页面结束-->
+
+    <!--主页面开始-->
+    <string name="main_leftnavigator_header_login">Click to login</string>
+
+    <string name="leftnavigator_menu_home">Home</string>
+    <string name="leftnavigator_menu_saved">Saved</string>
+    <string name="leftnavigator_menu_settings">Settings</string>
+    <string name="leftnavigator_menu_feedback">Feedback</string>
+
+    <string name="toolbar_action_search">Search</string>
+    <string name="toolbar_action_add">Add</string>
+    <string name="toolbar_action_refresh">Refresh</string>
+    <string name="toolbar_action_marked">Marked as read</string>
+    <string name="toolbar_action_rate">Rate app</string>
+    <string name="toolbar_action_product">Product Tour</string>
+    <string name="toolbar_action_about">About Paperboy</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--主页面结束-->
 </resources>

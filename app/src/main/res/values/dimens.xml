@@ -1,0 +1,9 @@
+<resources>
+    <!--主页面开始-->
+    <dimen name="leftnavigator_header_horizontalmargin">16dp</dimen>
+    <dimen name="leftnavigator_header_verticalmargin">16dp</dimen>
+    <dimen name="main_leftnavigator_header_height">176dp</dimen>
+    <dimen name="leftnavigator_header_vertical_spacing">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <!--主页面结束-->
+</resources>

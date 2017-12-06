@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主页右部内容布局-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context="workshop1024.com.xproject.activity.MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:background="?attr/colorPrimary"
+                android:id="@+id/toolbar_navigator"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!--中间布局-->
+        <FrameLayout
+            android:id="@+id/framelayout_fragments"
+            android:layout_height="400dp"
+            android:layout_width="match_parent"/>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
+
+

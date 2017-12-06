@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主页左导航栏菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <!--单选组，点击切换Fragment-->
+    <group android:checkableBehavior="single">
+        <!--主页-->
+        <item
+            android:icon="@drawable/leftnavigator_icon_home"
+            android:id="@+id/leftnavigator_menu_home"
+            android:title="@string/leftnavigator_menu_home"/>
+        <!--保存-->
+        <item
+            android:icon="@drawable/leftnavigator_icon_saved"
+            android:id="@+id/leftnavigator_menu_saved"
+            android:title="@string/leftnavigator_menu_saved"/>
+    </group>
+
+    <!--产生分隔线，点击跳转Activity-->
+    <item android:title="Others">
+        <menu>
+            <!--设置-->
+            <item
+                android:icon="@drawable/leftnavigator_icon_settings"
+                android:id="@+id/leftnavigator_menu_settings"
+                android:title="@string/leftnavigator_menu_settings"/>
+            <!--反馈-->
+            <item
+                android:icon="@drawable/leftnavigator_icon_feedback"
+                android:id="@+id/leftnavigator_menu_feedback"
+                android:title="@string/leftnavigator_menu_feedback"/>
+        </menu>
+    </item>
+
+</menu>

@@ -17,7 +17,7 @@
         android:orientation="vertical">
         <!--介绍ViewPager-->
         <android.support.v4.view.ViewPager
-            android:id="@+id/fragments_viewpager"
+            android:id="@+id/content_viewpager"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
 
@@ -36,12 +36,13 @@
                 android:layout_width="wrap_content"
                 android:onClick="@{() -> presenter.onSkipButtonClick()}"
                 android:text="SKIP"
+                android:textColor="@color/white"
                 android:visibility="visible"
                 tools:visibility="visible"/>
 
             <!--介绍指示器-->
             <workshop1024.com.xproject.view.CircleDotIndicator
-                android:id="@+id/index_circledotindicator"
+                android:id="@+id/index_cricledotindicator"
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>

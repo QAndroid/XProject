@@ -38,10 +38,10 @@ public class IntroduceActivity extends FragmentActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity);
 
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
-        mBinding.fragmentsViewpager.setAdapter(mPagerAdapter);
-        mBinding.fragmentsViewpager.addOnPageChangeListener(new ViewPageChangeListener());
+        mBinding.contentViewpager.setAdapter(mPagerAdapter);
+        mBinding.contentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
 
-        mBinding.indexCircledotindicator.setViewPager(mBinding.fragmentsViewpager);
+        mBinding.indexCricledotindicator.setViewPager(mBinding.contentViewpager);
 
         Presenter presenter = new Presenter();
         mBinding.setPresenter(presenter);
@@ -51,7 +51,7 @@ public class IntroduceActivity extends FragmentActivity {
      * 跳转下一个ViewPager的页面
      */
     private void toNextViewPageItem() {
-        mBinding.fragmentsViewpager.setCurrentItem(mBinding.fragmentsViewpager.getCurrentItem() + 1);
+        mBinding.contentViewpager.setCurrentItem(mBinding.contentViewpager.getCurrentItem() + 1);
     }
 
     /**
@@ -96,7 +96,7 @@ public class IntroduceActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-            mBinding.indexCircledotindicator.setCurrentSelectedCircleDot(position);
+            mBinding.indexCricledotindicator.setCurrentSelectedCircleDot(position);
 
             switch (position) {
                 case 0:
