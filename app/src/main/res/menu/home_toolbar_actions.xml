@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--工具栏菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--搜索-->
+    <item
+        android:icon="@drawable/toolbar_action_add"
+        android:id="@+id/toolbar_action_search"
+        android:title="@string/toolbar_action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"/>
+    <!--添加-->
+    <item
+        android:icon="@drawable/toolbar_action_search"
+        android:id="@+id/toolbar_action_add"
+        android:title="@string/toolbar_action_add"
+        app:showAsAction="always"/>
+
+    <!--其它如：刷新、标记、产品和关于等-->
+    <item
+        android:id="@+id/toolbar_action_marked"
+        android:title="@string/toolbar_action_marked"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_action_refresh"
+        android:title="@string/toolbar_action_refresh"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_action_rate"
+        android:title="@string/toolbar_action_rate"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_action_product"
+        android:title="@string/toolbar_action_product"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_action_about"
+        android:title="@string/toolbar_action_about"
+        app:showAsAction="never"/>
+
+</menu>
