@@ -20,5 +20,9 @@
 
     <!--主页面开始-->
     <color name="main_toolbar_background">#01A3AE</color>
+
+    <color name="home_tablayout_indicatorcolor">#BAD976</color>
+    <color name="home_tablayout_textcolor">@color/white</color>
+    <color name="home_tablayout_textselectedcolor">#D9DFDF</color>
     <!--主页面介绍-->
 </resources>

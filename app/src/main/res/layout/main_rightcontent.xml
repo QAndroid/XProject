@@ -5,31 +5,27 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <!--工具栏-->
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         tools:context="workshop1024.com.xproject.activity.MainActivity">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_height="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:background="@color/main_toolbar_background"
+            android:id="@+id/toolbar_navigator"
+            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:background="@color/main_toolbar_background"
-                android:id="@+id/toolbar_navigator"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        </android.support.design.widget.AppBarLayout>
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <!--中间布局-->
         <FrameLayout
             android:id="@+id/framelayout_fragments"
-            android:layout_height="400dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_width="match_parent"/>
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 </layout>
 
 
