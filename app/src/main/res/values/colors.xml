@@ -17,4 +17,8 @@
     <color name="introduce2_background">#4CAF50</color>
     <color name="introduce3_background">#673AB8</color>
     <!--介绍页面结束-->
+
+    <!--主页面开始-->
+    <color name="main_toolbar_background">#01A3AE</color>
+    <!--主页面介绍-->
 </resources>

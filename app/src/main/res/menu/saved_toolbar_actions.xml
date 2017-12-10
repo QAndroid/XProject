@@ -2,44 +2,50 @@
 <!--工具栏菜单-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--搜索-->
+    <!--刷新-->
     <item
-        android:icon="@drawable/toolbar_action_search"
-        android:id="@+id/toolbar_action_search"
-        android:title="@string/toolbar_action_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom"/>
-    <!--添加-->
-    <item
-        android:icon="@drawable/toolbar_action_add"
-        android:id="@+id/toolbar_action_add"
-        android:title="@string/toolbar_action_add"
+        android:icon="@drawable/toolbar_action_refresh"
+        android:id="@+id/toolbar_action_refresh1"
+        android:title="@string/toolbar_action_refresh1"
         app:showAsAction="always"/>
-
-    <!--其它如：刷新、标记、产品和关于等-->
+    <!--过滤-->
     <item
-        android:id="@+id/toolbar_action_refresh"
-        android:title="@string/toolbar_action_refresh"
-        app:showAsAction="never"/>
+        android:icon="@drawable/toolbar_action_filter"
+        android:id="@+id/toolbar_action_filter"
+        android:title="@string/toolbar_action_add"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:icon="@drawable/toolbar_action_magazine"
+                android:id="@+id/toolbar_action_magazine"
+                android:title="@string/toolbar_action_magazine"/>
+            <item
+                android:icon="@drawable/toolbar_action_cards"
+                android:id="@+id/toolbar_action_cards"
+                android:title="@string/toolbar_action_cards"/>
+            <item
+                android:icon="@drawable/toolbar_action_compact"
+                android:id="@+id/toolbar_action_compact"
+                android:title="@string/toolbar_action_compact"/>
+            <item
+                android:icon="@drawable/toolbar_action_minimal"
+                android:id="@+id/toolbar_action_minimal"
+                android:title="@string/toolbar_action_minimal"/>
+            <item
+                android:icon="@drawable/toolbar_action_picture"
+                android:id="@+id/toolbar_action_picture"
+                android:title="@string/toolbar_action_picture"/>
+        </menu>
+    </item>
 
+    <!--其它如：标记和帮助等-->
     <item
         android:id="@+id/toolbar_action_marked"
         android:title="@string/toolbar_action_marked"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/toolbar_action_rate"
-        android:title="@string/toolbar_action_rate"
+        android:id="@+id/toolbar_action_help"
+        android:title="@string/toolbar_action_help"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/toolbar_action_product"
-        android:title="@string/toolbar_action_product"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/toolbar_action_about"
-        android:title="@string/toolbar_action_about"
-        app:showAsAction="never"/>
-
 </menu>
