@@ -1,21 +1,22 @@
 package workshop1024.com.xproject.activity;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.databinding.SettingsActivityBinding;
 
 public class SettingsActivity extends AppCompatActivity {
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SettingsActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.settings_activity);
-        setSupportActionBar(binding.toolbarNavigator);
+        setContentView(R.layout.settings_activity);
+        mToolbar = findViewById(R.id.toolbar_navigator);
 
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }

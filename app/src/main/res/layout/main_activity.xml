@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--主页面布局-->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="workshop1024.com.xproject.activity.MainActivity">
+<!--抽屉当行布局-->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:id="@+id/drawerlayout_navigator"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context="workshop1024.com.xproject.activity.MainActivity"
+    tools:openDrawer="start">
 
-    <!--抽屉当行布局-->
-    <android.support.v4.widget.DrawerLayout
-        android:fitsSystemWindows="true"
-        android:id="@+id/drawerlayout_navigator"
+    <!--左侧内容布局-->
+    <include
+        layout="@layout/main_rightcontent"
+        android:id="@+id/layout_right"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        tools:openDrawer="start">
+        android:layout_width="match_parent"/>
 
-        <!--左侧内容布局-->
-        <include
-            layout="@layout/main_rightcontent"
-            android:id="@+id/layout_right"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-
-        <!--右侧导航视图-->
-        <android.support.design.widget.NavigationView
-            android:background="#303030"
-            android:fitsSystemWindows="true"
-            android:id="@+id/navigationview_left"
-            android:layout_gravity="start"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            app:headerLayout="@layout/main_leftnavigator_header"
-            app:menu="@menu/main_leftnavigator_menu"/>
-    </android.support.v4.widget.DrawerLayout>
-</layout>
+    <!--右侧导航视图-->
+    <android.support.design.widget.NavigationView
+        android:background="#303030"
+        android:fitsSystemWindows="true"
+        android:id="@+id/navigationview_left"
+        android:layout_gravity="start"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        app:headerLayout="@layout/main_leftnavigator_header"
+        app:menu="@menu/main_leftnavigator_menu"/>
+</android.support.v4.widget.DrawerLayout>

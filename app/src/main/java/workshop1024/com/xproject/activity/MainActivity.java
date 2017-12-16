@@ -1,21 +1,21 @@
 package workshop1024.com.xproject.activity;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.databinding.MainActivityBinding;
 import workshop1024.com.xproject.fragment.HomeFragment;
 import workshop1024.com.xproject.fragment.SavedFragment;
 
@@ -23,7 +23,10 @@ import workshop1024.com.xproject.fragment.SavedFragment;
  * 主页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private MainActivityBinding mBinding;
+    private DrawerLayout mDrawerLayut;
+    private NavigationView mNavigationView;
+    private Toolbar mToolbar;
+
     private FragmentManager mFragmentManager;
 
     private int mSelectItemId = R.id.leftnavigator_menu_home;
@@ -31,18 +34,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("TAG", "onCreate");
-        mBinding = DataBindingUtil.setContentView(this, R.layout.main_activity);
+        setContentView(R.layout.main_activity);
 
-        setSupportActionBar(mBinding.layoutRight.toolbarNavigator);
+        mDrawerLayut = findViewById(R.id.drawerlayout_navigator);
+        mToolbar = findViewById(R.id.toolbar_navigator);
+        mNavigationView = findViewById(R.id.navigationview_left);
+
+        setSupportActionBar(mToolbar);
 
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mBinding.drawerlayoutNavigator, mBinding
-                .layoutRight.toolbarNavigator, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mBinding.drawerlayoutNavigator.addDrawerListener(toggle);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R.string
+                .navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayut.addDrawerListener(toggle);
         toggle.syncState();
 
-        mBinding.navigationviewLeft.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         mFragmentManager = getSupportFragmentManager();
         //默认展示HomeFragment
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
 
-        mBinding.drawerlayoutNavigator.closeDrawer(GravityCompat.START);
+        mDrawerLayut.closeDrawer(GravityCompat.START);
         invalidateOptionsMenu();
 
         return true;

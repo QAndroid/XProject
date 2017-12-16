@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.activity;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,48 +9,59 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.databinding.IntroduceActivityBinding;
 import workshop1024.com.xproject.fragment.IntroduceFragment;
+import workshop1024.com.xproject.view.CircleDotIndicator;
 
 /**
  * 介绍页面
  */
-public class IntroduceActivity extends FragmentActivity {
+public class IntroduceActivity extends FragmentActivity implements View.OnClickListener {
     //介绍布局id
     List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment));
+    private ViewPager mContentViewpager;
+    private CircleDotIndicator mCricledotindicator;
+    private Button mSkipButton;
+    private ImageButton mNextButton;
+    private Button mDoneButton;
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
-
-    //页面数据绑定类
-    private IntroduceActivityBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity);
+        setContentView(R.layout.introduce_activity);
+
+        mContentViewpager = findViewById(R.id.content_viewpager);
+        mCricledotindicator = findViewById(R.id.index_cricledotindicator);
+        mSkipButton = findViewById(R.id.skip_button);
+        mNextButton = findViewById(R.id.next_button);
+        mDoneButton = findViewById(R.id.done_button);
+
+        mSkipButton.setOnClickListener(this);
+        mNextButton.setOnClickListener(this);
+        mDoneButton.setOnClickListener(this);
 
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
-        mBinding.contentViewpager.setAdapter(mPagerAdapter);
-        mBinding.contentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
+        mContentViewpager.setAdapter(mPagerAdapter);
+        mContentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
 
-        mBinding.indexCricledotindicator.setViewPager(mBinding.contentViewpager);
-
-        Presenter presenter = new Presenter();
-        mBinding.setPresenter(presenter);
+        mCricledotindicator.setViewPager(mContentViewpager);
     }
 
     /**
      * 跳转下一个ViewPager的页面
      */
     private void toNextViewPageItem() {
-        mBinding.contentViewpager.setCurrentItem(mBinding.contentViewpager.getCurrentItem() + 1);
+        mContentViewpager.setCurrentItem(mContentViewpager.getCurrentItem() + 1);
     }
 
     /**
@@ -60,6 +70,15 @@ public class IntroduceActivity extends FragmentActivity {
     private void toMainActivity() {
         Intent intent = new Intent(IntroduceActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mNextButton) {
+            toNextViewPageItem();
+        } else if (view == mSkipButton || view == mDoneButton) {
+            toMainActivity();
+        }
     }
 
     /**
@@ -96,20 +115,20 @@ public class IntroduceActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-            mBinding.indexCricledotindicator.setCurrentSelectedCircleDot(position);
+            mCricledotindicator.setCurrentSelectedCircleDot(position);
 
             switch (position) {
                 case 0:
                 case 1:
                     //TODO 是否有某种设计模式可优化
-                    mBinding.skipButton.setVisibility(View.VISIBLE);
-                    mBinding.nextButton.setVisibility(View.VISIBLE);
-                    mBinding.doneButton.setVisibility(View.GONE);
+                    mSkipButton.setVisibility(View.VISIBLE);
+                    mNextButton.setVisibility(View.VISIBLE);
+                    mDoneButton.setVisibility(View.GONE);
                     break;
                 case 2:
-                    mBinding.skipButton.setVisibility(View.GONE);
-                    mBinding.nextButton.setVisibility(View.GONE);
-                    mBinding.doneButton.setVisibility(View.VISIBLE);
+                    mSkipButton.setVisibility(View.GONE);
+                    mNextButton.setVisibility(View.GONE);
+                    mDoneButton.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -117,21 +136,6 @@ public class IntroduceActivity extends FragmentActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
 
-        }
-    }
-
-    //数据绑定-事件绑定-监听器绑定
-    public class Presenter {
-        public void onSkipButtonClick() {
-            toMainActivity();
-        }
-
-        public void onNextButtonClick() {
-            toNextViewPageItem();
-        }
-
-        public void onDoneButtonClick() {
-            toMainActivity();
         }
     }
 }
