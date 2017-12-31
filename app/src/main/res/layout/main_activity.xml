@@ -21,12 +21,12 @@
 
     <!--右侧导航视图-->
     <android.support.design.widget.NavigationView
-        android:background="#303030"
+        android:background="@color/white"
         android:fitsSystemWindows="true"
         android:id="@+id/navigationview_left"
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        app:headerLayout="@layout/main_leftnavigator_header"
-        app:menu="@menu/main_leftnavigator_menu"/>
+        app:menu="@menu/main_leftnavigator_menu"
+        tools:headerLayout="@layout/main_leftnavigator_header"/>
 </android.support.v4.widget.DrawerLayout>

@@ -7,21 +7,25 @@
     android:layout_width="match_parent"
     android:padding="16dp">
 
-    <!--登陆文案-->
-    <TextView
+    <!--登陆按钮-->
+    <Button
+        android:background="@null"
+        android:gravity="bottom"
+        android:id="@+id/leftnavigator_button_login"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="@string/main_leftnavigator_header_login"
         android:textColor="@color/white"/>
 
     <!--退出按钮-->
-    <ImageView
+    <ImageButton
+        android:background="@drawable/leftnavigator_header_logout"
+        android:id="@+id/leftnavigator_imagebutton_logout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/leftnavigator_header_logout"/>
+        android:layout_width="wrap_content"/>
 
 </RelativeLayout>

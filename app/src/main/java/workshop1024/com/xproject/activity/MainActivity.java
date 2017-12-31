@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
@@ -22,13 +25,15 @@ import workshop1024.com.xproject.fragment.SavedFragment;
 /**
  * 主页面
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
+        .OnClickListener {
     private DrawerLayout mDrawerLayut;
     private NavigationView mNavigationView;
+    private Button mLoginButton;
+    private ImageButton mLogoutButton;
     private Toolbar mToolbar;
-
     private FragmentManager mFragmentManager;
-
+    private HomeFragment mHomeFragment;
     private int mSelectItemId = R.id.leftnavigator_menu_home;
 
     @Override
@@ -37,8 +42,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.main_activity);
 
         mDrawerLayut = findViewById(R.id.drawerlayout_navigator);
-        mToolbar = findViewById(R.id.toolbar_navigator);
         mNavigationView = findViewById(R.id.navigationview_left);
+        View headerLayout = mNavigationView.inflateHeaderView(R.layout.main_leftnavigator_header);
+        mLoginButton = headerLayout.findViewById(R.id.leftnavigator_button_login);
+        mLogoutButton = headerLayout.findViewById(R.id.leftnavigator_imagebutton_logout);
+        mToolbar = findViewById(R.id.toolbar_navigator);
+
+        mLoginButton.setOnClickListener(this);
+        mLogoutButton.setOnClickListener(this);
 
         setSupportActionBar(mToolbar);
 
@@ -83,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "toolbar_action_add", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toolbar_action_refresh) {
             Toast.makeText(this, "toolbar_action_refresh", Toast.LENGTH_SHORT).show();
+//            mHomeFragment.onRefresh();
         } else if (id == R.id.toolbar_action_marked) {
             Toast.makeText(this, "toolbar_action_marked", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toolbar_action_rate) {
@@ -121,10 +133,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == mLoginButton) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else if (view == mLogoutButton) {
+
+        }
+    }
 
     private void showHomeFragment() {
-        HomeFragment homeFragment = HomeFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.framelayout_fragments, homeFragment).commit();
+        mHomeFragment = HomeFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.framelayout_fragments, mHomeFragment).commit();
         setTitle(getResources().getString(R.string.leftnavigator_menu_home));
     }
 }

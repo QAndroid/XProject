@@ -24,14 +24,15 @@ import workshop1024.com.xproject.view.CircleDotIndicator;
  * 介绍页面
  */
 public class IntroduceActivity extends FragmentActivity implements View.OnClickListener {
-    //介绍布局id
-    List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
-            .introduce2_fragment, R.layout.introduce3_fragment));
-    private ViewPager mContentViewpager;
     private CircleDotIndicator mCricledotindicator;
     private Button mSkipButton;
     private ImageButton mNextButton;
     private Button mDoneButton;
+
+    //介绍布局id
+    private List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
+            .introduce2_fragment, R.layout.introduce3_fragment));
+    private ViewPager mContentViewpager;
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
 
@@ -42,6 +43,7 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
 
         mContentViewpager = findViewById(R.id.content_viewpager);
         mCricledotindicator = findViewById(R.id.index_cricledotindicator);
+        //TODO 使用ViewSwitcher优化重构
         mSkipButton = findViewById(R.id.skip_button);
         mNextButton = findViewById(R.id.next_button);
         mDoneButton = findViewById(R.id.done_button);
