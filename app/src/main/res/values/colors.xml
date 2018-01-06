@@ -24,5 +24,8 @@
     <color name="home_tablayout_indicatorcolor">#BAD976</color>
     <color name="home_tablayout_textcolor">@color/white</color>
     <color name="home_tablayout_textselectedcolor">#D9DFDF</color>
+
+    <color name="homesub_emptyitem_background">#ffd8f3ff</color>
+    <color name="homesub_emptyitem_bottombackground">#fff2ac4b</color>
     <!--主页面介绍-->
 </resources>

@@ -112,7 +112,7 @@ public class CircleDotIndicator extends LinearLayout {
      * @return 动画对象
      */
     private Animator createSelectedAnimator(Context context) {
-        return AnimatorInflater.loadAnimator(context, R.animator.circledot_scaleandalpha);
+        return AnimatorInflater.loadAnimator(context, R.animator.circledot_dot);
     }
 
     /**
@@ -122,7 +122,7 @@ public class CircleDotIndicator extends LinearLayout {
      * @return 动画对象
      */
     private Animator createUnSelectedAnimator(Context context) {
-        Animator animatorIn = AnimatorInflater.loadAnimator(context, R.animator.circledot_scaleandalpha);
+        Animator animatorIn = AnimatorInflater.loadAnimator(context, R.animator.circledot_dot);
         animatorIn.setInterpolator(new ReverseInterpolator());
         return animatorIn;
     }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.view.GrassView;
 
 /**
  * 主页Fragment中ViewPager子Fragment
@@ -75,7 +76,7 @@ public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRe
     /**
      * 支持空实体的列表适配器
      */
-    public class EmptyRecyclerViewAdapter extends RecyclerView.Adapter<EmptyRecyclerViewAdapter.ViewHolder> {
+    public class EmptyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //列表项空视图类型
         private static final int VIEW_TYPE_EMPTY = 0;
         //列表项内容视图类型
@@ -88,35 +89,33 @@ public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRe
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = null;
-
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewHolder = null;
             if (viewType == VIEW_TYPE_EMPTY) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty, parent, false);
+                viewHolder = new EmptyViewHolder(view);
             } else if (viewType == VIEW_TYPE_ITEM) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_content, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_content, parent, false);
+                viewHolder = new ItemViewHolder(view);
             }
-
-            return new ViewHolder(view);
+            return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             int viewType = getItemViewType(position);
-
-            switch (viewType) {
-                case VIEW_TYPE_ITEM:
-                    holder.mNameTextView.setText(mStoreTitleList.get(position));
-                    holder.mUnReadTextView.setText(" " + position);
-                    break;
+            if (viewType == VIEW_TYPE_EMPTY) {
+                EmptyViewHolder emptyViewHolder = (EmptyViewHolder) holder;
+            } else if (viewType == VIEW_TYPE_ITEM) {
+                ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+                itemViewHolder.mNameTextView.setText(mStoreTitleList.get(position));
+                itemViewHolder.mUnReadTextView.setText(" " + position);
             }
         }
 
         @Override
         public int getItemCount() {
-            if (mStoreTitleList == null) {
-                return 0;
-            } else if (mStoreTitleList.size() == 0) {
+            if (mStoreTitleList.size() == 0) {
                 return 1;
             } else {
                 return mStoreTitleList.size();
@@ -132,11 +131,27 @@ public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRe
             }
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+            //处理了，EmptyView只显示一行的问题
+            RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+            if (manager instanceof GridLayoutManager) {
+                final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return getItemViewType(position) == VIEW_TYPE_EMPTY ? gridManager.getSpanCount() : 1;
+                    }
+                });
+            }
+        }
+
+        public class ItemViewHolder extends RecyclerView.ViewHolder {
             private TextView mNameTextView;
             private TextView mUnReadTextView;
 
-            public ViewHolder(View view) {
+            public ItemViewHolder(View view) {
                 super(view);
                 mNameTextView = itemView.findViewById(R.id.item_stories_textview_name);
                 mUnReadTextView = itemView.findViewById(R.id.item_stories_textview_unread);
@@ -145,6 +160,15 @@ public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public String toString() {
                 return super.toString();
+            }
+        }
+
+        public class EmptyViewHolder extends RecyclerView.ViewHolder {
+            private GrassView mGrassView;
+
+            public EmptyViewHolder(View itemView) {
+                super(itemView);
+                mGrassView = itemView.findViewById(R.id.empty_grassview);
             }
         }
     }
