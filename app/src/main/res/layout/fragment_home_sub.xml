@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--MainActivity-HomeFragment-Stories布局-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_height="match_parent"
               android:layout_width="match_parent">
     <!--下拉刷新-->
@@ -12,7 +13,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homesub_recyclerview_contentlist"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+            android:layout_width="match_parent"
+            tools:listItem="@layout/item_content"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package workshop1024.com.xproject.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,8 @@ import workshop1024.com.xproject.view.GrassView;
  * 主页Fragment中ViewPager子Fragment
  */
 public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    //根视图
+    private View mRootView;
     //下拉刷新
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     //内容列表
@@ -46,31 +49,43 @@ public class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_sub, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_home_sub, container, false);
 
-        mSwipeRefreshLayoutPull = view.findViewById(R.id.homesub_swiperefreshlayout_pullrefresh);
+        mSwipeRefreshLayoutPull = mRootView.findViewById(R.id.homesub_swiperefreshlayout_pullrefresh);
         mSwipeRefreshLayoutPull.setOnRefreshListener(this);
 
-        mRecyclerViewContentList = view.findViewById(R.id.homesub_recyclerview_contentlist);
+        mRecyclerViewContentList = mRootView.findViewById(R.id.homesub_recyclerview_contentlist);
         mRecyclerViewContentList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
 
         mEmptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter(mStoreTitleList);
         mRecyclerViewContentList.setAdapter(mEmptyRecyclerViewAdapter);
 
-        return view;
+        return mRootView;
     }
 
     @Override
     public void onRefresh() {
+        Snackbar.make(mRootView, "Refreshing....", Snackbar.LENGTH_INDEFINITE).show();
+
         mStoreTitleList.add("Title...");
         mStoreTitleList.add("Title...");
 
         if (mStoreTitleList.size() >= 12) {
             mStoreTitleList.clear();
+            mSwipeRefreshLayoutPull.setRefreshing(false);
+            mEmptyRecyclerViewAdapter.notifyDataSetChanged();
+            Snackbar.make(mRootView, "No News...", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(mRootView, "Have News Availible...", Snackbar.LENGTH_INDEFINITE).setAction("REFRESH", new View
+                    .OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mSwipeRefreshLayoutPull.setRefreshing(false);
+                    mEmptyRecyclerViewAdapter.notifyDataSetChanged();
+                }
+            }).show();
         }
-        mSwipeRefreshLayoutPull.setRefreshing(false);
-        mEmptyRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     /**
