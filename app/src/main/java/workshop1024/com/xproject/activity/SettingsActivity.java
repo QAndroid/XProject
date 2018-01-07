@@ -14,7 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        mToolbar = findViewById(R.id.toolbar_navigator);
+        mToolbar = findViewById(R.id.main_toolbar_navigator);
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();

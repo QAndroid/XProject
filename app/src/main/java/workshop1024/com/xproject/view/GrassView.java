@@ -31,7 +31,7 @@ public class GrassView extends LinearLayout {
 
     private void initViewShow(Context context) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.view_grass, this);
+        layoutInflater.inflate(R.layout.grass_view, this);
 
         mGrassImageView = findViewById(R.id.grassview_imageview_grass);
         mShadowImageView = findViewById(R.id.grassview_imageview_shadow);

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    android:id="@+id/drawerlayout_navigator"
+    android:id="@+id/main_drawerlayout_navigator"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context="workshop1024.com.xproject.activity.MainActivity"
@@ -15,7 +15,6 @@
     <!--左侧内容布局-->
     <include
         layout="@layout/main_rightcontent"
-        android:id="@+id/layout_right"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
@@ -23,7 +22,7 @@
     <android.support.design.widget.NavigationView
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        android:id="@+id/navigationview_left"
+        android:id="@+id/main_navigationview_left"
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"

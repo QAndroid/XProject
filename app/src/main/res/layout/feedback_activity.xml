@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.Toolbar
         android:background="?attr/colorPrimary"
-        android:id="@+id/toolbar_navigator"
+        android:id="@+id/main_toolbar_navigator"
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         app:popupTheme="@style/AppTheme.PopupOverlay"/>

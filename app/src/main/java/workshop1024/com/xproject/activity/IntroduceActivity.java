@@ -24,15 +24,20 @@ import workshop1024.com.xproject.view.CircleDotIndicator;
  * 介绍页面
  */
 public class IntroduceActivity extends FragmentActivity implements View.OnClickListener {
+    //介绍内容ViewPager
+    private ViewPager mContentViewpager;
+    //圆点索引指示器
     private CircleDotIndicator mCricledotindicator;
+    //跳过按钮
     private Button mSkipButton;
+    //下一步按钮
     private ImageButton mNextButton;
+    //完成按钮
     private Button mDoneButton;
 
     //介绍布局id
     private List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment));
-    private ViewPager mContentViewpager;
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
 
@@ -41,12 +46,12 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.introduce_activity);
 
-        mContentViewpager = findViewById(R.id.content_viewpager);
-        mCricledotindicator = findViewById(R.id.index_cricledotindicator);
+        mContentViewpager = findViewById(R.id.introduce_viewpager_content);
+        mCricledotindicator = findViewById(R.id.introduce_cricledotindicator_index);
         //TODO 使用ViewSwitcher优化重构
-        mSkipButton = findViewById(R.id.skip_button);
-        mNextButton = findViewById(R.id.next_button);
-        mDoneButton = findViewById(R.id.done_button);
+        mSkipButton = findViewById(R.id.introduce_button_skip);
+        mNextButton = findViewById(R.id.introduce_button_next);
+        mDoneButton = findViewById(R.id.introduce_button_done);
 
         mSkipButton.setOnClickListener(this);
         mNextButton.setOnClickListener(this);
@@ -57,6 +62,15 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
         mContentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
 
         mCricledotindicator.setViewPager(mContentViewpager);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mNextButton) {
+            toNextViewPageItem();
+        } else if (view == mSkipButton || view == mDoneButton) {
+            toMainActivity();
+        }
     }
 
     /**
@@ -72,15 +86,6 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
     private void toMainActivity() {
         Intent intent = new Intent(IntroduceActivity.this, MainActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == mNextButton) {
-            toNextViewPageItem();
-        } else if (view == mSkipButton || view == mDoneButton) {
-            toMainActivity();
-        }
     }
 
     /**

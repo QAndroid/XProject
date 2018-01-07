@@ -13,7 +13,9 @@ import workshop1024.com.xproject.R;
  * 登陆选择页面
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
+    //登陆按钮
     private Button mLoginButton;
+    //试用按钮
     private Button mTryButton;
 
     @Override
@@ -21,8 +23,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        mLoginButton = findViewById(R.id.button_login);
-        mTryButton = findViewById(R.id.button_try);
+        mLoginButton = findViewById(R.id.login_button_login);
+        mTryButton = findViewById(R.id.login_button_try);
+
         mLoginButton.setOnClickListener(this);
         mTryButton.setOnClickListener(this);
     }

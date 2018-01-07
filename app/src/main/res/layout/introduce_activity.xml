@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--应用介绍页面-->
+<!--TODO 试用约束性布局优化-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +10,7 @@
     tools:context="workshop1024.com.xproject.activity.IntroduceActivity">
     <!--介绍ViewPager-->
     <android.support.v4.view.ViewPager
-        android:id="@+id/content_viewpager"
+        android:id="@+id/introduce_viewpager_content"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
@@ -22,7 +23,7 @@
         <!--跳过按钮-->
         <Button
             android:background="@null"
-            android:id="@+id/skip_button"
+            android:id="@+id/introduce_button_skip"
             android:layout_alignParentLeft="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -33,7 +34,7 @@
 
         <!--介绍指示器-->
         <workshop1024.com.xproject.view.CircleDotIndicator
-            android:id="@+id/index_cricledotindicator"
+            android:id="@+id/introduce_cricledotindicator_index"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
@@ -41,8 +42,8 @@
         <!--下一步按钮-->
         <ImageButton
             android:background="@null"
-            android:id="@+id/next_button"
-            android:layout_alignLeft="@+id/done_button"
+            android:id="@+id/introduce_button_next"
+            android:layout_alignLeft="@+id/introduce_button_done"
             android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
         <!--完成按钮-->
         <Button
             android:background="@null"
-            android:id="@id/done_button"
+            android:id="@id/introduce_button_done"
             android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"

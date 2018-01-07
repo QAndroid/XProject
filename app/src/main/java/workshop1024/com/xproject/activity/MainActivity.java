@@ -1,8 +1,10 @@
 package workshop1024.com.xproject.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -21,19 +23,34 @@ import android.widget.Toast;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.fragment.HomeFragment;
 import workshop1024.com.xproject.fragment.SavedFragment;
+import workshop1024.com.xproject.fragment.StoryFragment;
+import workshop1024.com.xproject.fragment.dummy.DummyContent;
 
 /**
  * 主页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener {
+        .OnClickListener, HomeFragment.ContentListItemClickListener, StoryFragment.OnListFragmentInteractionListener,
+        FragmentManager.OnBackStackChangedListener {
+    //抽屉导航区域
+    //抽屉视图
     private DrawerLayout mDrawerLayut;
+    //导航视图
     private NavigationView mNavigationView;
+    //登陆按钮
     private Button mLoginButton;
+    //退出按钮
     private ImageButton mLogoutButton;
+
+    //内容区域
+    //工具栏
     private Toolbar mToolbar;
+
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+
     private FragmentManager mFragmentManager;
     private HomeFragment mHomeFragment;
+
     private int mSelectItemId = R.id.leftnavigator_menu_home;
 
     @Override
@@ -41,12 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        mDrawerLayut = findViewById(R.id.drawerlayout_navigator);
-        mNavigationView = findViewById(R.id.navigationview_left);
+        mDrawerLayut = findViewById(R.id.main_drawerlayout_navigator);
+        mNavigationView = findViewById(R.id.main_navigationview_left);
+        mToolbar = findViewById(R.id.main_toolbar_navigator);
+
         View headerLayout = mNavigationView.inflateHeaderView(R.layout.main_leftnavigator_header);
         mLoginButton = headerLayout.findViewById(R.id.leftnavigator_button_login);
         mLogoutButton = headerLayout.findViewById(R.id.leftnavigator_imagebutton_logout);
-        mToolbar = findViewById(R.id.toolbar_navigator);
 
         mLoginButton.setOnClickListener(this);
         mLogoutButton.setOnClickListener(this);
@@ -54,14 +72,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(mToolbar);
 
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R.string
-                .navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayut.addDrawerListener(toggle);
-        toggle.syncState();
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R
+                .string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayut.addDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
         mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(this);
+
         //默认展示HomeFragment
         showHomeFragment();
     }
@@ -74,14 +94,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getMenuInflater().inflate(R.menu.home_toolbar_actions, menu);
         } else if (mSelectItemId == R.id.leftnavigator_menu_saved) {
             getMenuInflater().inflate(R.menu.saved_toolbar_actions, menu);
+        } else if (mSelectItemId == 0x001) {
+            getMenuInflater().inflate(R.menu.story_toolbar_actions, menu);
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.i("TAG", "onPrepareOptionsMenu");
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -117,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showHomeFragment();
         } else if (mSelectItemId == R.id.leftnavigator_menu_saved) {
             SavedFragment savedFragment = SavedFragment.newInstance();
-            mFragmentManager.beginTransaction().replace(R.id.framelayout_fragments, savedFragment).commit();
+            mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, savedFragment).addToBackStack
+                    ("").commit();
             setTitle(getResources().getString(R.string.leftnavigator_menu_saved));
         } else if (mSelectItemId == R.id.leftnavigator_menu_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -145,7 +162,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showHomeFragment() {
         mHomeFragment = HomeFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.framelayout_fragments, mHomeFragment).commit();
+        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, mHomeFragment).addToBackStack("")
+                .commit();
         setTitle(getResources().getString(R.string.leftnavigator_menu_home));
+        mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
+    }
+
+    @Override
+    public void onContentListItemClick(String item) {
+        StoryFragment storyFragment = StoryFragment.newInstance(1);
+        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, storyFragment).addToBackStack
+                ("").commit();
+        setTitle(item);
+        mToolbar.setNavigationIcon(R.drawable.login_icon);
+
+        mSelectItemId = 0x001;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mActionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mActionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        mActionBarDrawerToggle.setDrawerIndicatorEnabled(mFragmentManager.getBackStackEntryCount() == 0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
+        mActionBarDrawerToggle.syncState();
     }
 }

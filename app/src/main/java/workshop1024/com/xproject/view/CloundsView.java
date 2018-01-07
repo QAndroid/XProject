@@ -30,7 +30,7 @@ public class CloundsView extends RelativeLayout {
 
     private void initViewShow(Context context) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.view_clounds, this);
+        layoutInflater.inflate(R.layout.clounds_view, this);
 
         mClound1ImageView = findViewById(R.id.cloundsview_imageview_clound1);
         mClound2ImageView = findViewById(R.id.cloundsview_imageview_clound2);

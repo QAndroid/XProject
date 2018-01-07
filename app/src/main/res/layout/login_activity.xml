@@ -17,7 +17,7 @@
     <!--登陆按钮-->
     <Button
         android:background="@color/login_login_background"
-        android:id="@+id/button_login"
+        android:id="@+id/login_button_login"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_width="250dp"
@@ -26,7 +26,7 @@
     <!--使用按钮-->
     <Button
         android:background="@color/login_try_background"
-        android:id="@+id/button_try"
+        android:id="@+id/login_button_try"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_width="250dp"
