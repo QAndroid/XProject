@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--主页面布局-->
-<!--抽屉当行布局-->
+<!--抽屉导航布局-->
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,13 +12,13 @@
     tools:context="workshop1024.com.xproject.activity.MainActivity"
     tools:openDrawer="start">
 
-    <!--左侧内容布局-->
+    <!--右侧内容布局-->
     <include
-        layout="@layout/main_rightcontent"
+        layout="@layout/main_content_right"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
-    <!--右侧导航视图-->
+    <!--左侧导航视图-->
     <android.support.design.widget.NavigationView
         android:background="@color/white"
         android:fitsSystemWindows="true"

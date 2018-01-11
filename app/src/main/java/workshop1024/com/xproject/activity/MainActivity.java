@@ -12,8 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +24,8 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.fragment.HomeFragment;
 import workshop1024.com.xproject.fragment.SavedFragment;
 import workshop1024.com.xproject.fragment.StoryFragment;
+import workshop1024.com.xproject.fragment.TopFragment;
+import workshop1024.com.xproject.fragment.XFragment;
 import workshop1024.com.xproject.fragment.dummy.DummyContent;
 
 /**
@@ -35,8 +37,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
-    //导航视图
+    //抽屉列表视图
     private NavigationView mNavigationView;
+
     //登陆按钮
     private Button mLoginButton;
     //退出按钮
@@ -45,13 +48,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //内容区域
     //工具栏
     private Toolbar mToolbar;
-
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     private FragmentManager mFragmentManager;
-    private HomeFragment mHomeFragment;
-
-    private int mSelectItemId = R.id.leftnavigator_menu_home;
+    private XFragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,43 +66,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mLoginButton = headerLayout.findViewById(R.id.leftnavigator_button_login);
         mLogoutButton = headerLayout.findViewById(R.id.leftnavigator_imagebutton_logout);
 
-        mLoginButton.setOnClickListener(this);
-        mLogoutButton.setOnClickListener(this);
-
         setSupportActionBar(mToolbar);
-
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R
                 .string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayut.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
-
+        mActionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        mActionBarDrawerToggle.setDrawerSlideAnimationEnabled(false);
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        mLoginButton.setOnClickListener(this);
+        mLogoutButton.setOnClickListener(this);
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
 
-        //默认展示HomeFragment
         showHomeFragment();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i("TAG", "onCreateOptionsMenu");
-        //创建ActionBar右边Handle actions
-        if (mSelectItemId == R.id.leftnavigator_menu_home) {
-            getMenuInflater().inflate(R.menu.home_toolbar_actions, menu);
-        } else if (mSelectItemId == R.id.leftnavigator_menu_saved) {
-            getMenuInflater().inflate(R.menu.saved_toolbar_actions, menu);
-        } else if (mSelectItemId == 0x001) {
-            getMenuInflater().inflate(R.menu.story_toolbar_actions, menu);
+        MenuInflater menuInflater = getMenuInflater();
+
+        //根据当前显示的Fragment的类型，更新显示的菜单
+        if (mCurrentFragment instanceof HomeFragment) {
+            menuInflater.inflate(R.menu.home_toolbar_actions, menu);
+            setTitle("Paperboy");
+        } else if (mCurrentFragment instanceof SavedFragment) {
+            menuInflater.inflate(R.menu.saved_toolbar_actions, menu);
+            setTitle("Saved");
+        } else if (mCurrentFragment instanceof StoryFragment) {
+            menuInflater.inflate(R.menu.story_toolbar_actions, menu);
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i("TAG", "onOptionsItemSelected");
         int id = item.getItemId();
         if (id == R.id.toolbar_action_search) {
             Toast.makeText(this, "toolbar_action_search", Toast.LENGTH_SHORT).show();
@@ -126,20 +133,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.i("TAG", "onNavigationItemSelected");
-        mSelectItemId = item.getItemId();
+        int selectItemId = item.getItemId();
 
-        if (mSelectItemId == R.id.leftnavigator_menu_home) {
+        if (selectItemId == R.id.leftnavigator_menu_home) {
             showHomeFragment();
-        } else if (mSelectItemId == R.id.leftnavigator_menu_saved) {
+        } else if (selectItemId == R.id.leftnavigator_menu_saved) {
             SavedFragment savedFragment = SavedFragment.newInstance();
-            mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, savedFragment).addToBackStack
-                    ("").commit();
-            setTitle(getResources().getString(R.string.leftnavigator_menu_saved));
-        } else if (mSelectItemId == R.id.leftnavigator_menu_settings) {
+            mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, savedFragment).commit();
+
+            //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
+            mNavigationView.setCheckedItem(R.id.leftnavigator_menu_saved);
+            mCurrentFragment = savedFragment;
+        } else if (selectItemId == R.id.leftnavigator_menu_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-        } else if (mSelectItemId == R.id.leftnavigator_menu_feedback) {
+        } else if (selectItemId == R.id.leftnavigator_menu_feedback) {
             Intent intent = new Intent(this, FeedbackActivity.class);
             startActivity(intent);
         }
@@ -148,41 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         invalidateOptionsMenu();
 
         return true;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == mLoginButton) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        } else if (view == mLogoutButton) {
-
-        }
-    }
-
-    private void showHomeFragment() {
-        mHomeFragment = HomeFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, mHomeFragment).addToBackStack("")
-                .commit();
-        setTitle(getResources().getString(R.string.leftnavigator_menu_home));
-        mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
-    }
-
-    @Override
-    public void onContentListItemClick(String item) {
-        StoryFragment storyFragment = StoryFragment.newInstance(1);
-        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, storyFragment).addToBackStack
-                ("").commit();
-        setTitle(item);
-        mToolbar.setNavigationIcon(R.drawable.login_icon);
-
-        mSelectItemId = 0x001;
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
     }
 
     @Override
@@ -199,8 +172,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackStackChanged() {
-        mActionBarDrawerToggle.setDrawerIndicatorEnabled(mFragmentManager.getBackStackEntryCount() == 0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
-        mActionBarDrawerToggle.syncState();
+        mCurrentFragment = (XFragment) mFragmentManager.findFragmentById(R.id.main_framelayout_fragments);
+        //当MainActivity还显示Fragment的之后执行相关逻辑，MainActivity不展示Fragment相关逻辑
+        if (mCurrentFragment != null) {
+            //更具当前显示的Fragment多包含的导航栏id，更新导航栏列表选中的选项
+            mNavigationView.setCheckedItem(mCurrentFragment.getNavigationItemId());
+
+            //如果是一级Fragment则显示抽屉导航图标，如果只其它级别Fragment这显示返回上一页图标
+            mActionBarDrawerToggle.setDrawerIndicatorEnabled(mCurrentFragment instanceof TopFragment ? true : false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(mCurrentFragment instanceof TopFragment ? false : true);
+            mActionBarDrawerToggle.syncState();
+
+            //Fragment堆栈有变化，根据当前显示的Fragment重新更新菜单展示
+            invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mLoginButton) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else if (view == mLogoutButton) {
+
+        }
+    }
+
+    @Override
+    public void onContentListItemClick(String item) {
+        StoryFragment storyFragment = StoryFragment.newInstance(1);
+        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, storyFragment).addToBackStack
+                ("").commit();
+
+        setTitle(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    private void showHomeFragment() {
+        HomeFragment homeFragment = HomeFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, homeFragment).commit();
+
+        //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
+        mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
+        mCurrentFragment = homeFragment;
     }
 }

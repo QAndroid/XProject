@@ -3,7 +3,6 @@ package workshop1024.com.xproject.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,7 @@ import workshop1024.com.xproject.view.GrassView;
 /**
  * 主页Fragment
  */
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends TopFragment implements SwipeRefreshLayout.OnRefreshListener {
     //根视图
     private View mRootView;
     //下拉刷新
@@ -48,6 +47,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
+        fragment.setNavigationItemId(R.id.leftnavigator_menu_home);
         return fragment;
     }
 
