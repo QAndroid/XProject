@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.fragment.HomeFragment;
+import workshop1024.com.xproject.fragment.PageFragment;
 import workshop1024.com.xproject.fragment.SavedFragment;
 import workshop1024.com.xproject.fragment.StoryFragment;
 import workshop1024.com.xproject.fragment.TopFragment;
@@ -32,7 +33,7 @@ import workshop1024.com.xproject.fragment.dummy.DummyContent;
  * 主页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, HomeFragment.ContentListItemClickListener, StoryFragment.OnListFragmentInteractionListener,
+        .OnClickListener, PageFragment.ContentListItemClickListener, StoryFragment.OnListFragmentInteractionListener,
         FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
@@ -200,11 +201,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onContentListItemClick(String item) {
-        StoryFragment storyFragment = StoryFragment.newInstance(1);
+        StoryFragment storyFragment = StoryFragment.newInstance();
         mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, storyFragment).addToBackStack
                 ("").commit();
-
         setTitle(item);
+        mCurrentFragment = storyFragment;
     }
 
     @Override

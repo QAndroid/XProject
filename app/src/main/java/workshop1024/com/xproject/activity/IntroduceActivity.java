@@ -94,8 +94,8 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
     private class IntroducePagerAdapter extends FragmentStatePagerAdapter {
         private List<Integer> mLayoutIdList;
 
-        public IntroducePagerAdapter(FragmentManager fm, List<Integer> layoutIdList) {
-            super(fm);
+        public IntroducePagerAdapter(FragmentManager fragmentManager, List<Integer> layoutIdList) {
+            super(fragmentManager);
             mLayoutIdList = layoutIdList;
         }
 

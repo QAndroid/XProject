@@ -13,7 +13,7 @@
 
     <!--山峰-->
     <ImageView
-        android:id="@+id/empty_imageview_mountains"
+        android:id="@+id/homelist_imageview_mountains"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_marginBottom="-90.0dp"
@@ -24,21 +24,21 @@
     <!--下半部背景-->
     <View
         android:background="@color/homesub_emptyitem_bottombackground"
-        android:layout_below="@id/empty_imageview_mountains"
+        android:layout_below="@id/homelist_imageview_mountains"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
     <!--滚动的草球视图-->
     <workshop1024.com.xproject.view.GrassView
-        android:id="@+id/empty_grassview"
-        android:layout_below="@id/empty_imageview_mountains"
+        android:id="@+id/homelist_grassview"
+        android:layout_below="@id/homelist_imageview_mountains"
         android:layout_height="100dp"
         android:layout_width="match_parent"/>
 
     <!--石头-->
     <ImageView
         android:layout_alignParentRight="true"
-        android:layout_below="@id/empty_grassview"
+        android:layout_below="@id/homelist_grassview"
         android:layout_height="wrap_content"
         android:layout_marginRight="20.0dp"
         android:layout_width="wrap_content"
