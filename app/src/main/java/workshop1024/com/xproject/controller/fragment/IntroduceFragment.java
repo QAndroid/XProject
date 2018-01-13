@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.fragment;
+package workshop1024.com.xproject.controller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

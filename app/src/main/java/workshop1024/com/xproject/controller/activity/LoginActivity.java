@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.activity;
+package workshop1024.com.xproject.controller.activity;
 
 import android.app.Activity;
 import android.content.Intent;

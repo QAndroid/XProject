@@ -1,27 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:orientation="vertical">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Base.CardView"
+    android:foreground="?android:selectableItemBackground"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="false">
 
-    <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/storylist_textview_id"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_width="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
-        tools:text="id1"/>
+        <ImageView
+            android:id="@+id/storylist_imageview_banner"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/introduce_icon2"/>
 
-    <TextView
-        android:id="@+id/storylist_textview_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_width="wrap_content"
-        android:text="content1"
-        android:textAppearance="?attr/textAppearanceListItem"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/storylist_textview_author"
+            android:layout_below="@id/storylist_imageview_banner"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:text="id1"
+            android:textColor="@android:color/white"
+            android:textSize="16.0sp"/>
+
+        <TextView
+            android:id="@+id/storylist_textview_line"
+            android:layout_alignTop="@id/storylist_textview_author"
+            android:layout_below="@id/storylist_imageview_banner"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@id/storylist_textview_author"
+            android:layout_width="wrap_content"
+            android:text="|"/>
+
+        <TextView
+            android:id="@+id/storylist_textview_time"
+            android:layout_alignTop="@id/storylist_textview_author"
+            android:layout_below="@id/storylist_imageview_banner"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/storylist_textview_line"
+            android:layout_width="wrap_content"
+            android:text="content1"
+            android:textColor="#ff01a3ae"/>
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/storylist_textview_title"
+            android:layout_above="@id/storylist_textview_author"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8.0dp"
+            android:layout_width="match_parent"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="3"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="title1title1title1title1title1title1title1title1titleitle1title1"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

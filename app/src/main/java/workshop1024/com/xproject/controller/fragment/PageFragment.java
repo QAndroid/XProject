@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.fragment;
+package workshop1024.com.xproject.controller.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -83,8 +83,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         if (mStoreTitleList.size() >= 12) {
             mStoreTitleList.clear();
-            mSwipeRefreshLayoutPull.setRefreshing(false);
             mEmptyRecyclerViewAdapter.notifyDataSetChanged();
+            mSwipeRefreshLayoutPull.setRefreshing(false);
             Snackbar.make(mRootView, "No News...", Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(mRootView, "Have News Availible...", Snackbar.LENGTH_INDEFINITE).setAction("REFRESH", new View

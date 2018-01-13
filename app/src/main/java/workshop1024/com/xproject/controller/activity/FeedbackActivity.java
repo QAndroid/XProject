@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.activity;
+package workshop1024.com.xproject.controller.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

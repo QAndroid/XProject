@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    tools:context="workshop1024.com.xproject.activity.MainActivity">
+    tools:context=".controller.activity.MainActivity">
 
     <!--顶部工具栏-->
     <android.support.v7.widget.Toolbar

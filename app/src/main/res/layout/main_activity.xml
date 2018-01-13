@@ -9,7 +9,7 @@
     android:id="@+id/main_drawerlayout_navigator"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context="workshop1024.com.xproject.activity.MainActivity"
+    tools:context=".controller.activity.MainActivity"
     tools:openDrawer="start">
 
     <!--右侧内容布局-->

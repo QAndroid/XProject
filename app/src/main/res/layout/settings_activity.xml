@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context="workshop1024.com.xproject.activity.SettingsActivity">
+    tools:context=".controller.activity.SettingsActivity">
 
     <android.support.v7.widget.Toolbar
         android:background="?attr/colorPrimary"

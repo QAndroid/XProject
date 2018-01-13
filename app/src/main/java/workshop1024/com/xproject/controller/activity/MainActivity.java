@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.activity;
+package workshop1024.com.xproject.controller.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,13 +21,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.fragment.HomeFragment;
-import workshop1024.com.xproject.fragment.PageFragment;
-import workshop1024.com.xproject.fragment.SavedFragment;
-import workshop1024.com.xproject.fragment.StoryFragment;
-import workshop1024.com.xproject.fragment.TopFragment;
-import workshop1024.com.xproject.fragment.XFragment;
-import workshop1024.com.xproject.fragment.dummy.DummyContent;
+import workshop1024.com.xproject.controller.fragment.HomeFragment;
+import workshop1024.com.xproject.controller.fragment.PageFragment;
+import workshop1024.com.xproject.controller.fragment.SavedFragment;
+import workshop1024.com.xproject.controller.fragment.StoryFragment;
+import workshop1024.com.xproject.controller.fragment.TopFragment;
+import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.model.Story;
 
 /**
  * 主页面
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Story story) {
 
     }
 
