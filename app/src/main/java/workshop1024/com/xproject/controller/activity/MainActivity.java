@@ -22,9 +22,9 @@ import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.HomeFragment;
+import workshop1024.com.xproject.controller.fragment.ListFragment;
 import workshop1024.com.xproject.controller.fragment.PageFragment;
 import workshop1024.com.xproject.controller.fragment.SavedFragment;
-import workshop1024.com.xproject.controller.fragment.StoryFragment;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.model.Story;
@@ -33,7 +33,7 @@ import workshop1024.com.xproject.model.Story;
  * 主页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, PageFragment.ContentListItemClickListener, StoryFragment.OnListFragmentInteractionListener,
+        .OnClickListener, PageFragment.ContentListItemClickListener, ListFragment.OnStoryListItemClickListener,
         FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (mCurrentFragment instanceof SavedFragment) {
             menuInflater.inflate(R.menu.saved_toolbar_actions, menu);
             setTitle("Saved");
-        } else if (mCurrentFragment instanceof StoryFragment) {
+        } else if (mCurrentFragment instanceof ListFragment) {
             menuInflater.inflate(R.menu.story_toolbar_actions, menu);
         }
 
@@ -201,16 +201,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onContentListItemClick(String item) {
-        StoryFragment storyFragment = StoryFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, storyFragment).addToBackStack
+        ListFragment listFragment = ListFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, listFragment).addToBackStack
                 ("").commit();
         setTitle(item);
-        mCurrentFragment = storyFragment;
+        mCurrentFragment = listFragment;
     }
 
     @Override
     public void onListFragmentInteraction(Story story) {
-
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        startActivity(intent);
     }
 
     private void showHomeFragment() {

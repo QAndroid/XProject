@@ -16,18 +16,18 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.model.Story;
-import workshop1024.com.xproject.view.StoryItemDecoration;
+import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
  * 故事Fragment
  */
-public class StoryFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
 
     private StoryRecyclerViewAdapter mStoryRecyclerViewAdapter;
 
-    private OnListFragmentInteractionListener mListener;
+    private OnStoryListItemClickListener mListener;
 
     private List<Story> mStoryList = new ArrayList<Story>() {{
         add(new Story("/imag1", "title1title1title1title1title1title1title1", "author1", "time1"));
@@ -36,18 +36,18 @@ public class StoryFragment extends SubFragment implements SwipeRefreshLayout.OnR
         add(new Story("/imag4", "title4title4title4title4title4title4title4", "author4", "time4"));
     }};
 
-    public StoryFragment() {
+    public ListFragment() {
     }
 
-    public static StoryFragment newInstance() {
-        StoryFragment fragment = new StoryFragment();
+    public static ListFragment newInstance() {
+        ListFragment fragment = new ListFragment();
         fragment.setNavigationItemId(R.id.leftnavigator_menu_home);
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.storylist_fragment, container, false);
+        View view = inflater.inflate(R.layout.list_fragment, container, false);
 
         mSwipeRefreshLayoutPull = view.findViewById(R.id.stroy_swiperefreshlayout_pullrefresh);
         mSwipeRefreshLayoutPull.setOnRefreshListener(this);
@@ -57,7 +57,7 @@ public class StoryFragment extends SubFragment implements SwipeRefreshLayout.OnR
 
         mStoryRecyclerViewAdapter = new StoryRecyclerViewAdapter(mStoryList, mListener);
         mStoryRecyclerView.setAdapter(mStoryRecyclerViewAdapter);
-        mStoryRecyclerView.addItemDecoration(new StoryItemDecoration(16));
+        mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
 
         return view;
     }
@@ -66,10 +66,10 @@ public class StoryFragment extends SubFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnStoryListItemClickListener) {
+            mListener = (OnStoryListItemClickListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnStoryListItemClickListener");
         }
     }
 
@@ -88,15 +88,15 @@ public class StoryFragment extends SubFragment implements SwipeRefreshLayout.OnR
         mSwipeRefreshLayoutPull.setRefreshing(false);
     }
 
-    public interface OnListFragmentInteractionListener {
+    public interface OnStoryListItemClickListener {
         void onListFragmentInteraction(Story story);
     }
 
     public class StoryRecyclerViewAdapter extends RecyclerView.Adapter<StoryRecyclerViewAdapter.ViewHolder> {
         private List<Story> mStoryList;
-        private OnListFragmentInteractionListener mListener;
+        private OnStoryListItemClickListener mListener;
 
-        public StoryRecyclerViewAdapter(List<Story> storyList, OnListFragmentInteractionListener listener) {
+        public StoryRecyclerViewAdapter(List<Story> storyList, OnStoryListItemClickListener listener) {
             mStoryList = storyList;
             mListener = listener;
         }

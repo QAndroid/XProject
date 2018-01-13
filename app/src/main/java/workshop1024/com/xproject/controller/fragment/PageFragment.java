@@ -17,6 +17,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.view.GrassView;
+import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     //根视图
@@ -54,7 +55,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mRecyclerViewContentList.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mEmptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter(mStoreTitleList, mContentListItemClickListener);
         mRecyclerViewContentList.setAdapter(mEmptyRecyclerViewAdapter);
-
+        mRecyclerViewContentList.addItemDecoration(new RecyclerViewItemDecoration(6));
         return mRootView;
     }
 

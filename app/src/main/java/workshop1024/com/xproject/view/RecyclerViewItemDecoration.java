@@ -4,10 +4,10 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class StoryItemDecoration extends RecyclerView.ItemDecoration {
+public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     private int mSpace;
 
-    public StoryItemDecoration(int space) {
+    public RecyclerViewItemDecoration(int space) {
         mSpace = space;
     }
 

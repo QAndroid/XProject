@@ -36,6 +36,8 @@
             android:parentActivityName=".controller.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".controller.activity.DetailActivity">
+        </activity>
     </application>
 
 </manifest>
