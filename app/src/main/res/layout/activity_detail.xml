@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context="workshop1024.com.xproject.controller.activity.DetailActivity">
+    tools:context=".controller.activity.DetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:background="?attr/colorPrimary"
+        android:id="@+id/detail_toolbar_navigator"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay"/>
+
+    <ImageView
+        android:id="@+id/detail_imageview_banner"
+        android:layout_below="@id/detail_toolbar_navigator"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/introduce_icon2"/>
+
+    <TextView
+        android:ellipsize="end"
+        android:layout_alignBottom="@id/detail_imageview_banner"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:lineSpacingMultiplier="1.1"
+        android:maxLines="3"
+        android:text="Title1Title1Title1Title1Title1Title1Title1Title1Title1Title1Title1"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:ellipsize="end"
+        android:id="@+id/detail_textview_publisher"
+        android:layout_below="@id/detail_imageview_banner"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16.0dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:text="Publisher"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:ellipsize="end"
+        android:id="@+id/detail_textview_time"
+        android:layout_below="@id/detail_textview_publisher"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16.0dp"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:text="Timer"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/detail_textview_content"
+        android:layout_below="@id/detail_textview_time"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:text="Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1Content1"/>
+
+</RelativeLayout>
