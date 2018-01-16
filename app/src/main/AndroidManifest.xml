@@ -24,22 +24,18 @@
         <activity android:name=".controller.activity.IntroduceActivity"/>
         <!-- 主页面 -->
         <activity
-            android:name=".controller.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".controller.activity.MainActivity"/>
         <activity
             android:name=".controller.activity.SettingsActivity"
-            android:parentActivityName=".controller.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".controller.activity.MainActivity">
         </activity>
         <activity
             android:name=".controller.activity.FeedbackActivity"
-            android:parentActivityName=".controller.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".controller.activity.MainActivity">
         </activity>
         <activity
             android:name=".controller.activity.DetailActivity"
-            android:parentActivityName=".controller.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".controller.activity.MainActivity">
         </activity>
     </application>
 
