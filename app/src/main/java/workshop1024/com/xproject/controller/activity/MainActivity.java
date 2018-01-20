@@ -21,12 +21,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.fragment.HomeFragment;
-import workshop1024.com.xproject.controller.fragment.ListFragment;
-import workshop1024.com.xproject.controller.fragment.PageFragment;
-import workshop1024.com.xproject.controller.fragment.SavedFragment;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.controller.fragment.home.HomeFragment;
+import workshop1024.com.xproject.controller.fragment.home.ListFragment;
+import workshop1024.com.xproject.controller.fragment.home.PageFragment;
+import workshop1024.com.xproject.controller.fragment.saved.SavedFragment;
 import workshop1024.com.xproject.model.Story;
 
 /**

@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +19,9 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.view.GrassView;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
+/**
+ * 主页ViewPager Fragment
+ */
 public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     //根视图
     private View mRootView;

@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,11 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.fragment.SubFragment;
 import workshop1024.com.xproject.model.Story;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
- * 故事Fragment
+ * 主页List Fragment
  */
 public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;

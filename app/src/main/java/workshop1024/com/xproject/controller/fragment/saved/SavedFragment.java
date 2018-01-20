@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.saved;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.fragment.TopFragment;
 
 /**
  * 保存Fragment
