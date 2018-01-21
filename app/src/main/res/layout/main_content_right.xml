@@ -4,12 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainright_coordinatorlayout_root"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".controller.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_appbarlayout_navigator"
+        android:id="@+id/mainright_appbarlayout_navigator"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -27,14 +28,14 @@
 
     <!--下部内容Fragments-->
     <FrameLayout
-        android:id="@+id/main_framelayout_fragments"
+        android:id="@+id/mainright_framelayout_fragments"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:background="@color/home_floatingactionbutton_background"
-        android:id="@+id/main_floatingactionbutton_action"
+        android:background="@color/mainright_floatingactionbutton_background"
+        android:id="@+id/mainright_floatingactionbutton_action"
         android:layout_gravity="right|bottom"
         android:layout_height="wrap_content "
         android:layout_margin="16dp"

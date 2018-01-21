@@ -13,7 +13,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.detail_activity);
 
         mToolbar = findViewById(R.id.detail_toolbar_navigator);
         setSupportActionBar(mToolbar);

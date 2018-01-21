@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,20 +23,19 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.fragment.HomeListFragment;
+import workshop1024.com.xproject.controller.fragment.HomePageFragment;
+import workshop1024.com.xproject.controller.fragment.PageAdapterFragment;
+import workshop1024.com.xproject.controller.fragment.SavedFragment;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
-import workshop1024.com.xproject.controller.fragment.home.HomeFragment;
-import workshop1024.com.xproject.controller.fragment.home.ListFragment;
-import workshop1024.com.xproject.controller.fragment.home.PageFragment;
-import workshop1024.com.xproject.controller.fragment.saved.SavedFragment;
-import workshop1024.com.xproject.model.Story;
+import workshop1024.com.xproject.view.BottomMenu;
 
 /**
- * 主页面
+ * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, PageFragment.ContentListItemClickListener, ListFragment.OnStoryListItemClickListener,
-        FragmentManager.OnBackStackChangedListener {
+        .OnClickListener, PageAdapterFragment.ContentListItemClickListener, FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageButton mLogoutButton;
 
     //内容区域
+    private CoordinatorLayout mRightCoordinatorLayout;
     //工具栏
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -60,14 +62,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.main_activity);
 
         mDrawerLayut = findViewById(R.id.main_drawerlayout_navigator);
-        mNavigationView = findViewById(R.id.main_navigationview_left);
+        mNavigationView = findViewById(R.id.mainleft_navigationview);
+        mRightCoordinatorLayout = findViewById(R.id.mainright_coordinatorlayout_root);
         mToolbar = findViewById(R.id.main_toolbar_navigator);
 
-        View headerLayout = mNavigationView.inflateHeaderView(R.layout.main_leftnavigator_header);
+
+        View headerLayout = mNavigationView.inflateHeaderView(R.layout.mainleft_navigator_header);
         mLoginButton = headerLayout.findViewById(R.id.leftnavigator_button_login);
         mLogoutButton = headerLayout.findViewById(R.id.leftnavigator_imagebutton_logout);
 
         setSupportActionBar(mToolbar);
+        registerForContextMenu(findViewById(R.id.mainright_floatingactionbutton_action));
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R
                 .string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -88,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
 
-        showHomeFragment();
+        showHomePageFragment();
     }
 
     @Override
@@ -96,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater menuInflater = getMenuInflater();
 
         //根据当前显示的Fragment的类型，更新显示的菜单
-        if (mCurrentFragment instanceof HomeFragment) {
-            menuInflater.inflate(R.menu.home_toolbar_actions, menu);
-            setTitle("Paperboy");
+        if (mCurrentFragment instanceof HomePageFragment) {
+            menuInflater.inflate(R.menu.homepage_toolbar_actions, menu);
+            setTitle(R.string.toolbar_title_home);
+        } else if (mCurrentFragment instanceof HomeListFragment) {
+            menuInflater.inflate(R.menu.homelist_toolbar_actions, menu);
         } else if (mCurrentFragment instanceof SavedFragment) {
             menuInflater.inflate(R.menu.saved_toolbar_actions, menu);
-            setTitle("Saved");
-        } else if (mCurrentFragment instanceof ListFragment) {
-            menuInflater.inflate(R.menu.story_toolbar_actions, menu);
+            setTitle(R.string.toolbar_title_saved);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -115,7 +120,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.toolbar_action_search) {
             Toast.makeText(this, "toolbar_action_search", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toolbar_action_add) {
-            Toast.makeText(this, "toolbar_action_add", Toast.LENGTH_SHORT).show();
+            BottomMenu bottomMenu = new BottomMenu(this);
+            bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
         } else if (id == R.id.toolbar_action_refresh) {
             Toast.makeText(this, "toolbar_action_refresh", Toast.LENGTH_SHORT).show();
 //            mHomeFragment.onRefresh();
@@ -137,10 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int selectItemId = item.getItemId();
 
         if (selectItemId == R.id.leftnavigator_menu_home) {
-            showHomeFragment();
+            showHomePageFragment();
         } else if (selectItemId == R.id.leftnavigator_menu_saved) {
             SavedFragment savedFragment = SavedFragment.newInstance();
-            mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, savedFragment).commit();
+            mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit();
 
             //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
             mNavigationView.setCheckedItem(R.id.leftnavigator_menu_saved);
@@ -173,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackStackChanged() {
-        mCurrentFragment = (XFragment) mFragmentManager.findFragmentById(R.id.main_framelayout_fragments);
+        mCurrentFragment = (XFragment) mFragmentManager.findFragmentById(R.id.mainright_framelayout_fragments);
         //当MainActivity还显示Fragment的之后执行相关逻辑，MainActivity不展示Fragment相关逻辑
         if (mCurrentFragment != null) {
             //更具当前显示的Fragment多包含的导航栏id，更新导航栏列表选中的选项
@@ -201,25 +207,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onContentListItemClick(String item) {
-        ListFragment listFragment = ListFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, listFragment).addToBackStack
-                ("").commit();
+        HomeListFragment homeListFragment = HomeListFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
+                .addToBackStack("").commit();
         setTitle(item);
-        mCurrentFragment = listFragment;
+        mCurrentFragment = homeListFragment;
     }
 
-    @Override
-    public void onListFragmentInteraction(Story story) {
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        startActivity(intent);
-    }
-
-    private void showHomeFragment() {
-        HomeFragment homeFragment = HomeFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.main_framelayout_fragments, homeFragment).commit();
+    private void showHomePageFragment() {
+        HomePageFragment homePageFragment = HomePageFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).commit();
 
         //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
         mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
-        mCurrentFragment = homeFragment;
+        mCurrentFragment = homePageFragment;
     }
 }

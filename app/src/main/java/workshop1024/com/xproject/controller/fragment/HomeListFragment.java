@@ -1,6 +1,6 @@
-package workshop1024.com.xproject.controller.fragment.home;
+package workshop1024.com.xproject.controller.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,20 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.fragment.SubFragment;
+import workshop1024.com.xproject.controller.activity.DetailActivity;
 import workshop1024.com.xproject.model.Story;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
- * 主页List Fragment
+ * 抽屉导航Home Fragment的PageFragment列表选项点击后展示的子列表Fragment
  */
-public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
 
     private StoryRecyclerViewAdapter mStoryRecyclerViewAdapter;
-
-    private OnStoryListItemClickListener mListener;
 
     private List<Story> mStoryList = new ArrayList<Story>() {{
         add(new Story("/imag1", "title1title1title1title1title1title1title1", "author1", "time1"));
@@ -37,18 +35,18 @@ public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRe
         add(new Story("/imag4", "title4title4title4title4title4title4title4", "author4", "time4"));
     }};
 
-    public ListFragment() {
+    public HomeListFragment() {
     }
 
-    public static ListFragment newInstance() {
-        ListFragment fragment = new ListFragment();
+    public static HomeListFragment newInstance() {
+        HomeListFragment fragment = new HomeListFragment();
         fragment.setNavigationItemId(R.id.leftnavigator_menu_home);
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
+        View view = inflater.inflate(R.layout.homelist_fragment, container, false);
 
         mSwipeRefreshLayoutPull = view.findViewById(R.id.stroy_swiperefreshlayout_pullrefresh);
         mSwipeRefreshLayoutPull.setOnRefreshListener(this);
@@ -56,28 +54,11 @@ public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRe
         mStoryRecyclerView = view.findViewById(R.id.story_recyclerview_list);
         mStoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mStoryRecyclerViewAdapter = new StoryRecyclerViewAdapter(mStoryList, mListener);
+        mStoryRecyclerViewAdapter = new StoryRecyclerViewAdapter(mStoryList);
         mStoryRecyclerView.setAdapter(mStoryRecyclerViewAdapter);
         mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
 
         return view;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnStoryListItemClickListener) {
-            mListener = (OnStoryListItemClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnStoryListItemClickListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -89,42 +70,25 @@ public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRe
         mSwipeRefreshLayoutPull.setRefreshing(false);
     }
 
-    public interface OnStoryListItemClickListener {
-        void onListFragmentInteraction(Story story);
-    }
-
-    public class StoryRecyclerViewAdapter extends RecyclerView.Adapter<StoryRecyclerViewAdapter.ViewHolder> {
+    public class StoryRecyclerViewAdapter extends RecyclerView.Adapter<StoryRecyclerViewAdapter.StoryViewHolder> {
         private List<Story> mStoryList;
-        private OnStoryListItemClickListener mListener;
 
-        public StoryRecyclerViewAdapter(List<Story> storyList, OnStoryListItemClickListener listener) {
+        public StoryRecyclerViewAdapter(List<Story> storyList) {
             mStoryList = storyList;
-            mListener = listener;
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.storylist_item_content, parent,
                     false);
-            return new ViewHolder(view);
+            return new StoryViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mStory = mStoryList.get(position);
-
+        public void onBindViewHolder(final StoryViewHolder holder, int position) {
             holder.mTitleTextView.setText(mStoryList.get(position).getTitle());
             holder.mAuthorTextView.setText(mStoryList.get(position).getAuthor());
             holder.mTimeTextView.setText(mStoryList.get(position).getTime());
-
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (null != mListener) {
-                        mListener.onListFragmentInteraction(holder.mStory);
-                    }
-                }
-            });
         }
 
         @Override
@@ -132,23 +96,26 @@ public class ListFragment extends SubFragment implements SwipeRefreshLayout.OnRe
             return mStoryList.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-
+        public class StoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public final ImageView mBannerImageView;
             public final TextView mTitleTextView;
             public final TextView mAuthorTextView;
             public final TextView mTimeTextView;
 
-            private Story mStory;
-
-            public ViewHolder(View view) {
+            public StoryViewHolder(View view) {
                 super(view);
-                mView = view;
+                view.setOnClickListener(this);
+
                 mBannerImageView = view.findViewById(R.id.storylist_imageview_banner);
                 mTitleTextView = view.findViewById(R.id.storylist_textview_title);
                 mAuthorTextView = view.findViewById(R.id.storylist_textview_author);
                 mTimeTextView = view.findViewById(R.id.storylist_textview_time);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                startActivity(intent);
             }
         }
     }

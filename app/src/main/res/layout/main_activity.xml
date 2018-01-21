@@ -22,10 +22,10 @@
     <android.support.design.widget.NavigationView
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        android:id="@+id/main_navigationview_left"
+        android:id="@+id/mainleft_navigationview"
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        app:menu="@menu/main_leftnavigator_menu"
+        app:menu="@menu/mainleft_navigator_menu"
         tools:headerLayout="@layout/main_leftnavigator_header"/>
 </android.support.v4.widget.DrawerLayout>

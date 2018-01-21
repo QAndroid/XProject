@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment.home;
+package workshop1024.com.xproject.controller.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,11 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +24,9 @@ import workshop1024.com.xproject.view.GrassView;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
- * 主页ViewPager Fragment
+ * 抽屉导航HomeFragment的子Frament，是HomeFragment ViewPager的子Fragment
  */
-public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class PageAdapterFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     //根视图
     private View mRootView;
     //下拉刷新
@@ -42,8 +46,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         add("Title4");
     }};
 
-    public static PageFragment newInstance() {
-        PageFragment fragment = new PageFragment();
+    public static PageAdapterFragment newInstance() {
+        PageAdapterFragment fragment = new PageAdapterFragment();
         return fragment;
     }
 
@@ -59,6 +63,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mEmptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter(mStoreTitleList, mContentListItemClickListener);
         mRecyclerViewContentList.setAdapter(mEmptyRecyclerViewAdapter);
         mRecyclerViewContentList.addItemDecoration(new RecyclerViewItemDecoration(6));
+
         return mRootView;
     }
 
@@ -154,13 +159,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 itemViewHolder.mStoreTitleString = mStoreTitleList.get(position);
                 itemViewHolder.mNameTextView.setText(mStoreTitleList.get(position));
                 itemViewHolder.mUnReadTextView.setText(" " + position);
-                itemViewHolder.mRootView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (null != mContentListItemClickListener)
-                            mContentListItemClickListener.onContentListItemClick(itemViewHolder.mStoreTitleString);
-                    }
-                });
             }
         }
 
@@ -198,15 +196,17 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         }
 
-        public class ItemViewHolder extends RecyclerView.ViewHolder {
-            private View mRootView;
+        public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View
+                .OnLongClickListener, PopupMenu.OnMenuItemClickListener {
             private TextView mNameTextView;
             private TextView mUnReadTextView;
             private String mStoreTitleString;
 
             public ItemViewHolder(View view) {
                 super(view);
-                mRootView = view;
+                view.setOnClickListener(this);
+                view.setOnLongClickListener(this);
+
                 mNameTextView = itemView.findViewById(R.id.item_stories_textview_name);
                 mUnReadTextView = itemView.findViewById(R.id.item_stories_textview_unread);
             }
@@ -214,6 +214,39 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public String toString() {
                 return super.toString();
+            }
+
+            @Override
+            public void onClick(View view) {
+                if (null != mContentListItemClickListener) {
+                    mContentListItemClickListener.onContentListItemClick(mStoreTitleString);
+                }
+            }
+
+            @Override
+            public boolean onLongClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                popupMenu.setOnMenuItemClickListener(this);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+                inflater.inflate(R.menu.homepage_recyclerview_menu, popupMenu.getMenu());
+                popupMenu.show();
+
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.homepage_recyclerviewmenu_rename:
+                        Toast.makeText(getContext(), "homepage_recyclerviewmenu_rename", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.homepage_recyclerviewmenu_unsubscribe:
+                        Toast.makeText(getContext(), "homepage_recyclerviewmenu_unsubscribe", Toast.LENGTH_SHORT)
+                                .show();
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 

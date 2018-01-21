@@ -23,6 +23,8 @@
     <string name="leftnavigator_menu_settings">Settings</string>
     <string name="leftnavigator_menu_feedback">Feedback</string>
 
+    <string name="toolbar_title_home">Paperboy</string>
+    <string name="toolbar_title_saved">Saved</string>
 
     <string name="toolbar_action_search">Search</string>
     <string name="toolbar_action_add">Add</string>
@@ -44,5 +46,17 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="homepage_bottommenu_addpublisher">Add Publisher</string>
+    <string name="homepage_bottommenu_addtopic">Add Topic</string>
+    <string name="homepage_bottommenu_addfilter">Add Filter</string>
+
+    <string-array name="homepage_tabs_strings">
+        <item>PUBLISHERS</item>
+        <item>TOPICS</item>
+    </string-array>
+
+    <string name="homepage_recyclerviewmenu_rename">Rename</string>
+    <string name="homepage_recyclerviewmenu_unsubscribe">Unsubscribe</string>
     <!--主页面结束-->
 </resources>
