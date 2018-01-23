@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--工具栏菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--刷新-->
+    <item
+        android:icon="@drawable/toolbar_menu_refresh"
+        android:title="@string/toolbar_menu_refresh1"
+        app:showAsAction="always"/>
+    <!--过滤-->
+    <item
+        android:icon="@drawable/toolbar_menu_filter"
+        android:title="@string/toolbar_menu_add"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:icon="@drawable/toolbar_menu_magazine"
+                android:title="@string/toolbar_menu_magazine"/>
+            <item
+                android:icon="@drawable/toolbar_menu_cards"
+                android:title="@string/toolbar_menu_cards"/>
+            <item
+                android:icon="@drawable/toolbar_menu_compact"
+                android:title="@string/toolbar_menu_compact"/>
+            <item
+                android:icon="@drawable/toolbar_menu_minimal"
+                android:title="@string/toolbar_menu_minimal"/>
+            <item
+                android:icon="@drawable/toolbar_menu_picture"
+                android:title="@string/toolbar_menu_picture"/>
+        </menu>
+    </item>
+
+    <!--其它如：标记和帮助等-->
+    <item
+        android:id="@+id/main_menu_marked"
+        android:title="@string/toolbar_menu_marked"
+        app:showAsAction="never"/>
+
+    <item
+        android:title="@string/toolbar_menu_help"
+        app:showAsAction="never"/>
+</menu>

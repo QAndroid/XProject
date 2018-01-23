@@ -26,23 +26,26 @@
     <string name="toolbar_title_home">Paperboy</string>
     <string name="toolbar_title_saved">Saved</string>
 
-    <string name="toolbar_action_search">Search</string>
-    <string name="toolbar_action_add">Add</string>
+    <string name="toolbar_menu_search">Search</string>
+    <string name="toolbar_menu_add">Add</string>
 
-    <string name="toolbar_action_refresh">Refresh</string>
-    <string name="toolbar_action_marked">Marked as read</string>
-    <string name="toolbar_action_rate">Rate app</string>
-    <string name="toolbar_action_product">Product Tour</string>
-    <string name="toolbar_action_about">About Paperboy</string>
-    <string name="toolbar_action_help">Help</string>
+    <string name="toolbar_menu_refresh">Refresh</string>
+    <string name="toolbar_menu_marked">Marked as read</string>
+    <string name="toolbar_menu_rate">Rate app</string>
+    <string name="toolbar_menu_product">Product Tour</string>
+    <string name="toolbar_menu_about">About Paperboy</string>
+    <string name="toolbar_menu_help">Help</string>
 
-    <string name="toolbar_action_refresh1">Refresh1</string>
+    <string name="toolbar_menu_refresh1">Refresh1</string>
 
-    <string name="toolbar_action_magazine">Magazine</string>
-    <string name="toolbar_action_cards">Big cards</string>
-    <string name="toolbar_action_compact">Compact</string>
-    <string name="toolbar_action_minimal">Minimal</string>
-    <string name="toolbar_action_picture">Picture</string>
+    <string name="toolbar_menu_magazine">Magazine</string>
+    <string name="toolbar_menu_cards">Big cards</string>
+    <string name="toolbar_menu_compact">Compact</string>
+    <string name="toolbar_menu_minimal">Minimal</string>
+    <string name="toolbar_menu_picture">Picture</string>
+
+    <string name="toolbar_menu_language">Language</string>
+    <string name="toolbar_menu_filter">Filter</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -59,4 +62,33 @@
     <string name="homepage_recyclerviewmenu_rename">Rename</string>
     <string name="homepage_recyclerviewmenu_unsubscribe">Unsubscribe</string>
     <!--主页面结束-->
+
+    <!--发布者列表页面开始-->
+    <string name="publisher_dialog_title">Select Publisher</string>
+    <string-array name="publisher_dialog_publishers">
+        <item>Tech</item>
+        <item>News</item>
+        <item>Business</item>
+        <item>Health</item>
+        <item>Gaming</item>
+        <item>Photography</item>
+        <item>Design</item>
+        <item>Fashion</item>
+        <item>Cooking</item>
+        <item>Comics</item>
+        <item>DIY</item>
+        <item>Sport</item>
+        <item>Cinema</item>
+        <item>Youtube</item>
+        <item>Funny</item>
+        <item>Esty</item>
+    </string-array>
+
+    <string name="language_dialog_title">Select Language</string>
+    <string-array name="language_dialog_languages">
+        <item>English</item>
+        <item>日本语</item>
+        <item>中文</item>
+    </string-array>
+    <!--发布者李彪页面结束-->
 </resources>

@@ -102,12 +102,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //根据当前显示的Fragment的类型，更新显示的菜单
         if (mCurrentFragment instanceof HomePageFragment) {
-            menuInflater.inflate(R.menu.homepage_toolbar_actions, menu);
+            menuInflater.inflate(R.menu.homepage_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_home);
         } else if (mCurrentFragment instanceof HomeListFragment) {
-            menuInflater.inflate(R.menu.homelist_toolbar_actions, menu);
+            menuInflater.inflate(R.menu.homelist_toolbar_menu, menu);
         } else if (mCurrentFragment instanceof SavedFragment) {
-            menuInflater.inflate(R.menu.saved_toolbar_actions, menu);
+            menuInflater.inflate(R.menu.saved_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_saved);
         }
 
@@ -116,25 +116,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.toolbar_action_search) {
-            Toast.makeText(this, "toolbar_action_search", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.toolbar_action_add) {
-            BottomMenu bottomMenu = new BottomMenu(this);
-            bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
-        } else if (id == R.id.toolbar_action_refresh) {
-            Toast.makeText(this, "toolbar_action_refresh", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.main_menu_search:
+                Toast.makeText(this, "toolbar_menu_search", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_add:
+                BottomMenu bottomMenu = new BottomMenu(this);
+                bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
+                break;
+            case R.id.main_menu_refresh:
+                Toast.makeText(this, "toolbar_menu_refresh", Toast.LENGTH_SHORT).show();
 //            mHomeFragment.onRefresh();
-        } else if (id == R.id.toolbar_action_marked) {
-            Toast.makeText(this, "toolbar_action_marked", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.toolbar_action_rate) {
-            Toast.makeText(this, "toolbar_action_rate", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.toolbar_action_product) {
-            Toast.makeText(this, "toolbar_action_product", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.toolbar_action_about) {
-            Toast.makeText(this, "toolbar_action_about", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_marked:
+                Toast.makeText(this, "toolbar_action_marked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_rate:
+                Toast.makeText(this, "toolbar_action_rate", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_product:
+                Toast.makeText(this, "toolbar_action_product", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_about:
+                Toast.makeText(this, "toolbar_action_about", Toast.LENGTH_SHORT).show();
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

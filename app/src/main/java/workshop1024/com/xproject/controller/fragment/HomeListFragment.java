@@ -56,7 +56,7 @@ public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.
 
         mStoryRecyclerViewAdapter = new StoryRecyclerViewAdapter(mStoryList);
         mStoryRecyclerView.setAdapter(mStoryRecyclerViewAdapter);
-        mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
+        mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
 
         return view;
     }

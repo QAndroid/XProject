@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--工具栏菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--类型搜索-->
+    <item
+        android:icon="@drawable/toolbar_menu_search"
+        android:id="@+id/publisher_menu_search"
+        android:title="@string/toolbar_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|always"/>
+
+    <!--类型选择-->
+    <item
+        android:icon="@drawable/toolbar_menu_filter"
+        android:id="@+id/publisher_menu_filter"
+        android:title="@string/toolbar_menu_filter"
+        app:showAsAction="always"/>
+
+    <!--语言选择-->
+    <item
+        android:icon="@drawable/toolbar_menu_language"
+        android:id="@+id/publisher_menu_language"
+        android:title="@string/toolbar_menu_language"
+        app:showAsAction="ifRoom"/>
+</menu>

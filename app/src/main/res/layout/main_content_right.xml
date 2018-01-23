@@ -21,8 +21,7 @@
             android:id="@+id/main_toolbar_navigator"
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:titleTextColor="@color/white"/>
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
     </android.support.design.widget.AppBarLayout>
 

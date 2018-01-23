@@ -36,7 +36,9 @@
             android:name=".controller.activity.DetailActivity"
             android:parentActivityName=".controller.activity.MainActivity">
         </activity>
-        <activity android:name=".controller.activity.PublisherActivity">
+        <activity
+            android:name=".controller.activity.PublisherActivity"
+            android:parentActivityName=".controller.activity.MainActivity">
         </activity>
     </application>
 

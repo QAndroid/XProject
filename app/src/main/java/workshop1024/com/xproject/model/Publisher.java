@@ -4,25 +4,22 @@ package workshop1024.com.xproject.model;
  * 发布者数据类
  */
 public class Publisher {
-    //发布者图标url
-    private String imageUrl;
-    //发布者名称
+    private String iconUrl;
     private String name;
-    //发布者文章数量
-    private String amount;
+    private String subscribeNum;
 
-    public Publisher(String imageUrl, String name, String amount) {
-        this.imageUrl = imageUrl;
+    public Publisher(String iconUrl, String name, String subscribeNum) {
+        this.iconUrl = iconUrl;
         this.name = name;
-        this.amount = amount;
+        this.subscribeNum = subscribeNum;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     public String getName() {
@@ -33,11 +30,11 @@ public class Publisher {
         this.name = name;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getSubscribeNum() {
+        return subscribeNum;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setSubscribeNum(String subscribeNum) {
+        this.subscribeNum = subscribeNum;
     }
 }
