@@ -125,20 +125,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.main_menu_refresh:
-                Toast.makeText(this, "toolbar_menu_refresh", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "main_menu_refresh", Toast.LENGTH_SHORT).show();
 //            mHomeFragment.onRefresh();
                 break;
             case R.id.main_menu_marked:
-                Toast.makeText(this, "toolbar_action_marked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "main_menu_marked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_rate:
-                Toast.makeText(this, "toolbar_action_rate", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "main_menu_rate", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_product:
-                Toast.makeText(this, "toolbar_action_product", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "main_menu_product", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_about:
-                Toast.makeText(this, "toolbar_action_about", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_cards:
+                Toast.makeText(this, "main_menu_cards", Toast.LENGTH_SHORT).show();
+                //FIXME 实现有点别扭
+                ((HomeListFragment) mCurrentFragment).showBigCardsList();
+                break;
+            case R.id.main_menu_compact:
+                Toast.makeText(this, "main_menu_compact", Toast.LENGTH_SHORT).show();
+                ((HomeListFragment) mCurrentFragment).showCompactList();
+                break;
+            case R.id.main_menu_minimal:
+                Toast.makeText(this, "main_menu_minimal", Toast.LENGTH_SHORT).show();
+                ((HomeListFragment) mCurrentFragment).showMinimalList();
                 break;
         }
         return super.onOptionsItemSelected(item);

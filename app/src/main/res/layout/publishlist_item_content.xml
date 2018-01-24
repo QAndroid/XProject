@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:padding="16.0dp">
+        android:padding="6.0dp">
         <!--发布者图标-->
         <ImageView
             android:id="@+id/publisherlist_imageview_icon"

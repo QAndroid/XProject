@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Base.CardView"
+    android:foreground="?android:selectableItemBackground"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="6.0dp">
+        <!--标题-->
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/minimal_textview_title"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="3"
+            android:textColor="@android:color/white"
+            tools:text="AppStories, Episode 39 - The Mac App Store's Problems"/>
+        <!--作者-->
+        <TextView
+            android:id="@+id/minimal_textview_author"
+            android:layout_below="@id/minimal_textview_title"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            tools:text="MacStories"/>
+        <!--分割线-->
+        <TextView
+            android:id="@+id/minimal_textview_line"
+            android:layout_alignTop="@id/minimal_textview_author"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@id/minimal_textview_author"
+            android:layout_width="wrap_content"
+            android:text="|"/>
+        <!--时间-->
+        <TextView
+            android:id="@+id/minimal_textview_time"
+            android:layout_alignTop="@id/minimal_textview_author"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/minimal_textview_line"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:text="1小时前"
+            android:textColor="#ff01a3ae"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

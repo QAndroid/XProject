@@ -1,12 +1,12 @@
 package workshop1024.com.xproject.model;
 
-public class Story {
+public class News {
     private String banner;
     private String title;
     private String author;
     private String time;
 
-    public Story(String banner, String title, String author, String time) {
+    public News(String banner, String title, String author, String time) {
         this.banner = banner;
         this.title = title;
         this.author = author;

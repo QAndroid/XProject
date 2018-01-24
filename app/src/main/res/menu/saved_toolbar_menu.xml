@@ -17,14 +17,14 @@
                 android:icon="@drawable/toolbar_menu_magazine"
                 android:title="@string/toolbar_menu_magazine"/>
             <item
-                android:icon="@drawable/toolbar_menu_cards"
-                android:title="@string/toolbar_menu_cards"/>
+                android:icon="@drawable/main_menu_cards"
+                android:title="@string/main_menu_cards"/>
             <item
-                android:icon="@drawable/toolbar_menu_compact"
-                android:title="@string/toolbar_menu_compact"/>
+                android:icon="@drawable/main_menu_compact"
+                android:title="@string/main_menu_compact"/>
             <item
-                android:icon="@drawable/toolbar_menu_minimal"
-                android:title="@string/toolbar_menu_minimal"/>
+                android:icon="@drawable/main_menu_minimal"
+                android:title="@string/main_menu_minimal"/>
             <item
                 android:icon="@drawable/toolbar_menu_picture"
                 android:title="@string/toolbar_menu_picture"/>

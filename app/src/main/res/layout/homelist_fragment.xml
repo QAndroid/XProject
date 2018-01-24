@@ -19,6 +19,6 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/storylist_item_content"/>
+            tools:listitem="@layout/newslist_item_bigcards"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
