@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--发布者列表页面-->
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/publisher_coordinatorlayout_rootview"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".controller.activity.SettingsActivity">
@@ -22,10 +24,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/publisher_recyclerview_list"
+    <!--下拉刷新-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/publisher_swiperefreshlayout_pullrefresh"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listItem="@layout/publishlist_item_content"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <!--发布者列表-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/publisher_recyclerview_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            tools:listItem="@layout/publishlist_item_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

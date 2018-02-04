@@ -23,9 +23,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
 import workshop1024.com.xproject.controller.fragment.HomeListFragment;
 import workshop1024.com.xproject.controller.fragment.HomePageFragment;
-import workshop1024.com.xproject.controller.fragment.PageAdapterFragment;
 import workshop1024.com.xproject.controller.fragment.SavedFragment;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
@@ -35,7 +35,8 @@ import workshop1024.com.xproject.view.BottomMenu;
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, PageAdapterFragment.ContentListItemClickListener, FragmentManager.OnBackStackChangedListener {
+        .OnClickListener, SubscribeListAdapter.SubscribeListItemClickListener, FragmentManager
+        .OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;

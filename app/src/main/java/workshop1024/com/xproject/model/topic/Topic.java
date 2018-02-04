@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model;
+package workshop1024.com.xproject.model.topic;
 
 /**
  * 主题数据类
