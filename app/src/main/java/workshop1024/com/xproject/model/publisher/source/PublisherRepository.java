@@ -231,4 +231,25 @@ public class PublisherRepository implements PublisherDataSource {
     public void refreshPublishers() {
         mIsCachedDirty = true;
     }
+
+    @Override
+    public void getSubscribedPublishers(final LoadPublishersCallback loadPublishersCallback) {
+        getPublishers(new LoadPublishersCallback() {
+            @Override
+            public void onPublishersLoaded(List<Publisher> publisherList) {
+                List<Publisher> subscribedPublishers = new ArrayList<>();
+                for (Publisher publisher : publisherList) {
+                    if (publisher.isSubscribed()) {
+                        subscribedPublishers.add(publisher);
+                    }
+                }
+                loadPublishersCallback.onPublishersLoaded(subscribedPublishers);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
 }

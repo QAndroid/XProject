@@ -15,6 +15,8 @@ public class Publisher {
     private String iconUrl;
     //发布者名称
     private String name;
+    //发布者自定义名称
+    private String reName;
     //发布者订阅数量
     private String subscribeNum;
     //发布者是否被订阅

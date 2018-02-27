@@ -55,7 +55,7 @@ public class HomePageFragment extends TopFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return PageAdapterFragment.newInstance();
+            return SubscribeFragment.newInstance();
         }
 
         @Override

@@ -10,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.view.GrassView;
 
 /**
@@ -27,27 +27,29 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_ITEM = 1;
 
     private Context mContext;
-    private List<String> mStoreTitleList;
-    private SubscribeListItemClickListener mSubscribeListItemClickListener;
+    private List<Publisher> mSubscribeList;
+    private SubscribeListItemListener mSubscribeListItemListener;
+    private SubscribeListMenuListener mSubscribeListMenuListener;
 
-    public SubscribeListAdapter(Context context, List<String> storeTitleList, SubscribeListItemClickListener
-            subscribeListItemClickListener) {
+    public SubscribeListAdapter(Context context, List<Publisher> subscribeList, SubscribeListItemListener
+            subscribeListItemListener, SubscribeListMenuListener subscribeListMenuListener) {
         mContext = context;
-        mStoreTitleList = storeTitleList;
-        mSubscribeListItemClickListener = subscribeListItemClickListener;
+        mSubscribeList = subscribeList;
+        mSubscribeListItemListener = subscribeListItemListener;
+        mSubscribeListMenuListener = subscribeListMenuListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         if (viewType == VIEW_TYPE_EMPTY) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homelist_item_empty, parent,
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subscribelist_item_empty, parent,
                     false);
             viewHolder = new SubscribeListAdapter.EmptyViewHolder(view);
         } else if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homelist_item_content, parent,
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subscribelist_item_content, parent,
                     false);
-            viewHolder = new SubscribeListAdapter.ItemViewHolder(view);
+            viewHolder = new SubscribeViewHolder(view);
         }
         return viewHolder;
     }
@@ -59,25 +61,26 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
             SubscribeListAdapter.EmptyViewHolder emptyViewHolder = (SubscribeListAdapter.EmptyViewHolder)
                     holder;
         } else if (viewType == VIEW_TYPE_ITEM) {
-            final SubscribeListAdapter.ItemViewHolder itemViewHolder = (SubscribeListAdapter.ItemViewHolder) holder;
-            itemViewHolder.mStoreTitleString = mStoreTitleList.get(position);
-            itemViewHolder.mNameTextView.setText(mStoreTitleList.get(position));
-            itemViewHolder.mUnReadTextView.setText(" " + position);
+            SubscribeViewHolder subscribeViewHolder = (SubscribeViewHolder) holder;
+            Publisher subscribedPublisher = mSubscribeList.get(position);
+            subscribeViewHolder.mPublisher = subscribedPublisher;
+            subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getName());
+            subscribeViewHolder.mNewsCountTextView.setText(subscribedPublisher.getNewsCount());
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mStoreTitleList.size() == 0) {
+        if (mSubscribeList.size() == 0) {
             return 1;
         } else {
-            return mStoreTitleList.size();
+            return mSubscribeList.size();
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mStoreTitleList.size() == 0) {
+        if (mSubscribeList.size() == 0) {
             return VIEW_TYPE_EMPTY;
         } else {
             return VIEW_TYPE_ITEM;
@@ -101,25 +104,49 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * 内容列表点击接口
+     * 订阅的发布者列表表项接口
      */
-    public interface SubscribeListItemClickListener {
-        void onContentListItemClick(String item);
+    public interface SubscribeListItemListener {
+        /**
+         * 订阅的发布者列表项点击监听
+         *
+         * @param publisher 点击的发布者名称
+         */
+        void onSubscribeListItemClick(Publisher publisher);
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View
+    /**
+     * 订阅的发布者列表菜单接口
+     */
+    public interface SubscribeListMenuListener {
+        /**
+         * 订阅的发布者重命名菜单点击监听
+         *
+         * @param mPublisher
+         */
+        void onRenameMenuClick(Publisher mPublisher);
+
+        /**
+         * 订阅的发布者取消订阅菜单点击监听
+         *
+         * @param mPublisher
+         */
+        void onUnscribeMenuClick(Publisher mPublisher);
+    }
+
+    public class SubscribeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View
             .OnLongClickListener, PopupMenu.OnMenuItemClickListener {
         private TextView mNameTextView;
-        private TextView mUnReadTextView;
-        private String mStoreTitleString;
+        private TextView mNewsCountTextView;
+        private Publisher mPublisher;
 
-        public ItemViewHolder(View view) {
+        public SubscribeViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
 
-            mNameTextView = itemView.findViewById(R.id.item_stories_textview_name);
-            mUnReadTextView = itemView.findViewById(R.id.item_stories_textview_unread);
+            mNameTextView = itemView.findViewById(R.id.subscribeitem_textview_name);
+            mNewsCountTextView = itemView.findViewById(R.id.subscribeitem_textview_newscount);
         }
 
         @Override
@@ -129,8 +156,8 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            if (null != mSubscribeListItemClickListener) {
-                mSubscribeListItemClickListener.onContentListItemClick(mStoreTitleString);
+            if (null != mSubscribeListItemListener) {
+                mSubscribeListItemListener.onSubscribeListItemClick(mPublisher);
             }
         }
 
@@ -149,11 +176,10 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.homepage_recyclerviewmenu_rename:
-                    Toast.makeText(mContext, "homepage_recyclerviewmenu_rename", Toast.LENGTH_SHORT).show();
+                    mSubscribeListMenuListener.onRenameMenuClick(mPublisher);
                     return true;
                 case R.id.homepage_recyclerviewmenu_unsubscribe:
-                    Toast.makeText(mContext, "homepage_recyclerviewmenu_unsubscribe", Toast.LENGTH_SHORT)
-                            .show();
+                    mSubscribeListMenuListener.onUnscribeMenuClick(mPublisher);
                     return true;
                 default:
                     return false;

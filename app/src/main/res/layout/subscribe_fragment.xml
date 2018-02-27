@@ -1,19 +1,18 @@
-<!--主页标准-->
+<!--订阅的发布者Fragment布局-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_height="match_parent"
               android:layout_width="match_parent"
               android:orientation="vertical"
               tools:context=".HomeFragment">
-
     <!--下拉刷新-->
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/page_swiperefreshlayout_pullrefresh"
+        android:id="@+id/subscribe_swiperefreshlayout_pullrefresh"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-        <!--Stories列表-->
+        <!--订阅的发布者列表-->
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/page_recyclerview_contentlist"
+            android:id="@+id/subscribe_recyclerview_subscribelist"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             tools:listItem="@layout/item_content"/>

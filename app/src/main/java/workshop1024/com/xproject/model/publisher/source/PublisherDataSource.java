@@ -64,6 +64,13 @@ public interface PublisherDataSource {
     void refreshPublishers();
 
     /**
+     * 获取订阅的发布者信息
+     *
+     * @param loadPublishersCallback 加载发布者信息回调
+     */
+    void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback);
+
+    /**
      * 获取发布者信息回调
      */
     interface LoadPublishersCallback {

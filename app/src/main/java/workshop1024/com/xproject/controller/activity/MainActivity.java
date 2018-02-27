@@ -29,13 +29,14 @@ import workshop1024.com.xproject.controller.fragment.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.SavedFragment;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, SubscribeListAdapter.SubscribeListItemClickListener, FragmentManager
+        .OnClickListener, SubscribeListAdapter.SubscribeListItemListener, FragmentManager
         .OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
@@ -226,11 +227,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onContentListItemClick(String item) {
+    public void onSubscribeListItemClick(Publisher publisher) {
         HomeListFragment homeListFragment = HomeListFragment.newInstance();
         mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
                 .addToBackStack("").commit();
-        setTitle(item);
+        setTitle(publisher.getName());
+
         mCurrentFragment = homeListFragment;
     }
 

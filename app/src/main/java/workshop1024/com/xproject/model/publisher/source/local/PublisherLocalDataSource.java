@@ -59,4 +59,9 @@ public class PublisherLocalDataSource implements PublisherDataSource {
     public void refreshPublishers() {
 
     }
+
+    @Override
+    public void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback) {
+
+    }
 }

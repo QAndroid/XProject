@@ -33,7 +33,7 @@
 
             <TextView
                 android:ellipsize="end"
-                android:id="@+id/item_stories_textview_name"
+                android:id="@+id/subscribeitem_textview_name"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:layout_width="0dp"
@@ -43,7 +43,7 @@
                 android:textSize="20sp"/>
 
             <TextView
-                android:id="@+id/item_stories_textview_unread"
+                android:id="@+id/subscribeitem_textview_newscount"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="500"
