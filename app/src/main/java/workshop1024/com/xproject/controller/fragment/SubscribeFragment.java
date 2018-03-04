@@ -2,6 +2,7 @@ package workshop1024.com.xproject.controller.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,12 +22,14 @@ import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
 import workshop1024.com.xproject.model.publisher.source.local.PublisherLocalDataSource;
 import workshop1024.com.xproject.model.publisher.source.remote.PublisherRemoteDataSource;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
+import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
 /**
  * 抽屉导航HomeFragment的子Frament HomeFragment的ViewPager的子Fragment，用于展示被订阅的发布者
  */
 public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, PublisherDataSource
-        .LoadPublishersCallback, SubscribeListAdapter.SubscribeListMenuListener {
+        .LoadPublishersCallback, SubscribeListAdapter.SubscribeListMenuListener, InputStringDialog
+        .InputStringDialogListener {
     //根视图
     private View mRootView;
     //下拉刷新
@@ -38,6 +41,7 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     private SubscribeListAdapter mSubscribeListAdapter;
 
     private PublisherRepository mPublisherRepository;
+    private Publisher mRenamePublisher;
 
     private SubscribeListItemListener mSubscribeListItemListener;
 
@@ -113,12 +117,22 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRenameMenuClick(Publisher publisher) {
-//        mPublisherRepository.reNamePublisher(publisher,)
+        mRenamePublisher = publisher;
+        InputStringDialog inputStringDialog = InputStringDialog.newInstance(R.string.rename_dialog_title, R.string
+                .rename_dialog_positive);
+        inputStringDialog.setInputStringDialogListener(this);
+        inputStringDialog.show(getFragmentManager(), "inputStringDialog");
     }
 
     @Override
     public void onUnscribeMenuClick(Publisher publisher) {
         mPublisherRepository.unSubscribePublisher(publisher);
+        refreshSubscribedList();
+    }
+
+    @Override
+    public void onInputStringDialogClick(DialogFragment dialog, String inputString) {
+        mPublisherRepository.reNamePublisher(mRenamePublisher, inputString);
         refreshSubscribedList();
     }
 }

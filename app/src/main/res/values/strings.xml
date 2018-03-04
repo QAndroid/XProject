@@ -61,6 +61,9 @@
 
     <string name="homepage_recyclerviewmenu_rename">Rename</string>
     <string name="homepage_recyclerviewmenu_unsubscribe">Unsubscribe</string>
+
+    <string name="rename_dialog_title">Rename Publisher</string>
+    <string name="rename_dialog_positive">RENAME</string>
     <!--主页面结束-->
 
     <!--发布者列表页面开始-->
@@ -90,5 +93,5 @@
         <item>日本语</item>
         <item>中文</item>
     </string-array>
-    <!--发布者李彪页面结束-->
+    <!--发布者列表页面结束-->
 </resources>

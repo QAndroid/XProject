@@ -71,6 +71,14 @@ public interface PublisherDataSource {
     void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback);
 
     /**
+     * 重命名指定发布者名称
+     *
+     * @param publisher    重命名的发布者
+     * @param renameString 发布者重命名的名称
+     */
+    void reNamePublisher(Publisher publisher, String renameString);
+
+    /**
      * 获取发布者信息回调
      */
     interface LoadPublishersCallback {

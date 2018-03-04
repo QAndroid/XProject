@@ -26,7 +26,7 @@ import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
 import workshop1024.com.xproject.model.publisher.source.local.PublisherLocalDataSource;
 import workshop1024.com.xproject.model.publisher.source.remote.PublisherRemoteDataSource;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
-import workshop1024.com.xproject.view.SingleChoiceDialog;
+import workshop1024.com.xproject.view.dialog.SingleChoiceDialog;
 
 /**
  * 发布者列表页面

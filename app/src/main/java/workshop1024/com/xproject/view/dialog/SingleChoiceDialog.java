@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.view;
+package workshop1024.com.xproject.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -26,12 +26,12 @@ public class SingleChoiceDialog extends DialogFragment implements DialogInterfac
     private SingleChoiceDialogListener mSingleChoiceDialogListener;
 
     /**
-     * 创建对话框实例
+     * 创建单选对话框实例
      *
      * @param titleStringId 标题字符串资源id
      * @param selectStrings 选择字符串数组资源id
      * @param selectedIndex 选择的字符串索引
-     * @return 对话框实例
+     * @return 单选对话框实例
      */
     public static SingleChoiceDialog newInstance(int titleStringId, String[] selectStrings, int selectedIndex) {
         SingleChoiceDialog singleChoiceDialog = new SingleChoiceDialog();

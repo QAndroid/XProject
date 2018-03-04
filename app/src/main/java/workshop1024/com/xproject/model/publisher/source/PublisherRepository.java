@@ -252,4 +252,20 @@ public class PublisherRepository implements PublisherDataSource {
             }
         });
     }
+
+    @Override
+    public void reNamePublisher(Publisher publisher, String renameString) {
+        mPublisherRemoteDataSource.reNamePublisher(publisher, renameString);
+        mPublisherLocalDataSource.reNamePublisher(publisher, renameString);
+
+        Publisher renamePublisher = new Publisher(publisher.getId(), publisher.getType(),
+                publisher.getLanguage(), publisher.geticonUrl(), publisher.getName(),
+                publisher.getSubscribeNum(), publisher.isSubscribed(), publisher.getBannerUrl(),
+                publisher.getNewsCount());
+        renamePublisher.setRename(renameString);
+        if (mCachedPublisherMaps == null) {
+            mCachedPublisherMaps = new LinkedHashMap<>();
+        }
+        mCachedPublisherMaps.put(publisher.getId(), renamePublisher);
+    }
 }

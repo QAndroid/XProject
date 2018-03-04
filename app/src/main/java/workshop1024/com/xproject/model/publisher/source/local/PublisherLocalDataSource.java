@@ -64,4 +64,9 @@ public class PublisherLocalDataSource implements PublisherDataSource {
     public void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback) {
 
     }
+
+    @Override
+    public void reNamePublisher(Publisher publisher, String renameString) {
+
+    }
 }

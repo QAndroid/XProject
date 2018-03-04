@@ -64,7 +64,11 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
             SubscribeViewHolder subscribeViewHolder = (SubscribeViewHolder) holder;
             Publisher subscribedPublisher = mSubscribeList.get(position);
             subscribeViewHolder.mPublisher = subscribedPublisher;
-            subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getName());
+            if (subscribedPublisher.getRename() != null) {
+                subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getRename());
+            } else {
+                subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getName());
+            }
             subscribeViewHolder.mNewsCountTextView.setText(subscribedPublisher.getNewsCount());
         }
     }
@@ -122,16 +126,16 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
         /**
          * 订阅的发布者重命名菜单点击监听
          *
-         * @param mPublisher
+         * @param publisher
          */
-        void onRenameMenuClick(Publisher mPublisher);
+        void onRenameMenuClick(Publisher publisher);
 
         /**
          * 订阅的发布者取消订阅菜单点击监听
          *
-         * @param mPublisher
+         * @param publisher
          */
-        void onUnscribeMenuClick(Publisher mPublisher);
+        void onUnscribeMenuClick(Publisher publisher);
     }
 
     public class SubscribeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View

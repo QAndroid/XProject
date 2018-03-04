@@ -21,4 +21,6 @@
     <dimen name="card_image_height">200dp</dimen>
     <dimen name="list_body">14sp</dimen>
     <dimen name="navheader_height">222dp</dimen>
+
+    <dimen name="inputdialog_view_margin">22dp</dimen>
 </resources>

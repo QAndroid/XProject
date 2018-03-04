@@ -168,4 +168,13 @@ public class PublisherRemoteDataSource implements PublisherDataSource {
     public void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback) {
 
     }
+
+    @Override
+    public void reNamePublisher(Publisher publisher, String renameString) {
+        Publisher renamePublisher = new Publisher(publisher.getId(), publisher.getType(), publisher.getLanguage()
+                , publisher.geticonUrl(), publisher.getName(), publisher.getSubscribeNum(), publisher.isSubscribed(),
+                publisher.getBannerUrl(), publisher.getNewsCount());
+        renamePublisher.setRename(renameString);
+        PUBLISHERS_SERVICE_DATA.put(publisher.getId(), renamePublisher);
+    }
 }
