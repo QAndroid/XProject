@@ -24,19 +24,22 @@ import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
+import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomeListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
 import workshop1024.com.xproject.model.subscribe.Subscribe;
+import workshop1024.com.xproject.model.tag.Tag;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, SubscribeListAdapter.SubscribeListItemListener, FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        View.OnClickListener, SubscribeListAdapter.SubscribeListItemListener, TagListAdapter.TagListItemListener,
+        FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -227,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onSubscribeListItemClick(Subscribe subscribe) {
+        //FIXME 列表点击事件放在这里处理合适吗？
         HomeListFragment homeListFragment = HomeListFragment.newInstance();
         mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
                 .addToBackStack("").commit();
@@ -242,5 +246,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
         mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
         mCurrentFragment = homePageFragment;
+    }
+
+    @Override
+    public void onTagListItemClick(Tag subscribe) {
+
     }
 }

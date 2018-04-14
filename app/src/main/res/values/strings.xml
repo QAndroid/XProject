@@ -56,6 +56,7 @@
 
     <string-array name="homepage_tabs_strings">
         <item>Subscribe</item>
+        <item>Tag</item>
     </string-array>
 
     <string name="homepage_recyclerviewmenu_rename">Rename</string>

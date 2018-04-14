@@ -46,8 +46,8 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     private SubscribeListItemListener mSubscribeListItemListener;
 
     public static SubscribeFragment newInstance() {
-        SubscribeFragment fragment = new SubscribeFragment();
-        return fragment;
+        SubscribeFragment subscribeFragment = new SubscribeFragment();
+        return subscribeFragment;
     }
 
     @Override
