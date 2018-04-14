@@ -2,7 +2,6 @@ package workshop1024.com.xproject.model.news.source;
 
 import java.util.List;
 
-import workshop1024.com.xproject.model.filter.Filter;
 import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.model.publisher.Publisher;
 
@@ -25,26 +24,6 @@ public interface NewsDataSource {
      * @param loadNewsCallback 获取新闻回调
      */
     void getNewsByPublishers(List<Publisher> publisherList, LoadNewsCallback loadNewsCallback);
-
-    /**
-     * 获取指定过滤器的新闻信息
-     *
-     * @param filter           获取新闻的指定过滤器
-     * @param loadNewsCallback 获取新闻回调
-     */
-    void getNewsByFilter(Filter filter, LoadNewsCallback loadNewsCallback);
-
-    /**
-     * 保存新闻信息
-     *
-     * @param news 要保存的新闻信息
-     */
-    void saveNews(News news);
-
-    /**
-     * 删除所有新闻信息
-     */
-    void deleteAllNewses();
 
     /**
      * 获取新闻回调

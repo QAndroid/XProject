@@ -20,10 +20,6 @@ import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter.Subscri
 import workshop1024.com.xproject.model.subscribe.Subscribe;
 import workshop1024.com.xproject.model.subscribe.source.SubscribeDataSource;
 import workshop1024.com.xproject.model.subscribe.source.SubscribeRepository;
-import workshop1024.com.xproject.model.subscribe.source.local.SubscribeDatabase;
-import workshop1024.com.xproject.model.subscribe.source.local.SubscribeLocalDataSource;
-import workshop1024.com.xproject.model.subscribe.source.remote.SubscribeRemoteDataSource;
-import workshop1024.com.xproject.utils.ExecutorUtils;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
@@ -69,9 +65,7 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("XProject","SubscribeFragment onCreate");
-        mSubscribeRepository = SubscribeRepository.getInstance(SubscribeRemoteDataSource.getInstance(),
-                SubscribeLocalDataSource.getInstance(SubscribeDatabase.getInstance(getContext()).
-                        subscribeDao(), new ExecutorUtils()));
+        mSubscribeRepository =SubscribeRepository.getInstance();
     }
 
     @Override
@@ -114,8 +108,6 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         Log.i("XProject","SubscribeFragment onRefresh");
-        //除非是下拉刷新，强制从远程获取
-        mSubscribeRepository.refreshSubscribes();
         refreshSubscribedList();
     }
 

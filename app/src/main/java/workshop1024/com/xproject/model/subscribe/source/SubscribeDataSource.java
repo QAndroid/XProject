@@ -31,23 +31,6 @@ public interface SubscribeDataSource {
     void reNameSubscribeById(String subscribeId, String newNameString);
 
     /**
-     * 删除所有已订阅的发布者信息
-     */
-    void deleteAllSubscribes();
-
-    /**
-     * 保存已订阅发布者信息
-     *
-     * @param subscribe
-     */
-    void saveSubscribe(Subscribe subscribe);
-
-    /**
-     * 刷新已订阅的发布者信息
-     */
-    void refreshSubscribes();
-
-    /**
      * 获取已订阅发布者信息回调
      */
     interface LoadSubscribesCallback {

@@ -15,9 +15,6 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.DetailActivity;
 import workshop1024.com.xproject.model.news.News;
 
-/**
- * Created by chengxiang.peng on 2018/1/24.
- */
 public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsViewHolder> {
     private Context mContext;
     private List<News> mNewsList;

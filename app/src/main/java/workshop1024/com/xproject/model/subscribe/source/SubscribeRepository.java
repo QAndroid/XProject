@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.model.subscribe.source;
 
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,209 +11,99 @@ import java.util.Map;
 import workshop1024.com.xproject.model.subscribe.Subscribe;
 
 /**
- * 已订阅发布者数据源
+ * 已订阅发布者远程数据源
  */
 public class SubscribeRepository implements SubscribeDataSource {
-    //已订阅发布者数据源单例对象
-    private static SubscribeRepository INSTANCE = null;
+    private static final int SERVICE_LATENCY_IN_MILLIS = 1000;
 
-    //已订阅发布者远程数据源
-    private SubscribeDataSource mSubscribeRemoteDataSource;
-    //已订阅发布者本地数据源
-    private SubscribeDataSource mSubscribeLocalDataSource;
+    private static Map<String, Subscribe> SUBSCRIBE_SERVICE_DATA;
 
-    //内存缓存的已订阅发布者信息
-    private Map<String, Subscribe> mCachedSubscribeMaps;
-    //内存和本地缓存的已订阅发布者数据是否为“脏”数据
-    private boolean mIsCachedSubscribeDirty = false;
+    private static SubscribeRepository INSTANCE;
 
-    /**
-     * 已订阅发布者私有构造方法
-     *
-     * @param subscribeRemoteDataSource 已订阅发布者远程数据源
-     * @param subscribeLocalDataSource  已订阅发布者本地数据源
-     */
-    private SubscribeRepository(SubscribeDataSource subscribeRemoteDataSource, SubscribeDataSource
-            subscribeLocalDataSource) {
-        mSubscribeRemoteDataSource = subscribeRemoteDataSource;
-        mSubscribeLocalDataSource = subscribeLocalDataSource;
+    static {
+        SUBSCRIBE_SERVICE_DATA = new LinkedHashMap<>(2);
+        addSubscribe("p001", "/imag1", "The Tech", "", "500+", true);
+        addSubscribe("p002", "/imag1", "Engadget", "", "300+", true);
+        addSubscribe("p003", "/imag1", "Lifehacker", "", "200+", true);
+
+        addSubscribe("p107", "/imag1", "今日头条", "", "200+", true);
+        addSubscribe("p108", "/imag1", "腾讯新闻", "", "200+", true);
+
+        addSubscribe("p205", "/imag1", "FOX News", "", "700+", true);
+        addSubscribe("p206", "/imag1", "NRP News", "", "100+", true);
+
+        addSubscribe("p301", "/imag1", "zen habits", "", "500+", true);
+        addSubscribe("p309", "/imag1", "NYT", "", "100+", true);
+
+
+        addSubscribe("p608", "/imag1", "一起游戏", "", "200+", true);
+        addSubscribe("p609", "/imag1", "Penny Arcade", "", "100+", true);
     }
 
     /**
-     * 获取已发布者数据源单例对象
+     * 添加已订阅发布者
      *
-     * @param subscribeRemoteDataSource 已订阅发布者远程数据源
-     * @param subscribeLocalDataSource  已订阅发布者本地数据源
-     * @return 已订阅发布者数据源
+     * @param subscribeId  已订阅发布者id
+     * @param iconUrl      已订阅发布者图标URL
+     * @param name         已订阅发布者名称
+     * @param customName   已订阅发布者自定义名称
+     * @param unreadCount  已订阅发布者未阅读新闻数量
+     * @param isSubscribed 已订阅发布者是否订阅
      */
-    public static SubscribeRepository getInstance(SubscribeDataSource subscribeRemoteDataSource,
-                                                  SubscribeDataSource subscribeLocalDataSource) {
+    private static void addSubscribe(String subscribeId, String iconUrl, String name, String customName,
+                                     String unreadCount, boolean isSubscribed) {
+        Subscribe subscribe = new Subscribe(subscribeId, iconUrl, name, customName, unreadCount, isSubscribed);
+        SUBSCRIBE_SERVICE_DATA.put(subscribe.getSubscribeId(), subscribe);
+    }
+
+    /**
+     * 获取已订阅发布者远程数据源单例对象
+     *
+     * @return 远程数据源对象
+     */
+    public static SubscribeRepository getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SubscribeRepository(subscribeRemoteDataSource, subscribeLocalDataSource);
+            INSTANCE = new SubscribeRepository();
         }
         return INSTANCE;
     }
 
-    /**
-     * 销毁已订阅发布者数据源单例对象，用于强制下一次调用重新创建对象
-     */
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
-
-
     @Override
-    public void getSubscribes(LoadSubscribesCallback loadSubscribesCallback) {
-        if (mCachedSubscribeMaps != null && !mIsCachedSubscribeDirty) {
-            Log.i("XProject","SubscribeRepository getSubscribes from cache");
-            loadSubscribesCallback.onPublishersLoaded(new ArrayList<>(mCachedSubscribeMaps.values()));
-            return;
-        }
-
-        Log.i("XProject","SubscribeRepository getSubscribes mIsCachedSubscribeDirty =" + mIsCachedSubscribeDirty);
-        if (mIsCachedSubscribeDirty) {
-            getSubscribesFromRemote(loadSubscribesCallback);
-        } else {
-            getSubscribesFromLocal(loadSubscribesCallback);
-        }
-    }
-
-    /**
-     * 从远程获取已订阅发布者信息
-     *
-     * @param loadSubscribesCallback 获取已订阅发布者回调
-     */
-    private void getSubscribesFromRemote(final LoadSubscribesCallback loadSubscribesCallback) {
-        Log.i("XProject","SubscribeRepository getSubscribes from remote");
-        mSubscribeRemoteDataSource.getSubscribes(new LoadSubscribesCallback() {
+    public void getSubscribes(final LoadSubscribesCallback loadSubscribesCallback) {
+        Log.i("XProject","SubscribeRepository getSubscribes");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onPublishersLoaded(List<Subscribe> subscribeList) {
-                Log.i("XProject","SubscribeRepository getSubscribes from remote onPublishersLoaded =" + subscribeList.toString());
-                Log.i("XProject","SubscribeRepository getSubscribes from remote onPublishersLoaded refreshCached");
-                refreshCached(subscribeList);
-                Log.i("XProject","SubscribeRepository getSubscribes from remote onPublishersLoaded refreshLocal");
-                refreshLocal(subscribeList);
+            public void run() {
+                List<Subscribe> subscribeList = new ArrayList<>(SUBSCRIBE_SERVICE_DATA.values());
+                //FIXME 为什么远程的回调不放在主线程中执行
                 loadSubscribesCallback.onPublishersLoaded(subscribeList);
             }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i("XProject","SubscribeRepository getSubscribes from remote onDataNotAvailable");
-                loadSubscribesCallback.onDataNotAvailable();
-            }
-        });
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
-
-    /**
-     * 刷新内存缓存的已订阅发布者信息
-     *
-     * @param subscribeList 要刷新的已订阅发布者信息
-     */
-    private void refreshCached(List<Subscribe> subscribeList) {
-        if (mCachedSubscribeMaps == null) {
-            mCachedSubscribeMaps = new LinkedHashMap<>();
-        }
-
-        mCachedSubscribeMaps.clear();
-        for (Subscribe subscribe : subscribeList) {
-            mCachedSubscribeMaps.put(subscribe.getSubscribeId(), subscribe);
-        }
-
-        mIsCachedSubscribeDirty = false;
-    }
-
-    /**
-     * 刷新本地缓存的已订阅发布者信息
-     *
-     * @param subscribeList 要刷新的已订阅发布者信息
-     */
-    private void refreshLocal(List<Subscribe> subscribeList) {
-        mSubscribeLocalDataSource.deleteAllSubscribes();
-        for (Subscribe subscribe : subscribeList) {
-            mSubscribeLocalDataSource.saveSubscribe(subscribe);
-        }
-    }
-
-
-    /**
-     * 从本地获取已订阅发布者信息
-     *
-     * @param loadSubscribesCallback 获取已订阅发布者回调
-     */
-    private void getSubscribesFromLocal(final LoadSubscribesCallback loadSubscribesCallback) {
-        Log.i("XProject","SubscribeRepository getSubscribes from local");
-        mSubscribeLocalDataSource.getSubscribes(new LoadSubscribesCallback() {
-            @Override
-            public void onPublishersLoaded(List<Subscribe> subscribeList) {
-                Log.i("XProject","SubscribeRepository getSubscribes from local onPublishersLoaded =" + subscribeList.toString());
-                Log.i("XProject","SubscribeRepository getSubscribes from local onPublishersLoaded refreshCached");
-                refreshCached(subscribeList);
-                loadSubscribesCallback.onPublishersLoaded(subscribeList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i("XProject","SubscribeRepository getSubscribes from local onDataNotAvailable getSubscribesFromRemote");
-                getSubscribesFromRemote(loadSubscribesCallback);
-            }
-        });
-    }
-
 
     @Override
-    public void unSubscribeById(String subscribeId) {
+    public void unSubscribeById(final String subscribeId) {
         Log.i("XProject","SubscribeRepository unSubscribeById =" + subscribeId);
-        mSubscribeRemoteDataSource.unSubscribeById(subscribeId);
-        mSubscribeLocalDataSource.unSubscribeById(subscribeId);
-
-        if (mCachedSubscribeMaps == null) {
-            mCachedSubscribeMaps = new LinkedHashMap<>();
-        }
-
-      mCachedSubscribeMaps.remove(subscribeId);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SUBSCRIBE_SERVICE_DATA.remove(subscribeId);
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     @Override
-    public void reNameSubscribeById(String subscribeId, String newNameString) {
+    public void reNameSubscribeById(final String subscribeId, final String newNameString) {
         Log.i("XProject","SubscribeRepository reNameSubscribeById =" + subscribeId);
-        mSubscribeRemoteDataSource.reNameSubscribeById(subscribeId, newNameString);
-        mSubscribeLocalDataSource.reNameSubscribeById(subscribeId, newNameString);
-
-        if (mCachedSubscribeMaps == null) {
-            mCachedSubscribeMaps = new LinkedHashMap<>();
-        }
-        Subscribe subscribe = mCachedSubscribeMaps.get(subscribeId);
-        if (subscribe != null) {
-            subscribe.setCustomName(newNameString);
-        }
-    }
-
-    @Override
-    public void deleteAllSubscribes() {
-        Log.i("XProject","SubscribeRepository deleteAllSubscribes");
-        mSubscribeRemoteDataSource.deleteAllSubscribes();
-        mSubscribeLocalDataSource.deleteAllSubscribes();
-
-        if (mCachedSubscribeMaps == null) {
-            mCachedSubscribeMaps = new LinkedHashMap<>();
-        }
-        mCachedSubscribeMaps.clear();
-    }
-
-    @Override
-    public void saveSubscribe(Subscribe subscribe) {
-        Log.i("XProject","SubscribeRepository saveSubscribe =" + subscribe.toString());
-        mSubscribeRemoteDataSource.saveSubscribe(subscribe);
-        mSubscribeLocalDataSource.saveSubscribe(subscribe);
-
-        if (mCachedSubscribeMaps == null) {
-            mCachedSubscribeMaps = new LinkedHashMap<>();
-        }
-        mCachedSubscribeMaps.put(subscribe.getSubscribeId(), subscribe);
-    }
-
-    @Override
-    public void refreshSubscribes() {
-        mIsCachedSubscribeDirty = true;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Subscribe subscribe = SUBSCRIBE_SERVICE_DATA.get(subscribeId);
+                subscribe.setCustomName(newNameString);
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 }

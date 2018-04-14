@@ -23,10 +23,6 @@ import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
-import workshop1024.com.xproject.model.publisher.source.local.PublisherDatabase;
-import workshop1024.com.xproject.model.publisher.source.local.PublisherLocalDataSource;
-import workshop1024.com.xproject.model.publisher.source.remote.PublisherRemoteDataSource;
-import workshop1024.com.xproject.utils.ExecutorUtils;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.SingleChoiceDialog;
 
@@ -47,7 +43,7 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     private DialogFragment mSelectedDialog;
 
     private PublisherListAdapter mPublisherListAdapter;
-    private PublisherRepository mPublisherRepository;
+    private PublisherDataSource mPublisherRepository;
 
     //可选择的发布者
     private String[] mSelectTypeStrings;
@@ -87,9 +83,7 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
         actionBar.setTitle(mSelectTypeStrings[mSelectedTypeIndex]);
 
         //使用默认选中的发布者类型请求发布者信息
-        mPublisherRepository = PublisherRepository.getInstance(PublisherRemoteDataSource.getInstance(),
-                PublisherLocalDataSource.getInstance(PublisherDatabase.getInstance(this).publisherDao(), new
-                        ExecutorUtils()));
+        mPublisherRepository = PublisherRepository.getInstance();
 //        mPublisherRepository.refreshLimitedPublishers();
         mPublisherSwipeRefreshLayout.setRefreshing(true);
         mPublisherRepository.getPublishersByType(mSelectTypeStrings[mSelectedTypeIndex], this);

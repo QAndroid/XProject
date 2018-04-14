@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.model.publisher.source;
 
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,312 +11,153 @@ import java.util.Map;
 import workshop1024.com.xproject.model.publisher.Publisher;
 
 /**
- * 发布者数据源
+ * 发布者远程数据源
  */
 public class PublisherRepository implements PublisherDataSource {
-    //发布者数据源单例对象
-    private static PublisherRepository INSTANCE = null;
+    private static final int SERVICE_LATENCY_IN_MILLIS = 1000;
 
-    //发布者远程数据源
-    private PublisherDataSource mPublisherRemoteDataSource;
-    //发布者本地数据源
-    private PublisherDataSource mPublisherLocalDataSource;
+    private static Map<String, Publisher> PUBLISHERS_SERVICE_DATA;
 
-    //内存中缓存的发布者信息
-    private Map<String, Publisher> mCachedPublisherMaps;
+    private static PublisherRepository INSTANCE;
 
-    //内存和本地缓存的指定类型发布者数据是否为“脏”数据
-    private boolean mIsCachedTypeDirty = false;
-    //内存和本地缓存的指定语言发布者数据是否为“脏”数据
-    private boolean mIsCachedLanguageDirty = false;
+    static {
+        //TODO 如何本地提供Mock环境
+        PUBLISHERS_SERVICE_DATA = new LinkedHashMap<>(2);
 
-    /**
-     * 发布者数据源私有构造方法
-     *
-     * @param publisherRemoteDataSource 发布者远程数据源
-     * @param publisherLocalDataSource  发布者本地数据源
-     */
-    private PublisherRepository(PublisherDataSource publisherRemoteDataSource, PublisherDataSource
-            publisherLocalDataSource) {
-        mPublisherRemoteDataSource = publisherRemoteDataSource;
-        mPublisherLocalDataSource = publisherLocalDataSource;
+        addPublisher("p001", "Tech", "English", "/imag1", "The Tech", "970601 subscribers", false);
+        addPublisher("p002", "Tech", "English", "/imag1", "Engadget", "1348433 subscribers", false);
+        addPublisher("p003", "Tech", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
+        addPublisher("p004", "Tech", "English", "/imag1", "ReadWrite", "254332 subscribers", false);
+        addPublisher("p005", "Tech", "English", "/imag1", "Digital Trends", "145694 subscribers", false);
+        addPublisher("p006", "Tech", "English", "/imag1", "Business Insider", "331892 subscribers", false);
+        addPublisher("p007", "Tech", "中文", "/imag1", "月光博客", "254321 subscribers", false);
+        addPublisher("p008", "Tech", "中文", "/imag1", "36氪", "125345 subscribers", false);
+        addPublisher("p009", "Tech", "English", "/imag1", "TechCrunch", "994287 subscribers", false);
+
+
+        addPublisher("p101", "News", "English", "/imag1", "The News",  "970601 subscribers", false);
+        addPublisher("p102", "News", "English", "/imag1", "Engadget", "1348433 subscribers", false);
+        addPublisher("p103", "News", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
+        addPublisher("p104", "News", "English", "/imag1", "ReadWrite", "254332 subscribers", false);
+        addPublisher("p105", "News", "English", "/imag1", "Digital Trends", "145694 subscribers", false);
+        addPublisher("p106", "News", "English", "/imag1", "Business Insider", "331892 subscribers", false);
+        addPublisher("p107", "News", "中文", "/imag1", "今日头条", "254321 subscribers", false);
+        addPublisher("p108", "News", "中文", "/imag1", "腾讯新闻", "125345 subscribers", false);
+        addPublisher("p109", "News", "English", "/imag1", "TechCrunch", "994287 subscribers", false);
+
+        addPublisher("p201", "Business", "English", "/imag1", "The Business", "970601 subscribers", false);
+        addPublisher("p202", "Business", "English", "/imag1", "The New York Times", "1348433 subscribers", false);
+        addPublisher("p203", "Business", "English", "/imag1", "OZY", "934273 subscribers", false);
+        addPublisher("p204", "Business", "English", "/imag1", "ABC News", "254332 subscribers", false);
+        addPublisher("p205", "Business", "English", "/imag1", "FOX News", "145694 subscribers", false);
+        addPublisher("p206", "Business", "English", "/imag1", "NRP News", "331892 subscribers", false);
+        addPublisher("p207", "Business", "中文", "/imag1", "财经周刊", "254321 subscribers", false);
+        addPublisher("p208", "Business", "中文", "/imag1", "交易时刻", "125345 subscribers", false);
+        addPublisher("p209", "Business", "English", "/imag1", "BBC", "994287 subscribers", false);
+
+        addPublisher("p301", "Health", "English", "/imag1", "zen habits", "970601 subscribers", false);
+        addPublisher("p302", "Health", "English", "/imag1", "Skinnytaste","1348433 subscribers", false);
+        addPublisher("p303", "Health", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
+        addPublisher("p304", "Health", "English", "/imag1", "Mark's Daily Apple", "254332 subscribers", false);
+        addPublisher("p305", "Health", "English", "/imag1", "Oh She Glows", "145694 subscribers", false);
+        addPublisher("p306", "Health", "English", "/imag1", "Health", "331892 subscribers", false);
+        addPublisher("p307", "Health", "中文", "/imag1", "健康之路", "254321 subscribers", false);
+        addPublisher("p308", "Health", "中文", "/imag1", "星星点灯", "125345 subscribers", false);
+        addPublisher("p309", "Health", "English", "/imag1", "NYT", "994287 subscribers", false);
+
+
+        addPublisher("p401", "Gaming", "English", "/imag1", "The Gaming", "970601 subscribers", false);
+        addPublisher("p402", "Gaming", "English", "/imag1", "Polygon", "1348433 subscribers", false);
+        addPublisher("p403", "Gaming", "English", "/imag1", "Kotaku", "934273 subscribers", false);
+        addPublisher("p404", "Gaming", "English", "/imag1", "Joystiq", "254332 subscribers", false);
+        addPublisher("p505", "Gaming", "English", "/imag1", "IndieGames", "145694 subscribers", false);
+        addPublisher("p606", "Gaming", "English", "/imag1", "Game Life", "331892 subscribers", false);
+        addPublisher("p607", "Gaming", "中文", "/imag1", "电竞世界", "254321 subscribers", false);
+        addPublisher("p608", "Gaming", "中文", "/imag1", "一起游戏", "125345 subscribers", false);
+        addPublisher("p609", "Gaming", "English", "/imag1", "Penny Arcade", "994287 subscribers", false);
     }
 
-    /**
-     * 获取发布者数据源单例对象
-     *
-     * @return 发布者数据源对象
-     */
-    public static PublisherRepository getInstance(PublisherDataSource publisherRemoteDataSource, PublisherDataSource
-            publisherLocalDataSource) {
+    private PublisherRepository() {
+
+    }
+
+    private static void addPublisher(String publisherId, String type, String language, String iconUrl,
+                                     String name, String subscribeNum, boolean isSubscribed) {
+        Publisher newPublisher = new Publisher(publisherId, type, language, iconUrl, name,
+                subscribeNum, isSubscribed);
+        PUBLISHERS_SERVICE_DATA.put(newPublisher.getPublisherId(), newPublisher);
+    }
+
+    public static PublisherDataSource getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new PublisherRepository(publisherRemoteDataSource, publisherLocalDataSource);
+            INSTANCE = new PublisherRepository();
         }
 
         return INSTANCE;
     }
 
-    /**
-     * 销毁发布者数据源单例对象，用于强制下一次调用重新创建对象
-     */
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
-
     @Override
     public void getPublishersByType(final String type, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByType =" + type);
-        //是否有缓存发布者信息，并查找指定类型
-        if (mCachedPublisherMaps != null && !mIsCachedTypeDirty) {
-            List<Publisher> publishersToShow = new ArrayList<>();
-            for (Publisher publisher : mCachedPublisherMaps.values()) {
-                if (type.equals(publisher.getType())) {
-                    publishersToShow.add(publisher);
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByType =" + type);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Publisher> typedPublishers = new ArrayList<>();
+                List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
+                for (Publisher publisher : publisherList) {
+                    //获取指定类型的发布者
+                    if (publisher.getType().equals(type)) {
+                        typedPublishers.add(publisher);
+                    }
                 }
+                loadPublishersCallback.onPublishersLoaded(typedPublishers);
             }
-
-            //如果有指定类型则返回显示,如果没有则从本地或远程获取
-            if (publishersToShow.size() != 0) {
-                Log.i("XProject", "PublisherRepository getPublishersByType from cache");
-                loadPublishersCallback.onPublishersLoaded(publishersToShow);
-                return;
-            }
-        }
-
-        //如果数据“脏”了，则从远程获取，否则尝试从本地缓存获取
-        Log.i("XProject", "PublisherRepository getPublishersByType mIsCachedDirty =" + mIsCachedTypeDirty);
-        if (mIsCachedTypeDirty) {
-            getPublishersByTypeFromRemoteDataSource(type, loadPublishersCallback);
-        } else {
-            getPublishersByTypeFromLocalDataSource(type, loadPublishersCallback);
-        }
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
-
-    /**
-     * 从远程数据源获取指定类型的发布者
-     *
-     * @param type                   获取指定发布者的类型
-     * @param loadPublishersCallback 获取发布者信息回调
-     */
-    private void getPublishersByTypeFromRemoteDataSource(String type, final LoadPublishersCallback
-            loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByType from remote");
-        mPublisherRemoteDataSource.getPublishersByType(type, new LoadPublishersCallback() {
-            @Override
-            public void onPublishersLoaded(List<Publisher> publisherList) {
-                Log.i("XProject", "PublisherRepository getPublishersByType from remote onPublishersLoaded" + publisherList.toString());
-                //从远程获取后，更新内存和本地缓存然后返回显示
-                Log.i("XProject", "PublisherRepository getPublishersByType from remote refreshCache");
-                refreshCache(publisherList);
-                mIsCachedTypeDirty = false;
-                Log.i("XProject", "PublisherRepository getPublishersByType from remote refreshLocal");
-                refreshLocal(publisherList);
-                loadPublishersCallback.onPublishersLoaded(publisherList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersByType from remote onDataNotAvailable");
-                loadPublishersCallback.onDataNotAvailable();
-            }
-        });
-    }
-
-    /**
-     * 从本地数据源获取指定类型的发布者
-     *
-     * @param type                   获取指定发布者的类型
-     * @param loadPublishersCallback 获取发布者信息回调
-     */
-    private void getPublishersByTypeFromLocalDataSource(final String type, final LoadPublishersCallback
-            loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByType from local");
-        mPublisherLocalDataSource.getPublishersByType(type, new LoadPublishersCallback() {
-            @Override
-            public void onPublishersLoaded(List<Publisher> publisherList) {
-                //从本地获取后，更新内存缓存然后返回显示
-                Log.i("XProject", "PublisherRepository getPublishersByType from local onPublishersLoaded" + publisherList.toString());
-                Log.i("XProject", "PublisherRepository getPublishersByType from local refreshCache");
-                refreshCache(publisherList);
-                mIsCachedTypeDirty = false;
-                loadPublishersCallback.onPublishersLoaded(publisherList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                //如果本地缓存还没有，则从远程缓存中获取
-                Log.i("XProject", "PublisherRepository getPublishersByType from local onDataNotAvailable getPublishersByTypeFromRemoteDataSource");
-                getPublishersByTypeFromRemoteDataSource(type, loadPublishersCallback);
-            }
-        });
-    }
-
-    /**
-     * 更新或者添加指定发布者信息至内存缓存
-     *
-     * @param publisherList 要更新或添加到内存缓存的发布者
-     */
-    private void refreshCache(List<Publisher> publisherList) {
-        if (mCachedPublisherMaps == null) {
-            mCachedPublisherMaps = new LinkedHashMap<>();
-        }
-        //添加或者覆盖更新
-        for (Publisher publisher : publisherList) {
-            mCachedPublisherMaps.put(publisher.getPublisherId(), publisher);
-        }
-    }
-
-    /**
-     * 更新或者添加指定发布者信息至本地缓存
-     *
-     * @param publisherList 要更新或添加到本地缓存的发布者
-     */
-    private void refreshLocal(List<Publisher> publisherList) {
-        for (Publisher publisher : publisherList) {
-            mPublisherLocalDataSource.savePublisher(publisher);
-        }
-    }
-
 
     @Override
     public void getPublishersByLanguage(final String language, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByLanguage =" + language);
-        if (mCachedPublisherMaps != null && !mIsCachedLanguageDirty) {
-            List<Publisher> publishersToShow = new ArrayList<>();
-            for (Publisher publisher : mCachedPublisherMaps.values()) {
-                if (language.equals(publisher.getLanguage())) {
-                    publishersToShow.add(publisher);
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguage =" + language);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Publisher> languagedPublishers = new ArrayList<>();
+                List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
+                for (Publisher publisher : publisherList) {
+                    //获取指定语言的发布者
+                    if (publisher.getLanguage().equals(language)) {
+                        languagedPublishers.add(publisher);
+                    }
                 }
+                loadPublishersCallback.onPublishersLoaded(languagedPublishers);
             }
-
-            if (publishersToShow.size() != 0) {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from cache");
-                loadPublishersCallback.onPublishersLoaded(publishersToShow);
-                return;
-            }
-        }
-
-        Log.i("XProject", "PublisherRepository getPublishersByLanguage mIsCachedDirty =" + mIsCachedLanguageDirty);
-        if (mIsCachedLanguageDirty) {
-            getPublishersByLanguageFromRemoteDataSource(language, loadPublishersCallback);
-        } else {
-            getPublishersByLanguageFromLocalDataSource(language, loadPublishersCallback);
-        }
-    }
-
-    /**
-     * 从远程数据源获取指定语言类型的发布者
-     *
-     * @param language               获取发布者的指定语言
-     * @param loadPublishersCallback 获取发布者信息回调
-     */
-    private void getPublishersByLanguageFromRemoteDataSource(String language, final LoadPublishersCallback
-            loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByLanguage from remote");
-        mPublisherRemoteDataSource.getPublishersByLanguage(language, new LoadPublishersCallback() {
-            @Override
-            public void onPublishersLoaded(List<Publisher> publisherList) {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from remote onPublishersLoaded" + publisherList.toString());
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from remote refresh cache");
-                refreshCache(publisherList);
-                mIsCachedLanguageDirty = false;
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from remote refresh local");
-                refreshLocal(publisherList);
-                loadPublishersCallback.onPublishersLoaded(publisherList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from remote onDataNotAvailable");
-                loadPublishersCallback.onDataNotAvailable();
-            }
-        });
-    }
-
-    /**
-     * 从本地数据源获取指定语言类型的发布者
-     *
-     * @param language               获取发布者的指定语言类型
-     * @param loadPublishersCallback 获取发布者信息回调
-     */
-    private void getPublishersByLanguageFromLocalDataSource(final String language, final LoadPublishersCallback
-            loadPublishersCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByLanguage from local");
-        mPublisherLocalDataSource.getPublishersByLanguage(language, new LoadPublishersCallback() {
-            @Override
-            public void onPublishersLoaded(List<Publisher> publisherList) {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from local onPublishersLoaded" + publisherList.toString());
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from local refreshCache");
-                refreshCache(publisherList);
-                mIsCachedLanguageDirty = false;
-                loadPublishersCallback.onPublishersLoaded(publisherList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguage from local onDataNotAvailable getPublishersByLanguageFromRemoteDataSource");
-                getPublishersByLanguageFromRemoteDataSource(language, loadPublishersCallback);
-            }
-        });
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     @Override
     public void savePublisher(Publisher publisher) {
-        Log.i("XProject", "PublisherRepository savePublisher");
-        //本地缓存更新数据和远程更新数据
-        mPublisherRemoteDataSource.savePublisher(publisher);
-        mPublisherLocalDataSource.savePublisher(publisher);
-
-        //内存缓存更新数据
-        if (mCachedPublisherMaps == null) {
-            mCachedPublisherMaps = new LinkedHashMap<>();
-        }
-        mCachedPublisherMaps.put(publisher.getPublisherId(), publisher);
+        Log.i("XProject", "PublisherRemoteDataSource savePublisher =" + publisher.toString());
+        PUBLISHERS_SERVICE_DATA.put(publisher.getPublisherId(), publisher);
     }
 
     @Override
     public void subscribePublisherById(String publisherId) {
-        Log.i("XProject", "PublisherRepository subscribePublisherById =" + publisherId);
-        //订阅远程发布者
-        mPublisherRemoteDataSource.subscribePublisherById(publisherId);
-        //订阅本地缓存发布者
-        mPublisherLocalDataSource.subscribePublisherById(publisherId);
-
-        //订阅内存缓存中的发布者
-        if (mCachedPublisherMaps == null) {
-            mCachedPublisherMaps = new LinkedHashMap<>();
-        }
-        Publisher subscribedPublisher = mCachedPublisherMaps.get(publisherId);
-        if (subscribedPublisher != null) {
-            subscribedPublisher.setIsSubscribed(true);
-        }
+        Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =" + publisherId);
+        Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
+        subscribedPublisher.setIsSubscribed(true);
     }
 
     @Override
     public void unSubscribePublisherById(String publisherId) {
-        Log.i("XProject", "PublisherRepository unSubscribePublisherById =" + publisherId);
-        //取消订阅远程发布者
-        mPublisherRemoteDataSource.unSubscribePublisherById(publisherId);
-        //取消订阅本地缓存发布者
-        mPublisherLocalDataSource.unSubscribePublisherById(publisherId);
-
-        //取消订阅内存缓存发布者
-        if (mCachedPublisherMaps == null) {
-            mCachedPublisherMaps = new LinkedHashMap<>();
-        }
-        Publisher unSubscribedPublisher = mCachedPublisherMaps.get(publisherId);
-        if (unSubscribedPublisher != null) {
-            unSubscribedPublisher.setIsSubscribed(false);
-        }
+        Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =" + publisherId);
+        Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
+        subscribedPublisher.setIsSubscribed(false);
     }
 
     @Override
     public void refreshPublishers(String type) {
-        //将内存和本地缓存设置为“脏”数据，然后就会从远程从新获取
-        if(type.equals("ChoiceTypeDialog")){
-            mIsCachedTypeDirty = true;
-        }else{
-            mIsCachedLanguageDirty = true;
-        }
+        //不需要实现
     }
 }
