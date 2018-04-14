@@ -121,7 +121,6 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     @Override
     public void onRefresh() {
         mPublisherSwipeRefreshLayout.setRefreshing(true);
-        mPublisherRepository.refreshPublishers(mSelectedDialog.getTag());
         if (mSelectedDialog == mTypeChoiceDialog) {
             mPublisherRepository.getPublishersByType(mSelectTypeStrings[mSelectedTypeIndex], this);
         } else if (mSelectedDialog == mLanguageChoiceDialog) {

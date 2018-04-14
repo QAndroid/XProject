@@ -137,12 +137,6 @@ public class PublisherRepository implements PublisherDataSource {
     }
 
     @Override
-    public void savePublisher(Publisher publisher) {
-        Log.i("XProject", "PublisherRemoteDataSource savePublisher =" + publisher.toString());
-        PUBLISHERS_SERVICE_DATA.put(publisher.getPublisherId(), publisher);
-    }
-
-    @Override
     public void subscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
@@ -154,10 +148,5 @@ public class PublisherRepository implements PublisherDataSource {
         Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
         subscribedPublisher.setIsSubscribed(false);
-    }
-
-    @Override
-    public void refreshPublishers(String type) {
-        //不需要实现
     }
 }

@@ -25,13 +25,6 @@ public interface PublisherDataSource {
     void getPublishersByLanguage(String language, LoadPublishersCallback loadPublishersCallback);
 
     /**
-     * 保存发布者信息
-     *
-     * @param publisher 要保存的发布者信息
-     */
-    void savePublisher(Publisher publisher);
-
-    /**
      * 订阅指定id的发布者
      *
      * @param id 要订阅的发布者id
@@ -44,12 +37,6 @@ public interface PublisherDataSource {
      * @param id 要取消订阅的发布者id
      */
     void unSubscribePublisherById(String id);
-
-    /**
-     * 刷新缓冲发布者信息
-     */
-    void refreshPublishers(String type);
-
 
     /**
      * 获取发布者信息回调

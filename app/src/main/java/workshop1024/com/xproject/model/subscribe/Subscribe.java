@@ -1,35 +1,21 @@
 package workshop1024.com.xproject.model.subscribe;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
 /**
  * 已订阅发布者
  */
-@Entity(tableName = "subscribes")
 public class Subscribe {
     //已订阅发布者的id
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "subscribeId")
     private String mSubscribeId;
 
     //发布者图标URL
-    @ColumnInfo(name = "iconUrl")
     private String mIconUrl;
     //发布者名称
-    @ColumnInfo(name = "name")
     private String mName;
     //发布者自定义名称
-    @ColumnInfo(name = "customName")
     private String mCustomName;
     //发布者未阅读新闻数量
-    @ColumnInfo(name = "unreadCount")
     private String mUnreadCount;
     //发布者是否被订阅
-    @ColumnInfo(name = "isSubscribed")
     private boolean mIsSubscribed;
 
     /**
