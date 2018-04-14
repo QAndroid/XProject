@@ -24,11 +24,14 @@ import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
-import workshop1024.com.xproject.controller.fragment.HomeListFragment;
-import workshop1024.com.xproject.controller.fragment.HomePageFragment;
-import workshop1024.com.xproject.controller.fragment.SavedFragment;
+import workshop1024.com.xproject.controller.adapter.TopicListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.controller.fragment.home.HomeListFragment;
+import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
+import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
+import workshop1024.com.xproject.model.subscribe.Subscribe;
+import workshop1024.com.xproject.model.tag.Tag;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.view.BottomMenu;
 
@@ -36,8 +39,8 @@ import workshop1024.com.xproject.view.BottomMenu;
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View
-        .OnClickListener, SubscribeListAdapter.SubscribeListItemListener, FragmentManager
-        .OnBackStackChangedListener {
+        .OnClickListener, SubscribeListAdapter.SubscribeListItemListener, TopicListAdapter.TagListItemListener,
+        FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -227,11 +230,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onSubscribeListItemClick(Publisher publisher) {
+    public void onSubscribeListItemClick(Subscribe subscribe) {
         HomeListFragment homeListFragment = HomeListFragment.newInstance();
         mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
                 .addToBackStack("").commit();
-        setTitle(publisher.getName());
+        setTitle(subscribe.getName());
 
         mCurrentFragment = homeListFragment;
     }
@@ -244,4 +247,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
         mCurrentFragment = homePageFragment;
     }
+
+    @Override
+    public void onTopicListItemClick(Tag tag) {
+
+    }
+
+
 }

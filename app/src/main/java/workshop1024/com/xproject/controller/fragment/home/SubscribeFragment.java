@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,33 +17,36 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter.SubscribeListItemListener;
-import workshop1024.com.xproject.model.publisher.Publisher;
-import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
-import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
-import workshop1024.com.xproject.model.publisher.source.local.PublisherLocalDataSource;
-import workshop1024.com.xproject.model.publisher.source.remote.PublisherRemoteDataSource;
+import workshop1024.com.xproject.model.subscribe.Subscribe;
+import workshop1024.com.xproject.model.subscribe.source.SubscribeDataSource;
+import workshop1024.com.xproject.model.subscribe.source.SubscribeRepository;
+import workshop1024.com.xproject.model.subscribe.source.local.SubscribeDatabase;
+import workshop1024.com.xproject.model.subscribe.source.local.SubscribeLocalDataSource;
+import workshop1024.com.xproject.model.subscribe.source.remote.SubscribeRemoteDataSource;
+import workshop1024.com.xproject.utils.ExecutorUtils;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
 /**
- * 抽屉导航HomeFragment的子Frament HomeFragment的ViewPager的子Fragment，用于展示被订阅的发布者
+ * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-SubscribeFragment，显示已订阅者发布者列表
  */
-public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, PublisherDataSource
-        .LoadPublishersCallback, SubscribeListAdapter.SubscribeListMenuListener, InputStringDialog
-        .InputStringDialogListener {
+public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        SubscribeDataSource.LoadSubscribesCallback,SubscribeListAdapter.SubscribeListMenuListener,
+        InputStringDialog.InputStringDialogListener {
     //根视图
     private View mRootView;
     //下拉刷新
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     //订阅的发布者列表
-    private RecyclerView mRecyclerViewSubscribeList;
+    private RecyclerView mSubscribeRecyclerView;
 
     //列表内容适配器
     private SubscribeListAdapter mSubscribeListAdapter;
 
-    private PublisherRepository mPublisherRepository;
-    private Publisher mRenamePublisher;
+    private SubscribeRepository mSubscribeRepository;
+    private Subscribe mRenameSubscribe;
 
+    //订阅列表表项点击监听器
     private SubscribeListItemListener mSubscribeListItemListener;
 
     public static SubscribeFragment newInstance() {
@@ -53,7 +57,8 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SubscribeListAdapter.SubscribeListItemListener) {
+        Log.i("XProject","SubscribeFragment onAttach");
+        if (context instanceof SubscribeListItemListener) {
             mSubscribeListItemListener = (SubscribeListItemListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement SubscribeListItemListener");
@@ -61,15 +66,25 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i("XProject","SubscribeFragment onCreate");
+        mSubscribeRepository = SubscribeRepository.getInstance(SubscribeRemoteDataSource.getInstance(),
+                SubscribeLocalDataSource.getInstance(SubscribeDatabase.getInstance(getContext()).
+                        subscribeDao(), new ExecutorUtils()));
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i("XProject","SubscribeFragment onCreateView");
         mRootView = inflater.inflate(R.layout.subscribe_fragment, container, false);
 
         mSwipeRefreshLayoutPull = mRootView.findViewById(R.id.subscribe_swiperefreshlayout_pullrefresh);
         mSwipeRefreshLayoutPull.setOnRefreshListener(this);
 
-        mRecyclerViewSubscribeList = mRootView.findViewById(R.id.subscribe_recyclerview_subscribelist);
-        mRecyclerViewSubscribeList.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecyclerViewSubscribeList.addItemDecoration(new RecyclerViewItemDecoration(6));
+        mSubscribeRecyclerView = mRootView.findViewById(R.id.subscribe_recyclerview_subscribelist);
+        mSubscribeRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mSubscribeRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
 
         return mRootView;
     }
@@ -77,9 +92,7 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onStart() {
         super.onStart();
-        mPublisherRepository = PublisherRepository.getInstance(PublisherRemoteDataSource.getInstance(),
-                PublisherLocalDataSource.getInstance());
-
+        Log.i("XProject","SubscribeFragment onStart");
         refreshSubscribedList();
     }
 
@@ -87,27 +100,31 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
      * 刷新订阅的发布者列表信息
      */
     private void refreshSubscribedList() {
-        mPublisherRepository.refreshPublishers();
-        mPublisherRepository.getSubscribedPublishers(this);
         mSwipeRefreshLayoutPull.setRefreshing(true);
+        mSubscribeRepository.getSubscribes(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.i("XProject","SubscribeFragment onDetach");
         mSubscribeListItemListener = null;
     }
 
     @Override
     public void onRefresh() {
+        Log.i("XProject","SubscribeFragment onRefresh");
+        //除非是下拉刷新，强制从远程获取
+        mSubscribeRepository.refreshSubscribes();
         refreshSubscribedList();
     }
 
     @Override
-    public void onPublishersLoaded(List<Publisher> publisherList) {
+    public void onPublishersLoaded(List<Subscribe> subscribeList) {
         mSwipeRefreshLayoutPull.setRefreshing(false);
-        mSubscribeListAdapter = new SubscribeListAdapter(getContext(), publisherList, mSubscribeListItemListener, this);
-        mRecyclerViewSubscribeList.setAdapter(mSubscribeListAdapter);
+        mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subscribeList,
+                mSubscribeListItemListener, this);
+        mSubscribeRecyclerView.setAdapter(mSubscribeListAdapter);
     }
 
     @Override
@@ -116,8 +133,8 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void onRenameMenuClick(Publisher publisher) {
-        mRenamePublisher = publisher;
+    public void onRenameMenuClick(Subscribe subscribe) {
+        mRenameSubscribe = subscribe;
         InputStringDialog inputStringDialog = InputStringDialog.newInstance(R.string.rename_dialog_title, R.string
                 .rename_dialog_positive);
         inputStringDialog.setInputStringDialogListener(this);
@@ -125,14 +142,16 @@ public class SubscribeFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void onUnscribeMenuClick(Publisher publisher) {
-        mPublisherRepository.unSubscribePublisher(publisher);
+    public void onUnscribeMenuClick(Subscribe subscribe) {
+        mSubscribeRepository.unSubscribeById(subscribe.getSubscribeId());
         refreshSubscribedList();
     }
 
     @Override
     public void onInputStringDialogClick(DialogFragment dialog, String inputString) {
-        mPublisherRepository.reNamePublisher(mRenamePublisher, inputString);
+        mSubscribeRepository.reNameSubscribeById(mRenameSubscribe.getSubscribeId(), inputString);
         refreshSubscribedList();
     }
+
+
 }

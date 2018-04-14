@@ -8,14 +8,6 @@ import workshop1024.com.xproject.model.publisher.Publisher;
  * 发布者数据源接口，定义了关于发布者数据相关的处理接口
  */
 public interface PublisherDataSource {
-
-    /**
-     * 获取发布者信息
-     *
-     * @param loadPublishersCallback 加载发布者信息回调
-     */
-    void getPublishers(LoadPublishersCallback loadPublishersCallback);
-
     /**
      * 获取指定类型的发布者
      *
@@ -33,11 +25,6 @@ public interface PublisherDataSource {
     void getPublishersByLanguage(String language, LoadPublishersCallback loadPublishersCallback);
 
     /**
-     * 删除所有发布者信息
-     */
-    void deleteAllPublishers();
-
-    /**
      * 保存发布者信息
      *
      * @param publisher 要保存的发布者信息
@@ -45,38 +32,24 @@ public interface PublisherDataSource {
     void savePublisher(Publisher publisher);
 
     /**
-     * 订阅发布者
+     * 订阅指定id的发布者
      *
-     * @param publisher 要订阅的发布者id
+     * @param id 要订阅的发布者id
      */
-    void subscribePublisher(Publisher publisher);
+    void subscribePublisherById(String id);
 
     /**
-     * 取消订阅发布者
+     * 取消订阅指定id发布者
      *
-     * @param publisher 要取消订阅的发布者id
+     * @param id 要取消订阅的发布者id
      */
-    void unSubscribePublisher(Publisher publisher);
+    void unSubscribePublisherById(String id);
 
     /**
-     * 刷新发布者信息
+     * 刷新缓冲发布者信息
      */
-    void refreshPublishers();
+    void refreshPublishers(String type);
 
-    /**
-     * 获取订阅的发布者信息
-     *
-     * @param loadPublishersCallback 加载发布者信息回调
-     */
-    void getSubscribedPublishers(LoadPublishersCallback loadPublishersCallback);
-
-    /**
-     * 重命名指定发布者名称
-     *
-     * @param publisher    重命名的发布者
-     * @param renameString 发布者重命名的名称
-     */
-    void reNamePublisher(Publisher publisher, String renameString);
 
     /**
      * 获取发布者信息回调

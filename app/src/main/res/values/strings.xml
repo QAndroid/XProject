@@ -55,8 +55,9 @@
     <string name="homepage_bottommenu_addfilter">Add Filter</string>
 
     <string-array name="homepage_tabs_strings">
-        <item>PUBLISHERS</item>
-        <item>TOPICS</item>
+        <item>Subscribe</item>
+        <item>Tag</item>
+        <item>Filter</item>
     </string-array>
 
     <string name="homepage_recyclerviewmenu_rename">Rename</string>

@@ -39,7 +39,7 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
 
         holder.mNameTextView.setText(publisher.getName());
         holder.mSubscribeNumTextView.setText(publisher.getSubscribeNum());
-        holder.mSelectedCheckBox.setChecked(publisher.isSubscribed());
+        holder.mSelectedCheckBox.setChecked(publisher.isIsSubscribed());
         holder.mPublisher = publisher;
     }
 

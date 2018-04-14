@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.home;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.fragment.TopFragment;
 
 /**
  * 抽屉导航Home Fragment，包含ViewPager来显示Stories和Topies子PageFragment
@@ -55,7 +56,18 @@ public class HomePageFragment extends TopFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return SubscribeFragment.newInstance();
+            Fragment fragment = null;
+
+            if (position == 0) {
+                fragment = SubscribeFragment.newInstance();
+            } else if (position == 1) {
+                fragment = TagFragment.newInstance();
+            } else if (position == 2) {
+                //TODO 临时用TagFragment替代
+                fragment = TagFragment.newInstance();
+            }
+
+            return fragment;
         }
 
         @Override

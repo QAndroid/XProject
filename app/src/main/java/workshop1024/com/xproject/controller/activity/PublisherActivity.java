@@ -23,8 +23,10 @@ import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
+import workshop1024.com.xproject.model.publisher.source.local.PublisherDatabase;
 import workshop1024.com.xproject.model.publisher.source.local.PublisherLocalDataSource;
 import workshop1024.com.xproject.model.publisher.source.remote.PublisherRemoteDataSource;
+import workshop1024.com.xproject.utils.ExecutorUtils;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.SingleChoiceDialog;
 
@@ -40,7 +42,7 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     private SwipeRefreshLayout mPublisherSwipeRefreshLayout;
     private RecyclerView mPublisherRecyclerView;
 
-    private SingleChoiceDialog mPublisherChoiceDialog;
+    private SingleChoiceDialog mTypeChoiceDialog;
     private SingleChoiceDialog mLanguageChoiceDialog;
     private DialogFragment mSelectedDialog;
 
@@ -48,11 +50,11 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     private PublisherRepository mPublisherRepository;
 
     //可选择的发布者
-    private String[] mSelectPublisherStrings;
+    private String[] mSelectTypeStrings;
     //可选择的语言
     private String[] mSelectLanguageStrings;
     //选择的发布者索引
-    private int mSelectedPublisherIndex = 0;
+    private int mSelectedTypeIndex = 0;
     //选择的语言索引
     private int mSelectedLanguageIndex;
 
@@ -76,20 +78,21 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
 
         //获取选择的发布者和语言字符串
         Resources resources = getResources();
-        mSelectPublisherStrings = resources.getStringArray(R.array.publisher_dialog_publishers);
+        mSelectTypeStrings = resources.getStringArray(R.array.publisher_dialog_publishers);
         mSelectLanguageStrings = resources.getStringArray(R.array.language_dialog_languages);
 
         //显示默认选中的发布者
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-name-is-shown
-        actionBar.setTitle(mSelectPublisherStrings[mSelectedPublisherIndex]);
+        actionBar.setTitle(mSelectTypeStrings[mSelectedTypeIndex]);
 
         //使用默认选中的发布者类型请求发布者信息
         mPublisherRepository = PublisherRepository.getInstance(PublisherRemoteDataSource.getInstance(),
-                PublisherLocalDataSource.getInstance());
-        mPublisherRepository.refreshPublishers();
-        mPublisherRepository.getPublishersByType(mSelectPublisherStrings[mSelectedPublisherIndex], this);
+                PublisherLocalDataSource.getInstance(PublisherDatabase.getInstance(this).publisherDao(), new
+                        ExecutorUtils()));
+//        mPublisherRepository.refreshLimitedPublishers();
         mPublisherSwipeRefreshLayout.setRefreshing(true);
+        mPublisherRepository.getPublishersByType(mSelectTypeStrings[mSelectedTypeIndex], this);
     }
 
     @Override
@@ -108,14 +111,14 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
                 break;
             case R.id.publisher_menu_filter:
                 //FIXME 每次都要创建一个对象吗？
-                mPublisherChoiceDialog = SingleChoiceDialog.newInstance(R.string.publisher_dialog_title,
-                        mSelectPublisherStrings, mSelectedPublisherIndex);
-                mPublisherChoiceDialog.show(getSupportFragmentManager(), "ChoicePublisherDialog");
+                mTypeChoiceDialog = SingleChoiceDialog.newInstance(R.string.publisher_dialog_title,
+                        mSelectTypeStrings, mSelectedTypeIndex);
+                mTypeChoiceDialog.show(getSupportFragmentManager(), "ChoiceTypeDialog");
                 break;
             case R.id.publisher_menu_language:
                 mLanguageChoiceDialog = SingleChoiceDialog.newInstance(R.string.language_dialog_title,
                         mSelectLanguageStrings, mSelectedLanguageIndex);
-                mLanguageChoiceDialog.show(getSupportFragmentManager(), "ChoicePublisherDialog");
+                mLanguageChoiceDialog.show(getSupportFragmentManager(), "ChoiceLanguageDialog");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -123,15 +126,13 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        mPublisherRepository.refreshPublishers();
-
-        if (mSelectedDialog == mPublisherChoiceDialog) {
-            mPublisherRepository.getPublishersByType((String) mToolbar.getTitle(), this);
-        } else if (mSelectedDialog == mLanguageChoiceDialog) {
-            mPublisherRepository.getPublishersByLanguage((String) mToolbar.getTitle(), this);
-        }
-
         mPublisherSwipeRefreshLayout.setRefreshing(true);
+        mPublisherRepository.refreshPublishers(mSelectedDialog.getTag());
+        if (mSelectedDialog == mTypeChoiceDialog) {
+            mPublisherRepository.getPublishersByType(mSelectTypeStrings[mSelectedTypeIndex], this);
+        } else if (mSelectedDialog == mLanguageChoiceDialog) {
+            mPublisherRepository.getPublishersByLanguage(mSelectLanguageStrings[mSelectedLanguageIndex], this);
+        }
     }
 
     @Override
@@ -141,7 +142,7 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
 
         mPublisherSwipeRefreshLayout.setRefreshing(true);
 
-        if (dialog == mPublisherChoiceDialog) {
+        if (dialog == mTypeChoiceDialog) {
             mPublisherRepository.getPublishersByType(selectItem, this);
         } else if (dialog == mLanguageChoiceDialog) {
             mPublisherRepository.getPublishersByLanguage(selectItem, this);
@@ -152,19 +153,19 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     public void publisherListItemSelect(Publisher selectPublisher, boolean isSelected) {
         if (isSelected) {
             Snackbar.make(mRootView, selectPublisher.getName() + " selected", Snackbar.LENGTH_SHORT).show();
-            mPublisherRepository.subscribePublisher(selectPublisher);
+            mPublisherRepository.subscribePublisherById(selectPublisher.getPublisherId());
         } else {
             Snackbar.make(mRootView, selectPublisher.getName() + " unselected", Snackbar.LENGTH_SHORT).show();
-            mPublisherRepository.unSubscribePublisher(selectPublisher);
+            mPublisherRepository.unSubscribePublisherById(selectPublisher.getPublisherId());
         }
     }
 
     @Override
     public void onPublishersLoaded(List<Publisher> publisherList) {
         //FIXME 每次都需要创建适配器吗？
+        mPublisherSwipeRefreshLayout.setRefreshing(false);
         mPublisherListAdapter = new PublisherListAdapter(publisherList, this);
         mPublisherRecyclerView.setAdapter(mPublisherListAdapter);
-        mPublisherSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

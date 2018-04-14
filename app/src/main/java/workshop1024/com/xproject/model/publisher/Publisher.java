@@ -1,94 +1,117 @@
 package workshop1024.com.xproject.model.publisher;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
 /**
  * 发布者数据类
  */
+@Entity(tableName = "publishers")
 public class Publisher {
     //发布者id
-    private String id;
+    @PrimaryKey
+    @NonNull
+    private String mPublisherId;
     //发布者类型
-    private String type;
+    @ColumnInfo(name = "type")
+    private String mType;
     //发布者语言类型
-    private String language;
-
+    @ColumnInfo(name = "language")
+    private String mLanguage;
     //发布者图标URL
-    private String iconUrl;
+    @ColumnInfo(name = "iconUrl")
+    private String mIconUrl;
     //发布者名称
-    private String name;
-    //发布者自定义名称
-    private String rename;
+    @ColumnInfo(name = "name")
+    private String mName;
     //发布者订阅数量
-    private String subscribeNum;
+    @ColumnInfo(name = "subscribeNum")
+    private String mSubscribeNum;
     //发布者是否被订阅
-    private boolean isSubscribed;
+    @ColumnInfo(name = "isSubscribed")
+    private boolean mIsSubscribed;
 
-    //发布者订阅头图URL
-    private String bannerUrl;
-    //发布者新消息数量
-    private String newsCount;
-
-    public Publisher(String id, String type, String language, String iconUrl, String name, String subscribeNum,
-                     boolean isSubscribed, String bannerUrl, String newsCount) {
-        this.id = id;
-        this.type = type;
-        this.language = language;
-        this.iconUrl = iconUrl;
-        this.name = name;
-        this.subscribeNum = subscribeNum;
-        this.isSubscribed = isSubscribed;
-        this.bannerUrl = bannerUrl;
-        this.newsCount = newsCount;
+    public Publisher(String publisherId, String type, String language, String iconUrl, String name,
+                     String subscribeNum, boolean isSubscribed) {
+        mPublisherId = publisherId;
+        mType = type;
+        mLanguage = language;
+        mIconUrl = iconUrl;
+        mName = name;
+        mSubscribeNum = subscribeNum;
+        mIsSubscribed = isSubscribed;
     }
 
-    public String getId() {
-        return id;
+    public String getPublisherId() {
+        return mPublisherId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSubscribeNum() {
-        return subscribeNum;
+    public void setPublisherId(String publisherId) {
+        mPublisherId = publisherId;
     }
 
     public String getType() {
-        return type;
+        return mType;
+    }
+
+    public void setType(String type) {
+        mType = type;
     }
 
     public String getLanguage() {
-        return language;
+        return mLanguage;
     }
 
-    public boolean isSubscribed() {
-        return isSubscribed;
+    public void setLanguage(String language) {
+        mLanguage = language;
     }
 
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
+    public String getIconUrl() {
+        return mIconUrl;
     }
 
-    public String geticonUrl() {
-        return iconUrl;
+    public void setIconUrl(String iconUrl) {
+        mIconUrl = iconUrl;
     }
 
-    public String getBannerUrl() {
-        return bannerUrl;
+    public String getName() {
+        return mName;
     }
 
-    public String getNewsCount() {
-        return newsCount;
+    public void setName(String name) {
+        mName = name;
     }
 
-    public String getRename() {
-        return rename;
+    public String getSubscribeNum() {
+        return mSubscribeNum;
     }
 
-    public void setRename(String rename) {
-        this.rename = rename;
+    public void setSubscribeNum(String subscribeNum) {
+        mSubscribeNum = subscribeNum;
+    }
+
+    public boolean isIsSubscribed() {
+        return mIsSubscribed;
+    }
+
+    public void setIsSubscribed(boolean isSubscribed) {
+        mIsSubscribed = isSubscribed;
+    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "mPublisherId='" + mPublisherId + '\'' +
+                ", mType='" + mType + '\'' +
+                ", mLanguage='" + mLanguage + '\'' +
+                ", mIconUrl='" + mIconUrl + '\'' +
+                ", mName='" + mName + '\'' +
+                ", mSubscribeNum='" + mSubscribeNum + '\'' +
+                ", mIsSubscribed=" + mIsSubscribed +
+                '}';
     }
 }

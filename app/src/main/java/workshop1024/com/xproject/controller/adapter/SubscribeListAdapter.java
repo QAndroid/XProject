@@ -15,6 +15,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.model.publisher.Publisher;
+import workshop1024.com.xproject.model.subscribe.Subscribe;
 import workshop1024.com.xproject.view.GrassView;
 
 /**
@@ -27,11 +28,11 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_ITEM = 1;
 
     private Context mContext;
-    private List<Publisher> mSubscribeList;
+    private List<Subscribe> mSubscribeList;
     private SubscribeListItemListener mSubscribeListItemListener;
     private SubscribeListMenuListener mSubscribeListMenuListener;
 
-    public SubscribeListAdapter(Context context, List<Publisher> subscribeList, SubscribeListItemListener
+    public SubscribeListAdapter(Context context, List<Subscribe> subscribeList, SubscribeListItemListener
             subscribeListItemListener, SubscribeListMenuListener subscribeListMenuListener) {
         mContext = context;
         mSubscribeList = subscribeList;
@@ -62,14 +63,14 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
                     holder;
         } else if (viewType == VIEW_TYPE_ITEM) {
             SubscribeViewHolder subscribeViewHolder = (SubscribeViewHolder) holder;
-            Publisher subscribedPublisher = mSubscribeList.get(position);
-            subscribeViewHolder.mPublisher = subscribedPublisher;
-            if (subscribedPublisher.getRename() != null) {
-                subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getRename());
+            Subscribe subscribe = mSubscribeList.get(position);
+            subscribeViewHolder.mSubscribe = subscribe;
+            if (!"".equals(subscribe.getCustomName())) {
+                subscribeViewHolder.mNameTextView.setText(subscribe.getCustomName());
             } else {
-                subscribeViewHolder.mNameTextView.setText(subscribedPublisher.getName());
+                subscribeViewHolder.mNameTextView.setText(subscribe.getName());
             }
-            subscribeViewHolder.mNewsCountTextView.setText(subscribedPublisher.getNewsCount());
+            subscribeViewHolder.mNewsCountTextView.setText(subscribe.getUnreadCount());
         }
     }
 
@@ -114,35 +115,35 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
         /**
          * 订阅的发布者列表项点击监听
          *
-         * @param publisher 点击的发布者名称
+         * @param subscribe 点击的发布者名称
          */
-        void onSubscribeListItemClick(Publisher publisher);
+        void onSubscribeListItemClick(Subscribe subscribe);
     }
 
     /**
-     * 订阅的发布者列表菜单接口
+     * 订阅的发布者列表菜单接口TopicListAdapter.TagListItemListener
      */
     public interface SubscribeListMenuListener {
         /**
          * 订阅的发布者重命名菜单点击监听
          *
-         * @param publisher
+         * @param subscribe
          */
-        void onRenameMenuClick(Publisher publisher);
+        void onRenameMenuClick(Subscribe subscribe);
 
         /**
          * 订阅的发布者取消订阅菜单点击监听
          *
-         * @param publisher
+         * @param subscribe
          */
-        void onUnscribeMenuClick(Publisher publisher);
+        void onUnscribeMenuClick(Subscribe subscribe);
     }
 
     public class SubscribeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View
             .OnLongClickListener, PopupMenu.OnMenuItemClickListener {
         private TextView mNameTextView;
         private TextView mNewsCountTextView;
-        private Publisher mPublisher;
+        private Subscribe mSubscribe;
 
         public SubscribeViewHolder(View view) {
             super(view);
@@ -161,7 +162,7 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View view) {
             if (null != mSubscribeListItemListener) {
-                mSubscribeListItemListener.onSubscribeListItemClick(mPublisher);
+                mSubscribeListItemListener.onSubscribeListItemClick(mSubscribe);
             }
         }
 
@@ -180,10 +181,10 @@ public class SubscribeListAdapter extends RecyclerView.Adapter {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.homepage_recyclerviewmenu_rename:
-                    mSubscribeListMenuListener.onRenameMenuClick(mPublisher);
+                    mSubscribeListMenuListener.onRenameMenuClick(mSubscribe);
                     return true;
                 case R.id.homepage_recyclerviewmenu_unsubscribe:
-                    mSubscribeListMenuListener.onUnscribeMenuClick(mPublisher);
+                    mSubscribeListMenuListener.onUnscribeMenuClick(mSubscribe);
                     return true;
                 default:
                     return false;

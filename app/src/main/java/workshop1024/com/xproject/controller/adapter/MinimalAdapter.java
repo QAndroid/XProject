@@ -12,7 +12,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.DetailActivity;
-import workshop1024.com.xproject.model.News;
+import workshop1024.com.xproject.model.news.News;
 
 /**
  * Created by chengxiang.peng on 2018/1/24.
@@ -37,7 +37,7 @@ public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.NewsView
     public void onBindViewHolder(NewsViewHolder holder, int position) {
         holder.mTitleTextView.setText(mNewsList.get(position).getTitle());
         holder.mAuthorTextView.setText(mNewsList.get(position).getAuthor());
-        holder.mTimeTextView.setText(mNewsList.get(position).getTime());
+        holder.mTimeTextView.setText(mNewsList.get(position).getPubDate());
     }
 
     @Override

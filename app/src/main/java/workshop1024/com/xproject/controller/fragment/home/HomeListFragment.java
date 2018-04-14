@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.fragment;
+package workshop1024.com.xproject.controller.fragment.home;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,13 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.BigCardsAdapter;
 import workshop1024.com.xproject.controller.adapter.CompactAdapter;
 import workshop1024.com.xproject.controller.adapter.MinimalAdapter;
-import workshop1024.com.xproject.model.News;
+import workshop1024.com.xproject.controller.fragment.SubFragment;
+import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
@@ -31,10 +33,21 @@ public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.
     private MinimalAdapter mMinimalAdapter;
 
     private List<News> mNewsList = new ArrayList<News>() {{
-        add(new News("/imag1", "title1title1title1title1title1title1title1", "author1", "time1"));
-        add(new News("/imag2", "title2title2title2title2title2title2title2", "author2", "time2"));
-        add(new News("/imag3", "title3title3title3title3title3title3title3", "author3", "time3"));
-        add(new News("/imag4", "title4title4title4title4title4title4title4", "author4", "time4"));
+        add(new News("news001", "publisher001", "/imag1",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), false));
+        add(new News("news002", "publisher001", "/imag2",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), true));
+        add(new News("news003", "publisher002", "/imag3",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), false));
+        add(new News("news004", "publisher002", "/imag4",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), true));
+        add(new News("news005", "publisher003", "/imag5",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), false));
     }};
 
     public HomeListFragment() {
@@ -65,9 +78,12 @@ public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        mNewsList.add(new News("/imagen1", "titlen1", "authorn1", "timen1"));
-        mNewsList.add(new News("/imagen2", "titlen2", "authorn2", "timen2"));
-
+        mNewsList.add(new News("news006", "publisher001", "/imag1",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), false));
+        mNewsList.add(new News("news007", "publisher001", "/imag1",
+                "title1title1title1title1title1title1title1", "author1",
+                "time1", Arrays.asList("aaa", "bbb"), false));
         mListAdapter.notifyDataSetChanged();
         mSwipeRefreshLayoutPull.setRefreshing(false);
     }
