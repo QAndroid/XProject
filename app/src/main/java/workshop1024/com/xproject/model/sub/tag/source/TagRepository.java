@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.tag.source;
+package workshop1024.com.xproject.model.sub.tag.source;
 
 import android.os.Handler;
 
@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import workshop1024.com.xproject.model.tag.Tag;
+import workshop1024.com.xproject.model.sub.tag.Tag;
 
 public class TagRepository implements TagDataSource {
     private static final int SERVICE_LATENCY_IN_MILLIS = 1000;
@@ -34,7 +34,7 @@ public class TagRepository implements TagDataSource {
 
     private static void addTag(String tagId, String iconUrl, String name, String unreadCount) {
         Tag tag = new Tag(tagId, iconUrl, name, unreadCount);
-        TAG_SERVICE_DATA.put(tag.getTagId(), tag);
+        TAG_SERVICE_DATA.put(tag.getInfoId(), tag);
     }
 
     /**

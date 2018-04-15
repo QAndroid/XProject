@@ -1,8 +1,8 @@
-package workshop1024.com.xproject.model.subscribe.source;
+package workshop1024.com.xproject.model.sub.subscribe.source;
 
 import java.util.List;
 
-import workshop1024.com.xproject.model.subscribe.Subscribe;
+import workshop1024.com.xproject.model.sub.subscribe.Subscribe;
 
 /**
  * 已订阅发布者数据源接口，定义了关于已订阅发布者数据相关的处理接口

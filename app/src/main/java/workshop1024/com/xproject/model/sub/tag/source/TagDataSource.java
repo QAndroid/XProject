@@ -1,8 +1,8 @@
-package workshop1024.com.xproject.model.tag.source;
+package workshop1024.com.xproject.model.sub.tag.source;
 
 import java.util.List;
 
-import workshop1024.com.xproject.model.tag.Tag;
+import workshop1024.com.xproject.model.sub.tag.Tag;
 
 public interface TagDataSource {
     /**

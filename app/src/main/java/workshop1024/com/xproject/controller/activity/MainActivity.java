@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
 import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
@@ -30,16 +31,16 @@ import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomeListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
-import workshop1024.com.xproject.model.subscribe.Subscribe;
-import workshop1024.com.xproject.model.tag.Tag;
+import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.sub.subscribe.Subscribe;
+import workshop1024.com.xproject.model.sub.tag.Tag;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnClickListener, SubscribeListAdapter.SubscribeListItemListener, TagListAdapter.TagListItemListener,
-        FragmentManager.OnBackStackChangedListener {
+        View.OnClickListener, HomeSubListAdapter.SubListItemListener, FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -228,17 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public void onSubscribeListItemClick(Subscribe subscribe) {
-        //FIXME 列表点击事件放在这里处理合适吗？
-        HomeListFragment homeListFragment = HomeListFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
-                .addToBackStack("").commit();
-        setTitle(subscribe.getName());
-
-        mCurrentFragment = homeListFragment;
-    }
-
     private void showHomePageFragment() {
         HomePageFragment homePageFragment = HomePageFragment.newInstance();
         mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).commit();
@@ -248,8 +238,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mCurrentFragment = homePageFragment;
     }
 
-    @Override
-    public void onTagListItemClick(Tag subscribe) {
 
+    @Override
+    public void onSubListItemClick(SubInfo subInfo) {
+        //FIXME 列表点击事件放在这里处理合适吗？
+        HomeListFragment homeListFragment = HomeListFragment.newInstance();
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
+                .addToBackStack("").commit();
+        setTitle(subInfo.getName());
+
+        mCurrentFragment = homeListFragment;
     }
 }

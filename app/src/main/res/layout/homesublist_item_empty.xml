@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><!--HomeSubFragmet列表空Item布局-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/homesub_emptyitem_background">
+
+    <!--漂浮的云朵视图-->
+    <workshop1024.com.xproject.view.CloundsView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52.0dip" />
+
+    <!--山峰-->
+    <ImageView
+        android:id="@+id/homesublist_imageview_mountains"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="-90.0dp"
+        android:paddingBottom="90dp"
+        android:src="@drawable/empty_mountains" />
+
+    <!--下半部背景-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/homesublist_imageview_mountains"
+        android:background="@color/homesub_emptyitem_bottombackground" />
+
+    <!--滚动的草球视图-->
+    <workshop1024.com.xproject.view.GrassView
+        android:id="@+id/homesublist_grassview"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/homelist_imageview_mountains" />
+
+    <!--石头-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/homesublist_grassview"
+        android:layout_marginRight="20.0dp"
+        android:src="@drawable/empty_stone" />
+
+    <!--路标-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:src="@drawable/empty_sign" />
+
+    <!--仙人掌1-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="52dp"
+        android:src="@drawable/empty_cactus1" />
+
+    <!--仙人掌2-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="32dp"
+        android:src="@drawable/empty_cactus2" />
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.subscribe.source;
+package workshop1024.com.xproject.model.sub.subscribe.source;
 
 import android.os.Handler;
 import android.util.Log;
@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import workshop1024.com.xproject.model.subscribe.Subscribe;
+import workshop1024.com.xproject.model.sub.subscribe.Subscribe;
 
 /**
  * 已订阅发布者远程数据源
@@ -53,7 +53,7 @@ public class SubscribeRepository implements SubscribeDataSource {
     private static void addSubscribe(String subscribeId, String iconUrl, String name, String customName,
                                      String unreadCount, boolean isSubscribed) {
         Subscribe subscribe = new Subscribe(subscribeId, iconUrl, name, customName, unreadCount, isSubscribed);
-        SUBSCRIBE_SERVICE_DATA.put(subscribe.getSubscribeId(), subscribe);
+        SUBSCRIBE_SERVICE_DATA.put(subscribe.getInfoId(), subscribe);
     }
 
     /**
