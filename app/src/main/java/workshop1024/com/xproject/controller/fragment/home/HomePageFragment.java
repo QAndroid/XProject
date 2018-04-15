@@ -17,6 +17,7 @@ import workshop1024.com.xproject.controller.fragment.TopFragment;
  * 抽屉导航Home Fragment，包含ViewPager来显示Stories和Topies子PageFragment
  */
 public class HomePageFragment extends TopFragment {
+    private String[] mTabTitles;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -35,9 +36,14 @@ public class HomePageFragment extends TopFragment {
         TabLayout tabLayout = view.findViewById(R.id.homepage_tablayout_tabs);
         ViewPager viewPager = view.findViewById(R.id.homepage_viewpager_fragments);
 
+        //设置ViewPager允许有所有的存在屏幕外的Fragment不会被销毁
+        mTabTitles = getResources().getStringArray(R.array.homepage_tabs_strings);
+        viewPager.setOffscreenPageLimit(mTabTitles.length - 1);
+
         //不使用getChildFragmentManager，从StoryFragment返回，PageFragment不显示
         HomeFragmentPagerAdapter homeFragmentPagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(homeFragmentPagerAdapter);
+
         tabLayout.setupWithViewPager(viewPager, true);
 
         return view;
@@ -47,11 +53,9 @@ public class HomePageFragment extends TopFragment {
      * HomeFragment的ViewPager适配器
      */
     public class HomeFragmentPagerAdapter extends FragmentStatePagerAdapter {
-        private String[] mTabTitles;
 
         public HomeFragmentPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
-            mTabTitles = getResources().getStringArray(R.array.homepage_tabs_strings);
         }
 
         @Override
@@ -60,9 +64,9 @@ public class HomePageFragment extends TopFragment {
 
             if (position == 0) {
                 fragment = SubscribeFragment.newInstance();
-            }else if(position == 1){
+            } else if (position == 1) {
                 fragment = TagFragment.newInstance();
-            }else if(position == 2){
+            } else if (position == 2) {
                 fragment = FilterFragment.newInstance();
             }
 
