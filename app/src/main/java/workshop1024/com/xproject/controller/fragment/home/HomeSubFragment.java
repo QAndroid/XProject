@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
+import workshop1024.com.xproject.model.sub.source.SubInfoDataSource;
+import workshop1024.com.xproject.model.sub.source.SubInfoRepository;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment，处理布局和视图相关公共逻辑
  */
-public abstract class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class HomeSubFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        SubInfoDataSource.LoadSubInfoCallback {
     //根视图
     private View mRootView;
     //下拉刷新
@@ -26,17 +29,26 @@ public abstract class HomeSubFragment extends Fragment implements SwipeRefreshLa
     //订阅的发布者列表
     RecyclerView mSubRecyclerView;
 
+    SubInfoRepository mSubInfoRepository;
+
     SubListItemListener mSubListItemListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i("XProject","SubscribeFragment onAttach");
+        Log.i("XProject", "SubscribeFragment onAttach");
         if (context instanceof SubListItemListener) {
             mSubListItemListener = (SubListItemListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement SubListItemListener");
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i("XProject", "SubscribeFragment onCreate");
+        mSubInfoRepository = SubInfoRepository.getInstance();
     }
 
     @Override

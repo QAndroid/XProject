@@ -24,16 +24,12 @@ import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
-import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
-import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomeListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
 import workshop1024.com.xproject.model.sub.SubInfo;
-import workshop1024.com.xproject.model.sub.subscribe.Subscribe;
-import workshop1024.com.xproject.model.sub.tag.Tag;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**

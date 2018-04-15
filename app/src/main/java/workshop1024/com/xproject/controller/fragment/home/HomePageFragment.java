@@ -62,6 +62,8 @@ public class HomePageFragment extends TopFragment {
                 fragment = SubscribeFragment.newInstance();
             }else if(position == 1){
                 fragment = TagFragment.newInstance();
+            }else if(position == 2){
+                fragment = FilterFragment.newInstance();
             }
 
             return fragment;
