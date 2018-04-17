@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.sub;
+package workshop1024.com.xproject.model.subinfo;
 
 public class SubInfo {
     //Info的id

@@ -33,7 +33,7 @@
             android:parentActivityName=".controller.activity.MainActivity">
         </activity>
         <activity
-            android:name=".controller.activity.DetailActivity"
+            android:name=".controller.activity.NewsDetailActivity"
             android:parentActivityName=".controller.activity.MainActivity">
         </activity>
         <activity

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
-import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 
 /**
  * 抽屉导航HomeFragment的子Frament HomeFragment的ViewPager的子Fragment，按照过滤关键字分类展示

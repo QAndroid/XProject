@@ -1,6 +1,7 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
@@ -18,45 +17,44 @@ import workshop1024.com.xproject.controller.adapter.CompactAdapter;
 import workshop1024.com.xproject.controller.adapter.MinimalAdapter;
 import workshop1024.com.xproject.controller.fragment.SubFragment;
 import workshop1024.com.xproject.model.news.News;
+import workshop1024.com.xproject.model.news.source.NewsDataSource;
+import workshop1024.com.xproject.model.news.source.NewsRepository;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**
  * 抽屉导航Home Fragment的PageFragment列表选项点击后展示的子列表Fragment
  */
-public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener,
+        NewsDataSource.LoadNewsListCallback {
+    private static final String SEARCH_ID = "search_Id";
+
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
 
     private RecyclerView.Adapter mListAdapter;
-    private BigCardsAdapter mBigCardsAdapter;
-    private CompactAdapter mCompactAdapter;
-    private MinimalAdapter mMinimalAdapter;
 
-    private List<News> mNewsList = new ArrayList<News>() {{
-        add(new News("news001", "publisher001", "/imag1",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), false));
-        add(new News("news002", "publisher001", "/imag2",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), true));
-        add(new News("news003", "publisher002", "/imag3",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), false));
-        add(new News("news004", "publisher002", "/imag4",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), true));
-        add(new News("news005", "publisher003", "/imag5",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), false));
-    }};
+    private String mSearchId;
+    private NewsRepository mNewsRepository;
+    private List<News> mNewsList;
 
-    public HomeListFragment() {
+    public NewsListFragment() {
     }
 
-    public static HomeListFragment newInstance() {
-        HomeListFragment fragment = new HomeListFragment();
+    public static NewsListFragment newInstance(String searchId) {
+        NewsListFragment fragment = new NewsListFragment();
         fragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        Bundle args = new Bundle();
+        args.putString(SEARCH_ID, searchId);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mSearchId = getArguments().getString(SEARCH_ID);
+        }
+        mNewsRepository = NewsRepository.getInstance();
     }
 
     @Override
@@ -68,28 +66,41 @@ public class HomeListFragment extends SubFragment implements SwipeRefreshLayout.
 
         mStoryRecyclerView = view.findViewById(R.id.story_recyclerview_list);
         mStoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        showBigCardsList();
-
         mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
 
         return view;
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        refreshNewsList();
+    }
+
+    @Override
     public void onRefresh() {
-        mNewsList.add(new News("news006", "publisher001", "/imag1",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), false));
-        mNewsList.add(new News("news007", "publisher001", "/imag1",
-                "title1title1title1title1title1title1title1", "author1",
-                "time1", Arrays.asList("aaa", "bbb"), false));
-        mListAdapter.notifyDataSetChanged();
+        refreshNewsList();
+    }
+
+    private void refreshNewsList() {
+        mSwipeRefreshLayoutPull.setRefreshing(true);
+        mNewsRepository.getNewsListByFilter(mSearchId, this);
+    }
+
+    @Override
+    public void onNewsLoaded(List<News> newsList) {
+        mNewsList = newsList;
         mSwipeRefreshLayoutPull.setRefreshing(false);
+        showBigCardsList();
+    }
+
+    @Override
+    public void onDataNotAvaiable() {
+
     }
 
     public void showBigCardsList() {
-        mListAdapter = new BigCardsAdapter(getContext(), mNewsList);
+        mListAdapter = new BigCardsAdapter(getContext(),mNewsList);
         mStoryRecyclerView.setAdapter(mListAdapter);
     }
 

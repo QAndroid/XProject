@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.activity.DetailActivity;
+import workshop1024.com.xproject.controller.activity.NewsDetailActivity;
 import workshop1024.com.xproject.model.news.News;
 
 /**
@@ -37,7 +37,7 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
         holder.mTitleTextView.setText(mNewsList.get(position).getTitle());
-        holder.mAuthorTextView.setText(mNewsList.get(position).getAuthor());
+        holder.mAuthorTextView.setText(mNewsList.get(position).getPublisher());
         holder.mTimeTextView.setText(mNewsList.get(position).getPubDate());
     }
 
@@ -64,7 +64,7 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, DetailActivity.class);
+            Intent intent = new Intent(mContext, NewsDetailActivity.class);
             mContext.startActivity(intent);
         }
     }

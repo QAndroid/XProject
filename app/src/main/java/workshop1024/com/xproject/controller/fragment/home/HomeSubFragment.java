@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
-import workshop1024.com.xproject.model.sub.source.SubInfoDataSource;
-import workshop1024.com.xproject.model.sub.source.SubInfoRepository;
+import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
+import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 
 /**

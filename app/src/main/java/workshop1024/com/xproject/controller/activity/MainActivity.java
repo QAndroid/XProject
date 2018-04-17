@@ -26,10 +26,10 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
-import workshop1024.com.xproject.controller.fragment.home.HomeListFragment;
+import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
-import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mCurrentFragment instanceof HomePageFragment) {
             menuInflater.inflate(R.menu.homepage_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_home);
-        } else if (mCurrentFragment instanceof HomeListFragment) {
+        } else if (mCurrentFragment instanceof NewsListFragment) {
             menuInflater.inflate(R.menu.homelist_toolbar_menu, menu);
         } else if (mCurrentFragment instanceof SavedFragment) {
             menuInflater.inflate(R.menu.saved_toolbar_menu, menu);
@@ -144,15 +144,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.main_menu_cards:
                 Toast.makeText(this, "main_menu_cards", Toast.LENGTH_SHORT).show();
                 //FIXME 实现有点别扭
-                ((HomeListFragment) mCurrentFragment).showBigCardsList();
+                ((NewsListFragment) mCurrentFragment).showBigCardsList();
                 break;
             case R.id.main_menu_compact:
                 Toast.makeText(this, "main_menu_compact", Toast.LENGTH_SHORT).show();
-                ((HomeListFragment) mCurrentFragment).showCompactList();
+                ((NewsListFragment) mCurrentFragment).showCompactList();
                 break;
             case R.id.main_menu_minimal:
                 Toast.makeText(this, "main_menu_minimal", Toast.LENGTH_SHORT).show();
-                ((HomeListFragment) mCurrentFragment).showMinimalList();
+                ((NewsListFragment) mCurrentFragment).showMinimalList();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -238,11 +238,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSubListItemClick(SubInfo subInfo) {
         //FIXME 列表点击事件放在这里处理合适吗？
-        HomeListFragment homeListFragment = HomeListFragment.newInstance();
-        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homeListFragment)
+        NewsListFragment newsListFragment = NewsListFragment.newInstance(subInfo.getInfoId());
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         setTitle(subInfo.getName());
 
-        mCurrentFragment = homeListFragment;
+        mCurrentFragment = newsListFragment;
     }
 }

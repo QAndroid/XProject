@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.activity.DetailActivity;
+import workshop1024.com.xproject.controller.activity.NewsDetailActivity;
 import workshop1024.com.xproject.model.news.News;
 
 public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsViewHolder> {
@@ -33,8 +33,9 @@ public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsVi
 
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, int position) {
+        holder.mNews = mNewsList.get(position);
         holder.mTitleTextView.setText(mNewsList.get(position).getTitle());
-        holder.mAuthorTextView.setText(mNewsList.get(position).getAuthor());
+        holder.mAuthorTextView.setText(mNewsList.get(position).getPublisher());
         holder.mTimeTextView.setText(mNewsList.get(position).getPubDate());
     }
 
@@ -44,10 +45,12 @@ public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsVi
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mBannerImageView;
-        public final TextView mTitleTextView;
-        public final TextView mAuthorTextView;
-        public final TextView mTimeTextView;
+        public ImageView mBannerImageView;
+        public TextView mTitleTextView;
+        public TextView mAuthorTextView;
+        public TextView mTimeTextView;
+
+        public News mNews;
 
         public NewsViewHolder(View view) {
             super(view);
@@ -61,7 +64,8 @@ public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsVi
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, DetailActivity.class);
+            Intent intent = new Intent(mContext, NewsDetailActivity.class);
+            intent.putExtra("newsId",mNews.getNewId());
             mContext.startActivity(intent);
         }
     }

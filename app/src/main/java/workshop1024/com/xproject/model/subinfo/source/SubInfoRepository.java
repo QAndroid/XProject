@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.sub.source;
+package workshop1024.com.xproject.model.subinfo.source;
 
 import android.os.Handler;
 
@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 
 public class SubInfoRepository implements SubInfoDataSource {
     private static final int SERVICE_LATENCY_IN_MILLIS = 1000;

@@ -1,8 +1,8 @@
-package workshop1024.com.xproject.model.sub.source;
+package workshop1024.com.xproject.model.subinfo.source;
 
 import java.util.List;
 
-import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 
 public interface SubInfoDataSource {
 

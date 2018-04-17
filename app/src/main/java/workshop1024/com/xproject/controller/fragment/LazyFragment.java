@@ -38,6 +38,13 @@ public abstract class LazyFragment extends Fragment {
         prepareLoadData();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mIsViewInitiated = false;
+        mIsDataInitiated = false;
+    }
+
     /**
      * 当Fragmetn的可见状态变化的时候，判断是否需要加载数据
      */
@@ -45,11 +52,13 @@ public abstract class LazyFragment extends Fragment {
         //当且仅当Fragment对用户可见，视图初始化完毕，并且还没有获取数据的时候，加载数据
         Log.i("XProject", "prepareLoadData mIsVisibleToUser =" + mIsVisibleToUser +
                 ",mIsViewInitiated =" + mIsViewInitiated + ",mIsDataInitiated =" + mIsDataInitiated);
+        //FIXME 上一个页面返回之后，不会再次加载数
         if (mIsVisibleToUser && mIsViewInitiated && !mIsDataInitiated) {
             mIsDataInitiated = true;
             loadData();
         }
     }
+
 
     /**
      * 加载数据

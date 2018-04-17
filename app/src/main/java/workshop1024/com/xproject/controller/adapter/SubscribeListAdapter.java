@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.model.sub.SubInfo;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 
 public class SubscribeListAdapter extends HomeSubListAdapter {
     private Context mContext;
