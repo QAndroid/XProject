@@ -26,25 +26,29 @@ import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
  */
 public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener,
         NewsDataSource.LoadNewsListCallback {
-    private static final String SEARCH_ID = "search_Id";
+    private static final String SEARCH_TYPE = "search_Type";
+    private static final String SEARCH_CONTENT = "search_Content";
 
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
 
     private RecyclerView.Adapter mListAdapter;
 
-    private String mSearchId;
+    private String mSearchType;
+    private String mSearchContent;
     private NewsRepository mNewsRepository;
     private List<News> mNewsList;
 
     public NewsListFragment() {
     }
 
-    public static NewsListFragment newInstance(String searchId) {
+    public static NewsListFragment newInstance(String searchType, String searchContent) {
         NewsListFragment fragment = new NewsListFragment();
         fragment.setNavigationItemId(R.id.leftnavigator_menu_home);
         Bundle args = new Bundle();
-        args.putString(SEARCH_ID, searchId);
+        args.putString(SEARCH_TYPE, searchType);
+        args.putString(SEARCH_CONTENT, searchContent);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,7 +56,9 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mSearchId = getArguments().getString(SEARCH_ID);
+            mSearchType = getArguments().getString(SEARCH_TYPE);
+            mSearchContent = getArguments().getString(SEARCH_CONTENT);
+
         }
         mNewsRepository = NewsRepository.getInstance();
     }
@@ -84,7 +90,15 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
 
     private void refreshNewsList() {
         mSwipeRefreshLayoutPull.setRefreshing(true);
-        mNewsRepository.getNewsListByFilter(mSearchId, this);
+        if ("Subscribe".equals(mSearchType)) {
+            mNewsRepository.getNewsListBySubscribe(mSearchContent, this);
+        } else if ("Tag".equals(mSearchType)) {
+            mNewsRepository.getNewsListByTag(mSearchContent, this);
+        } else if ("Filter".equals(mSearchType)) {
+            mNewsRepository.getNewsListByFilter(mSearchContent, this);
+        } else if ("Search".equals(mSearchType)) {
+            mNewsRepository.getNewsListBySearch(mSearchContent, this);
+        }
     }
 
     @Override
@@ -100,7 +114,7 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
     }
 
     public void showBigCardsList() {
-        mListAdapter = new BigCardsAdapter(getContext(),mNewsList);
+        mListAdapter = new BigCardsAdapter(getContext(), mNewsList);
         mStoryRecyclerView.setAdapter(mListAdapter);
     }
 

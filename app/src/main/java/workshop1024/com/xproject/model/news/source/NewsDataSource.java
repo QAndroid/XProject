@@ -10,11 +10,13 @@ import workshop1024.com.xproject.model.news.NewsDetail;
  */
 public interface NewsDataSource {
 
-    void getNewsListByPublisher(String publishId, LoadNewsListCallback loadNewsCallback);
+    void getNewsListBySubscribe(String publishId, LoadNewsListCallback loadNewsListCallback);
 
-    void getNewsListByTag(String tagId, LoadNewsListCallback loadNewsCallback);
+    void getNewsListByTag(String tagId, LoadNewsListCallback loadNewsListCallback);
 
-    void getNewsListByFilter(String filterId, LoadNewsListCallback loadNewsCallback);
+    void getNewsListByFilter(String filterId, LoadNewsListCallback loadNewsListCallback);
+
+    void getNewsListBySearch(String searchString,LoadNewsListCallback loadNewsListCallback);
 
     void getNewsDetailByNewsId(String newsId, LoadNewsDetailCallBack loadNewsDetailCallBack);
 

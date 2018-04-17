@@ -77,7 +77,7 @@ public class NewsRepository implements NewsDataSource {
     }
 
     @Override
-    public void getNewsListByPublisher(String publishId, final LoadNewsListCallback loadNewsListCallback) {
+    public void getNewsListBySubscribe(String publishId, final LoadNewsListCallback loadNewsListCallback) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -102,6 +102,18 @@ public class NewsRepository implements NewsDataSource {
 
     @Override
     public void getNewsListByFilter(String filterId, final LoadNewsListCallback loadNewsListCallback) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<News> newsList = new ArrayList<>(NEWSES_SERVICE_DATA.values());
+                loadNewsListCallback.onNewsLoaded(newsList);
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
+    }
+
+    @Override
+    public void getNewsListBySearch(String searchString, final LoadNewsListCallback loadNewsListCallback) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

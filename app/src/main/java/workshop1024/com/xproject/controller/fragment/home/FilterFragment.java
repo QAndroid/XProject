@@ -125,4 +125,12 @@ public class FilterFragment extends HomeSubFragment {
     public void onDataNotAvailable() {
 
     }
+
+    @Override
+    public void onSubListItemClick(SubInfo subInfo) {
+        NewsListFragment newsListFragment = NewsListFragment.newInstance("Filter",subInfo.getInfoId());
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+                .addToBackStack("").commit();
+        getActivity().setTitle(subInfo.getName());
+    }
 }

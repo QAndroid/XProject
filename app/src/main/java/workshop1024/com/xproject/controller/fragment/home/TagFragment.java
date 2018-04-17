@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 
@@ -123,5 +124,13 @@ public class TagFragment extends HomeSubFragment {
     @Override
     public void onDataNotAvailable() {
 
+    }
+
+    @Override
+    public void onSubListItemClick(SubInfo subInfo) {
+        NewsListFragment newsListFragment = NewsListFragment.newInstance("Tag",subInfo.getInfoId());
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+                .addToBackStack("").commit();
+        getActivity().setTitle(subInfo.getName());
     }
 }

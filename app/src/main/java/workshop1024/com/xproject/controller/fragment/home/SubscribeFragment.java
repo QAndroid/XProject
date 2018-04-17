@@ -154,4 +154,12 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
         mSubInfoRepository.unSubscribeSubInfoById(subscribe.getInfoId());
         refreshSubscribedList();
     }
+
+    @Override
+    public void onSubListItemClick(SubInfo subInfo) {
+        NewsListFragment newsListFragment = NewsListFragment.newInstance("Subscribe",subInfo.getInfoId());
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+                .addToBackStack("").commit();
+        getActivity().setTitle(subInfo.getName());
+    }
 }

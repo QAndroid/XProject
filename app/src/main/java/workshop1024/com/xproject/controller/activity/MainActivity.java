@@ -10,7 +10,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,8 +33,8 @@ import workshop1024.com.xproject.view.BottomMenu;
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnClickListener,FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener,
+        NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mCurrentFragment instanceof HomePageFragment) {
             menuInflater.inflate(R.menu.homepage_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_home);
+            SearchView searchView = (SearchView) menu.findItem(R.id.main_menu_search).getActionView();
+            searchView.setOnQueryTextListener(this);
         } else if (mCurrentFragment instanceof NewsListFragment) {
             menuInflater.inflate(R.menu.homelist_toolbar_menu, menu);
         } else if (mCurrentFragment instanceof SavedFragment) {
@@ -182,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onPostCreate( Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mActionBarDrawerToggle.syncState();
     }
@@ -228,5 +232,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
         mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
         mCurrentFragment = homePageFragment;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        NewsListFragment newsListFragment = NewsListFragment.newInstance("Search", query);
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+                .addToBackStack("").commit();
+        setTitle(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.i("XProject", "onQueryTextChange =" + newText);
+        return false;
     }
 }
