@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 
@@ -116,7 +117,7 @@ public class FilterFragment extends HomeSubFragment {
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         mSwipeRefreshLayout.setRefreshing(false);
-        HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, mSubListItemListener);
+        HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
     }
 

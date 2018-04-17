@@ -124,7 +124,7 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         mSwipeRefreshLayout.setRefreshing(false);
         mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
-                mSubListItemListener, this);
+                this, this);
         mSubRecyclerView.setAdapter(mSubscribeListAdapter);
     }
 

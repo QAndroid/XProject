@@ -116,7 +116,7 @@ public class TagFragment extends HomeSubFragment {
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         mSwipeRefreshLayout.setRefreshing(false);
-        HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, mSubListItemListener);
+        HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
     }
 

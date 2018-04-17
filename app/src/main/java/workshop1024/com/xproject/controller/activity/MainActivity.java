@@ -3,8 +3,6 @@ package workshop1024.com.xproject.controller.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -23,20 +21,18 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
-import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnClickListener, HomeSubListAdapter.SubListItemListener, FragmentManager.OnBackStackChangedListener {
+        View.OnClickListener,FragmentManager.OnBackStackChangedListener {
     //抽屉导航区域
     //抽屉视图
     private DrawerLayout mDrawerLayut;
@@ -159,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         int selectItemId = item.getItemId();
 
         if (selectItemId == R.id.leftnavigator_menu_home) {
@@ -186,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    protected void onPostCreate( Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mActionBarDrawerToggle.syncState();
     }
@@ -232,17 +228,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
         mNavigationView.setCheckedItem(R.id.leftnavigator_menu_home);
         mCurrentFragment = homePageFragment;
-    }
-
-
-    @Override
-    public void onSubListItemClick(SubInfo subInfo) {
-        //FIXME 列表点击事件放在这里处理合适吗？
-        NewsListFragment newsListFragment = NewsListFragment.newInstance(subInfo.getInfoId());
-        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
-                .addToBackStack("").commit();
-        setTitle(subInfo.getName());
-
-        mCurrentFragment = newsListFragment;
     }
 }
