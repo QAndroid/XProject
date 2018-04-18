@@ -2,7 +2,7 @@
 <!--工具栏菜单-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--添加-->
+    <!--搜索-->
     <item
         android:icon="@drawable/toolbar_menu_search"
         android:id="@+id/main_menu_search"
@@ -10,7 +10,7 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
 
-    <!--搜索-->
+    <!--添加-->
     <item
         android:icon="@drawable/toolbar_menu_add"
         android:id="@+id/main_menu_add"

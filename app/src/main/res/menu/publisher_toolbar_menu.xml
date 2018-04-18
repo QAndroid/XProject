@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--工具栏菜单-->
+<!--发布者页面工具栏菜单-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--类型搜索-->

@@ -81,7 +81,11 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-name-is-shown
         actionBar.setTitle(mSelectTypeStrings[mSelectedTypeIndex]);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         //使用默认选中的发布者类型请求发布者信息
         mPublisherRepository = PublisherRepository.getInstance();
 //        mPublisherRepository.refreshLimitedPublishers();

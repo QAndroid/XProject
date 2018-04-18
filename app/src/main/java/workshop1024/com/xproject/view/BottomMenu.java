@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.FilterActivity;
 import workshop1024.com.xproject.controller.activity.PublisherActivity;
 
 public class BottomMenu extends PopupWindow implements View.OnClickListener {
@@ -81,7 +82,8 @@ public class BottomMenu extends PopupWindow implements View.OnClickListener {
             Intent intent = new Intent(mContext, PublisherActivity.class);
             mContext.startActivity(intent);
         } else if (view == mAddTopicTextView) {
-
+            Intent intent = new Intent(mContext, FilterActivity.class);
+            mContext.startActivity(intent);
         }
 
         dismiss1();

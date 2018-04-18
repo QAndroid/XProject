@@ -143,10 +143,10 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
     @Override
     public void onRenameMenuClick(SubInfo subscribe) {
         mRenameSubInfo = subscribe;
-        InputStringDialog inputStringDialog = InputStringDialog.newInstance(R.string.rename_dialog_title, R.string
+        InputStringDialog renamePublisherDialog = InputStringDialog.newInstance(R.string.rename_dialog_title, R.string
                 .rename_dialog_positive);
-        inputStringDialog.setInputStringDialogListener(this);
-        inputStringDialog.show(getFragmentManager(), "inputStringDialog");
+        renamePublisherDialog.setInputStringDialogListener(this);
+        renamePublisherDialog.show(getFragmentManager(), "renamePublisherDialog");
     }
 
     @Override

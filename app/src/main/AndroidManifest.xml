@@ -40,6 +40,10 @@
             android:name=".controller.activity.PublisherActivity"
             android:parentActivityName=".controller.activity.MainActivity">
         </activity>
+        <activity
+            android:name=".controller.activity.FilterActivity"
+            android:parentActivityName=".controller.activity.MainActivity">
+        </activity>
     </application>
 
 </manifest>

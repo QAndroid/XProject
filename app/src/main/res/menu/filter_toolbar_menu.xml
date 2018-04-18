@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--过滤器页面工具栏菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--添加-->
+    <item
+        android:icon="@drawable/toolbar_menu_add"
+        android:id="@+id/filter_menu_add"
+        android:title="@string/toolbar_menu_add"
+        app:showAsAction="always"/>
+</menu>
