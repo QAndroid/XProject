@@ -8,8 +8,6 @@ import android.support.v4.app.Fragment;
 public class XFragment extends Fragment {
     //该Fragment对应的导航列表的选项的id
     private int mNavigationItemId;
-    //该Fragment对应的Toolbar标题显示的文案
-    private int mTitleString;
 
     public int getNavigationItemId() {
         return mNavigationItemId;
@@ -18,6 +16,4 @@ public class XFragment extends Fragment {
     public void setNavigationItemId(int navigationItemId) {
         mNavigationItemId = navigationItemId;
     }
-
-
 }

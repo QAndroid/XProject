@@ -18,6 +18,7 @@ import workshop1024.com.xproject.controller.fragment.TopFragment;
  */
 public class HomePageFragment extends TopFragment {
     private String[] mTabTitles;
+    private HomeFragmentPagerAdapter mHomeFragmentPagerAdapter;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -41,18 +42,22 @@ public class HomePageFragment extends TopFragment {
         viewPager.setOffscreenPageLimit(mTabTitles.length - 1);
 
         //不使用getChildFragmentManager，从StoryFragment返回，PageFragment不显示
-        HomeFragmentPagerAdapter homeFragmentPagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(homeFragmentPagerAdapter);
-
+        mHomeFragmentPagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(mHomeFragmentPagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
 
         return view;
+    }
+
+    public void onRefresh() {
+        mHomeFragmentPagerAdapter.getCurrentSubFragmet().onRefresh();
     }
 
     /**
      * HomeFragment的ViewPager适配器
      */
     public class HomeFragmentPagerAdapter extends FragmentStatePagerAdapter {
+        private HomeSubFragment mCurrentSubFragmet;
 
         public HomeFragmentPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -63,6 +68,7 @@ public class HomePageFragment extends TopFragment {
             Fragment fragment = null;
 
             if (position == 0) {
+                //FIXME 是不是有必要每次都Nes一个Fragment对象
                 fragment = SubscribeFragment.newInstance();
             } else if (position == 1) {
                 fragment = TagFragment.newInstance();
@@ -81,6 +87,17 @@ public class HomePageFragment extends TopFragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return mTabTitles[position];
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            //获取当前ViewPager显示的Fragment https://blog.csdn.net/hmyang314/article/details/51462677
+            mCurrentSubFragmet = (HomeSubFragment) object;
+            super.setPrimaryItem(container, position, object);
+        }
+
+        public HomeSubFragment getCurrentSubFragmet() {
+            return mCurrentSubFragmet;
         }
     }
 }

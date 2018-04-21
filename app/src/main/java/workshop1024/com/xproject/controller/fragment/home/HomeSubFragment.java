@@ -1,6 +1,5 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
-import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
 import workshop1024.com.xproject.view.RecyclerViewItemDecoration;

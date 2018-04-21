@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +52,7 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mSearchType = getArguments().getString(SEARCH_TYPE);
