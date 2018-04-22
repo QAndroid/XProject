@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
@@ -38,6 +39,7 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
 
     private void refreshSubscribedList() {
+        Snackbar.make(mRootView, "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(true);
         mSubInfoRepository.getSubscribeSubInfos(this);
     }
@@ -48,11 +50,12 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
         mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
                 this, this);
         mSubRecyclerView.setAdapter(mSubscribeListAdapter);
+        Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " subscribes ...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDataNotAvailable() {
-
+        Snackbar.make(mRootView, "No subscribes refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -79,7 +82,7 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     @Override
     public void onSubListItemClick(SubInfo subInfo) {
-        NewsListFragment newsListFragment = NewsListFragment.newInstance("Subscribe",subInfo.getInfoId());
+        NewsListFragment newsListFragment = NewsListFragment.newInstance("Subscribe", subInfo.getInfoId());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());

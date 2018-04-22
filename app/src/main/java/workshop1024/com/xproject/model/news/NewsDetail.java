@@ -14,8 +14,8 @@ public class NewsDetail extends News {
     private List<String> mTagList;
 
     public NewsDetail(String newId, String bannerUrl, String title, String publisher, String pubDate,
-                      String author, String content, List<String> tagList) {
-        super(newId, bannerUrl, title, publisher, pubDate);
+                      String author, String content, List<String> tagList, boolean isReaded) {
+        super(newId, bannerUrl, title, publisher, pubDate, isReaded);
         mAuthor = author;
         mContent = content;
         mTagList = tagList;

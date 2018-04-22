@@ -13,7 +13,7 @@ import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListIt
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
-import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment，处理布局和视图相关公共逻辑
@@ -21,7 +21,7 @@ import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
 public abstract class HomeSubFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener,
         SubListItemListener,SubInfoDataSource.LoadSubInfoCallback {
     //根视图
-    private View mRootView;
+    View mRootView;
     //下拉刷新
     SwipeRefreshLayout mSwipeRefreshLayout;
     //订阅的发布者列表

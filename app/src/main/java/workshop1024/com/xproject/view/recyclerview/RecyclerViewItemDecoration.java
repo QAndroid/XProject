@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.view;
+package workshop1024.com.xproject.view.recyclerview;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

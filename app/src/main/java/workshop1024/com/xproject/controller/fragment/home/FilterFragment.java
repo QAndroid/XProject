@@ -3,6 +3,7 @@ package workshop1024.com.xproject.controller.fragment.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class FilterFragment extends HomeSubFragment {
      * 刷新过滤器列表
      */
     private void refreshFilterList() {
+        Snackbar.make(mRootView, "Fetch more filters ...", Snackbar.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(true);
         mSubInfoRepository.getFilterSubInfos(this);
     }
@@ -49,11 +51,12 @@ public class FilterFragment extends HomeSubFragment {
         mSwipeRefreshLayout.setRefreshing(false);
         HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
+        Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " filters ...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDataNotAvailable() {
-
+        Snackbar.make(mRootView, "No filters refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

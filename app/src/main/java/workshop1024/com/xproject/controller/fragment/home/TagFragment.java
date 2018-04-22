@@ -3,6 +3,7 @@ package workshop1024.com.xproject.controller.fragment.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class TagFragment extends HomeSubFragment {
     }
 
     private void refreshTagList() {
+        Snackbar.make(mRootView, "Fetch more tag ...", Snackbar.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(true);
         mSubInfoRepository.getTagSubInfos(this);
     }
@@ -47,11 +49,12 @@ public class TagFragment extends HomeSubFragment {
         mSwipeRefreshLayout.setRefreshing(false);
         HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
+        Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDataNotAvailable() {
-
+        Snackbar.make(mRootView, "No tags refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

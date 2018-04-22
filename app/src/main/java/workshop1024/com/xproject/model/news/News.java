@@ -14,13 +14,17 @@ public class News {
     private String mPublisher;
     //新闻发布时间
     private String mPubDate;
+    //新闻是否已阅读
+    private boolean mIsReaded;
 
-    public News(String newId, String bannerUrl, String title, String publisher, String pubDate) {
+    public News(String newId, String bannerUrl, String title, String publisher, String pubDate,
+                boolean isReaded) {
         mNewId = newId;
         mBannerUrl = bannerUrl;
         mTitle = title;
         mPublisher = publisher;
         mPubDate = pubDate;
+        mIsReaded = isReaded;
     }
 
     public String getNewId() {
@@ -63,4 +67,11 @@ public class News {
         mPubDate = pubDate;
     }
 
+    public boolean isIsReaded() {
+        return mIsReaded;
+    }
+
+    public void setIsReaded(boolean isReaded) {
+        mIsReaded = isReaded;
+    }
 }

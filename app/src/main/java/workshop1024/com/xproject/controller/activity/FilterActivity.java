@@ -21,7 +21,7 @@ import workshop1024.com.xproject.controller.adapter.FilterListAdapter;
 import workshop1024.com.xproject.model.filter.Filter;
 import workshop1024.com.xproject.model.filter.source.FilterDataSource;
 import workshop1024.com.xproject.model.filter.source.FilterRepository;
-import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
 public class FilterActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,

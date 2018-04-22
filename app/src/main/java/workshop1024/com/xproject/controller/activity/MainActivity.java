@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //工具栏
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private FloatingActionButton mFloatingActionButton;
 
     private FragmentManager mFragmentManager;
     private XFragment mCurrentFragment;
@@ -64,14 +66,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNavigationView = findViewById(R.id.mainleft_navigationview);
         mRightCoordinatorLayout = findViewById(R.id.mainright_coordinatorlayout_root);
         mToolbar = findViewById(R.id.main_toolbar_navigator);
-
+        mFloatingActionButton = findViewById(R.id.mainright_floatingactionbutton_action);
 
         View headerLayout = mNavigationView.inflateHeaderView(R.layout.mainleft_navigator_header);
         mLoginButton = headerLayout.findViewById(R.id.leftnavigator_button_login);
         mLogoutButton = headerLayout.findViewById(R.id.leftnavigator_imagebutton_logout);
 
         setSupportActionBar(mToolbar);
-        registerForContextMenu(findViewById(R.id.mainright_floatingactionbutton_action));
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayut, mToolbar, R
                 .string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -207,10 +208,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //更具当前显示的Fragment多包含的导航栏id，更新导航栏列表选中的选项
             mNavigationView.setCheckedItem(mCurrentFragment.getNavigationItemId());
 
-            //如果是一级Fragment则显示抽屉导航图标，如果只其它级别Fragment这显示返回上一页图标
+            //如果是一级Fragment则显示抽屉导航图标和隐藏FloatingActionButton，如果只其它级别Fragment这显示返回上一页图标
             mActionBarDrawerToggle.setDrawerIndicatorEnabled(mCurrentFragment instanceof TopFragment ? true : false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(mCurrentFragment instanceof TopFragment ? false : true);
             mActionBarDrawerToggle.syncState();
+            mFloatingActionButton.setVisibility(mCurrentFragment instanceof TopFragment ? View.GONE : View.VISIBLE);
 
             //Fragment堆栈有变化，根据当前显示的Fragment重新更新菜单展示
             invalidateOptionsMenu();

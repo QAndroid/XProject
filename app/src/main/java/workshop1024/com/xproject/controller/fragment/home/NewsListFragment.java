@@ -1,6 +1,7 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
@@ -18,19 +20,19 @@ import workshop1024.com.xproject.controller.fragment.SubFragment;
 import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
-import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 /**
  * 抽屉导航Home Fragment的PageFragment列表选项点击后展示的子列表Fragment
  */
-public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener,
-        NewsDataSource.LoadNewsListCallback {
+public class NewsListFragment extends SubFragment implements View.OnClickListener, SwipeRefreshLayout.
+        OnRefreshListener, NewsDataSource.LoadNewsListCallback {
     private static final String SEARCH_TYPE = "search_Type";
     private static final String SEARCH_CONTENT = "search_Content";
 
+    private View mRootView;
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
-
     private RecyclerView.Adapter mListAdapter;
 
     private String mSearchType;
@@ -64,16 +66,16 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.homelist_fragment, container, false);
+        mRootView = inflater.inflate(R.layout.homelist_fragment, container, false);
 
-        mSwipeRefreshLayoutPull = view.findViewById(R.id.stroy_swiperefreshlayout_pullrefresh);
+        mSwipeRefreshLayoutPull = mRootView.findViewById(R.id.homelist_swiperefreshlayout_pullrefresh);
         mSwipeRefreshLayoutPull.setOnRefreshListener(this);
 
-        mStoryRecyclerView = view.findViewById(R.id.story_recyclerview_list);
+        mStoryRecyclerView = mRootView.findViewById(R.id.homelist_recyclerview_list);
         mStoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
 
-        return view;
+        return mRootView;
     }
 
     @Override
@@ -88,6 +90,7 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
     }
 
     private void refreshNewsList() {
+        Snackbar.make(mRootView, "Fetch more newses ...", Snackbar.LENGTH_SHORT).show();
         mSwipeRefreshLayoutPull.setRefreshing(true);
         if ("Subscribe".equals(mSearchType)) {
             mNewsRepository.getNewsListBySubscribe(mSearchContent, this);
@@ -105,11 +108,12 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
         mNewsList = newsList;
         mSwipeRefreshLayoutPull.setRefreshing(false);
         showBigCardsList();
+        Snackbar.make(mRootView, "Fetch " + newsList.size() + " newses ...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDataNotAvaiable() {
-
+        Snackbar.make(mRootView, "No newses refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     public void showBigCardsList() {
@@ -125,5 +129,18 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
     public void showCompactList() {
         mListAdapter = new CompactAdapter(getContext(), mNewsList);
         mStoryRecyclerView.setAdapter(mListAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        //将现有文章置为可读
+        List<String> newsIdList = new ArrayList<>();
+        for (News news : mNewsList) {
+            newsIdList.add(news.getNewId());
+        }
+        mNewsRepository.markNewsesReadedByNewsId(newsIdList);
+
+        //刷新列表
+        refreshNewsList();
     }
 }

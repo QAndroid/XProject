@@ -16,7 +16,9 @@ public interface NewsDataSource {
 
     void getNewsListByFilter(String filterId, LoadNewsListCallback loadNewsListCallback);
 
-    void getNewsListBySearch(String searchString,LoadNewsListCallback loadNewsListCallback);
+    void getNewsListBySearch(String searchString, LoadNewsListCallback loadNewsListCallback);
+
+    void markNewsesReadedByNewsId(List<String> newsIdList);
 
     void getNewsDetailByNewsId(String newsId, LoadNewsDetailCallBack loadNewsDetailCallBack);
 

@@ -23,7 +23,7 @@ import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
-import workshop1024.com.xproject.view.RecyclerViewItemDecoration;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.SingleChoiceDialog;
 
 /**
