@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
+import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
@@ -19,7 +22,7 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment，处理布局和视图相关公共逻辑
  */
 public abstract class HomeSubFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener,
-        SubListItemListener,SubInfoDataSource.LoadSubInfoCallback {
+        SubListItemListener, SubInfoDataSource.LoadSubInfoCallback {
     //根视图
     View mRootView;
     //下拉刷新
@@ -28,6 +31,7 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
     RecyclerView mSubRecyclerView;
 
     SubInfoRepository mSubInfoRepository;
+    List<SubInfo> mSubInfoList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,4 +52,6 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
 
         return mRootView;
     }
+
+    abstract void markAsRead();
 }

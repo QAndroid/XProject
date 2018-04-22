@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
@@ -48,6 +49,7 @@ public class FilterFragment extends HomeSubFragment {
 
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
+        mSubInfoList = subInfoList;
         mSwipeRefreshLayout.setRefreshing(false);
         HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
@@ -65,5 +67,17 @@ public class FilterFragment extends HomeSubFragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());
+    }
+
+    @Override
+    public void markAsRead() {
+        List<String> subInfoIds = new ArrayList<>();
+        for (SubInfo subInfo : mSubInfoList) {
+            subInfoIds.add(subInfo.getInfoId());
+        }
+
+        mSubInfoRepository.markeFilterSubInfoesAsRead(subInfoIds);
+
+        refreshFilterList();
     }
 }

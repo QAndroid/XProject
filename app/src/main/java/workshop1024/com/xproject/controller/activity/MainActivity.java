@@ -127,19 +127,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.main_menu_refresh:
-                if(mCurrentFragment instanceof HomePageFragment){
-                    ((HomePageFragment)mCurrentFragment).onRefresh();
+                if (mCurrentFragment instanceof HomePageFragment) {
+                    ((HomePageFragment) mCurrentFragment).onRefresh();
                 }
                 Toast.makeText(this, "main_menu_refresh", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_marked:
+                if (mCurrentFragment instanceof HomePageFragment) {
+                    ((HomePageFragment) mCurrentFragment).markAsRead();
+                }
                 Toast.makeText(this, "main_menu_marked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.main_menu_rate:
-                Toast.makeText(this, "main_menu_rate", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_product:
                 Toast.makeText(this, "main_menu_product", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, IntroduceActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.main_menu_about:
                 Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();

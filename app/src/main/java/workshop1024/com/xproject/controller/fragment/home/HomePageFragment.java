@@ -53,6 +53,10 @@ public class HomePageFragment extends TopFragment {
         mHomeFragmentPagerAdapter.getCurrentSubFragmet().onRefresh();
     }
 
+    public void markAsRead() {
+        mHomeFragmentPagerAdapter.getCurrentSubFragmet().markAsRead();
+    }
+
     /**
      * HomeFragment的ViewPager适配器
      */

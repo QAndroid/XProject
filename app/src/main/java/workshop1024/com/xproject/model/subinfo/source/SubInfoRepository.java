@@ -145,4 +145,62 @@ public class SubInfoRepository implements SubInfoDataSource {
             }
         }, SERVICE_LATENCY_IN_MILLIS);
     }
+
+    @Override
+    public void markedSubscribeSubInfoesAsRead(final List<String> subInfoIdList) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<SubInfo> subInfos = new ArrayList<>(SUBSCRIBE_SERVICE_DATA.values());
+                for (SubInfo subInfo : subInfos) {
+                    for (String subInfoId : subInfoIdList) {
+                        if (subInfo.getInfoId().equals(subInfoId)) {
+                            subInfo.setUnreadCount("0");
+                        }
+                    }
+
+                }
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
+    }
+
+    @Override
+    public void markedTagSubInfoesAsRead(final List<String> subInfoIdList) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<SubInfo> subInfos = new ArrayList<>(TAG_SERVICE_DATA.values());
+                for (SubInfo subInfo : subInfos) {
+                    for (String subInfoId : subInfoIdList) {
+                        if (subInfo.getInfoId().equals(subInfoId)) {
+                            subInfo.setUnreadCount("0");
+                        }
+                    }
+
+                }
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
+    }
+
+    @Override
+    public void markeFilterSubInfoesAsRead(final List<String> subInfoIdList) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<SubInfo> subInfos = new ArrayList<>(FILTER_SERVICE_DATA.values());
+                for (SubInfo subInfo : subInfos) {
+                    for (String subInfoId : subInfoIdList) {
+                        if (subInfo.getInfoId().equals(subInfoId)) {
+                            subInfo.setUnreadCount("0");
+                        }
+                    }
+
+                }
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
+    }
+
 }

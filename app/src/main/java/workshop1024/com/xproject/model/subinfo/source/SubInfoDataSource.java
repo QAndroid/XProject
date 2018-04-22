@@ -16,6 +16,12 @@ public interface SubInfoDataSource {
 
     void getFilterSubInfos(LoadSubInfoCallback loadSubInfoCallback);
 
+    void markedSubscribeSubInfoesAsRead(List<String> subInfoIdList);
+
+    void markedTagSubInfoesAsRead(List<String> subInfoIdList);
+
+    void markeFilterSubInfoesAsRead(List<String> subInfoIdList);
+
     interface LoadSubInfoCallback {
         void onSubInfosLoaded(List<SubInfo> subInfoList);
 

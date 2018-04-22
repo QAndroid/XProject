@@ -4,6 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
@@ -46,6 +47,7 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
+        mSubInfoList = subInfoList;
         mSwipeRefreshLayout.setRefreshing(false);
         mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
                 this, this);
@@ -86,5 +88,17 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());
+    }
+
+    @Override
+    public void markAsRead() {
+        List<String> subInfoIds = new ArrayList<>();
+        for (SubInfo subInfo : mSubInfoList) {
+            subInfoIds.add(subInfo.getInfoId());
+        }
+
+        mSubInfoRepository.markedSubscribeSubInfoesAsRead(subInfoIds);
+
+        refreshSubscribedList();
     }
 }

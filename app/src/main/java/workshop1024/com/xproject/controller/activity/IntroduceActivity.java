@@ -86,6 +86,7 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
     private void toMainActivity() {
         Intent intent = new Intent(IntroduceActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

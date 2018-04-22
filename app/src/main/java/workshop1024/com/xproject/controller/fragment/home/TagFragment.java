@@ -1,14 +1,9 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
@@ -46,6 +41,7 @@ public class TagFragment extends HomeSubFragment {
 
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
+        mSubInfoList = subInfoList;
         mSwipeRefreshLayout.setRefreshing(false);
         HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
         mSubRecyclerView.setAdapter(homeSubListAdapter);
@@ -63,5 +59,17 @@ public class TagFragment extends HomeSubFragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());
+    }
+
+    @Override
+    public void markAsRead() {
+        List<String> subInfoIds = new ArrayList<>();
+        for (SubInfo subInfo : mSubInfoList) {
+            subInfoIds.add(subInfo.getInfoId());
+        }
+
+        mSubInfoRepository.markedTagSubInfoesAsRead(subInfoIds);
+
+        refreshTagList();
     }
 }
