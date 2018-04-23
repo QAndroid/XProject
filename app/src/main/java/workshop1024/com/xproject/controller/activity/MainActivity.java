@@ -23,12 +23,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
+import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.view.BottomMenu;
 
 /**
@@ -87,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mActionBarDrawerToggle.setDrawerSlideAnimationEnabled(false);
         mNavigationView.setNavigationItemSelectedListener(this);
 
+        mFloatingActionButton.setOnClickListener(this);
+
         mLoginButton.setOnClickListener(this);
         mLogoutButton.setOnClickListener(this);
 
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SearchView searchView = (SearchView) menu.findItem(R.id.main_menu_search).getActionView();
             searchView.setOnQueryTextListener(this);
         } else if (mCurrentFragment instanceof NewsListFragment) {
-            menuInflater.inflate(R.menu.homelist_toolbar_menu, menu);
+            menuInflater.inflate(R.menu.newslist_toolbar_menu, menu);
         } else if (mCurrentFragment instanceof SavedFragment) {
             menuInflater.inflate(R.menu.saved_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_saved);
@@ -147,6 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_menu_about:
                 Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.main_menu_refresh1:
+                if (mCurrentFragment instanceof NewsListFragment) {
+                    ((NewsListFragment) mCurrentFragment).onRefresh();
+                }
+                Toast.makeText(this, "main_menu_refresh1", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.main_menu_cards:
                 Toast.makeText(this, "main_menu_cards", Toast.LENGTH_SHORT).show();
                 //FIXME 实现有点别扭
@@ -159,6 +171,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_menu_minimal:
                 Toast.makeText(this, "main_menu_minimal", Toast.LENGTH_SHORT).show();
                 ((NewsListFragment) mCurrentFragment).showMinimalList();
+                break;
+            case R.id.main_menu_marked1:
+                if (mCurrentFragment instanceof NewsListFragment) {
+                    ((NewsListFragment) mCurrentFragment).markAsRead();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -229,6 +246,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (view == mLogoutButton) {
 
+        } else if (view == mFloatingActionButton) {
+            //FIXME 这种实现是不是很别扭??
+            if (mCurrentFragment instanceof NewsListFragment) {
+                ((NewsListFragment) mCurrentFragment).markAsRead();
+            }
         }
     }
 

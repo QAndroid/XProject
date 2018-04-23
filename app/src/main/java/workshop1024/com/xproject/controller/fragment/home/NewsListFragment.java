@@ -25,8 +25,8 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 /**
  * 抽屉导航Home Fragment的PageFragment列表选项点击后展示的子列表Fragment
  */
-public class NewsListFragment extends SubFragment implements View.OnClickListener, SwipeRefreshLayout.
-        OnRefreshListener, NewsDataSource.LoadNewsListCallback {
+public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.OnRefreshListener,
+        NewsDataSource.LoadNewsListCallback {
     private static final String SEARCH_TYPE = "search_Type";
     private static final String SEARCH_CONTENT = "search_Content";
 
@@ -131,8 +131,7 @@ public class NewsListFragment extends SubFragment implements View.OnClickListene
         mStoryRecyclerView.setAdapter(mListAdapter);
     }
 
-    @Override
-    public void onClick(View v) {
+    public void markAsRead(){
         //将现有文章置为可读
         List<String> newsIdList = new ArrayList<>();
         for (News news : mNewsList) {
