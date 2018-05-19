@@ -2,16 +2,19 @@ package workshop1024.com.xproject.controller.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.model.filter.source.FilterRepository;
 import workshop1024.com.xproject.utils.UnitUtils;
+import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
 public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewHolder> {
     private Context mContext;
@@ -46,7 +49,8 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
         return mTagList.size();
     }
 
-    public class TagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class TagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            InputStringDialog.InputStringDialogListener {
         private TextView mTagTextView;
 
         public TagViewHolder(View itemView) {
@@ -57,7 +61,18 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(mContext, "TagClick", Toast.LENGTH_SHORT).show();
+            InputStringDialog addFilterDialog = InputStringDialog.newInstance(R.string.addfilter_dialog_title, R.string
+                    .addfilter_dialog_positive);
+            addFilterDialog.setPreInputString(mTagTextView.getText().toString());
+            addFilterDialog.setInputStringDialogListener(this);
+            //FIXME 似乎获取getSupportFragmentManager有点别扭
+            addFilterDialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "addFilterDialog");
+        }
+
+        @Override
+        public void onInputStringDialogClick(DialogFragment dialog, String inputString) {
+            FilterRepository filterRepository = FilterRepository.getInstance();
+            filterRepository.addFilterByName(inputString);
         }
     }
 }

@@ -18,7 +18,7 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
     public static final String TITLE_STRING_KEY = "TitleString";
     public static final String POSITIVE_STRING_KEY = "PositiveString";
     private EditText mEditText;
-
+    private String mPreInputString;
     private InputStringDialogListener mInputStringDialogListener;
 
     /**
@@ -41,6 +41,10 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
         mInputStringDialogListener = inputStringDialogListener;
     }
 
+    public void setPreInputString(String preInputString) {
+        mPreInputString = preInputString;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
@@ -54,6 +58,9 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
         int margin = (int) getResources().getDimension(R.dimen.inputdialog_view_margin);
         layoutParams.setMargins(margin, 0, margin, 0);
         mEditText.setLayoutParams(layoutParams);
+        if (mPreInputString != null) {
+            mEditText.setText(mPreInputString);
+        }
         frameLayout.addView(mEditText);
 
         return new AlertDialog.Builder(getActivity()).setTitle(titleStringId).setView(frameLayout).setPositiveButton

@@ -139,7 +139,6 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     public void onDataNotAvaiable() {
 
     }
-
     private void sheetViewIn() {
         mFloatingActionButton.animate().scaleX(1.2f).scaleY(1.2f).translationX(getTranslationX(mFloatingActionButton, mSheetCardView)).
                 translationY(getTranslationY(mFloatingActionButton, mSheetCardView)).setInterpolator(new AccelerateInterpolator()).
