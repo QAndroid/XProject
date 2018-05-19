@@ -40,18 +40,18 @@ public class NewsRepository implements NewsDataSource {
         addNews("n010", "/image1", "news 010 title", "mike", "20181206", false);
 
         NEWSDETAILS_SERVICE_DATA = new LinkedHashMap<>(2);
-        addNewsDetail("n001", "/image1", "news 001 title", "The Tech", "20180406", "tom", "news 001 Contentnews 001 Content news 001 Content news 001 Content news 001 Content ", Arrays.asList("android", "phone"),false);
-        addNewsDetail("n002", "/image1", "news 002 title", "Engadget", "20180405", "mike", "news 002 Contentnews news 002 Contentnews news 002 Contentnews news 002 Contentnews ", Arrays.asList("ios", "phone"),false);
+        addNewsDetail("n001", "/image1", "news 001 title", "The Tech", "20180406", "tom", "news 001 Contentnews 001 Content news 001 Content news 001 Content news 001 Content ", Arrays.asList("android", "ph", "rus", "american", "english", "american", "english", "e", "english"), false);
+        addNewsDetail("n002", "/image1", "news 002 title", "Engadget", "20180405", "mike", "news 002 Contentnews news 002 Contentnews news 002 Contentnews news 002 Contentnews ", Arrays.asList("ios", "phone"), false);
 
-        addNewsDetail("n003", "/image1", "news 003 title", "Lifehacker", "20180306", "lilei", "news 003 Contentnews news 003 Contentnews news 003 Contentnews news 003 Contentnews ", Arrays.asList("china"),false);
-        addNewsDetail("n004", "/image1", "news 104 title", "ReadWrite", "20180206", "hanmeimei", "news 004 Contentnews news 004 Contentnews news 004 Contentnews news 004 Contentnews ", Arrays.asList("usa"),false);
+        addNewsDetail("n003", "/image1", "news 003 title", "Lifehacker", "20180306", "lilei", "news 003 Contentnews news 003 Contentnews news 003 Contentnews news 003 Contentnews ", Arrays.asList("china"), false);
+        addNewsDetail("n004", "/image1", "news 104 title", "ReadWrite", "20180206", "hanmeimei", "news 004 Contentnews news 004 Contentnews news 004 Contentnews news 004 Contentnews ", Arrays.asList("usa"), false);
 
-        addNewsDetail("n005", "/image1", "news 005 title", "ReadWrite", "20180206", "sunny", "news 005 Contentnews news 005 Contentnews news 005 Contentnews news 005 Contentnews ", Arrays.asList("usa"),false);
-        addNewsDetail("n006", "/image1", "news 006 title", "ReadWrite", "20180206", "tom", "news 006 Contentnews news 006 Contentnews news 006 Contentnews news 006 Contentnews ", Arrays.asList("usa"),false);
-        addNewsDetail("n007", "/image1", "news 007 title", "ReadWrite", "20180206", "hanmeimei", "news 007 Contentnews news 007 Contentnews news 007 Contentnews news 007 Contentnews ", Arrays.asList("usa"),false);
-        addNewsDetail("n008", "/image1", "news 008 title", "ReadWrite", "20180206", "sunny", "news 008 Contentnews news 008 Contentnews news 008 Contentnews news 008 Contentnews ", Arrays.asList("usa"),false);
-        addNewsDetail("n009", "/image1", "news 009 title", "ReadWrite", "20180206", "lilei", "news 009 Contentnews news 009 Contentnews news 009 Contentnews news 009 Contentnews ", Arrays.asList("usa"),false);
-        addNewsDetail("n010", "/image1", "news 010 title", "ReadWrite", "20180206", "mike", "news 010 Contentnews news 010 Contentnews news 010 Contentnews news 010 Contentnews ", Arrays.asList("usa"),false);
+        addNewsDetail("n005", "/image1", "news 005 title", "ReadWrite", "20180206", "sunny", "news 005 Contentnews news 005 Contentnews news 005 Contentnews news 005 Contentnews ", Arrays.asList("usa"), false);
+        addNewsDetail("n006", "/image1", "news 006 title", "ReadWrite", "20180206", "tom", "news 006 Contentnews news 006 Contentnews news 006 Contentnews news 006 Contentnews ", Arrays.asList("usa"), false);
+        addNewsDetail("n007", "/image1", "news 007 title", "ReadWrite", "20180206", "hanmeimei", "news 007 Contentnews news 007 Contentnews news 007 Contentnews news 007 Contentnews ", Arrays.asList("usa"), false);
+        addNewsDetail("n008", "/image1", "news 008 title", "ReadWrite", "20180206", "sunny", "news 008 Contentnews news 008 Contentnews news 008 Contentnews news 008 Contentnews ", Arrays.asList("usa"), false);
+        addNewsDetail("n009", "/image1", "news 009 title", "ReadWrite", "20180206", "lilei", "news 009 Contentnews news 009 Contentnews news 009 Contentnews news 009 Contentnews ", Arrays.asList("usa"), false);
+        addNewsDetail("n010", "/image1", "news 010 title", "ReadWrite", "20180206", "mike", "news 010 Contentnews news 010 Contentnews news 010 Contentnews news 010 Contentnews ", Arrays.asList("usa"), false);
     }
 
     private NewsRepository() {
@@ -64,8 +64,8 @@ public class NewsRepository implements NewsDataSource {
     }
 
     private static void addNewsDetail(String newId, String bannerUrl, String title, String publisher, String pubDate,
-                                      String author, String content, List<String> tagList,boolean isReaded) {
-        NewsDetail newsDetail = new NewsDetail(newId, bannerUrl, title, publisher, author, pubDate, content, tagList,isReaded);
+                                      String author, String content, List<String> tagList, boolean isReaded) {
+        NewsDetail newsDetail = new NewsDetail(newId, bannerUrl, title, publisher, author, pubDate, content, tagList, isReaded);
         NEWSDETAILS_SERVICE_DATA.put(newsDetail.getNewId(), newsDetail);
     }
 

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +17,18 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
+
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.model.news.NewsDetail;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
+import workshop1024.com.xproject.utils.UnitUtils;
 import workshop1024.com.xproject.utils.ViewUtils;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener,
         NewsDataSource.LoadNewsDetailCallBack {
@@ -28,6 +36,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView mPublisherTextView;
     private TextView mPubDataTextView;
     private TextView mContentTextView;
+    private RecyclerView mTagRecyclerView;
     private FloatingActionButton mFloatingActionButton;
     private CardView mSheetCardView;
     private TextView mSheetItem1TextView;
@@ -48,6 +57,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mPublisherTextView = findViewById(R.id.newsdetail_textview_publisher);
         mPubDataTextView = findViewById(R.id.newsdetail_textview_pubdata);
         mContentTextView = findViewById(R.id.newsdetail_textview_content);
+        mTagRecyclerView = findViewById(R.id.newsdetail_recyclerView_tags);
         mFloatingActionButton = findViewById(R.id.newsdetail_floatingactionbutton_action);
         mSheetCardView = findViewById(R.id.newsdetail_cardview_sheet);
         mSheetItem1TextView = findViewById(R.id.newsdetail_textview_sheetitem1);
@@ -59,6 +69,12 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        mTagRecyclerView.setLayoutManager(flexboxLayoutManager);
+        mTagRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(UnitUtils.dip2px(this, 4)));
 
         mFloatingActionButton.setOnClickListener(this);
         mSheetItem1TextView.setOnClickListener(this);
@@ -107,6 +123,21 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, "mSheetItem4TextView Click", Toast.LENGTH_SHORT).show();
             sheetViewOut();
         }
+    }
+
+    @Override
+    public void onNewsDetailLoaded(NewsDetail newsDetail) {
+        mPublisherTextView.setText(newsDetail.getPublisher());
+        mPubDataTextView.setText(newsDetail.getPubDate());
+        mContentTextView.setText(newsDetail.getContent());
+
+        TagListAdapter tagListAdapter = new TagListAdapter(this, newsDetail.getTagList());
+        mTagRecyclerView.setAdapter(tagListAdapter);
+    }
+
+    @Override
+    public void onDataNotAvaiable() {
+
     }
 
     private void sheetViewIn() {
@@ -195,18 +226,6 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
         animator.start();
-    }
-
-    @Override
-    public void onNewsDetailLoaded(NewsDetail newsDetail) {
-        mPublisherTextView.setText(newsDetail.getPublisher());
-        mPubDataTextView.setText(newsDetail.getPubDate());
-        mContentTextView.setText(newsDetail.getContent());
-    }
-
-    @Override
-    public void onDataNotAvaiable() {
-
     }
 
     private float getTranslationX(FloatingActionButton floatingActionButton, CardView sheetCardView) {
