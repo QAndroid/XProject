@@ -21,8 +21,8 @@ import workshop1024.com.xproject.controller.adapter.FilterListAdapter;
 import workshop1024.com.xproject.model.filter.Filter;
 import workshop1024.com.xproject.model.filter.source.FilterDataSource;
 import workshop1024.com.xproject.model.filter.source.FilterRepository;
-import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 public class FilterActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
         InputStringDialog.InputStringDialogListener, FilterDataSource.LoadFiltersCallback,
@@ -76,7 +76,6 @@ public class FilterActivity extends AppCompatActivity implements SwipeRefreshLay
                 Toast.makeText(this, "filter_menu_add", Toast.LENGTH_SHORT).show();
                 InputStringDialog addFilterDialog = InputStringDialog.newInstance(R.string.addfilter_dialog_title, R.string
                         .addfilter_dialog_positive);
-                addFilterDialog.setInputStringDialogListener(this);
                 addFilterDialog.show(getSupportFragmentManager(), "addFilterDialog");
                 break;
         }

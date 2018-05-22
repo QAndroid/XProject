@@ -34,8 +34,8 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
         tagTextView.setTextColor(mResource.getColor(R.color.white, null));
         //TODO dp和像素的转换
         tagTextView.setTextSize(14);
-        tagTextView.setPadding(UnitUtils.dip2px(mContext, 8), UnitUtils.dip2px(mContext, 5),
-                UnitUtils.dip2px(mContext, 8), UnitUtils.dip2px(mContext, 5));
+        tagTextView.setPadding(UnitUtils.dpToPx(mContext, 8), UnitUtils.dpToPx(mContext, 5),
+                UnitUtils.dpToPx(mContext, 8), UnitUtils.dpToPx(mContext, 5));
         return new TagViewHolder(tagTextView);
     }
 

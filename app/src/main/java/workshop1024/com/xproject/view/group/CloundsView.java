@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.view;
+package workshop1024.com.xproject.view.group;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

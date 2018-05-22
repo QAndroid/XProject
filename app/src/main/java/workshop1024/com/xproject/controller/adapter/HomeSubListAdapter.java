@@ -11,7 +11,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
-import workshop1024.com.xproject.view.GrassView;
+import workshop1024.com.xproject.view.group.GrassView;
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment中列表适配器，处理公共的视图渲染逻辑

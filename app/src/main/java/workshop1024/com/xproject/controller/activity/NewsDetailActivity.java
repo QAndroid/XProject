@@ -3,6 +3,7 @@ package workshop1024.com.xproject.controller.activity;
 import android.animation.Animator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -28,10 +29,11 @@ import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
 import workshop1024.com.xproject.utils.UnitUtils;
 import workshop1024.com.xproject.utils.ViewUtils;
+import workshop1024.com.xproject.view.dialog.DisplaySettingsDialog;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener,
-        NewsDataSource.LoadNewsDetailCallBack {
+        NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
     private Toolbar mToolbar;
     private TextView mPublisherTextView;
     private TextView mPubDataTextView;
@@ -44,6 +46,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView mSheetItem3TextView;
     private TextView mSheetItem4TextView;
     private View mOverlayView;
+    private DisplaySettingsDialog mDisplaySettingsDialog;
 
     private String mNewsId;
     private NewsRepository mNewsRepository;
@@ -74,7 +77,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
         flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
         mTagRecyclerView.setLayoutManager(flexboxLayoutManager);
-        mTagRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(UnitUtils.dip2px(this, 4)));
+        mTagRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(UnitUtils.dpToPx(this, 4)));
 
         mFloatingActionButton.setOnClickListener(this);
         mSheetItem1TextView.setOnClickListener(this);
@@ -111,7 +114,10 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         } else if (v.equals(mOverlayView)) {
             sheetViewOut();
         } else if (v.equals(mSheetItem1TextView)) {
-            Toast.makeText(this, "mSheetItem1TextView Click", Toast.LENGTH_SHORT).show();
+            if (mDisplaySettingsDialog == null) {
+                mDisplaySettingsDialog = DisplaySettingsDialog.newInstance();
+            }
+            mDisplaySettingsDialog.show(getSupportFragmentManager(), "DisplaySettingsDialog");
             sheetViewOut();
         } else if (v.equals(mSheetItem2TextView)) {
             Toast.makeText(this, "mSheetItem2TextView Click", Toast.LENGTH_SHORT).show();
@@ -139,14 +145,20 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     public void onDataNotAvaiable() {
 
     }
+
+    @Override
+    public void onDisplaySettingDialogClick(DialogFragment dialogFragment, int textSize) {
+        mContentTextView.setTextSize(textSize);
+    }
+
     private void sheetViewIn() {
         mFloatingActionButton.animate().scaleX(1.2f).scaleY(1.2f).translationX(getTranslationX(mFloatingActionButton, mSheetCardView)).
                 translationY(getTranslationY(mFloatingActionButton, mSheetCardView)).setInterpolator(new AccelerateInterpolator()).
-                setDuration(500).setListener(new Animator.AnimatorListener() {
+                setDuration(300).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 mOverlayView.setVisibility(View.VISIBLE);
-                mOverlayView.animate().alpha(1).setDuration(500).setInterpolator(new AccelerateDecelerateInterpolator()).start();
+                mOverlayView.animate().alpha(1).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
             }
 
             @Override
@@ -158,7 +170,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                         getCenterY(mSheetCardView), mFloatingActionButton.getWidth() / 2,
                         (float) Math.hypot(mSheetCardView.getWidth(), mSheetCardView.getHeight()) / 2);
                 animator.setInterpolator(new DecelerateInterpolator());
-                animator.setDuration(500);
+                animator.setDuration(300);
                 animator.start();
             }
 
@@ -179,7 +191,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 getCenterY(mSheetCardView), (float) Math.hypot(mSheetCardView.getWidth(),
                         mSheetCardView.getHeight()) / 2, mFloatingActionButton.getWidth() / 2);
         animator.setInterpolator(new DecelerateInterpolator());
-        animator.setDuration(500);
+        animator.setDuration(300);
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -191,7 +203,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 mSheetCardView.setVisibility(View.INVISIBLE);
                 mFloatingActionButton.setVisibility(View.VISIBLE);
                 mFloatingActionButton.animate().scaleX(1f).scaleY(1f).translationX(0).translationY(0).setInterpolator(new AccelerateInterpolator()).
-                        setDuration(500).setListener(new Animator.AnimatorListener() {
+                        setDuration(300).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         mOverlayView.animate().alpha(0).setDuration(500).setInterpolator(new AccelerateDecelerateInterpolator()).start();

@@ -33,7 +33,7 @@
             tools:visibility="visible"/>
 
         <!--介绍指示器-->
-        <workshop1024.com.xproject.view.CircleDotIndicator
+        <workshop1024.com.xproject.view.group.CircleDotIndicator
             android:id="@+id/introduce_cricledotindicator_index"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"

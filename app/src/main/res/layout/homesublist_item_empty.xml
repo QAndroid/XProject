@@ -5,7 +5,7 @@
     android:background="@color/homesub_emptyitem_background">
 
     <!--漂浮的云朵视图-->
-    <workshop1024.com.xproject.view.CloundsView
+    <workshop1024.com.xproject.view.group.CloundsView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="52.0dip" />
@@ -28,7 +28,7 @@
         android:background="@color/homesub_emptyitem_bottombackground" />
 
     <!--滚动的草球视图-->
-    <workshop1024.com.xproject.view.GrassView
+    <workshop1024.com.xproject.view.group.GrassView
         android:id="@+id/homesublist_grassview"
         android:layout_width="match_parent"
         android:layout_height="100dp"

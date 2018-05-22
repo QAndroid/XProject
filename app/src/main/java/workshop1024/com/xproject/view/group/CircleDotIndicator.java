@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.view;
+package workshop1024.com.xproject.view.group;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -167,8 +167,8 @@ public class CircleDotIndicator extends LinearLayout {
         dotImageView.setBackgroundResource(backgroundDrawableId);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
                 .WRAP_CONTENT);
-        layoutParams.leftMargin = UnitUtils.dip2px(getContext(), 5);
-        layoutParams.rightMargin = UnitUtils.dip2px(getContext(), 5);
+        layoutParams.leftMargin = UnitUtils.dpToPx(getContext(), 5);
+        layoutParams.rightMargin = UnitUtils.dpToPx(getContext(), 5);
         addView(dotImageView, layoutParams);
 
         //重新开始圆点视图动画

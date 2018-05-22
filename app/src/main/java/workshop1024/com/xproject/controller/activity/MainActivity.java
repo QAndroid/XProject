@@ -23,17 +23,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
-import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
+import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
-import workshop1024.com.xproject.model.news.News;
-import workshop1024.com.xproject.view.BottomMenu;
+import workshop1024.com.xproject.view.popupwindow.BottomMenu;
 
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
