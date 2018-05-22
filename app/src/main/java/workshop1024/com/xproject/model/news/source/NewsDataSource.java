@@ -22,6 +22,10 @@ public interface NewsDataSource {
 
     void getNewsDetailByNewsId(String newsId, LoadNewsDetailCallBack loadNewsDetailCallBack);
 
+    void getSavedNewsList(LoadNewsListCallback loadNewsListCallback);
+
+    void saveNewsById(String newsId);
+
     interface LoadNewsListCallback {
         void onNewsLoaded(List<News> newsList);
 

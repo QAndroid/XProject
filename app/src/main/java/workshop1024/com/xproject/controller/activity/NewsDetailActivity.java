@@ -123,6 +123,8 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, "mSheetItem2TextView Click", Toast.LENGTH_SHORT).show();
             sheetViewOut();
         } else if (v.equals(mSheetItem3TextView)) {
+            NewsRepository newsRepository = NewsRepository.getInstance();
+            newsRepository.saveNewsById(mNewsId);
             Toast.makeText(this, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show();
             sheetViewOut();
         } else if (v.equals(mSheetItem4TextView)) {

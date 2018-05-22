@@ -131,7 +131,7 @@ public class NewsListFragment extends SubFragment implements SwipeRefreshLayout.
         mStoryRecyclerView.setAdapter(mListAdapter);
     }
 
-    public void markAsRead(){
+    public void markAsRead() {
         //将现有文章置为可读
         List<String> newsIdList = new ArrayList<>();
         for (News news : mNewsList) {

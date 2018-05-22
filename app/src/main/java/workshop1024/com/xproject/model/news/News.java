@@ -16,15 +16,18 @@ public class News {
     private String mPubDate;
     //新闻是否已阅读
     private boolean mIsReaded;
+    //新闻是否已保存
+    private boolean mIsSaved;
 
     public News(String newId, String bannerUrl, String title, String publisher, String pubDate,
-                boolean isReaded) {
+                boolean isReaded, boolean isSaved) {
         mNewId = newId;
         mBannerUrl = bannerUrl;
         mTitle = title;
         mPublisher = publisher;
         mPubDate = pubDate;
         mIsReaded = isReaded;
+        mIsSaved = isSaved;
     }
 
     public String getNewId() {
@@ -73,5 +76,13 @@ public class News {
 
     public void setIsReaded(boolean isReaded) {
         mIsReaded = isReaded;
+    }
+
+    public boolean isIsSaved() {
+        return mIsSaved;
+    }
+
+    public void setIsSaved(boolean isSaved) {
+        mIsSaved = isSaved;
     }
 }

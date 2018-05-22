@@ -150,10 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_refresh1:
-                if (mCurrentFragment instanceof NewsListFragment) {
-                    ((NewsListFragment) mCurrentFragment).onRefresh();
-                }
                 Toast.makeText(this, "main_menu_refresh1", Toast.LENGTH_SHORT).show();
+                ((NewsListFragment) mCurrentFragment).onRefresh();
                 break;
             case R.id.main_menu_cards:
                 Toast.makeText(this, "main_menu_cards", Toast.LENGTH_SHORT).show();
@@ -169,9 +167,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((NewsListFragment) mCurrentFragment).showMinimalList();
                 break;
             case R.id.main_menu_marked1:
-                if (mCurrentFragment instanceof NewsListFragment) {
-                    ((NewsListFragment) mCurrentFragment).markAsRead();
-                }
+                Toast.makeText(this, "main_menu_marked1", Toast.LENGTH_SHORT).show();
+                ((NewsListFragment) mCurrentFragment).markAsRead();
+                break;
+            case R.id.save_menu_refresh1:
+                Toast.makeText(this, "save_menu_refresh1", Toast.LENGTH_SHORT).show();
+                ((SavedFragment) mCurrentFragment).onRefresh();
+                break;
+            case R.id.save_menu_cards:
+                Toast.makeText(this, "save_menu_cards", Toast.LENGTH_SHORT).show();
+                //FIXME 实现有点别扭
+                ((SavedFragment) mCurrentFragment).showBigCardsList();
+                break;
+            case R.id.save_menu_compact:
+                Toast.makeText(this, "save_menu_compact", Toast.LENGTH_SHORT).show();
+                ((SavedFragment) mCurrentFragment).showCompactList();
+                break;
+            case R.id.save_menu_minimal:
+                Toast.makeText(this, "save_menu_minimal", Toast.LENGTH_SHORT).show();
+                ((SavedFragment) mCurrentFragment).showMinimalList();
+                break;
+            case R.id.save_menu_marked1:
+                ((SavedFragment) mCurrentFragment).markAsRead();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -246,6 +263,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //FIXME 这种实现是不是很别扭??
             if (mCurrentFragment instanceof NewsListFragment) {
                 ((NewsListFragment) mCurrentFragment).markAsRead();
+            } else {
+                ((SavedFragment) mCurrentFragment).markAsRead();
             }
         }
     }

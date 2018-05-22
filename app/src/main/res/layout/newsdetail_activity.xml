@@ -187,7 +187,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="14dp"
                     android:paddingTop="8dp"
-                    android:text="Other Other"
+                    android:text="Mark to read later"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="16.0sp" />
 
