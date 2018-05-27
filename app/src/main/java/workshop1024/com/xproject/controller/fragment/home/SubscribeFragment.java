@@ -9,6 +9,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.SubscribeListAdapter;
+import workshop1024.com.xproject.controller.fragment.home.news.SubscribeNewsFragment;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
@@ -47,12 +48,14 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
-        mSubInfoList = subInfoList;
-        mSwipeRefreshLayout.setRefreshing(false);
-        mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
-                this, this);
-        mSubRecyclerView.setAdapter(mSubscribeListAdapter);
-        Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " subscribes ...", Snackbar.LENGTH_SHORT).show();
+        if (mIsForeground) {
+            mSubInfoList = subInfoList;
+            mSwipeRefreshLayout.setRefreshing(false);
+            mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
+                    this, this);
+            mSubRecyclerView.setAdapter(mSubscribeListAdapter);
+            Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " subscribes ...", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -84,8 +87,8 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     @Override
     public void onSubListItemClick(SubInfo subInfo) {
-        NewsListFragment newsListFragment = NewsListFragment.newInstance("Subscribe", subInfo.getInfoId());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+        SubscribeNewsFragment subscribeNewsFragment = SubscribeNewsFragment.newInstance(subInfo.getInfoId());
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, subscribeNewsFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());
     }

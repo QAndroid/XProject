@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,13 +22,13 @@ import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
-import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 import workshop1024.com.xproject.view.dialog.SingleChoiceDialog;
+import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 /**
  * 发布者列表页面
  */
-public class PublisherActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
+public class PublisherActivity extends XActivity implements SwipeRefreshLayout.OnRefreshListener,
         PublisherDataSource.LoadPublishersCallback, SingleChoiceDialog.SingleChoiceDialogListener,
         PublisherListAdapter.OnPublisherListSelectListener {
 
@@ -160,9 +159,11 @@ public class PublisherActivity extends AppCompatActivity implements SwipeRefresh
     @Override
     public void onPublishersLoaded(List<Publisher> publisherList) {
         //FIXME 每次都需要创建适配器吗？
-        mPublisherSwipeRefreshLayout.setRefreshing(false);
-        mPublisherListAdapter = new PublisherListAdapter(publisherList, this);
-        mPublisherRecyclerView.setAdapter(mPublisherListAdapter);
+        if (mIsForeground) {
+            mPublisherSwipeRefreshLayout.setRefreshing(false);
+            mPublisherListAdapter = new PublisherListAdapter(publisherList, this);
+            mPublisherRecyclerView.setAdapter(mPublisherListAdapter);
+        }
     }
 
     @Override

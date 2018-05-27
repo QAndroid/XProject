@@ -9,6 +9,21 @@ public class XFragment extends Fragment {
     //该Fragment对应的导航列表的选项的id
     private int mNavigationItemId;
 
+    //Fragment是否在前台展示
+    protected boolean mIsForeground;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsForeground = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsForeground = false;
+    }
+
     public int getNavigationItemId() {
         return mNavigationItemId;
     }

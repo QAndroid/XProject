@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +31,7 @@ import workshop1024.com.xproject.utils.ViewUtils;
 import workshop1024.com.xproject.view.dialog.DisplaySettingsDialog;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
-public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener,
+public class NewsDetailActivity extends XActivity implements View.OnClickListener,
         NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
     private Toolbar mToolbar;
     private TextView mPublisherTextView;
@@ -135,12 +134,14 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onNewsDetailLoaded(NewsDetail newsDetail) {
-        mPublisherTextView.setText(newsDetail.getPublisher());
-        mPubDataTextView.setText(newsDetail.getPubDate());
-        mContentTextView.setText(newsDetail.getContent());
+        if (mIsForeground) {
+            mPublisherTextView.setText(newsDetail.getPublisher());
+            mPubDataTextView.setText(newsDetail.getPubDate());
+            mContentTextView.setText(newsDetail.getContent());
 
-        TagListAdapter tagListAdapter = new TagListAdapter(this, newsDetail.getTagList());
-        mTagRecyclerView.setAdapter(tagListAdapter);
+            TagListAdapter tagListAdapter = new TagListAdapter(this, newsDetail.getTagList());
+            mTagRecyclerView.setAdapter(tagListAdapter);
+        }
     }
 
     @Override

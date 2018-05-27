@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
+import workshop1024.com.xproject.controller.fragment.XFragment;
 
 /**
  * 抽屉导航Home Fragment，包含ViewPager来显示Stories和Topies子PageFragment
  */
-public class HomePageFragment extends TopFragment {
+public class HomePageFragment extends XFragment implements TopFragment {
     private String[] mTabTitles;
     private HomeFragmentPagerAdapter mHomeFragmentPagerAdapter;
 

@@ -33,6 +33,9 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
     SubInfoRepository mSubInfoRepository;
     List<SubInfo> mSubInfoList;
 
+    //Fragment是否在前台展示
+    protected boolean mIsForeground;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,18 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
         mSubRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
 
         return mRootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsForeground = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsForeground = false;
     }
 
     abstract void markAsRead();

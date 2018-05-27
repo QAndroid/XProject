@@ -27,7 +27,8 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
-import workshop1024.com.xproject.controller.fragment.home.NewsListFragment;
+import workshop1024.com.xproject.controller.fragment.home.news.NewsListFragment;
+import workshop1024.com.xproject.controller.fragment.home.news.SearchNewsFragment;
 import workshop1024.com.xproject.controller.fragment.save.SavedFragment;
 import workshop1024.com.xproject.view.popupwindow.BottomMenu;
 
@@ -110,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             searchView.setOnQueryTextListener(this);
         } else if (mCurrentFragment instanceof NewsListFragment) {
             menuInflater.inflate(R.menu.newslist_toolbar_menu, menu);
-        } else if (mCurrentFragment instanceof SavedFragment) {
-            menuInflater.inflate(R.menu.saved_toolbar_menu, menu);
-            setTitle(R.string.toolbar_title_saved);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -169,26 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_menu_marked1:
                 Toast.makeText(this, "main_menu_marked1", Toast.LENGTH_SHORT).show();
                 ((NewsListFragment) mCurrentFragment).markAsRead();
-                break;
-            case R.id.save_menu_refresh1:
-                Toast.makeText(this, "save_menu_refresh1", Toast.LENGTH_SHORT).show();
-                ((SavedFragment) mCurrentFragment).onRefresh();
-                break;
-            case R.id.save_menu_cards:
-                Toast.makeText(this, "save_menu_cards", Toast.LENGTH_SHORT).show();
-                //FIXME 实现有点别扭
-                ((SavedFragment) mCurrentFragment).showBigCardsList();
-                break;
-            case R.id.save_menu_compact:
-                Toast.makeText(this, "save_menu_compact", Toast.LENGTH_SHORT).show();
-                ((SavedFragment) mCurrentFragment).showCompactList();
-                break;
-            case R.id.save_menu_minimal:
-                Toast.makeText(this, "save_menu_minimal", Toast.LENGTH_SHORT).show();
-                ((SavedFragment) mCurrentFragment).showMinimalList();
-                break;
-            case R.id.save_menu_marked1:
-                ((SavedFragment) mCurrentFragment).markAsRead();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -280,8 +258,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        NewsListFragment newsListFragment = NewsListFragment.newInstance("Search", query);
-        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
+        SearchNewsFragment searchNewsFragment = SearchNewsFragment.newInstance(query);
+        mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, searchNewsFragment)
                 .addToBackStack("").commit();
         setTitle(query);
         return false;

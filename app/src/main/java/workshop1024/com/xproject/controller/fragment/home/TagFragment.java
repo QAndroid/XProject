@@ -8,6 +8,7 @@ import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter;
+import workshop1024.com.xproject.controller.fragment.home.news.TagNewsFragment;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 
 /**
@@ -41,11 +42,13 @@ public class TagFragment extends HomeSubFragment {
 
     @Override
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
-        mSubInfoList = subInfoList;
-        mSwipeRefreshLayout.setRefreshing(false);
-        HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
-        mSubRecyclerView.setAdapter(homeSubListAdapter);
-        Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
+        if (mIsForeground) {
+            mSubInfoList = subInfoList;
+            mSwipeRefreshLayout.setRefreshing(false);
+            HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
+            mSubRecyclerView.setAdapter(homeSubListAdapter);
+            Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -55,7 +58,7 @@ public class TagFragment extends HomeSubFragment {
 
     @Override
     public void onSubListItemClick(SubInfo subInfo) {
-        NewsListFragment newsListFragment = NewsListFragment.newInstance("Tag",subInfo.getInfoId());
+        TagNewsFragment newsListFragment = TagNewsFragment.newInstance(subInfo.getInfoId());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());

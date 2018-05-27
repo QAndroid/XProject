@@ -5,7 +5,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +23,7 @@ import workshop1024.com.xproject.model.filter.source.FilterRepository;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
-public class FilterActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
+public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRefreshListener,
         InputStringDialog.InputStringDialogListener, FilterDataSource.LoadFiltersCallback,
         FilterListAdapter.OnFilterListDeleteListener {
     private CoordinatorLayout mRootView;
@@ -96,9 +95,11 @@ public class FilterActivity extends AppCompatActivity implements SwipeRefreshLay
 
     @Override
     public void onPublishersLoaded(List<Filter> filterList) {
-        mFilterSwipeRefreshLayout.setRefreshing(false);
-        mFilterListAdapter = new FilterListAdapter(filterList, this);
-        mFilterRecyclerView.setAdapter(mFilterListAdapter);
+        if (mIsForeground) {
+            mFilterSwipeRefreshLayout.setRefreshing(false);
+            mFilterListAdapter = new FilterListAdapter(filterList, this);
+            mFilterRecyclerView.setAdapter(mFilterListAdapter);
+        }
     }
 
     @Override
