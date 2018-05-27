@@ -1,5 +1,7 @@
 package workshop1024.com.xproject.controller.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
@@ -33,6 +35,16 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
 
     private FilterRepository mFilterRepository;
     private FilterListAdapter mFilterListAdapter;
+
+    /**
+     * 启动FilterActivity页面
+     *
+     * @param context
+     */
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, FilterActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.support.v7.widget.RecyclerView;
@@ -76,9 +75,7 @@ public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.NewsVi
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, NewsDetailActivity.class);
-            intent.putExtra("newsId", mNews.getNewId());
-            mContext.startActivity(intent);
+            NewsDetailActivity.startActivity(mContext, mNews.getNewId());
         }
     }
 }

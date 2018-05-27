@@ -1,6 +1,5 @@
 package workshop1024.com.xproject.controller.activity;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mCurrentFragment instanceof HomePageFragment) {
             menuInflater.inflate(R.menu.homepage_toolbar_menu, menu);
             setTitle(R.string.toolbar_title_home);
-            SearchView searchView = (SearchView) menu.findItem(R.id.main_menu_search).getActionView();
+            SearchView searchView = (SearchView) menu.findItem(R.id.homepage_menu_search).getActionView();
             searchView.setOnQueryTextListener(this);
         } else if (mCurrentFragment instanceof NewsListFragment) {
             menuInflater.inflate(R.menu.newslist_toolbar_menu, menu);
@@ -119,53 +118,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.main_menu_search:
-                Toast.makeText(this, "toolbar_menu_search", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.main_menu_add:
+            case R.id.homepage_menu_add:
                 BottomMenu bottomMenu = new BottomMenu(this);
                 bottomMenu.showAtLocation(mRightCoordinatorLayout, Gravity.BOTTOM, 0, 0);
                 break;
-            case R.id.main_menu_refresh:
-                if (mCurrentFragment instanceof HomePageFragment) {
-                    ((HomePageFragment) mCurrentFragment).onRefresh();
-                }
-                Toast.makeText(this, "main_menu_refresh", Toast.LENGTH_SHORT).show();
+            case R.id.homepage_menu_refresh:
+                ((HomePageFragment) mCurrentFragment).onRefresh();
                 break;
-            case R.id.main_menu_marked:
-                if (mCurrentFragment instanceof HomePageFragment) {
-                    ((HomePageFragment) mCurrentFragment).markAsRead();
-                }
-                Toast.makeText(this, "main_menu_marked", Toast.LENGTH_SHORT).show();
+            case R.id.homepage_menu_marked:
+                ((HomePageFragment) mCurrentFragment).markAsRead();
                 break;
-            case R.id.main_menu_product:
-                Toast.makeText(this, "main_menu_product", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, IntroduceActivity.class);
-                startActivity(intent);
+            case R.id.homepage_menu_product:
+                IntroduceActivity.startActivity(this);
                 finish();
                 break;
-            case R.id.main_menu_about:
+            case R.id.homepage_menu_about:
                 Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.main_menu_refresh1:
-                Toast.makeText(this, "main_menu_refresh1", Toast.LENGTH_SHORT).show();
+            case R.id.newslist_menu_refresh:
                 ((NewsListFragment) mCurrentFragment).onRefresh();
                 break;
-            case R.id.main_menu_cards:
-                Toast.makeText(this, "main_menu_cards", Toast.LENGTH_SHORT).show();
-                //FIXME 实现有点别扭
+            case R.id.newslist_menu_cards:
                 ((NewsListFragment) mCurrentFragment).showBigCardsList();
                 break;
-            case R.id.main_menu_compact:
-                Toast.makeText(this, "main_menu_compact", Toast.LENGTH_SHORT).show();
+            case R.id.newslist_menu_compact:
                 ((NewsListFragment) mCurrentFragment).showCompactList();
                 break;
-            case R.id.main_menu_minimal:
-                Toast.makeText(this, "main_menu_minimal", Toast.LENGTH_SHORT).show();
+            case R.id.newslist_menu_minimal:
                 ((NewsListFragment) mCurrentFragment).showMinimalList();
                 break;
-            case R.id.main_menu_marked1:
-                Toast.makeText(this, "main_menu_marked1", Toast.LENGTH_SHORT).show();
+            case R.id.newslist_menu_marked:
                 ((NewsListFragment) mCurrentFragment).markAsRead();
                 break;
         }
@@ -186,11 +168,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mNavigationView.setCheckedItem(R.id.leftnavigator_menu_saved);
             mCurrentFragment = savedFragment;
         } else if (selectItemId == R.id.leftnavigator_menu_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            SettingsActivity.startActivity(this);
         } else if (selectItemId == R.id.leftnavigator_menu_feedback) {
-            Intent intent = new Intent(this, FeedbackActivity.class);
-            startActivity(intent);
+            FeedbackActivity.startActivity(this);
         }
 
         mDrawerLayut.closeDrawer(GravityCompat.START);
@@ -233,8 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == mLoginButton) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            LoginActivity.startActivity(this);
         } else if (view == mLogoutButton) {
 
         } else if (view == mFloatingActionButton) {

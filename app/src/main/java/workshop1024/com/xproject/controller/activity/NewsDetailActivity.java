@@ -1,6 +1,8 @@
 package workshop1024.com.xproject.controller.activity;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -33,6 +35,8 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 public class NewsDetailActivity extends XActivity implements View.OnClickListener,
         NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
+    public static final String NEWS_ID_KEY = "newsId";
+
     private Toolbar mToolbar;
     private TextView mPublisherTextView;
     private TextView mPubDataTextView;
@@ -49,6 +53,12 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
 
     private String mNewsId;
     private NewsRepository mNewsRepository;
+
+    public static void startActivity(Context context, String newsId) {
+        Intent intent = new Intent(context, NewsDetailActivity.class);
+        intent.putExtra(NEWS_ID_KEY, newsId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +99,7 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     @Override
     protected void onStart() {
         super.onStart();
-        mNewsId = getIntent().getStringExtra("newsId");
+        mNewsId = getIntent().getStringExtra(NEWS_ID_KEY);
         mNewsRepository = NewsRepository.getInstance();
         mNewsRepository.getNewsDetailByNewsId(mNewsId, this);
     }

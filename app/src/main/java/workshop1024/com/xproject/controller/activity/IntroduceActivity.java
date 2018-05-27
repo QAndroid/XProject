@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.controller.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,16 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
             .introduce2_fragment, R.layout.introduce3_fragment));
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
+
+    /**
+     * 启动介绍页面
+     *
+     * @param context
+     */
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, IntroduceActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

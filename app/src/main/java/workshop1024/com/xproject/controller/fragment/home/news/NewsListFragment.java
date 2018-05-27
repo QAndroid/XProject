@@ -22,13 +22,15 @@ import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
+/**
+ * 新闻列表Fragmnet，用于展示新闻列表
+ */
 public abstract class NewsListFragment extends XFragment implements SwipeRefreshLayout.OnRefreshListener,
         NewsDataSource.LoadNewsListCallback {
     private View mRootView;
     private SwipeRefreshLayout mSwipeRefreshLayoutPull;
     private RecyclerView mStoryRecyclerView;
     private RecyclerView.Adapter mListAdapter;
-
 
     protected NewsRepository mNewsRepository;
     private List<News> mNewsList;

@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.view.popupwindow;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
@@ -79,11 +78,9 @@ public class BottomMenu extends PopupWindow implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == mAddPublisherTextView) {
-            Intent intent = new Intent(mContext, PublisherActivity.class);
-            mContext.startActivity(intent);
+            PublisherActivity.startActivity(mContext);
         } else if (view == mAddTopicTextView) {
-            Intent intent = new Intent(mContext, FilterActivity.class);
-            mContext.startActivity(intent);
+            FilterActivity.startActivity(mContext);
         }
 
         dismiss1();

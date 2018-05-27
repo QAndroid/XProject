@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,7 @@ import workshop1024.com.xproject.model.news.News;
 public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsViewHolder> {
     private Context mContext;
     private List<News> mNewsList;
+    private News mNews;
 
     public CompactAdapter(Context context, List<News> newsList) {
         mContext = context;
@@ -36,6 +36,7 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
+        holder.mNews = mNewsList.get(position);
         holder.mTitleTextView.setText(mNewsList.get(position).getTitle());
         holder.mAuthorTextView.setText(mNewsList.get(position).getPublisher());
         holder.mTimeTextView.setText(mNewsList.get(position).getPubDate());
@@ -47,12 +48,13 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mBannerImageView;
-        public final TextView mTitleTextView;
-        public final TextView mAuthorTextView;
-        public final TextView mTimeTextView;
+        private final ImageView mBannerImageView;
+        private final TextView mTitleTextView;
+        private final TextView mAuthorTextView;
+        private final TextView mTimeTextView;
+        private News mNews;
 
-        public NewsViewHolder(View view) {
+        private NewsViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
 
@@ -64,8 +66,7 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, NewsDetailActivity.class);
-            mContext.startActivity(intent);
+            NewsDetailActivity.startActivity(mContext, mNews.getNewId());
         }
     }
 }

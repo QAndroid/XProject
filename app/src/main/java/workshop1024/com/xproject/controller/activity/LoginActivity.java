@@ -1,6 +1,7 @@
 package workshop1024.com.xproject.controller.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button mLoginButton;
     //试用按钮
     private Button mTryButton;
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +41,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (view == mLoginButton) {
             Toast.makeText(LoginActivity.this, "login click", Toast.LENGTH_SHORT).show();
         } else if (view == mTryButton) {
-            Intent intent = new Intent(LoginActivity.this, IntroduceActivity.class);
-            startActivity(intent);
+            IntroduceActivity.startActivity(this);
         }
     }
 }

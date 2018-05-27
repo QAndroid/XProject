@@ -1,5 +1,7 @@
 package workshop1024.com.xproject.controller.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -52,6 +54,11 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     private int mSelectedTypeIndex = 0;
     //选择的语言索引
     private int mSelectedLanguageIndex;
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, PublisherActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
