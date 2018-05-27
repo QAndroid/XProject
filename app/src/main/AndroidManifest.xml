@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="workshop1024.com.xproject">
+    package="workshop1024.com.xproject">
 
     <!-- To access Google+ APIs: -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,35 +15,33 @@
         <!-- 选择登录页面 -->
         <activity android:name=".controller.activity.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- 介绍页面 -->
-        <activity android:name=".controller.activity.IntroduceActivity"/>
+        <activity android:name=".controller.activity.IntroduceActivity" />
         <!-- 主页面 -->
-        <activity android:name=".controller.activity.MainActivity"/>
+        <activity android:name=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.SettingsActivity"
-            android:parentActivityName=".controller.activity.MainActivity">
-        </activity>
+            android:parentActivityName=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.FeedbackActivity"
-            android:parentActivityName=".controller.activity.MainActivity">
-        </activity>
+            android:parentActivityName=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.NewsDetailActivity"
-            android:parentActivityName=".controller.activity.MainActivity">
-        </activity>
+            android:parentActivityName=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.PublisherActivity"
-            android:parentActivityName=".controller.activity.MainActivity">
-        </activity>
+            android:parentActivityName=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.FilterActivity"
-            android:parentActivityName=".controller.activity.MainActivity">
-        </activity>
+            android:parentActivityName=".controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.AboutActivity"
+            android:parentActivityName=".controller.activity.MainActivity" />
     </application>
 
 </manifest>

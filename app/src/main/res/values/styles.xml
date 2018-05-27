@@ -5,11 +5,11 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!--自定义菜单的背景颜色和字体颜色-->
+        <item name="android:itemBackground">@color/white</item>
+        <item name="android:textColor">#B1B1B1</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
     <!--介绍页面标题-->
     <style name="introduce_title">

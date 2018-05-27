@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.homepage_menu_about:
-                Toast.makeText(this, "main_menu_about", Toast.LENGTH_SHORT).show();
+                AboutActivity.startActivity(this);
                 break;
             case R.id.newslist_menu_refresh:
                 ((NewsListFragment) mCurrentFragment).onRefresh();
