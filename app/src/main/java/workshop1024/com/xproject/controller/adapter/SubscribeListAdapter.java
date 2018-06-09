@@ -14,6 +14,7 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 
+//FIXME 这几个Adapter是什么关系
 public class SubscribeListAdapter extends HomeSubListAdapter {
     private Context mContext;
     private SubInfoListMenuListener mSubInfoListMenuListener;

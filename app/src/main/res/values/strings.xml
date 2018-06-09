@@ -100,4 +100,10 @@
     <string name="addfilter_dialog_title">Add a filter</string>
     <string name="addfilter_dialog_positive">ADD</string>
     <!--过滤器列表页面结束-->
+
+    <!--反馈页面开始-->
+    <string name="account_dialog_title">Profile</string>
+    <string name="account_dialog_cancle">Cancle</string>
+    <string name="account_dialog_save">Save</string>
+    <!--反馈页面结束-->
 </resources>

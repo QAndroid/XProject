@@ -87,6 +87,7 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
                 Toast.makeText(this, "filter_menu_add", Toast.LENGTH_SHORT).show();
                 InputStringDialog addFilterDialog = InputStringDialog.newInstance(R.string.addfilter_dialog_title, R.string
                         .addfilter_dialog_positive);
+                addFilterDialog.setInputStringDialogListener(this);
                 addFilterDialog.show(getSupportFragmentManager(), "addFilterDialog");
                 break;
         }
@@ -130,4 +131,4 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
         mFilterSwipeRefreshLayout.setRefreshing(true);
         mFilterRepository.getFilters(this);
     }
-    }
+}

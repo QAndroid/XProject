@@ -41,11 +41,12 @@ public class DisplaySettingsDialog extends DialogFragment implements View.OnClic
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         View contentView = layoutInflater.inflate(R.layout.displaysettings_dialog, null);
+        builder.setView(contentView);
+
         mScaleSeekBar = contentView.findViewById(R.id.displaysetting_scalseekbar_textsize);
         mConfirmButton = contentView.findViewById(R.id.displaysetting_button_confirm);
         mScaleSeekBar.setSelectedTextSize(mSelectTextSize);
         mConfirmButton.setOnClickListener(this);
-        builder.setView(contentView);
 
         return builder.create();
     }

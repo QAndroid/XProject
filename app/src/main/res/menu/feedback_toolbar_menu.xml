@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--反馈菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--用户-->
+    <item
+        android:id="@+id/feedback_menu_account"
+        android:icon="@drawable/feedback_menu_account"
+        android:title="Account"
+        android:visible="true"
+        app:showAsAction="always" />
+</menu>

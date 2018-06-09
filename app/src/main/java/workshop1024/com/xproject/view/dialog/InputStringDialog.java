@@ -4,11 +4,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import workshop1024.com.xproject.R;
 
@@ -19,7 +19,7 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
     public static final String TITLE_STRING_KEY = "TitleString";
     public static final String POSITIVE_STRING_KEY = "PositiveString";
 
-    private EditText mEditText;
+    private TextInputEditText mEditText;
     private String mPreInputString;
 
     private int mTitleStringId;
@@ -63,19 +63,11 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        FrameLayout frameLayout = new FrameLayout(getActivity());
-        mEditText = new EditText(getContext());
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        int margin = (int) getResources().getDimension(R.dimen.inputdialog_view_margin);
-        layoutParams.setMargins(margin, 0, margin, 0);
-        mEditText.setLayoutParams(layoutParams);
-        if (mPreInputString != null) {
-            mEditText.setText(mPreInputString);
-        }
-        frameLayout.addView(mEditText);
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        View contentView = layoutInflater.inflate(R.layout.inputstring_dialog, null);
+        mEditText = contentView.findViewById(R.id.inputstring_textinputedittext_name);
 
-        return new AlertDialog.Builder(getActivity()).setTitle(mTitleStringId).setView(frameLayout).setPositiveButton
+        return new AlertDialog.Builder(getActivity()).setTitle(mTitleStringId).setView(contentView).setPositiveButton
                 (mPositiveStringId, this).create();
     }
 
