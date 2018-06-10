@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     app:cardElevation="2dp">
 
     <TextView
-        android:id="@+id/messagelist_textview_content"
+        android:id="@+id/messagelist_textview_groupdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="14dp"
@@ -15,4 +15,4 @@
         android:paddingRight="16dp"
         android:paddingTop="14dp"
         tools:text="Hello Message" />
-</android.support.v7.widget.CardView>
+</LinearLayout>
