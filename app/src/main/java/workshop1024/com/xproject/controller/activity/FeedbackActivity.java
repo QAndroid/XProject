@@ -15,12 +15,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.MessageListAdapter;
+import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
 import workshop1024.com.xproject.model.message.source.MessageDataSource;
 import workshop1024.com.xproject.model.message.source.MessageRepository;
@@ -34,6 +35,9 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     private Toolbar mToolbar;
     private SwipeRefreshLayout mMessageSwipeRefreshLayout;
     private RecyclerView mMessagesRecyclerView;
+    private View mHeaderView;
+    private View mFooterView;
+    private TextView mHelloTextView;
     private FloatingActionButton mSubmitFloatingActionButton;
 
     private MessageRepository mMessageRepository;
@@ -65,6 +69,11 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mMessagesRecyclerView.setLayoutManager(linearLayoutManager);
         mMessagesRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        mHeaderView = inflater.inflate(R.layout.messagelist_header, mMessagesRecyclerView, false);
+        mFooterView = inflater.inflate(R.layout.messagelist_footer, mMessagesRecyclerView, false);
+        mHelloTextView = mHeaderView.findViewById(R.id.feedback_textview_hello);
 
         mSubmitFloatingActionButton.setOnClickListener(this);
     }
@@ -113,19 +122,22 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     public void cancelButtonClick(DialogFragment dialogFragment) {
         dialogFragment.dismiss();
         mSubmitFloatingActionButton.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "cancelButtonClick", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void okButtonClick(DialogFragment dialogFragment, String nameString, String emailString) {
-
+        mHelloTextView.setText(new StringBuffer("Hello!").append(nameString).toString());
     }
 
     @Override
     public void submitButtonClick(DialogFragment dialogFragment, String messageConent) {
         dialogFragment.dismiss();
         mSubmitFloatingActionButton.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "submitButtonClick", Toast.LENGTH_SHORT).show();
+
+        Message message = new Message("m999", messageConent);
+        mMessageRepository.submitMessage(message);
+
+        refreshMessageGroupList();
     }
 
     @Override
@@ -135,12 +147,8 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
 
             MessageListAdapter messageListAdapter = new MessageListAdapter(messageGroupList);
             mMessagesRecyclerView.setAdapter(messageListAdapter);
-
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View headerView = inflater.inflate(R.layout.messagelist_header, mMessagesRecyclerView, false);
-            View footerView = inflater.inflate(R.layout.messagelist_footer, mMessagesRecyclerView, false);
-            messageListAdapter.setHeaderView(headerView);
-            messageListAdapter.setFooterView(footerView);
+            messageListAdapter.setHeaderView(mHeaderView);
+            messageListAdapter.setFooterView(mFooterView);
         }
     }
 

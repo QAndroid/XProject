@@ -87,7 +87,16 @@ public class MessageRepository implements MessageDataSource {
     }
 
     @Override
-    public void submitMessage(Message message) {
-
+    public void submitMessage(final Message message) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Message> messageList = new ArrayList<>();
+                messageList.add(message);
+                MessageGroup messageGroup = new MessageGroup("g999", "2018-06-06", messageList);
+                MESSAGEGROUP_SERVICE_DATA.put(messageGroup.getGroupId(), messageGroup);
+            }
+        }, SERVICE_LATENCY_IN_MILLIS);
     }
 }

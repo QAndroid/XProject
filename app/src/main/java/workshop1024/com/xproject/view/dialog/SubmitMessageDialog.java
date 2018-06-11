@@ -53,6 +53,12 @@ public class SubmitMessageDialog extends DialogFragment implements View.OnClickL
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mSubmitMessageDialogListener.cancelButtonClick(this);
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == mCancleButton) {
             mSubmitMessageDialogListener.cancelButtonClick(this);
