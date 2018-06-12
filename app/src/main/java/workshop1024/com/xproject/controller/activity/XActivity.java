@@ -3,7 +3,7 @@ package workshop1024.com.xproject.controller.activity;
 import android.support.v7.app.AppCompatActivity;
 
 public class XActivity extends AppCompatActivity {
-    boolean mIsForeground;
+    public boolean mIsForeground;
 
     @Override
     protected void onResume() {

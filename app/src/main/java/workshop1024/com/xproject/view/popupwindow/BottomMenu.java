@@ -12,8 +12,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.activity.FilterActivity;
-import workshop1024.com.xproject.controller.activity.PublisherActivity;
+import workshop1024.com.xproject.controller.activity.home.FilterActivity;
+import workshop1024.com.xproject.controller.activity.home.PublisherActivity;
 
 public class BottomMenu extends PopupWindow implements View.OnClickListener {
     private Context mContext;

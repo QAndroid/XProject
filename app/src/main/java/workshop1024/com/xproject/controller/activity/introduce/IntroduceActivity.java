@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.introduce;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.home.MainActivity;
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment;
 import workshop1024.com.xproject.view.group.CircleDotIndicator;
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="sync_preferences"
+        android:title="Sync">
+        <CheckBoxPreference
+            android:key="automaticrefresh_preference"
+            android:title="Automatic Data Refresh" />
+        <ListPreference
+            android:dialogTitle="Refresh Interval"
+            android:entries="@array/settings_refresh_interval"
+            android:entryValues="@array/settings_refresh_interval"
+            android:key="refreshinterval_preference"
+            android:summary="4 hours"
+            android:title="Refresh Interval" />
+        <CheckBoxPreference
+            android:key="refreshwifi_preference"
+            android:title="Sync Only If On WIFI" />
+        <CheckBoxPreference
+            android:key="refreshlaunch_preference"
+            android:title="Refresh data on launch" />
+    </PreferenceCategory>
+</PreferenceScreen>

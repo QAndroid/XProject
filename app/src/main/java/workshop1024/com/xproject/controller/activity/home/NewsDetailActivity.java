@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -24,6 +24,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.model.news.NewsDetail;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;

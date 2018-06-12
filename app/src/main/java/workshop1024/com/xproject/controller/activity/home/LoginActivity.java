@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity;
 
 /**
  * 登陆选择页面

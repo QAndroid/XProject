@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="workshop1024.com.xproject.controller.activity.MainActivity">
+    tools:context="workshop1024.com.xproject.controller.activity.home.MainActivity">
     <!--下拉刷新-->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/savelist_swiperefreshlayout_pullrefresh"

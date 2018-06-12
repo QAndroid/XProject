@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.about_activity);
 
         //TODO 标题的代码是否可以抽象？？
         mToolbar = findViewById(R.id.about_toolbar_navigator);

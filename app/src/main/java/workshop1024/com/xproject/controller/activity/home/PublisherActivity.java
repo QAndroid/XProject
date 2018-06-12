@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
@@ -63,7 +64,7 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publisher);
+        setContentView(R.layout.publisher_activity);
 
         mRootView = findViewById(R.id.publisher_coordinatorlayout_rootview);
         mToolbar = findViewById(R.id.publisher_toolbar_navigator);

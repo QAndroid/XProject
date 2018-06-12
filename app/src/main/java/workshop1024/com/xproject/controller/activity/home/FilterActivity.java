@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.FilterListAdapter;
 import workshop1024.com.xproject.model.filter.Filter;
 import workshop1024.com.xproject.model.filter.source.FilterDataSource;
@@ -49,7 +50,7 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+        setContentView(R.layout.filter_activity);
 
         mRootView = findViewById(R.id.filter_coordinatorlayout_rootview);
         mToolbar = findViewById(R.id.filter_toolbar_navigator);

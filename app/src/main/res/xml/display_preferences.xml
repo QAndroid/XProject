@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="display_preferences"
+        android:title="Display">
+        <ListPreference
+            android:dialogTitle="Themes"
+            android:entries="@array/settings_display_themes"
+            android:entryValues="@array/settings_display_themes"
+            android:key="themes_preference"
+            android:summary="Light"
+            android:title="Themes" />
+        <CheckBoxPreference
+            android:key="notificatorbar_preference"
+            android:title="Show notification bar" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="articlelist_preferences"
+        android:title="Article List">
+        <CheckBoxPreference
+            android:key="unreadfirst_preference"
+            android:summary="Show unread article first"
+            android:title="Unread First" />
+        <CheckBoxPreference
+            android:key="sortorder_preference"
+            android:summary="Newest to oldest"
+            android:title="Sort order" />
+        <CheckBoxPreference
+            android:key="hidereaded_preference"
+            android:title="Hide read articles" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="text_preferences"
+        android:title="Text">
+        <ListPreference
+            android:dialogTitle="Font Size"
+            android:entries="@array/settings_font_sizes"
+            android:entryValues="@array/settings_font_sizes"
+            android:key="fontsize_preference"
+            android:summary="Large"
+            android:title="Font Size" />
+        <ListPreference
+            android:dialogTitle="Article Text Alignment"
+            android:entries="@array/settings_article_alignment"
+            android:entryValues="@array/settings_article_alignment"
+            android:key="articlealignment_preference"
+            android:summary="Left"
+            android:title="Article Text Alignment" />
+    </PreferenceCategory>
+</PreferenceScreen>

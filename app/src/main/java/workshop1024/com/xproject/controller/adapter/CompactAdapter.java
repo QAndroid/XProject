@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.controller.activity.NewsDetailActivity;
+import workshop1024.com.xproject.controller.activity.home.NewsDetailActivity;
 import workshop1024.com.xproject.model.news.News;
 
 /**

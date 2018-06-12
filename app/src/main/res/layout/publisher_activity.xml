@@ -7,7 +7,7 @@
     android:id="@+id/publisher_coordinatorlayout_rootview"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".controller.activity.SettingsActivity">
+    tools:context=".controller.activity.setting.SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/publisher_appbarlayout_navigator"

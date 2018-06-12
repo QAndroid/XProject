@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,25 +9,24 @@ import android.support.v7.widget.Toolbar;
 
 import workshop1024.com.xproject.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class AdvancedActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     public static void startActivity(Context context) {
-        Intent intent = new Intent(context, SettingsActivity.class);
+        Intent intent = new Intent(context, AdvancedActivity.class);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.advanced_activity);
 
-        mToolbar = findViewById(R.id.settings_toolbar_navigator);
+        mToolbar = findViewById(R.id.advancesettings_toolbar_navigator);
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        setTitle("Settings");
+        setTitle("Advanced");
     }
 }

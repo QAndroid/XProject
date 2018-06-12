@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,6 +22,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.feedback.FeedbackActivity;
+import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity;
+import workshop1024.com.xproject.controller.activity.setting.SettingsActivity;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;

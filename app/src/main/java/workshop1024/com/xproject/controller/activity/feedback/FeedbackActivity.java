@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity;
+package workshop1024.com.xproject.controller.activity.feedback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.MessageListAdapter;
 import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
