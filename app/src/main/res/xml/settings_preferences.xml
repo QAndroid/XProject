@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:key="display_preferencescreen"
+        android:title="Display">
+        <PreferenceCategory
+            android:key="display_preferences"
+            android:title="Display">
+            <ListPreference
+                android:defaultValue="0"
+                android:dialogTitle="Themes"
+                android:entries="@array/settings_display_themes"
+                android:entryValues="@array/settings_display_themes_codes"
+                android:key="themes_preference"
+                android:summary="DayNight"
+                android:title="Themes" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="notificatorbar_preference"
+                android:title="Show notification bar" />
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:key="articlelist_preferences"
+            android:title="Article List">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="unreadfirst_preference"
+                android:summary="Show unread article first"
+                android:title="Unread First" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="sortorder_preference"
+                android:summary="Newest to oldest"
+                android:title="Sort order" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="hidereaded_preference"
+                android:title="Hide read articles" />
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:key="text_preferences"
+            android:title="Text">
+            <ListPreference
+                android:defaultValue="0"
+                android:dialogTitle="Font Size"
+                android:entries="@array/settings_font_sizes"
+                android:entryValues="@array/settings_font_sizes_codes"
+                android:key="fontsize_preference"
+                android:summary="Tiny"
+                android:title="Font Size" />
+            <ListPreference
+                android:defaultValue="0"
+                android:dialogTitle="Article Text Alignment"
+                android:entries="@array/settings_article_alignment"
+                android:entryValues="@array/settings_article_alignment_codes"
+                android:key="articlealignment_preference"
+                android:summary="Justify"
+                android:title="Article Text Alignment" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="sync_preferencescreen"
+        android:title="Sync">
+        <PreferenceCategory
+            android:key="sync_preferences"
+            android:title="Sync">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="automaticrefresh_preference"
+                android:title="Automatic Data Refresh" />
+            <ListPreference
+                android:defaultValue="0"
+                android:dialogTitle="Refresh Interval"
+                android:entries="@array/settings_refresh_interval"
+                android:entryValues="@array/settings_refresh_interval_codes"
+                android:key="refreshinterval_preference"
+                android:summary="15 mins"
+                android:title="Refresh Interval" />
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="refreshwifi_preference"
+                android:title="Sync Only If On WIFI" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="refreshlaunch_preference"
+                android:title="Refresh data on launch" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="widget_preferencescreen"
+        android:title="Widget">
+        <PreferenceCategory
+            android:key="widget_preferences"
+            android:title="Widget">
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="showimages_preference"
+                android:title="Show Images" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="advanced_preferencescreen"
+        android:title="Advanced">
+        <PreferenceCategory
+            android:key="advanced_preferences"
+            android:title="Advanced">
+            <workshop1024.com.xproject.view.preference.ClearDataPreference
+                android:defaultValue="false"
+                android:key="cleardatabase_preference"
+                android:summary="Remove all data in database"
+                android:title="Clear Database" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <Preference
+        android:key="version_preference"
+        android:summary="9.8.5.2"
+        android:title="Version" />
+</PreferenceScreen>

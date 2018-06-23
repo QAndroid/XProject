@@ -20,43 +20,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/settings_textview_display"
+    <fragment
+        android:id="@+id/settings_fragment_content"
+        android:name="workshop1024.com.xproject.controller.fragment.setting.SettingsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_background"
-        android:padding="16dp"
-        android:text="Display"
-        android:textColor="#000000"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/settings_textview_sync"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_background"
-        android:padding="16dp"
-        android:text="Sync"
-        android:textColor="#000000"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/settings_textview_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_background"
-        android:padding="16dp"
-        android:text="Widget"
-        android:textColor="#000000"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/settings_textview_advance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_background"
-        android:padding="16dp"
-        android:text="Advance"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:layout_height="match_parent" />
 </LinearLayout>

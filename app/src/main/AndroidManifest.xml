@@ -42,18 +42,6 @@
         <activity
             android:name=".controller.activity.home.AboutActivity"
             android:parentActivityName=".controller.activity.home.MainActivity" />
-        <activity
-            android:name=".controller.activity.setting.DisplayActivity"
-            android:parentActivityName=".controller.activity.setting.SettingsActivity" />
-        <activity
-            android:name=".controller.activity.setting.SyncActivity"
-            android:parentActivityName=".controller.activity.setting.SettingsActivity" />
-        <activity
-            android:name=".controller.activity.setting.WidgetActivity"
-            android:parentActivityName=".controller.activity.setting.SettingsActivity" />
-        <activity
-            android:name=".controller.activity.setting.AdvancedActivity"
-            android:parentActivityName=".controller.activity.setting.SettingsActivity" />
     </application>
 
 </manifest>
