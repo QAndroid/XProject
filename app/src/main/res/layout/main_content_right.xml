@@ -9,16 +9,12 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/mainright_appbarlayout_navigator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        style="@style/xproject_appbarlayout">
 
         <!--顶部标题栏-->
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar_navigator"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            style="@style/xproject_toolbar"
             app:layout_scrollFlags="scroll|enterAlways" />
 
     </android.support.design.widget.AppBarLayout>
@@ -34,12 +30,12 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mainright_floatingactionbutton_action"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content "
+        android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/floatingactionbutton_newslist"
         android:tint="@color/white"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_behavior="workshop1024.com.xproject.view.floatbutton.FloatingActionButtonBehavior" />
+        app:layout_behavior="workshop1024.com.xproject.view.floatbutton.FloatingActionButtonBehavior"
+        tools:visibility="visible" />
 </android.support.design.widget.CoordinatorLayout>

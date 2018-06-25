@@ -8,15 +8,11 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/settings_appbarlayout_navigator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        style="@style/xproject_appbarlayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/settings_toolbar_navigator"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            style="@style/xproject_toolbar" />
 
     </android.support.design.widget.AppBarLayout>
 

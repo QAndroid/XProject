@@ -1,51 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.activity.feedback.FeedbackActivity">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/feedback_appbarlayout_navigator"
+        style="@style/xproject_appbarlayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/feedback_toolbar_navigator"
+            style="@style/xproject_toolbar"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!--下拉刷新-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/feedback_swiperefreshlayout_pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/feedback_appbarlayout_navigator"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <!--消息列表-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/feedback_recyclerview_messages"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/feedback_toolbar_navigator"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary" />
-
-        </android.support.design.widget.AppBarLayout>
-
-        <!--下拉刷新-->
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/feedback_swiperefreshlayout_pullrefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <!--消息列表-->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/feedback_recyclerview_messages"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <!--提交消息按钮-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/feedback_floatingactionbutton_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/apptentive_ic_compose" />
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
