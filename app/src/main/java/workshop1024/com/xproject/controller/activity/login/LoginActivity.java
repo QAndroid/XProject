@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.controller.activity.home;
+package workshop1024.com.xproject.controller.activity.login;
 
 import android.app.Activity;
 import android.content.Context;

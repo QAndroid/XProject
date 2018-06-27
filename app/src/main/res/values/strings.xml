@@ -102,34 +102,49 @@
     <!--过滤器列表页面结束-->
 
     <!--设置页面开始-->
-    <string-array name="settings_display_themes">
-        <item>DayNight</item>
+    <string name="settings_preferencescreen_display_key">settings_preferencescreen_display</string>
+    <string name="settings_preferencescreen_display_title">Display</string>
+
+    <string name="settings_preferencecategory_display_key">settings_preferencecategory_display</string>
+    <string name="settings_preferencecategory_display_title">Display</string>
+
+    <string name="settings_preference_displaythemes_key">settings_preference_themes</string>
+    <string name="settings_preference_displaythemes_title">Themes</string>
+    <string name="settings_preference_displaythemes_dialogtitle">Themes</string>
+    <string name="settings_preference_displaythemes_default">0</string>
+    <string-array name="settings_preference_displaythemes">
         <item>Light</item>
-        <item>Dark</item>
-        <item>Pure Black(Premium)</item>
-        <item>Strain fress(Premium)</item>
+        <item>Night</item>
     </string-array>
-    <string-array name="settings_display_themes_codes">
+    <string-array name="settings_preference_displaythemes_codes">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
     </string-array>
-    <string-array name="settings_font_sizes">
+
+    <string name="settings_preference_notificatorbar_key">notificatorbar_preference</string>
+    <string name="settings_preference_notificatorbar_title">Show notification bar</string>
+
+    <string name="settings_preference_fontsizes_key">settings_preference_fontsize</string>
+    <string name="settings_preference_fontsize_title">Font Size</string>
+    <string name="settings_preference_fontsize_dialogtitle">Font Size</string>
+    <string-array name="settings_preference_fontsizes">
         <item>Tiny</item>
         <item>Small</item>
         <item>Normal</item>
         <item>Large</item>
         <item>Really Large</item>
     </string-array>
-    <string-array name="settings_font_sizes_codes">
+    <string-array name="settings_preference_fontsizes_codes">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
     </string-array>
+
+    <string name="settings_preference_articlealignment_key">settings_preference_articlealignment</string>
+    <string name="settings_preference_articlealignment_title">Article Text Alignment</string>
+    <string name="settings_preference_articlealignment_dialogtitle">Article Text Alignment</string>
     <string-array name="settings_article_alignment">
         <item>Justify</item>
         <item>Left</item>

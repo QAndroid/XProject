@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
-        android:key="display_preferencescreen"
-        android:title="Display">
+        android:key="@string/settings_preferencescreen_display_key"
+        android:title="@string/settings_preferencescreen_display_title">
         <PreferenceCategory
-            android:key="display_preferences"
-            android:title="Display">
+            android:key="@string/settings_preferencecategory_display_key"
+            android:title="@string/settings_preferencecategory_display_title">
             <ListPreference
-                android:defaultValue="0"
-                android:dialogTitle="Themes"
-                android:entries="@array/settings_display_themes"
-                android:entryValues="@array/settings_display_themes_codes"
-                android:key="themes_preference"
-                android:summary="DayNight"
-                android:title="Themes" />
+                android:dialogTitle="@string/settings_preference_displaythemes_dialogtitle"
+                android:entries="@array/settings_preference_displaythemes"
+                android:entryValues="@array/settings_preference_displaythemes_codes"
+                android:key="@string/settings_preference_displaythemes_key"
+                android:title="@string/settings_preference_displaythemes_title" />
             <SwitchPreference
                 android:defaultValue="false"
-                android:key="notificatorbar_preference"
-                android:title="Show notification bar" />
+                android:key="@string/settings_preference_notificatorbar_key"
+                android:title="@string/settings_preference_notificatorbar_title" />
         </PreferenceCategory>
         <PreferenceCategory
-            android:key="articlelist_preferences"
+            android:key="articlelist_preferencecategory"
             android:title="Article List">
             <SwitchPreference
                 android:defaultValue="false"
@@ -38,31 +36,29 @@
                 android:title="Hide read articles" />
         </PreferenceCategory>
         <PreferenceCategory
-            android:key="text_preferences"
+            android:key="text_preferencecategory"
             android:title="Text">
             <ListPreference
                 android:defaultValue="0"
-                android:dialogTitle="Font Size"
-                android:entries="@array/settings_font_sizes"
-                android:entryValues="@array/settings_font_sizes_codes"
-                android:key="fontsize_preference"
-                android:summary="Tiny"
-                android:title="Font Size" />
+                android:dialogTitle="@string/settings_preference_fontsize_dialogtitle"
+                android:entries="@array/settings_preference_fontsizes"
+                android:entryValues="@array/settings_preference_fontsizes_codes"
+                android:key="@string/settings_preference_fontsizes_key"
+                android:title="@string/settings_preference_fontsize_title" />
             <ListPreference
                 android:defaultValue="0"
-                android:dialogTitle="Article Text Alignment"
+                android:dialogTitle="@string/settings_preference_articlealignment_dialogtitle"
                 android:entries="@array/settings_article_alignment"
                 android:entryValues="@array/settings_article_alignment_codes"
-                android:key="articlealignment_preference"
-                android:summary="Justify"
-                android:title="Article Text Alignment" />
+                android:key="@string/settings_preference_articlealignment_key"
+                android:title="@string/settings_preference_articlealignment_title" />
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen
         android:key="sync_preferencescreen"
         android:title="Sync">
         <PreferenceCategory
-            android:key="sync_preferences"
+            android:key="sync_preferencecategory"
             android:title="Sync">
             <SwitchPreference
                 android:defaultValue="false"
@@ -90,7 +86,7 @@
         android:key="widget_preferencescreen"
         android:title="Widget">
         <PreferenceCategory
-            android:key="widget_preferences"
+            android:key="widget_preferencecategory"
             android:title="Widget">
             <SwitchPreference
                 android:defaultValue="true"
@@ -102,7 +98,7 @@
         android:key="advanced_preferencescreen"
         android:title="Advanced">
         <PreferenceCategory
-            android:key="advanced_preferences"
+            android:key="advanced_preferencecategory"
             android:title="Advanced">
             <workshop1024.com.xproject.view.preference.ClearDataPreference
                 android:defaultValue="false"
