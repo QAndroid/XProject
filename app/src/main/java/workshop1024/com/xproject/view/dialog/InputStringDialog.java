@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -67,8 +68,9 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
         View contentView = layoutInflater.inflate(R.layout.inputstring_dialog, null);
         mEditText = contentView.findViewById(R.id.inputstring_textinputedittext_name);
 
-        return new AlertDialog.Builder(getActivity()).setTitle(mTitleStringId).setView(contentView).setPositiveButton
-                (mPositiveStringId, this).create();
+        return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                R.style.xproject_displaysettingsdialog)).setTitle(mTitleStringId).setView(contentView).
+                setPositiveButton(mPositiveStringId, this).create();
     }
 
     @Override

@@ -5,6 +5,7 @@
     android:id="@+id/main_drawerlayout_navigator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_background"
     android:fitsSystemWindows="true"
     tools:context=".controller.activity.home.MainActivity"
     tools:openDrawer="start">
@@ -21,8 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/white"
+        android:background="@color/main_navigationview_background"
         android:fitsSystemWindows="true"
+        app:itemIconTint="@color/main_navigationview_item_icontintselector"
+        app:itemTextColor="@color/main_navigationview_item_textselector"
         app:menu="@menu/mainleft_navigator_menu"
         tools:headerLayout="@layout/main_leftnavigator_header" />
 </android.support.v4.widget.DrawerLayout>

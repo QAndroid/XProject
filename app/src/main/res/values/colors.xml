@@ -7,6 +7,9 @@
     <!--公共颜色-->
     <color name="white">#ffffffff</color>
 
+    <!--导航栏-->
+    <color name="toolbar_background">#01A3AE</color>
+
     <!--登陆选择页面开始-->
     <color name="login_login_background">#01A3AE</color>
     <color name="login_try_background">#AAAAAA</color>
@@ -19,14 +22,35 @@
     <!--介绍页面结束-->
 
     <!--主页面开始-->
-    <color name="main_toolbar_background">#01A3AE</color>
-
+    <color name="main_navigationview_item_textcolorchecked">#01A3AE</color>
+    <color name="main_navigationview_item_icontintchecked">#01A3AE</color>
     <color name="home_tablayout_indicatorcolor">#BAD976</color>
-    <color name="home_tablayout_textcolor">@color/white</color>
-    <color name="home_tablayout_textselectedcolor">#D9DFDF</color>
-    <color name="home_tablayout_background">@color/main_toolbar_background</color>
-
+    <color name="home_tablayout_textselectedcolor">#01A3AE</color>
     <color name="homesub_emptyitem_background">#ffd8f3ff</color>
     <color name="homesub_emptyitem_bottombackground">#fff2ac4b</color>
     <!--主页面介绍-->
+
+    <!--日间模式-->
+    <!--页面-->
+    <color name="page_background">#ffffff</color>
+    <color name="bottommenu_background">#ffffff</color>
+    <color name="bottommenu_textcolor">#000000</color>
+    <color name="toolbarmenu_background">#ffffff</color>
+    <color name="toolbarmenu_textcolor">#000000</color>
+    <color name="sheetview_background">#ffffff</color>
+    <color name="sheetview_textcolor">#000000</color>
+    <color name="singlechoicedialog_textcolor">#000000</color>
+    <color name="singlechoicedialog_background">#ffffff</color>
+    <color name="singlechoicedialog_item_textcolor">#000000</color>
+    <color name="inputstringdialog_textcolor">#000000</color>
+    <color name="inputstringdialog_background">#ffffff</color>
+    <color name="displaysettingsdialog_textcolor">#000000</color>
+    <color name="displaysettingsdialog_background">#ffffff</color>
+    <!--主页-->
+    <color name="main_navigationview_background">#ffffff</color>
+    <color name="main_navigationview_item_textcolor">#000000</color>
+    <color name="main_navigationview_item_icontint">#9E9E9E</color>
+    <color name="home_tablayout_textcolor">#000000</color>
+    <!--新闻详情页-->
+    <color name="newsdetail_sheetview_item_icontint">#9E9E9E</color>
 </resources>

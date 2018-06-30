@@ -5,6 +5,7 @@
     android:id="@+id/detail_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_background"
     android:fitsSystemWindows="true"
     tools:context=".controller.activity.home.NewsDetailActivity">
 
@@ -38,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="Toolbar" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -143,6 +143,7 @@
                 android:id="@+id/newsdetail_linearlayout_sheet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/sheetview_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -150,6 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/leftnavigator_icon_settings"
+                    android:drawableTint="@color/newsdetail_sheetview_item_icontint"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp"
@@ -157,7 +159,7 @@
                     android:paddingRight="14dp"
                     android:paddingTop="8dp"
                     android:text="Display settings"
-                    android:textColor="?android:textColorSecondary"
+                    android:textColor="@color/sheetview_textcolor"
                     android:textSize="16.0sp" />
 
                 <TextView
@@ -165,6 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/leftnavigator_icon_settings"
+                    android:drawableTint="@color/newsdetail_sheetview_item_icontint"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp"
@@ -172,7 +175,7 @@
                     android:paddingRight="14dp"
                     android:paddingTop="8dp"
                     android:text="Other Other"
-                    android:textColor="?android:textColorSecondary"
+                    android:textColor="@color/sheetview_textcolor"
                     android:textSize="16.0sp" />
 
                 <TextView
@@ -180,6 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/leftnavigator_icon_feedback"
+                    android:drawableTint="@color/newsdetail_sheetview_item_icontint"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp"
@@ -187,7 +191,7 @@
                     android:paddingRight="14dp"
                     android:paddingTop="8dp"
                     android:text="Mark to read later"
-                    android:textColor="?android:textColorSecondary"
+                    android:textColor="@color/sheetview_textcolor"
                     android:textSize="16.0sp" />
 
                 <TextView
@@ -195,11 +199,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/leftnavigator_icon_feedback"
+                    android:drawableTint="@color/newsdetail_sheetview_item_icontint"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Other Other"
-                    android:textColor="?android:textColorSecondary"
+                    android:textColor="@color/sheetview_textcolor"
                     android:textSize="16.0sp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>

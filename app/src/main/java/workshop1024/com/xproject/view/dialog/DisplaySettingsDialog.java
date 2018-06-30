@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,8 @@ public class DisplaySettingsDialog extends DialogFragment implements View.OnClic
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                R.style.xproject_inputstringdialog));
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         View contentView = layoutInflater.inflate(R.layout.displaysettings_dialog, null);

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/page_background"
     tools:context=".controller.activity.home.AboutActivity">
 
     <android.support.design.widget.AppBarLayout

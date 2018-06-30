@@ -1,41 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--底部菜单布局-->
+<?xml version="1.0" encoding="utf-8"?><!--底部菜单布局-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/bottommenu_space_holder"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"/>
+        android:layout_weight="1" />
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/bottommenu_linearlayout_actions"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bottommenu_background"
         android:orientation="horizontal"
         android:padding="8dp">
         <!--添加发布者-->
         <TextView
+            android:id="@+id/bottommenu_textview_addpublisher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawableTop="@drawable/bottommenu_addpublisher"
             android:gravity="center_horizontal"
-            android:id="@+id/bottommenu_textview_addpublisher"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/homepage_bottommenu_addpublisher"/>
+            android:text="@string/homepage_bottommenu_addpublisher"
+            android:textColor="@color/bottommenu_textcolor" />
         <!--添加主题-->
         <TextView
-            android:drawableTop="@drawable/bottommenu_addtopic"
-            android:gravity="center_horizontal"
             android:id="@+id/bottommenu_textview_addtopic"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/homepage_bottommenu_addtopic"/>
+            android:drawableTop="@drawable/bottommenu_addtopic"
+            android:gravity="center_horizontal"
+            android:text="@string/homepage_bottommenu_addtopic"
+            android:textColor="@color/bottommenu_textcolor" />
     </LinearLayout>
 
 </LinearLayout>

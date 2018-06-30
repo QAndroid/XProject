@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
+
+import workshop1024.com.xproject.R;
 
 /**
  * 单选对话框
@@ -65,7 +68,8 @@ public class SingleChoiceDialog extends DialogFragment implements DialogInterfac
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                R.style.xproject_singlechoicedialog));
         builder.setTitle(mTitleString).setItems(mSelectStrings, this);
         return builder.create();
     }

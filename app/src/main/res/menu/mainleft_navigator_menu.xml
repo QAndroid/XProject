@@ -10,7 +10,7 @@
         <item
             android:icon="@drawable/leftnavigator_icon_home"
             android:id="@+id/leftnavigator_menu_home"
-            android:title="@string/leftnavigator_menu_home"/>
+            android:title="@string/leftnavigator_menu_home" />
         <!--保存-->
         <item
             android:icon="@drawable/leftnavigator_icon_saved"

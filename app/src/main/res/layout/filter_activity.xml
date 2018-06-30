@@ -5,6 +5,7 @@
     android:id="@+id/filter_coordinatorlayout_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_background"
     tools:context=".controller.activity.setting.SettingsActivity">
     <!--TODO 将这部分页面标题上公共的布局抽象出来-->
     <android.support.design.widget.AppBarLayout

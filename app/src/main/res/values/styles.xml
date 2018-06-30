@@ -5,9 +5,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-        <!--自定义菜单的背景颜色和字体颜色-->
-        <item name="android:itemBackground">@color/white</item>
-        <item name="android:textColor">#B1B1B1</item>
+        <!--&lt;!&ndash;自定义菜单的背景颜色和字体颜色&ndash;&gt;-->
+        <!--<item name="android:itemBackground">@color/white</item>-->
+        <!--<item name="android:textColor">#B1B1B1</item>-->
     </style>
 
     <style name="xproject_appbarlayout">
@@ -19,7 +19,28 @@
     <style name="xproject_toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/toolbar_background</item>
+    </style>
+
+    <style name="xproject_toolbarmenu">
+        <item name="android:colorBackground">@color/toolbarmenu_background</item>
+        <item name="android:textColor">@color/toolbarmenu_textcolor</item>
+    </style>
+
+    <style name="xproject_singlechoicedialog">
+        <item name="android:textColor">@color/singlechoicedialog_textcolor</item>
+        <item name="android:background">@color/singlechoicedialog_background</item>
+        <item name="textColorAlertDialogListItem">@color/singlechoicedialog_item_textcolor</item>
+    </style>
+
+    <style name="xproject_inputstringdialog">
+        <item name="android:textColor">@color/inputstringdialog_textcolor</item>
+        <item name="android:background">@color/inputstringdialog_background</item>
+    </style>
+
+    <style name="xproject_displaysettingsdialog">
+        <item name="android:textColor">@color/displaysettingsdialog_textcolor</item>
+        <item name="android:background">@color/displaysettingsdialog_background</item>
     </style>
 
     <!---登录页面按钮-->

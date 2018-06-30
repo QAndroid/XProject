@@ -15,7 +15,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar_navigator"
             style="@style/xproject_toolbar"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/xproject_toolbarmenu" />
 
     </android.support.design.widget.AppBarLayout>
 
