@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="sync_preferencecategory"
+        android:title="Sync">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="automaticrefresh_preference"
+            android:title="Automatic Data Refresh" />
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="Refresh Interval"
+            android:entries="@array/settings_refresh_interval"
+            android:entryValues="@array/settings_refresh_interval_codes"
+            android:key="refreshinterval_preference"
+            android:summary="15 mins"
+            android:title="Refresh Interval" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="refreshwifi_preference"
+            android:title="Sync Only If On WIFI" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="refreshlaunch_preference"
+            android:title="Refresh data on launch" />
+    </PreferenceCategory>
+</PreferenceScreen>

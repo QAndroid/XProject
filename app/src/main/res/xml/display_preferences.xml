@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="@string/settings_preferencecategory_display_key"
+        android:title="@string/settings_preferencecategory_display_title">
+        <ListPreference
+            android:dialogTitle="@string/settings_preference_displaythemes_dialogtitle"
+            android:entries="@array/settings_preference_displaythemes"
+            android:entryValues="@array/settings_preference_displaythemes_codes"
+            android:key="@string/settings_preference_displaythemes_key"
+            android:title="@string/settings_preference_displaythemes_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/settings_preference_notificatorbar_key"
+            android:title="@string/settings_preference_notificatorbar_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="articlelist_preferencecategory"
+        android:title="Article List">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="unreadfirst_preference"
+            android:summary="Show unread article first"
+            android:title="Unread First" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="sortorder_preference"
+            android:summary="Newest to oldest"
+            android:title="Sort order" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="hidereaded_preference"
+            android:title="Hide read articles" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="text_preferencecategory"
+        android:title="Text">
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/settings_preference_fontsize_dialogtitle"
+            android:entries="@array/settings_preference_fontsizes"
+            android:entryValues="@array/settings_preference_fontsizes_codes"
+            android:key="@string/settings_preference_fontsizes_key"
+            android:title="@string/settings_preference_fontsize_title" />
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/settings_preference_articlealignment_dialogtitle"
+            android:entries="@array/settings_article_alignment"
+            android:entryValues="@array/settings_article_alignment_codes"
+            android:key="@string/settings_preference_articlealignment_key"
+            android:title="@string/settings_preference_articlealignment_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

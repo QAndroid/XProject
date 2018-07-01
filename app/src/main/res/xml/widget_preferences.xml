@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="widget_preferencecategory"
+        android:title="Widget">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="showimages_preference"
+            android:title="Show Images" />
+    </PreferenceCategory>
+</PreferenceScreen>

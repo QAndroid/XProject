@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/page_background"
-    tools:context=".controller.activity.setting.SettingsActivity">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/settings_appbarlayout_navigator"
-        style="@style/xproject_appbarlayout">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/settings_toolbar_navigator"
-            style="@style/xproject_toolbar" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <fragment
-        android:id="@+id/settings_fragment_content"
-        android:name="workshop1024.com.xproject.controller.fragment.setting.SettingsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_toolbar"
+    style="@style/xproject_toolbar"
+    app:navigationIcon="?attr/homeAsUpIndicator"
+    app:title="Settings"
+    app:titleTextColor="#ffffff" />

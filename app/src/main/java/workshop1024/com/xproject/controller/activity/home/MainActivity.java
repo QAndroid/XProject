@@ -25,7 +25,7 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.feedback.FeedbackActivity;
 import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity;
 import workshop1024.com.xproject.controller.activity.login.LoginActivity;
-import workshop1024.com.xproject.controller.activity.setting.SettingsActivity;
+import workshop1024.com.xproject.controller.activity.settings.SettingsActivity;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.controller.fragment.home.HomePageFragment;
