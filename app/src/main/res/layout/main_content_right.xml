@@ -35,7 +35,7 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/floatingactionbutton_newslist"
-        android:tint="@color/white"
+        android:tint="@color/main_floatingactionbutton_tintcolor"
         android:visibility="gone"
         app:layout_behavior="workshop1024.com.xproject.view.floatbutton.FloatingActionButtonBehavior"
         tools:visibility="visible" />

@@ -24,11 +24,28 @@
     <!--主页面开始-->
     <color name="main_navigationview_item_textcolorchecked">#01A3AE</color>
     <color name="main_navigationview_item_icontintchecked">#01A3AE</color>
+    <color name="main_floatingactionbutton_tintcolor">#ffffff</color>
+    <color name="main_navigatorheader_buttontextcolor">#ffffff</color>
     <color name="home_tablayout_indicatorcolor">#BAD976</color>
     <color name="home_tablayout_textselectedcolor">#01A3AE</color>
+    <color name="homesub_listitem_textcolorname">#ffffff</color>
+    <color name="homesub_listitem_textcolorcount">#ffffeb3b</color>
+    <color name="homesub_newslistitem_textcolortitle">#ffffff</color>
     <color name="homesub_emptyitem_background">#ffd8f3ff</color>
     <color name="homesub_emptyitem_bottombackground">#fff2ac4b</color>
     <!--主页面介绍-->
+
+    <!--新闻详情页面开始-->
+    <color name="newsdetail_taglist_textcolor">#ffffff</color>
+    <color name="newsdetail_floatingactionbutton_tintcolor">#ffffff</color>
+    <!--新闻详情页面结束-->
+
+    <!--设置页面开始-->
+    <color name="settings_textcolor_secondary">#73737373</color>
+    <!--设置页面结束-->
+    <!--反馈页面开始-->
+    <color name="feedback_textview_hello_textcolor">#ffffff</color>
+    <!--反馈页面结束-->
 
     <!--日间模式-->
     <!--页面-->
@@ -53,4 +70,7 @@
     <color name="home_tablayout_textcolor">#000000</color>
     <!--新闻详情页-->
     <color name="newsdetail_sheetview_item_icontint">#9E9E9E</color>
+    <!--设置页面-->
+    <color name="settings_headerlist_itemdivider">#e0e0e0e0</color>
+    <color name="settings_textcolor_primary">#000000</color>
 </resources>

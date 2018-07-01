@@ -67,7 +67,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="title1title1title1title1title1title1title1title1titleitle1title1"
-            android:textColor="@color/white"
+            android:textColor="@color/homesub_newslistitem_textcolortitle"
             android:textSize="24sp"/>
     </RelativeLayout>
 

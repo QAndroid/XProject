@@ -1,14 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-
-        <!--&lt;!&ndash;自定义菜单的背景颜色和字体颜色&ndash;&gt;-->
-        <!--<item name="android:itemBackground">@color/white</item>-->
-        <!--<item name="android:textColor">#B1B1B1</item>-->
-    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="xproject_appbarlayout">
         <item name="android:layout_width">match_parent</item>
@@ -103,10 +95,15 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <!--为了PreferenceActivity增加ActionBar-->
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!--修改toolbar background颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--修改activity background颜色-->
+        <item name="android:windowBackground">@color/page_background</item>
+        <!--修改preference title颜色-->
+        <item name="android:textColorPrimary">@color/inputstringdialog_textcolor</item>
+        <!--修改preference summary颜色-->
+        <item name="android:textColorSecondary">@color/settings_textcolor_secondary</item>
     </style>
 </resources>

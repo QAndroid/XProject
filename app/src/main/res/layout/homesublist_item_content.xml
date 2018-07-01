@@ -34,14 +34,14 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Lifehacker"
-                android:textColor="@color/white"
+                android:textColor="@color/homesub_listitem_textcolorname"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/homesublist_item_textview_newscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="500"
-                android:textColor="#ffffeb3b"
+                android:textColor="@color/homesub_listitem_textcolorcount"
                 android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>

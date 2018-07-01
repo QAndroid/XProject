@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="sync_preferencecategory"
-        android:title="Sync">
+        android:key="@string/settings_preferencecategory_sync_key"
+        android:title="@string/settings_preferencecategory_sync_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="automaticrefresh_preference"
-            android:title="Automatic Data Refresh" />
+            android:key="@string/settings_preference_autodatarefresh_key"
+            android:title="@string/settings_preference_autodatarefresh_title" />
         <ListPreference
             android:defaultValue="0"
             android:dialogTitle="Refresh Interval"
             android:entries="@array/settings_refresh_interval"
             android:entryValues="@array/settings_refresh_interval_codes"
-            android:key="refreshinterval_preference"
-            android:summary="15 mins"
-            android:title="Refresh Interval" />
+            android:key="@string/settings_preference_refreshinterval_key"
+            android:title="@string/settings_preference_refreshinterval_title" />
         <SwitchPreference
             android:defaultValue="true"
-            android:key="refreshwifi_preference"
-            android:title="Sync Only If On WIFI" />
+            android:key="@string/settings_preference_synconlywifi_key"
+            android:title="@string/settings_preference_synconlywifi_title" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="refreshlaunch_preference"
-            android:title="Refresh data on launch" />
+            android:key="@string/settings_preference_refreshonlaunch_key"
+            android:title="@string/settings_preference_refreshonlaunch_title" />
     </PreferenceCategory>
 </PreferenceScreen>

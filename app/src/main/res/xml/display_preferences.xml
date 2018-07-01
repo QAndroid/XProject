@@ -15,26 +15,26 @@
             android:title="@string/settings_preference_notificatorbar_title" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="articlelist_preferencecategory"
-        android:title="Article List">
+        android:key="@string/settings_preferencecategory_articlelist_key"
+        android:title="@string/settings_preferencecategory_articlelist_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="unreadfirst_preference"
-            android:summary="Show unread article first"
-            android:title="Unread First" />
+            android:key="@string/settings_preference_unreadfirst_key"
+            android:summary="@string/settings_preference_unreadfirst_summary"
+            android:title="@string/settings_preference_unreadfirst_title" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="sortorder_preference"
-            android:summary="Newest to oldest"
-            android:title="Sort order" />
+            android:key="@string/settings_preference_sortorder_key"
+            android:summary="@string/settings_preference_sortorder_summary"
+            android:title="@string/settings_preference_sortorder_title" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="hidereaded_preference"
-            android:title="Hide read articles" />
+            android:key="@string/settings_preference_hidereadarticles_key"
+            android:title="@string/settings_preference_hidereadarticles_title" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="text_preferencecategory"
-        android:title="Text">
+        android:key="@string/settings_preferencecategory_text_key"
+        android:title="@string/settings_preferencecategory_text_title">
         <ListPreference
             android:defaultValue="0"
             android:dialogTitle="@string/settings_preference_fontsize_dialogtitle"

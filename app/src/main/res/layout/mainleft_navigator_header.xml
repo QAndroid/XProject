@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/main_leftnavigator_header_login"
-        android:textColor="@color/white"/>
+        android:textColor="@color/main_navigatorheader_buttontextcolor" />
 
     <!--退出按钮-->
     <ImageButton

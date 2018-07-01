@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="advanced_preferencecategory"
-        android:title="Advanced">
+        android:key="@string/settings_preferencecategory_advance_key"
+        android:title="@string/settings_preferencecategory_advance_title">
         <workshop1024.com.xproject.view.preference.ClearDataPreference
             android:defaultValue="false"
-            android:key="cleardatabase_preference"
-            android:summary="Remove all data in database"
-            android:title="Clear Database" />
+            android:key="@string/settings_preference_cleardatabase_key"
+            android:summary="@string/settings_preference_cleardatabase_summary"
+            android:title="@string/settings_preference_cleardatabase_title" />
     </PreferenceCategory>
 </PreferenceScreen>

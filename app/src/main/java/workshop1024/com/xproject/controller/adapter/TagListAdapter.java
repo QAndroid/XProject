@@ -31,7 +31,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
     public TagViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TextView tagTextView = new TextView(parent.getContext());
         tagTextView.setBackgroundResource(R.drawable.taglist_button_selector);
-        tagTextView.setTextColor(mResource.getColor(R.color.white, null));
+        tagTextView.setTextColor(mResource.getColor(R.color.newsdetail_taglist_textcolor, null));
         //TODO dp和像素的转换
         tagTextView.setTextSize(14);
         tagTextView.setPadding(UnitUtils.dpToPx(mContext, 8), UnitUtils.dpToPx(mContext, 5),

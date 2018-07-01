@@ -32,7 +32,7 @@
         android:id="@+id/homesublist_grassview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_below="@id/homelist_imageview_mountains" />
+        android:layout_below="@id/homesublist_imageview_mountains" />
 
     <!--石头-->
     <ImageView

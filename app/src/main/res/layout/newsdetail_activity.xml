@@ -120,7 +120,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/floatingactionbutton_newsdetail"
-        android:tint="@color/white"
+        android:tint="@color/newsdetail_floatingactionbutton_tintcolor"
         app:layout_behavior="workshop1024.com.xproject.view.floatbutton.FloatingActionButtonBehavior" />
 
     <!--FloatingActionButton 菜单-->

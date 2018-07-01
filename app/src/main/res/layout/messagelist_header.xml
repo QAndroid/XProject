@@ -22,7 +22,7 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/feedback_imageview_icon"
         android:text="Hello!"
-        android:textColor="@color/white"
+        android:textColor="@color/feedback_textview_hello_textcolor"
         android:textSize="24sp" />
 
     <TextView
