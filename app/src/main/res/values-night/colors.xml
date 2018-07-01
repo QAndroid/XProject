@@ -31,4 +31,6 @@
     <!--设置页面-->
     <color name="settings_headerlist_itemdivider">#2a2a2a2a</color>
     <color name="settings_textcolor_primary">#ffffff</color>
+    <!--关于页面-->
+    <color name="about_textcolor">#ffffff</color>
 </resources>

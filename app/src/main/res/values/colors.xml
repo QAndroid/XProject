@@ -78,4 +78,6 @@
     <!--设置页面-->
     <color name="settings_headerlist_itemdivider">#e0e0e0e0</color>
     <color name="settings_textcolor_primary">#000000</color>
+    <!--关于页面-->
+    <color name="about_textcolor">#000000</color>
 </resources>

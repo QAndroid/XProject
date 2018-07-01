@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="What does Paperboy do?"
-            android:textColor="#202020"
+            android:textColor="@color/about_textcolor"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Paperboy makes reading stories a beautiful and immersive experience.Simplicity and consistency is the core to the design making reading enjoyable."
-            android:textColor="#202020"
+            android:textColor="@color/about_textcolor"
             android:textSize="14sp" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="How can you get involved?"
-            android:textColor="#202020"
+            android:textColor="@color/about_textcolor"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -53,14 +53,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="We provide early access to the latest and greatest features of Paperboy to the Google Plus alpha testing community.Come and join us there."
-            android:textColor="#202020" />
+            android:textColor="@color/about_textcolor" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="How can we find you?"
-            android:textColor="#202020"
+            android:textColor="@color/about_textcolor"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Do like us on Facebook,twitter and on our Google plus channel to get the latest features on Paperboy."
-            android:textColor="#202020" />
+            android:textColor="@color/about_textcolor" />
     </LinearLayout>
 
 </LinearLayout>
