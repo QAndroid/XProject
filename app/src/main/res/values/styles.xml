@@ -102,8 +102,18 @@
         <!--修改activity background颜色-->
         <item name="android:windowBackground">@color/page_background</item>
         <!--修改preference title颜色-->
-        <item name="android:textColorPrimary">@color/inputstringdialog_textcolor</item>
+        <item name="android:textColorPrimary">@color/settings_textcolor_primary</item>
         <!--修改preference summary颜色-->
         <item name="android:textColorSecondary">@color/settings_textcolor_secondary</item>
+        <!--修改listpreference dialog样式-->
+        <item name="android:alertDialogTheme">@style/xproject_listpreference_dialog</item>
+    </style>
+
+    <style name="xproject_listpreference_dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/listpreference_dialog_textcolor</item>
+        <item name="android:textColorAlertDialogListItem">
+            @color/listpreference_dialog_itemtextcolor
+        </item>
+        <item name="android:background">@color/listpreference_dialog_background</item>
     </style>
 </resources>

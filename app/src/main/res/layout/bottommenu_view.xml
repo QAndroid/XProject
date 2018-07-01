@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/bottommenu_addpublisher"
+            android:drawableTint="@color/bottommenu_textdrawable_tint"
             android:gravity="center_horizontal"
             android:text="@string/homepage_bottommenu_addpublisher"
             android:textColor="@color/bottommenu_textcolor" />
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/bottommenu_addtopic"
+            android:drawableTint="@color/bottommenu_textdrawable_tint"
             android:gravity="center_horizontal"
             android:text="@string/homepage_bottommenu_addtopic"
             android:textColor="@color/bottommenu_textcolor" />

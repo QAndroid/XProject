@@ -17,16 +17,19 @@
             <item
                 android:id="@+id/newslist_menu_cards"
                 android:icon="@drawable/main_menu_cards"
+                android:iconTint="@color/toolbarmenu_icontint"
                 android:title="@string/main_menu_cards" />
             <!--Compact视图-->
             <item
                 android:id="@+id/newslist_menu_compact"
                 android:icon="@drawable/main_menu_compact"
+                android:iconTint="@color/toolbarmenu_icontint"
                 android:title="@string/main_menu_compact" />
             <!--Minimal视图-->
             <item
                 android:id="@+id/newslist_menu_minimal"
                 android:icon="@drawable/main_menu_minimal"
+                android:iconTint="@color/toolbarmenu_icontint"
                 android:title="@string/main_menu_minimal" />
         </menu>
     </item>
