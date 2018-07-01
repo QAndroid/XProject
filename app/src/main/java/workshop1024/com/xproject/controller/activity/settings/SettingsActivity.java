@@ -3,7 +3,6 @@ package workshop1024.com.xproject.controller.activity.settings;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
@@ -28,12 +27,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Settings");
+//            actionBar.setTitle("Settings");
         }
 
         ListView headerListView = getListView();
-        int[] colors = {0, 0xFFFF0000, 0};
-        headerListView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
+        headerListView.setDivider(getDrawable(R.drawable.setting_headerlist_itemdivider));
         headerListView.setDividerHeight(1);
     }
 

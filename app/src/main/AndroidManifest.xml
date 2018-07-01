@@ -25,8 +25,10 @@
         <activity android:name=".controller.activity.introduce.IntroduceActivity" />
         <!-- 主页面 -->
         <activity android:name=".controller.activity.home.MainActivity" />
+        <!--TODO 把其他的setTitle去除-->
         <activity
             android:name=".controller.activity.settings.SettingsActivity"
+            android:label="Settings"
             android:parentActivityName=".controller.activity.home.MainActivity"
             android:theme="@style/SettingsTheme" />
         <activity
