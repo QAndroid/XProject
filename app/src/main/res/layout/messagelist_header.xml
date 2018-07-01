@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
     android:paddingBottom="8dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
@@ -22,7 +21,7 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/feedback_imageview_icon"
         android:text="Hello!"
-        android:textColor="@color/feedback_textview_hello_textcolor"
+        android:textColor="@color/xproject_daynight_textcolor"
         android:textSize="24sp" />
 
     <TextView
@@ -33,7 +32,7 @@
         android:layout_below="@id/feedback_textview_hello"
         android:layout_toRightOf="@id/feedback_imageview_icon"
         android:text="We'd love to get feedback from you on out app. The more details youcan provide, better."
-        android:textColor="#CCEDEF"
+        android:textColor="@color/xproject_daynight_textcolor"
         android:textSize="16sp" />
 
     <ImageButton
@@ -41,6 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/feedback_textview_prompt"
-        android:background="@color/colorPrimary"
+        android:background="@null"
         android:src="@drawable/apptentive_ic_info" />
 </RelativeLayout>

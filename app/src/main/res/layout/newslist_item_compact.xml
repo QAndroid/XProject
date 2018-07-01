@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Base.CardView"
-    android:foreground="?android:selectableItemBackground"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    app:cardElevation="6dp"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="2dp"
     app:cardPreventCornerOverlap="false">
 
-    <RelativeLayout
+        <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:padding="6.0dp">
@@ -33,7 +32,7 @@
             android:layout_width="match_parent"
             android:lineSpacingMultiplier="1.1"
             android:maxLines="3"
-            android:textColor="@android:color/white"
+            android:textColor="@color/xproject_daynight_textcolor"
             tools:text="AppStories, Episode 39 - The Mac App Store's Problems"/>
         <!--作者-->
         <TextView
@@ -46,6 +45,7 @@
             android:layout_toRightOf="@id/compact_imageview_banner"
             android:layout_width="wrap_content"
             android:maxLines="1"
+            android:textColor="@color/xproject_daynight_textcolor"
             tools:text="MacStories"/>
         <!--分割线-->
         <TextView

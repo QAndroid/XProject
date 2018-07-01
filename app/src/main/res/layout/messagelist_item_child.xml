@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="2dp">
 
     <TextView
@@ -14,5 +15,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="14dp"
+        android:textColor="@color/xproject_daynight_textcolor"
         tools:text="Hello Message" />
 </android.support.v7.widget.CardView>

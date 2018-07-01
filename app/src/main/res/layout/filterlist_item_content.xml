@@ -5,9 +5,8 @@
     style="@style/Base.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:selectableItemBackground"
-    app:cardElevation="6dp"
-    app:cardPreventCornerOverlap="false">
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:textColor="#333333"
+            android:textColor="@color/xproject_daynight_textcolor"
             android:textSize="18sp"
             tools:text="filter" />
         <!--删除按钮-->

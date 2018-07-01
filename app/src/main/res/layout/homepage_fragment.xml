@@ -14,7 +14,7 @@
         app:tabIndicatorColor="@color/home_tablayout_indicatorcolor"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/home_tablayout_textselectedcolor"
-        app:tabTextColor="@color/home_tablayout_textcolor" />
+        app:tabTextColor="@color/xproject_daynight_textcolor" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/homepage_viewpager_fragments"

@@ -15,24 +15,15 @@
     </style>
 
     <style name="xproject_toolbarmenu">
-        <item name="android:colorBackground">@color/toolbarmenu_background</item>
-        <item name="android:textColor">@color/toolbarmenu_textcolor</item>
+        <item name="android:colorBackground">@color/xproject_daynight_background</item>
+        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
     </style>
 
-    <style name="xproject_singlechoicedialog">
-        <item name="android:textColor">@color/singlechoicedialog_textcolor</item>
-        <item name="android:background">@color/singlechoicedialog_background</item>
-        <item name="textColorAlertDialogListItem">@color/singlechoicedialog_item_textcolor</item>
-    </style>
-
-    <style name="xproject_inputstringdialog">
-        <item name="android:textColor">@color/inputstringdialog_textcolor</item>
-        <item name="android:background">@color/inputstringdialog_background</item>
-    </style>
-
-    <style name="xproject_displaysettingsdialog">
-        <item name="android:textColor">@color/displaysettingsdialog_textcolor</item>
-        <item name="android:background">@color/displaysettingsdialog_background</item>
+    <style name="xproject_alertdialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
+        <item name="android:background">@color/xproject_daynight_background</item>
+        <item name="android:textColorAlertDialogListItem">@color/xproject_daynight_textcolor
+        </item>
     </style>
 
     <!---登录页面按钮-->
@@ -100,20 +91,12 @@
         <!--修改toolbar background颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--修改activity background颜色-->
-        <item name="android:windowBackground">@color/page_background</item>
+        <item name="android:windowBackground">@color/xproject_daynight_background</item>
         <!--修改preference title颜色-->
-        <item name="android:textColorPrimary">@color/settings_textcolor_primary</item>
+        <item name="android:textColorPrimary">@color/xproject_daynight_textcolor</item>
         <!--修改preference summary颜色-->
-        <item name="android:textColorSecondary">@color/settings_textcolor_secondary</item>
+        <item name="android:textColorSecondary">@color/xproject_textcolor_secondary</item>
         <!--修改listpreference dialog样式-->
-        <item name="android:alertDialogTheme">@style/xproject_listpreference_dialog</item>
-    </style>
-
-    <style name="xproject_listpreference_dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:textColor">@color/listpreference_dialog_textcolor</item>
-        <item name="android:textColorAlertDialogListItem">
-            @color/listpreference_dialog_itemtextcolor
-        </item>
-        <item name="android:background">@color/listpreference_dialog_background</item>
+        <item name="android:alertDialogTheme">@style/xproject_alertdialog</item>
     </style>
 </resources>

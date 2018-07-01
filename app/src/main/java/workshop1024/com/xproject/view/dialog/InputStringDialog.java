@@ -69,7 +69,7 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
         mEditText = contentView.findViewById(R.id.inputstring_textinputedittext_name);
 
         return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.xproject_displaysettingsdialog)).setTitle(mTitleStringId).setView(contentView).
+                R.style.xproject_alertdialog)).setTitle(mTitleStringId).setView(contentView).
                 setPositiveButton(mPositiveStringId, this).create();
     }
 

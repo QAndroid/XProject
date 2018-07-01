@@ -14,7 +14,7 @@
         android:id="@+id/bottommenu_linearlayout_actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bottommenu_background"
+        android:background="@color/xproject_daynight_background"
         android:orientation="horizontal"
         android:padding="8dp">
         <!--添加发布者-->
@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/bottommenu_addpublisher"
-            android:drawableTint="@color/bottommenu_textdrawable_tint"
+            android:drawableTint="@color/xproject_daynight_icontint"
             android:gravity="center_horizontal"
             android:text="@string/homepage_bottommenu_addpublisher"
-            android:textColor="@color/bottommenu_textcolor" />
+            android:textColor="@color/xproject_daynight_textcolor" />
         <!--添加主题-->
         <TextView
             android:id="@+id/bottommenu_textview_addtopic"
@@ -35,10 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/bottommenu_addtopic"
-            android:drawableTint="@color/bottommenu_textdrawable_tint"
+            android:drawableTint="@color/xproject_daynight_icontint"
             android:gravity="center_horizontal"
             android:text="@string/homepage_bottommenu_addtopic"
-            android:textColor="@color/bottommenu_textcolor" />
+            android:textColor="@color/xproject_daynight_textcolor" />
     </LinearLayout>
 
 </LinearLayout>

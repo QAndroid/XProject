@@ -14,5 +14,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="14dp"
+        android:textColor="@color/xproject_daynight_textcolor"
         tools:text="Hello Message" />
 </LinearLayout>

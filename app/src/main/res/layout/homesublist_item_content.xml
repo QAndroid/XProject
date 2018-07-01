@@ -4,9 +4,9 @@
     style="@style/Base.CardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:foreground="?android:selectableItemBackground"
-    app:cardCornerRadius="2.0dip"
-    app:cardElevation="2.0dip"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="2.0dp"
+    app:cardElevation="2.0dp"
     app:cardPreventCornerOverlap="false">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Lifehacker"
-                android:textColor="@color/homesub_listitem_textcolorname"
+                android:textColor="@color/xproject_daynight_textcolor"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/homesublist_item_textview_newscount"

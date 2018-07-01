@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -43,7 +44,8 @@ public class AccountDialog extends DialogFragment implements DialogInterface.OnC
         mNameEditText = contentView.findViewById(R.id.account_textinputedittext_name);
         mEmailEditText = contentView.findViewById(R.id.account_textinputedittext_email);
 
-        return new AlertDialog.Builder(getActivity()).setTitle(R.string.account_dialog_title).setView(contentView).
+        return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                R.style.xproject_alertdialog)).setTitle(R.string.account_dialog_title).setView(contentView).
                 setPositiveButton(R.string.account_dialog_cancle, this).
                 setNegativeButton(R.string.account_dialog_save, this).create();
     }

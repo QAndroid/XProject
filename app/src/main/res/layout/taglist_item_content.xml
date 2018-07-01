@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Base.CardView"
-    android:foreground="?android:selectableItemBackground"
+    app:cardBackgroundColor="@android:color/transparent"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     app:cardCornerRadius="2.0dip"

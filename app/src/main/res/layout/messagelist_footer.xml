@@ -8,5 +8,6 @@
         android:id="@+id/messagelist_textview_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="We will respond to your message soon." />
+        android:text="We will respond to your message soon."
+        android:textColor="@color/xproject_daynight_textcolor" />
 </LinearLayout>

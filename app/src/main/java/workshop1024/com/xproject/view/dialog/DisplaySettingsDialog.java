@@ -39,7 +39,7 @@ public class DisplaySettingsDialog extends DialogFragment implements View.OnClic
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.xproject_inputstringdialog));
+                R.style.xproject_alertdialog));
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         View contentView = layoutInflater.inflate(R.layout.displaysettings_dialog, null);

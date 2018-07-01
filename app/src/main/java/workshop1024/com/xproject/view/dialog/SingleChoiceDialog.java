@@ -69,7 +69,7 @@ public class SingleChoiceDialog extends DialogFragment implements DialogInterfac
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.xproject_singlechoicedialog));
+                R.style.xproject_alertdialog));
         builder.setTitle(mTitleString).setItems(mSelectStrings, this);
         return builder.create();
     }

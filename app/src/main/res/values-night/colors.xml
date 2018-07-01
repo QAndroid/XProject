@@ -1,36 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--夜间模式-->
-    <!--页面-->
-    <color name="page_background">#303030</color>
-    <color name="bottommenu_background">#303030</color>
-    <color name="bottommenu_textcolor">#ffffff</color>
-    <color name="toolbarmenu_background">#303030</color>
-    <color name="bottommenu_textdrawable_tint">#ffffff</color>
-    <color name="toolbarmenu_textcolor">#ffffff</color>
-    <color name="toolbarmenu_icontint">#ffffff</color>
-    <color name="sheetview_background">#303030</color>
-    <color name="sheetview_textcolor">#ffffff</color>
-    <color name="singlechoicedialog_textcolor">#ffffff</color>
-    <color name="singlechoicedialog_background">#303030</color>
-    <color name="singlechoicedialog_item_textcolor">#ffffff</color>
-    <color name="inputstringdialog_textcolor">#ffffff</color>
-    <color name="inputstringdialog_background">#303030</color>
-    <color name="displaysettingsdialog_textcolor">#ffffff</color>
-    <color name="displaysettingsdialog_background">#303030</color>
-    <color name="listpreference_dialog_textcolor">#ffffff</color>
-    <color name="listpreference_dialog_itemtextcolor">#ffffff</color>
-    <color name="listpreference_dialog_background">#303030</color>
-    <!--主页-->
-    <color name="main_navigationview_background">#303030</color>
-    <color name="main_navigationview_item_textcolor">#ffffff</color>
-    <color name="main_navigationview_item_icontint">#ffffff</color>
-    <color name="home_tablayout_textcolor">#ffffff</color>
-    <!--新闻详情页-->
-    <color name="newsdetail_sheetview_item_icontint">#ffffff</color>
-    <!--设置页面-->
-    <color name="settings_headerlist_itemdivider">#2a2a2a2a</color>
-    <color name="settings_textcolor_primary">#ffffff</color>
-    <!--关于页面-->
-    <color name="about_textcolor">#ffffff</color>
+    <color name="xproject_daynight_background">#303030</color>
+    <color name="xproject_daynight_textcolor">#ffffff</color>
+    <color name="xproject_daynight_icontint">#ffffff</color>
+    <color name="xproject_daynight_listdivider">#2a2a2a2a</color>
 </resources>
