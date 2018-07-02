@@ -22,7 +22,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             PreferenceManager.setDefaultValues(getContext(), R.xml.display_preferences, false);
             setPreferenceSummaryByKey(R.string.settings_preference_displaythemes_key);
             setPreferenceSummaryByKey(R.string.settings_preference_fontsizes_key);
-            setPreferenceSummaryByKey(R.string.settings_preference_articlealignment_key);
         } else if (getString(R.string.settings_header_sync_extravalue).equals(settings)) {
             addPreferencesFromResource(R.xml.sync_preferences);
             PreferenceManager.setDefaultValues(getContext(), R.xml.sync_preferences, false);

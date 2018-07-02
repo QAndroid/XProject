@@ -164,20 +164,6 @@
         <item>10.0</item>
         <item>12.0</item>
     </string-array>
-    <string name="settings_preference_articlealignment_key">settings_preference_articlealignment</string>
-    <string name="settings_preference_articlealignment_title">Article Text Alignment</string>
-    <string name="settings_preference_articlealignment_dialogtitle">Article Text Alignment</string>
-    <string-array name="settings_article_alignment">
-        <item>Justify</item>
-        <item>Left</item>
-        <item>Right</item>
-    </string-array>
-    <string-array name="settings_article_alignment_codes">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string name="settings_preferencecategory_sync_key">sync_preferencecategory</string>
     <string name="settings_preferencecategory_sync_title">Sync</string>
     <string name="settings_preference_autodatarefresh_key">automaticrefresh_preference</string>

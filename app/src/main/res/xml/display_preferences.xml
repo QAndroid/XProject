@@ -43,12 +43,5 @@
             android:entryValues="@array/settings_preference_fontsizes_codes"
             android:key="@string/settings_preference_fontsizes_key"
             android:title="@string/settings_preference_fontsize_title" />
-        <ListPreference
-            android:defaultValue="0"
-            android:dialogTitle="@string/settings_preference_articlealignment_dialogtitle"
-            android:entries="@array/settings_article_alignment"
-            android:entryValues="@array/settings_article_alignment_codes"
-            android:key="@string/settings_preference_articlealignment_key"
-            android:title="@string/settings_preference_articlealignment_title" />
     </PreferenceCategory>
 </PreferenceScreen>
