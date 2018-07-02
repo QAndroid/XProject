@@ -3,13 +3,16 @@ package workshop1024.com.xproject.controller.activity.home;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -53,7 +56,9 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     private DisplaySettingsDialog mDisplaySettingsDialog;
 
     private String mNewsId;
+    private Float mSelectedFontSize;
     private NewsRepository mNewsRepository;
+    private SharedPreferences mSharedPreferences;
 
     public static void startActivity(Context context, String newsId) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
@@ -82,6 +87,13 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizeString = mSharedPreferences.getString(getString(R.string.settings_preference_fontsizes_key),
+                getString(R.string.settings_preference_fontsizes_default));
+        mSelectedFontSize = Float.valueOf(fontSizeString);
+        Log.i("XProject", "onCreate fintSize = " + fontSizeString);
+        mContentTextView.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
@@ -126,6 +138,7 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
         } else if (v.equals(mSheetItem1TextView)) {
             if (mDisplaySettingsDialog == null) {
                 mDisplaySettingsDialog = DisplaySettingsDialog.newInstance();
+                mDisplaySettingsDialog.setSelectTextSize(mSelectedFontSize);
             }
             mDisplaySettingsDialog.show(getSupportFragmentManager(), "DisplaySettingsDialog");
             sheetViewOut();
@@ -161,8 +174,14 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     }
 
     @Override
-    public void onDisplaySettingDialogClick(DialogFragment dialogFragment, int textSize) {
-        mContentTextView.setTextSize(textSize);
+    public void onDisplaySettingDialogClick(DialogFragment dialogFragment, float textSize) {
+        mSelectedFontSize = textSize;
+        mContentTextView.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
+
+        Log.i("XProject", "onDisplaySettingDialogClick fintSize = " + textSize);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(getString(R.string.settings_preference_fontsizes_key), String.valueOf(textSize));
+        editor.commit();
     }
 
     private void sheetViewIn() {

@@ -14,8 +14,8 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.utils.UnitUtils;
 
 public class ScaleSeekBar extends View {
-    //字体大小刻度数组
-    private int[] mSizes;
+    //字体大小刻度数组，注意该字符串必须是Float字符串
+    private String[] mSizes;
     //当前字体大小
     private int mSelectedIndex;
 
@@ -52,7 +52,7 @@ public class ScaleSeekBar extends View {
         try {
             int sizesResourceId = typedArray.getResourceId(R.styleable.ScaleSeekBar_sizeArray, 0);
             if (sizesResourceId != 0) {
-                mSizes = getResources().getIntArray(sizesResourceId);
+                mSizes = getResources().getStringArray(sizesResourceId);
             }
             mSelectedIndex = typedArray.getInt(R.styleable.ScaleSeekBar_selectedIndex, 1);
         } finally {
@@ -187,13 +187,13 @@ public class ScaleSeekBar extends View {
         return resultSize;
     }
 
-    public int getSelectedTextSize() {
-        return mSizes[mSelectedIndex];
+    public float getSelectedTextSize() {
+        return Float.valueOf(mSizes[mSelectedIndex]);
     }
 
-    public void setSelectedTextSize(int textSize) {
+    public void setSelectedTextSize(float textSize) {
         for (int size_i = 0; size_i < mSizes.length; size_i++) {
-            if (mSizes[size_i] == textSize) {
+            if (Float.valueOf(mSizes[size_i]) == textSize) {
                 mSelectedIndex = size_i;
             }
         }

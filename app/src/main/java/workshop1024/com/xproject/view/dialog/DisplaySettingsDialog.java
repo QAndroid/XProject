@@ -17,9 +17,13 @@ public class DisplaySettingsDialog extends DialogFragment implements View.OnClic
     private ScaleSeekBar mScaleSeekBar;
     private Button mConfirmButton;
 
-    private int mSelectTextSize;
+    private float mSelectTextSize;
 
     private DisplaySettingsDialogListener mDisplaySettingsDialogListener;
+
+    public void setSelectTextSize(float selectTextSize) {
+        mSelectTextSize = selectTextSize;
+    }
 
     public static DisplaySettingsDialog newInstance() {
         DisplaySettingsDialog displaySettingsDialog = new DisplaySettingsDialog();
@@ -62,6 +66,6 @@ public class DisplaySettingsDialog extends DialogFragment implements View.OnClic
 
 
     public interface DisplaySettingsDialogListener {
-        void onDisplaySettingDialogClick(DialogFragment dialogFragment, int textSize);
+        void onDisplaySettingDialogClick(DialogFragment dialogFragment, float textSize);
     }
 }

@@ -36,6 +36,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -51,7 +56,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             preference.setSummary(listPreference.getEntry());
-            if (preference.getKey().equals(getString(R.string.settings_preference_displaythemes_key))) {
+            if (key.equals(getString(R.string.settings_preference_displaythemes_key))) {
                 ThemeUtils.refreshThemesShow(getActivity());
             }
         }
@@ -59,6 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void setPreferenceSummaryByKey(int preferenceKey) {
         ListPreference listPreference = (ListPreference) findPreference(getString(preferenceKey));
-        listPreference.setSummary(listPreference.getEntry());
+        CharSequence entryCharSequence = listPreference.getEntry();
+        listPreference.setSummary(entryCharSequence.toString());
     }
 }
