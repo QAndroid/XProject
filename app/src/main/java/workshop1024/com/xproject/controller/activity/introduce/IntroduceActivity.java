@@ -2,6 +2,7 @@ package workshop1024.com.xproject.controller.activity.introduce;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,12 +21,13 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.MainActivity;
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment;
+import workshop1024.com.xproject.databinding.IntroduceActivityBinding;
 import workshop1024.com.xproject.view.group.CircleDotIndicator;
 
 /**
  * 介绍页面
  */
-public class IntroduceActivity extends FragmentActivity implements View.OnClickListener {
+public class IntroduceActivity extends FragmentActivity {
     //介绍内容ViewPager
     private ViewPager mContentViewpager;
     //圆点索引指示器
@@ -56,7 +58,9 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.introduce_activity);
+        IntroduceActivityBinding introduceActivityBinding = DataBindingUtil.setContentView(
+                this, R.layout.introduce_activity);
+        introduceActivityBinding.setIntroduceHandlers(new IntroduceHandlers());
 
         mContentViewpager = findViewById(R.id.introduce_viewpager_content);
         mCricledotindicator = findViewById(R.id.introduce_cricledotindicator_index);
@@ -65,24 +69,11 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
         mNextButton = findViewById(R.id.introduce_button_next);
         mDoneButton = findViewById(R.id.introduce_button_done);
 
-        mSkipButton.setOnClickListener(this);
-        mNextButton.setOnClickListener(this);
-        mDoneButton.setOnClickListener(this);
-
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
         mContentViewpager.setAdapter(mPagerAdapter);
         mContentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
 
         mCricledotindicator.setViewPager(mContentViewpager);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == mNextButton) {
-            toNextViewPageItem();
-        } else if (view == mSkipButton || view == mDoneButton) {
-            toMainActivity();
-        }
     }
 
     /**
@@ -158,4 +149,20 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
 
         }
     }
+
+    public class IntroduceHandlers {
+
+        public void onClickSkip(View view) {
+            toMainActivity();
+        }
+
+        public void onClickNext(View view) {
+            toNextViewPageItem();
+        }
+
+        public void onClickDone(View view) {
+            toMainActivity();
+        }
+    }
+
 }
