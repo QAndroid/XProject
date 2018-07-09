@@ -1,11 +1,10 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.fragment.TopFragment;
 import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.databinding.HomepageFragmentBinding;
 
 /**
  * 抽屉导航Home Fragment，包含ViewPager来显示Stories和Topies子PageFragment
@@ -33,21 +33,20 @@ public class HomePageFragment extends XFragment implements TopFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.homepage_fragment, container, false);
-
-        TabLayout tabLayout = view.findViewById(R.id.homepage_tablayout_tabs);
-        ViewPager viewPager = view.findViewById(R.id.homepage_viewpager_fragments);
+        HomepageFragmentBinding homepageFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.homepage_fragment,
+                container, false);
 
         //设置ViewPager允许有所有的存在屏幕外的Fragment不会被销毁
         mTabTitles = getResources().getStringArray(R.array.homepage_tabs_strings);
-        viewPager.setOffscreenPageLimit(mTabTitles.length - 1);
+        homepageFragmentBinding.homepageViewpagerFragments.setOffscreenPageLimit(mTabTitles.length - 1);
 
         //不使用getChildFragmentManager，从StoryFragment返回，PageFragment不显示
         mHomeFragmentPagerAdapter = new HomeFragmentPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(mHomeFragmentPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager, true);
+        homepageFragmentBinding.homepageViewpagerFragments.setAdapter(mHomeFragmentPagerAdapter);
+        homepageFragmentBinding.homepageTablayoutTabs.setupWithViewPager(homepageFragmentBinding.homepageViewpagerFragments,
+                true);
 
-        return view;
+        return homepageFragmentBinding.getRoot();
     }
 
     public void onRefresh() {
