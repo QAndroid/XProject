@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?><!--过滤器列表页面-->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/filter_coordinatorlayout_rootview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/xproject_daynight_background"
-    tools:context=".controller.activity.settings.SettingsActivity">
-    <!--TODO 将这部分页面标题上公共的布局抽象出来-->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/filter_appbarlayout_navigator"
-        style="@style/xproject_appbarlayout">
+    xmlns:tools="http://schemas.android.com/tools">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/filter_toolbar_navigator"
-            style="@style/xproject_toolbar"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <!--下拉刷新-->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/filter_swiperefreshlayout_pullrefresh"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/filter_coordinatorlayout_rootview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <!--发布者列表-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/filter_recyclerview_list"
+        android:background="@color/xproject_daynight_background"
+        tools:context=".controller.activity.settings.SettingsActivity">
+        <!--TODO 将这部分页面标题上公共的布局抽象出来-->
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/filter_appbarlayout_navigator"
+            style="@style/xproject_appbarlayout">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/filter_toolbar_navigator"
+                style="@style/xproject_toolbar"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!--下拉刷新-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/filter_swiperefreshlayout_pullrefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listItem="@layout/filterlist_item_content" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-</android.support.design.widget.CoordinatorLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!--发布者列表-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filter_recyclerview_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listItem="@layout/filterlist_item_content" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
