@@ -4,14 +4,13 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.flexbox.FlexDirection;
@@ -29,6 +27,7 @@ import com.google.android.flexbox.JustifyContent;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.TagListAdapter;
+import workshop1024.com.xproject.databinding.NewsdetailActivityBinding;
 import workshop1024.com.xproject.model.news.NewsDetail;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
@@ -37,28 +36,18 @@ import workshop1024.com.xproject.utils.ViewUtils;
 import workshop1024.com.xproject.view.dialog.DisplaySettingsDialog;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
-public class NewsDetailActivity extends XActivity implements View.OnClickListener,
-        NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
+public class NewsDetailActivity extends XActivity implements NewsDataSource.LoadNewsDetailCallBack,
+        DisplaySettingsDialog.DisplaySettingsDialogListener {
     public static final String NEWS_ID_KEY = "newsId";
 
-    private Toolbar mToolbar;
-    private TextView mPublisherTextView;
-    private TextView mPubDataTextView;
-    private TextView mContentTextView;
-    private RecyclerView mTagRecyclerView;
-    private FloatingActionButton mFloatingActionButton;
-    private CardView mSheetCardView;
-    private TextView mSheetItem1TextView;
-    private TextView mSheetItem2TextView;
-    private TextView mSheetItem3TextView;
-    private TextView mSheetItem4TextView;
-    private View mOverlayView;
     private DisplaySettingsDialog mDisplaySettingsDialog;
 
     private String mNewsId;
     private Float mSelectedFontSize;
     private NewsRepository mNewsRepository;
     private SharedPreferences mSharedPreferences;
+
+    private NewsdetailActivityBinding mNewsdetailActivityBinding;
 
     public static void startActivity(Context context, String newsId) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
@@ -69,22 +58,10 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newsdetail_activity);
+        mNewsdetailActivityBinding = DataBindingUtil.setContentView(this, R.layout.newsdetail_activity);
+        mNewsdetailActivityBinding.setNewsDetailHandlers(new NewsDetailHandlers());
 
-        mToolbar = findViewById(R.id.detail_toolbar_navigator);
-        mPublisherTextView = findViewById(R.id.newsdetail_textview_publisher);
-        mPubDataTextView = findViewById(R.id.newsdetail_textview_pubdata);
-        mContentTextView = findViewById(R.id.newsdetail_textview_content);
-        mTagRecyclerView = findViewById(R.id.newsdetail_recyclerView_tags);
-        mFloatingActionButton = findViewById(R.id.newsdetail_floatingactionbutton_action);
-        mSheetCardView = findViewById(R.id.newsdetail_cardview_sheet);
-        mSheetItem1TextView = findViewById(R.id.newsdetail_textview_sheetitem1);
-        mSheetItem2TextView = findViewById(R.id.newsdetail_textview_sheetitem2);
-        mSheetItem3TextView = findViewById(R.id.newsdetail_textview_sheetitem3);
-        mSheetItem4TextView = findViewById(R.id.newsdetail_textview_sheetitem4);
-        mOverlayView = findViewById(R.id.newsdetail_view_overlay);
-
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mNewsdetailActivityBinding.detailToolbarNavigator);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -93,20 +70,13 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
                 getString(R.string.settings_preference_fontsizes_default));
         mSelectedFontSize = Float.valueOf(fontSizeString);
         Log.i("XProject", "onCreate fintSize = " + fontSizeString);
-        mContentTextView.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
+        mNewsdetailActivityBinding.newsdetailTextviewContent.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this);
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
         flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
-        mTagRecyclerView.setLayoutManager(flexboxLayoutManager);
-        mTagRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(UnitUtils.dpToPx(this, 4)));
-
-        mFloatingActionButton.setOnClickListener(this);
-        mSheetItem1TextView.setOnClickListener(this);
-        mSheetItem2TextView.setOnClickListener(this);
-        mSheetItem3TextView.setOnClickListener(this);
-        mSheetItem4TextView.setOnClickListener(this);
-        mOverlayView.setOnClickListener(this);
+        mNewsdetailActivityBinding.newsdetailRecyclerViewTags.setLayoutManager(flexboxLayoutManager);
+        mNewsdetailActivityBinding.newsdetailRecyclerViewTags.addItemDecoration(new RecyclerViewItemDecoration(UnitUtils.dpToPx(this, 4)));
     }
 
     @Override
@@ -130,41 +100,14 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.equals(mFloatingActionButton)) {
-            sheetViewIn();
-        } else if (v.equals(mOverlayView)) {
-            sheetViewOut();
-        } else if (v.equals(mSheetItem1TextView)) {
-            if (mDisplaySettingsDialog == null) {
-                mDisplaySettingsDialog = DisplaySettingsDialog.newInstance();
-                mDisplaySettingsDialog.setSelectTextSize(mSelectedFontSize);
-            }
-            mDisplaySettingsDialog.show(getSupportFragmentManager(), "DisplaySettingsDialog");
-            sheetViewOut();
-        } else if (v.equals(mSheetItem2TextView)) {
-            Toast.makeText(this, "mSheetItem2TextView Click", Toast.LENGTH_SHORT).show();
-            sheetViewOut();
-        } else if (v.equals(mSheetItem3TextView)) {
-            NewsRepository newsRepository = NewsRepository.getInstance();
-            newsRepository.saveNewsById(mNewsId);
-            Toast.makeText(this, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show();
-            sheetViewOut();
-        } else if (v.equals(mSheetItem4TextView)) {
-            Toast.makeText(this, "mSheetItem4TextView Click", Toast.LENGTH_SHORT).show();
-            sheetViewOut();
-        }
-    }
-
-    @Override
     public void onNewsDetailLoaded(NewsDetail newsDetail) {
         if (mIsForeground) {
-            mPublisherTextView.setText(newsDetail.getPublisher());
-            mPubDataTextView.setText(newsDetail.getPubDate());
-            mContentTextView.setText(newsDetail.getContent());
+            mNewsdetailActivityBinding.newsdetailTextviewPublisher.setText(newsDetail.getPublisher());
+            mNewsdetailActivityBinding.newsdetailTextviewPubdata.setText(newsDetail.getPubDate());
+            mNewsdetailActivityBinding.newsdetailTextviewContent.setText(newsDetail.getContent());
 
             TagListAdapter tagListAdapter = new TagListAdapter(this, newsDetail.getTagList());
-            mTagRecyclerView.setAdapter(tagListAdapter);
+            mNewsdetailActivityBinding.newsdetailRecyclerViewTags.setAdapter(tagListAdapter);
         }
     }
 
@@ -176,7 +119,7 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     @Override
     public void onDisplaySettingDialogClick(DialogFragment dialogFragment, float textSize) {
         mSelectedFontSize = textSize;
-        mContentTextView.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
+        mNewsdetailActivityBinding.newsdetailTextviewContent.setTextSize(UnitUtils.spToPx(this, mSelectedFontSize));
 
         Log.i("XProject", "onDisplaySettingDialogClick fintSize = " + textSize);
         SharedPreferences.Editor editor = mSharedPreferences.edit();
@@ -185,23 +128,26 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     }
 
     private void sheetViewIn() {
-        mFloatingActionButton.animate().scaleX(1.2f).scaleY(1.2f).translationX(getTranslationX(mFloatingActionButton, mSheetCardView)).
-                translationY(getTranslationY(mFloatingActionButton, mSheetCardView)).setInterpolator(new AccelerateInterpolator()).
-                setDuration(300).setListener(new Animator.AnimatorListener() {
+        mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.animate().scaleX(1.2f).scaleY(1.2f).
+                translationX(getTranslationX(mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding.newsdetailCardviewSheet)).
+                translationY(getTranslationY(mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding.newsdetailCardviewSheet)).
+                setInterpolator(new AccelerateInterpolator()).setDuration(300).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                mOverlayView.setVisibility(View.VISIBLE);
-                mOverlayView.animate().alpha(1).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
+                mNewsdetailActivityBinding.newsdetailViewOverlay.setVisibility(View.VISIBLE);
+                mNewsdetailActivityBinding.newsdetailViewOverlay.animate().alpha(1).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).start();
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                mSheetCardView.setVisibility(View.VISIBLE);
-                mFloatingActionButton.setVisibility(View.INVISIBLE);
+                mNewsdetailActivityBinding.newsdetailCardviewSheet.setVisibility(View.VISIBLE);
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.setVisibility(View.INVISIBLE);
 
-                Animator animator = ViewAnimationUtils.createCircularReveal(mSheetCardView, getCenterX(mSheetCardView),
-                        getCenterY(mSheetCardView), mFloatingActionButton.getWidth() / 2,
-                        (float) Math.hypot(mSheetCardView.getWidth(), mSheetCardView.getHeight()) / 2);
+                Animator animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding.newsdetailCardviewSheet,
+                        getCenterX(mNewsdetailActivityBinding.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding.newsdetailCardviewSheet),
+                        mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.getWidth() / 2,
+                        (float) Math.hypot(mNewsdetailActivityBinding.newsdetailCardviewSheet.getWidth(),
+                                mNewsdetailActivityBinding.newsdetailCardviewSheet.getHeight()) / 2);
                 animator.setInterpolator(new DecelerateInterpolator());
                 animator.setDuration(300);
                 animator.start();
@@ -220,9 +166,10 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     }
 
     private void sheetViewOut() {
-        Animator animator = ViewAnimationUtils.createCircularReveal(mSheetCardView, getCenterX(mSheetCardView),
-                getCenterY(mSheetCardView), (float) Math.hypot(mSheetCardView.getWidth(),
-                        mSheetCardView.getHeight()) / 2, mFloatingActionButton.getWidth() / 2);
+        Animator animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding.newsdetailCardviewSheet,
+                getCenterX(mNewsdetailActivityBinding.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding.newsdetailCardviewSheet),
+                (float) Math.hypot(mNewsdetailActivityBinding.newsdetailCardviewSheet.getWidth(), mNewsdetailActivityBinding.
+                        newsdetailCardviewSheet.getHeight()) / 2, mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.getWidth() / 2);
         animator.setInterpolator(new DecelerateInterpolator());
         animator.setDuration(300);
         animator.addListener(new Animator.AnimatorListener() {
@@ -233,18 +180,18 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                mSheetCardView.setVisibility(View.INVISIBLE);
-                mFloatingActionButton.setVisibility(View.VISIBLE);
-                mFloatingActionButton.animate().scaleX(1f).scaleY(1f).translationX(0).translationY(0).setInterpolator(new AccelerateInterpolator()).
-                        setDuration(300).setListener(new Animator.AnimatorListener() {
+                mNewsdetailActivityBinding.newsdetailCardviewSheet.setVisibility(View.INVISIBLE);
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.setVisibility(View.VISIBLE);
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.animate().scaleX(1f).scaleY(1f).translationX(0).
+                        translationY(0).setInterpolator(new AccelerateInterpolator()).setDuration(300).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mOverlayView.animate().alpha(0).setDuration(500).setInterpolator(new AccelerateDecelerateInterpolator()).start();
+                        mNewsdetailActivityBinding.newsdetailViewOverlay.animate().alpha(0).setDuration(500).setInterpolator(new AccelerateDecelerateInterpolator()).start();
                     }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mOverlayView.setVisibility(View.INVISIBLE);
+                        mNewsdetailActivityBinding.newsdetailViewOverlay.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -290,5 +237,41 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
 
     private int getCenterY(CardView sheetCardView) {
         return sheetCardView.getHeight() / 2 + sheetCardView.getTop();
+    }
+
+    public class NewsDetailHandlers {
+        public void onClickFloatingActionButton(View view) {
+            sheetViewIn();
+        }
+
+        public void onClickViewOverlay(View view) {
+            sheetViewIn();
+        }
+
+        public void onClickSheetitem1(View view) {
+            if (mDisplaySettingsDialog == null) {
+                mDisplaySettingsDialog = DisplaySettingsDialog.newInstance();
+                mDisplaySettingsDialog.setSelectTextSize(mSelectedFontSize);
+            }
+            mDisplaySettingsDialog.show(getSupportFragmentManager(), "DisplaySettingsDialog");
+            sheetViewOut();
+        }
+
+        public void onClickSheetitem2(View view) {
+            Toast.makeText(NewsDetailActivity.this, "mSheetItem2TextView Click", Toast.LENGTH_SHORT).show();
+            sheetViewOut();
+        }
+
+        public void onClickSheetitem3(View view) {
+            NewsRepository newsRepository = NewsRepository.getInstance();
+            newsRepository.saveNewsById(mNewsId);
+            Toast.makeText(NewsDetailActivity.this, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show();
+            sheetViewOut();
+        }
+
+        public void onClickSheetitem4(View view) {
+            Toast.makeText(NewsDetailActivity.this, "mSheetItem4TextView Click", Toast.LENGTH_SHORT).show();
+            sheetViewOut();
+        }
     }
 }
