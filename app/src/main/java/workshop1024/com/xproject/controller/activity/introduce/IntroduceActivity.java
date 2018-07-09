@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,28 +20,18 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.MainActivity;
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment;
 import workshop1024.com.xproject.databinding.IntroduceActivityBinding;
-import workshop1024.com.xproject.view.group.CircleDotIndicator;
 
 /**
  * 介绍页面
  */
 public class IntroduceActivity extends FragmentActivity {
-    //介绍内容ViewPager
-    private ViewPager mContentViewpager;
-    //圆点索引指示器
-    private CircleDotIndicator mCricledotindicator;
-    //跳过按钮
-    private Button mSkipButton;
-    //下一步按钮
-    private ImageButton mNextButton;
-    //完成按钮
-    private Button mDoneButton;
-
     //介绍布局id
     private List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment));
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
+
+    private IntroduceActivityBinding mIntroduceActivityBinding;
 
     /**
      * 启动介绍页面
@@ -58,29 +46,23 @@ public class IntroduceActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IntroduceActivityBinding introduceActivityBinding = DataBindingUtil.setContentView(
-                this, R.layout.introduce_activity);
-        introduceActivityBinding.setIntroduceHandlers(new IntroduceHandlers());
-
-        mContentViewpager = findViewById(R.id.introduce_viewpager_content);
-        mCricledotindicator = findViewById(R.id.introduce_cricledotindicator_index);
-        //TODO 使用ViewSwitcher优化重构
-        mSkipButton = findViewById(R.id.introduce_button_skip);
-        mNextButton = findViewById(R.id.introduce_button_next);
-        mDoneButton = findViewById(R.id.introduce_button_done);
+        mIntroduceActivityBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity);
+        mIntroduceActivityBinding.setIntroduceHandlers(new IntroduceHandlers());
 
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
-        mContentViewpager.setAdapter(mPagerAdapter);
-        mContentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
+        mIntroduceActivityBinding.introduceViewpagerContent.setAdapter(mPagerAdapter);
+        mIntroduceActivityBinding.introduceViewpagerContent.addOnPageChangeListener(new ViewPageChangeListener());
 
-        mCricledotindicator.setViewPager(mContentViewpager);
+        mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.
+                introduceViewpagerContent);
     }
 
     /**
      * 跳转下一个ViewPager的页面
      */
     private void toNextViewPageItem() {
-        mContentViewpager.setCurrentItem(mContentViewpager.getCurrentItem() + 1);
+        mIntroduceActivityBinding.introduceViewpagerContent.setCurrentItem(mIntroduceActivityBinding.
+                introduceViewpagerContent.getCurrentItem() + 1);
     }
 
     /**
@@ -126,20 +108,20 @@ public class IntroduceActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-            mCricledotindicator.setCurrentSelectedCircleDot(position);
+            mIntroduceActivityBinding.introduceCricledotindicatorIndex.setCurrentSelectedCircleDot(position);
 
             switch (position) {
                 case 0:
                 case 1:
                     //TODO 是否有某种设计模式可优化
-                    mSkipButton.setVisibility(View.VISIBLE);
-                    mNextButton.setVisibility(View.VISIBLE);
-                    mDoneButton.setVisibility(View.GONE);
+                    mIntroduceActivityBinding.introduceButtonSkip.setVisibility(View.VISIBLE);
+                    mIntroduceActivityBinding.introduceButtonNext.setVisibility(View.VISIBLE);
+                    mIntroduceActivityBinding.introduceButtonDone.setVisibility(View.GONE);
                     break;
                 case 2:
-                    mSkipButton.setVisibility(View.GONE);
-                    mNextButton.setVisibility(View.GONE);
-                    mDoneButton.setVisibility(View.VISIBLE);
+                    mIntroduceActivityBinding.introduceButtonSkip.setVisibility(View.GONE);
+                    mIntroduceActivityBinding.introduceButtonNext.setVisibility(View.GONE);
+                    mIntroduceActivityBinding.introduceButtonDone.setVisibility(View.VISIBLE);
                     break;
             }
         }
