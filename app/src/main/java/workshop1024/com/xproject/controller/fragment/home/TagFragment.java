@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +22,17 @@ public class TagFragment extends HomeSubFragment {
 
     @Override
     public void onRefresh() {
-        Log.i("XProject", "TagFragment onRefresh");
         refreshTagList();
     }
 
     @Override
     protected void loadData() {
-        Log.i("XProject", "TagFragment loadData");
         refreshTagList();
     }
 
     private void refreshTagList() {
-        Snackbar.make(mRootView, "Fetch more tag ...", Snackbar.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(true);
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more tag ...", Snackbar.LENGTH_SHORT).show();
+        mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mSubInfoRepository.getTagSubInfos(this);
     }
 
@@ -44,16 +41,16 @@ public class TagFragment extends HomeSubFragment {
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mSwipeRefreshLayout.setRefreshing(false);
+            mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(false);
             HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
-            mSubRecyclerView.setAdapter(homeSubListAdapter);
-            Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
+            mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(homeSubListAdapter);
+            Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDataNotAvailable() {
-        Snackbar.make(mRootView, "No tags refresh...", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "No tags refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

@@ -2,7 +2,6 @@ package workshop1024.com.xproject.controller.fragment.home;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,20 +28,18 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     @Override
     public void onRefresh() {
-        Log.i("XProject", "SubscribeFragment onRefresh");
         refreshSubscribedList();
     }
 
     @Override
     protected void loadData() {
-        Log.i("XProject", "SubscribeFragment loadData");
         refreshSubscribedList();
     }
 
 
     private void refreshSubscribedList() {
-        Snackbar.make(mRootView, "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(true);
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show();
+        mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mSubInfoRepository.getSubscribeSubInfos(this);
     }
 
@@ -50,17 +47,17 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mSwipeRefreshLayout.setRefreshing(false);
+            mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(false);
             mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
                     this, this);
-            mSubRecyclerView.setAdapter(mSubscribeListAdapter);
-            Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " subscribes ...", Snackbar.LENGTH_SHORT).show();
+            mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(mSubscribeListAdapter);
+            Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch " + subInfoList.size() + " subscribes ...", Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDataNotAvailable() {
-        Snackbar.make(mRootView, "No subscribes refresh...", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "No subscribes refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
