@@ -17,7 +17,7 @@ import workshop1024.com.xproject.model.news.News;
 /**
  * Created by chengxiang.peng on 2018/1/24.
  */
-public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsViewHolder> {
+public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.CompactViewHolder> {
     private Context mContext;
     private List<News> mNewsList;
 
@@ -27,15 +27,15 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
     }
 
     @Override
-    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CompactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         NewslistItemCompactBinding newslistItemCompactBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.newslist_item_compact, parent, false);
         newslistItemCompactBinding.setCompactHandlers(new CompactHandlers());
-        return new NewsViewHolder(newslistItemCompactBinding);
+        return new CompactViewHolder(newslistItemCompactBinding);
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
+    public void onBindViewHolder(CompactViewHolder holder, int position) {
         holder.mNewslistItemCompactBinding.setNews(mNewsList.get(position));
     }
 
@@ -44,10 +44,10 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.NewsView
         return mNewsList.size();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
+    public class CompactViewHolder extends RecyclerView.ViewHolder {
         private final NewslistItemCompactBinding mNewslistItemCompactBinding;
 
-        private NewsViewHolder(NewslistItemCompactBinding newslistItemCompactBinding) {
+        private CompactViewHolder(NewslistItemCompactBinding newslistItemCompactBinding) {
             super(newslistItemCompactBinding.getRoot());
             mNewslistItemCompactBinding = newslistItemCompactBinding;
         }
