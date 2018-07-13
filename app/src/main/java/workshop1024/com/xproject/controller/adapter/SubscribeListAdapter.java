@@ -59,10 +59,10 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.homepage_recyclerviewmenu_rename:
-                    mSubInfoListMenuListener.onRenameMenuClick(mSubInfo);
+                    mSubInfoListMenuListener.onRenameMenuClick(mHomesublistItemContentBinding.getSubInfo());
                     return true;
                 case R.id.homepage_recyclerviewmenu_unsubscribe:
-                    mSubInfoListMenuListener.onUnscribeMenuClick(mSubInfo);
+                    mSubInfoListMenuListener.onUnscribeMenuClick(mHomesublistItemContentBinding.getSubInfo());
                     return true;
                 default:
                     return false;

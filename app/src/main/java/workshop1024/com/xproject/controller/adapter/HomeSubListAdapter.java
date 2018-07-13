@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
     }
 
     public RecyclerView.ViewHolder getItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
+        homesublistItemContentBinding.setHomeSubHandlers(new HomeSubHandlers());
         return new ItemViewHolder(homesublistItemContentBinding);
     }
 
@@ -56,10 +56,7 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
         int viewType = getItemViewType(position);
         if (viewType == VIEW_TYPE_ITEM) {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            SubInfo subInfo = mSubInfoList.get(position);
-            itemViewHolder.mSubInfo = subInfo;
-            itemViewHolder.mNameTextView.setText(subInfo.getName());
-            itemViewHolder.mNewsCountTextView.setText(subInfo.getUnreadCount());
+            itemViewHolder.mHomesublistItemContentBinding.setSubInfo(mSubInfoList.get(position));
         }
     }
 
@@ -101,31 +98,12 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
         void onSubListItemClick(SubInfo subInfo);
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView mNameTextView;
-        TextView mNewsCountTextView;
-        SubInfo mSubInfo;
-        private final HomesublistItemContentBinding mHomesublistItemContentBinding;
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+        protected final HomesublistItemContentBinding mHomesublistItemContentBinding;
 
         public ItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
             super(homesublistItemContentBinding.getRoot());
             mHomesublistItemContentBinding = homesublistItemContentBinding;
-            homesublistItemContentBinding.getRoot().setOnClickListener(this);
-
-            mNameTextView = itemView.findViewById(R.id.homesublist_item_textview_name);
-            mNewsCountTextView = itemView.findViewById(R.id.homesublist_item_textview_newscount);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString();
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mSubListItemListener != null) {
-                mSubListItemListener.onSubListItemClick(mSubInfo);
-            }
         }
     }
 
@@ -133,6 +111,14 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
+        }
+    }
+
+    public class HomeSubHandlers {
+        public void onClickItem(View view, SubInfo subInfo) {
+            if (mSubListItemListener != null) {
+                mSubListItemListener.onSubListItemClick(subInfo);
+            }
         }
     }
 }
