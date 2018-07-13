@@ -10,7 +10,7 @@
             type="workshop1024.com.xproject.model.filter.Filter" />
 
         <variable
-            name="filterHandler"
+            name="filterHandlers"
             type="workshop1024.com.xproject.controller.adapter.FilterListAdapter.FilterHandlers" />
     </data>
 
