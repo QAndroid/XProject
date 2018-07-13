@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.controller.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.databinding.HomesublistItemContentBinding;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
-import workshop1024.com.xproject.view.group.GrassView;
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment中列表适配器，处理公共的视图渲染逻辑
@@ -38,12 +39,16 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
                     parent, false);
             viewHolder = new EmptyViewHolder(view);
         } else if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homesublist_item_content,
-                    parent, false);
-            viewHolder = new ItemViewHolder(view);
+            HomesublistItemContentBinding homesublistItemContentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.homesublist_item_content, parent, false);
+            viewHolder = getItemViewHolder(homesublistItemContentBinding);
         }
 
         return viewHolder;
+    }
+
+    public RecyclerView.ViewHolder getItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
+        return new ItemViewHolder(homesublistItemContentBinding);
     }
 
     @Override
@@ -100,10 +105,12 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
         TextView mNameTextView;
         TextView mNewsCountTextView;
         SubInfo mSubInfo;
+        private final HomesublistItemContentBinding mHomesublistItemContentBinding;
 
-        public ItemViewHolder(View view) {
-            super(view);
-            view.setOnClickListener(this);
+        public ItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
+            super(homesublistItemContentBinding.getRoot());
+            mHomesublistItemContentBinding = homesublistItemContentBinding;
+            homesublistItemContentBinding.getRoot().setOnClickListener(this);
 
             mNameTextView = itemView.findViewById(R.id.homesublist_item_textview_name);
             mNewsCountTextView = itemView.findViewById(R.id.homesublist_item_textview_newscount);
@@ -123,11 +130,9 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
     }
 
     public class EmptyViewHolder extends RecyclerView.ViewHolder {
-        private GrassView mGrassView;
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            mGrassView = itemView.findViewById(R.id.homesublist_grassview);
         }
     }
 }
