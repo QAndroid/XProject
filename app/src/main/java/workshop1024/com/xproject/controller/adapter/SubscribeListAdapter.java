@@ -17,6 +17,7 @@ import workshop1024.com.xproject.model.subinfo.SubInfo;
 public class SubscribeListAdapter extends HomeSubListAdapter {
     private Context mContext;
     private SubInfoListMenuListener mSubInfoListMenuListener;
+    private SubscribeItemViewHolder mSubscribeItemViewHolder;
 
     public SubscribeListAdapter(Context context, List<SubInfo> subInfoList, SubListItemListener
             subListItemListener, SubInfoListMenuListener subInfoListMenuListener) {
@@ -27,7 +28,9 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
 
     @Override
     public RecyclerView.ViewHolder getItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
-        return new SubscribeItemViewHolder(homesublistItemContentBinding);
+        homesublistItemContentBinding.setSubscribeHandlers(new SubscribeHandlers());
+        mSubscribeItemViewHolder = new SubscribeItemViewHolder(homesublistItemContentBinding);
+        return mSubscribeItemViewHolder;
     }
 
     public interface SubInfoListMenuListener {
@@ -36,23 +39,10 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
         void onUnscribeMenuClick(SubInfo subscribe);
     }
 
-    public class SubscribeItemViewHolder extends ItemViewHolder implements View.OnLongClickListener,
-            PopupMenu.OnMenuItemClickListener {
+    public class SubscribeItemViewHolder extends ItemViewHolder implements PopupMenu.OnMenuItemClickListener {
 
         public SubscribeItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
             super(homesublistItemContentBinding);
-            homesublistItemContentBinding.getRoot().setOnLongClickListener(this);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            PopupMenu popupMenu = new PopupMenu(mContext, view);
-            popupMenu.setOnMenuItemClickListener(this);
-            MenuInflater inflater = popupMenu.getMenuInflater();
-            inflater.inflate(R.menu.homepage_recyclerview_menu, popupMenu.getMenu());
-            popupMenu.show();
-
-            return false;
         }
 
         @Override
@@ -67,6 +57,18 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
                 default:
                     return false;
             }
+        }
+    }
+
+    public class SubscribeHandlers {
+        public boolean onLongClickItem(View view) {
+            PopupMenu popupMenu = new PopupMenu(mContext, view);
+            popupMenu.setOnMenuItemClickListener(mSubscribeItemViewHolder);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.homepage_recyclerview_menu, popupMenu.getMenu());
+            popupMenu.show();
+
+            return false;
         }
     }
 }

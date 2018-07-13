@@ -40,6 +40,7 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
         } else if (viewType == VIEW_TYPE_ITEM) {
             HomesublistItemContentBinding homesublistItemContentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.homesublist_item_content, parent, false);
+            homesublistItemContentBinding.setHomeSubHandlers(new HomeSubHandlers());
             viewHolder = getItemViewHolder(homesublistItemContentBinding);
         }
 
@@ -47,7 +48,6 @@ public class HomeSubListAdapter extends RecyclerView.Adapter {
     }
 
     public RecyclerView.ViewHolder getItemViewHolder(HomesublistItemContentBinding homesublistItemContentBinding) {
-        homesublistItemContentBinding.setHomeSubHandlers(new HomeSubHandlers());
         return new ItemViewHolder(homesublistItemContentBinding);
     }
 

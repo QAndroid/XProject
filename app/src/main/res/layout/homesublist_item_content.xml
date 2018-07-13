@@ -12,6 +12,10 @@
         <variable
             name="homeSubHandlers"
             type="workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.HomeSubHandlers" />
+
+        <variable
+            name="subscribeHandlers"
+            type="workshop1024.com.xproject.controller.adapter.SubscribeListAdapter.SubscribeHandlers" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -26,7 +30,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:onClick="@{(view)->homeSubHandlers.onClickItem(view,subInfo)}">
+            android:onClick="@{(view)->homeSubHandlers.onClickItem(view,subInfo)}"
+            android:onLongClick="@{(view)->subscribeHandlers.onLongClickItem(view)}">
 
             <ImageView
                 android:id="@+id/homesublist_item_imageview_icon"
