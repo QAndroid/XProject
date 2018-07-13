@@ -1,16 +1,16 @@
 package workshop1024.com.xproject.controller.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.databinding.PublishlistItemContentBinding;
 import workshop1024.com.xproject.model.publisher.Publisher;
 
 /**
@@ -28,19 +28,15 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
 
     @Override
     public PublisherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.publishlist_item_content, parent,
-                false);
-        return new PublisherViewHolder(view, mOnPublisherListSelectListener);
+        PublishlistItemContentBinding publishlistItemContentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.publishlist_item_content, parent, false);
+        publishlistItemContentBinding.setPublisherHandlers(new PublisherHandlers());
+        return new PublisherViewHolder(publishlistItemContentBinding);
     }
 
     @Override
     public void onBindViewHolder(final PublisherViewHolder holder, int position) {
-        Publisher publisher = mPublisherList.get(position);
-
-        holder.mNameTextView.setText(publisher.getName());
-        holder.mSubscribeNumTextView.setText(publisher.getSubscribeNum());
-        holder.mSelectedCheckBox.setChecked(publisher.isIsSubscribed());
-        holder.mPublisher = publisher;
+        holder.mPublishlistItemContentBinding.setPublisher(mPublisherList.get(position));
     }
 
     @Override
@@ -52,29 +48,18 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
         void publisherListItemSelect(Publisher selectPublisher, boolean isSelected);
     }
 
-    public class PublisherViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mIconImageView;
-        public final TextView mNameTextView;
-        private final TextView mSubscribeNumTextView;
-        private final CheckBox mSelectedCheckBox;
-        private Publisher mPublisher;
-        private OnPublisherListSelectListener mOnPublisherListSelectListener;
+    public class PublisherViewHolder extends RecyclerView.ViewHolder {
+        private final PublishlistItemContentBinding mPublishlistItemContentBinding;
 
-        public PublisherViewHolder(View view, OnPublisherListSelectListener onPublisherListSelectListener) {
-            super(view);
-            mOnPublisherListSelectListener = onPublisherListSelectListener;
-
-            mIconImageView = view.findViewById(R.id.publisherlist_imageview_icon);
-            mNameTextView = view.findViewById(R.id.publisherlist_textview_name);
-            mSubscribeNumTextView = view.findViewById(R.id.publisherlist_textview_subscribenum);
-            mSelectedCheckBox = view.findViewById(R.id.publisherlist_checkbox_selected);
-
-            mSelectedCheckBox.setOnClickListener(this);
+        public PublisherViewHolder(PublishlistItemContentBinding publishlistItemContentBinding) {
+            super(publishlistItemContentBinding.getRoot());
+            mPublishlistItemContentBinding = publishlistItemContentBinding;
         }
+    }
 
-        @Override
-        public void onClick(View view) {
-            mOnPublisherListSelectListener.publisherListItemSelect(mPublisher, mSelectedCheckBox.isChecked());
+    public class PublisherHandlers {
+        public void onClickSelected(View view, Publisher publisher) {
+            mOnPublisherListSelectListener.publisherListItemSelect(publisher, ((CheckBox) view).isChecked());
         }
     }
 }
