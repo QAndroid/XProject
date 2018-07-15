@@ -2,16 +2,16 @@ package workshop1024.com.xproject.view.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.databinding.InputstringDialogBinding;
 
 /**
  * 输入字符串对话框
@@ -28,6 +28,7 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
 
     private InputStringDialogListener mInputStringDialogListener;
 
+    private InputstringDialogBinding mInputstringDialogBinding;
     /**
      * 创建输入字符串对话框实例
      *
@@ -64,18 +65,19 @@ public class InputStringDialog extends DialogFragment implements DialogInterface
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View contentView = layoutInflater.inflate(R.layout.inputstring_dialog, null);
-        mEditText = contentView.findViewById(R.id.inputstring_textinputedittext_name);
+        mInputstringDialogBinding = DataBindingUtil.inflate(getActivity().getLayoutInflater(), R.layout.inputstring_dialog,
+                null, false);
+        mInputstringDialogBinding.inputstringTextinputedittextName.setText(mPreInputString);
 
         return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.xproject_alertdialog)).setTitle(mTitleStringId).setView(contentView).
+                R.style.xproject_alertdialog)).setTitle(mTitleStringId).setView(mInputstringDialogBinding.getRoot()).
                 setPositiveButton(mPositiveStringId, this).create();
     }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        mInputStringDialogListener.onInputStringDialogClick(this, mEditText.getText().toString());
+        mInputStringDialogListener.onInputStringDialogClick(this, mInputstringDialogBinding.inputstringTextinputedittextName.
+                getText().toString());
     }
 
     /**
