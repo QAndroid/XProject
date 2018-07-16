@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--云朵视图-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:gravity="center_vertical"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--云朵视图-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-    <!--滚动-->
-    <ImageView
-        android:id="@+id/grassview_imageview_grass"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/empty_grass"/>
+        <!--滚动-->
+        <ImageView
+            android:id="@+id/grassview_imageview_grass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_grass" />
 
-    <!--阴影-->
-    <ImageView
-        android:id="@+id/grassview_imageview_shadow"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/empty_shadow"/>
-</LinearLayout>
+        <!--阴影-->
+        <ImageView
+            android:id="@+id/grassview_imageview_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_shadow" />
+    </LinearLayout>
+
+</layout>
