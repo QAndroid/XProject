@@ -19,6 +19,7 @@ import workshop1024.com.xproject.controller.adapter.CompactAdapter;
 import workshop1024.com.xproject.controller.adapter.MinimalAdapter;
 import workshop1024.com.xproject.controller.fragment.XFragment;
 import workshop1024.com.xproject.databinding.NewslistFragmentBinding;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
@@ -31,7 +32,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
         NewsDataSource.LoadNewsListCallback {
     private RecyclerView.Adapter mListAdapter;
 
-    protected NewsRepository mNewsRepository;
+    protected NewsDataSource mNewsRepository;
     private List<News> mNewsList;
 
     private NewslistFragmentBinding mNewsListFragmentBinding;
@@ -42,7 +43,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNewsRepository = NewsRepository.getInstance();
+        mNewsRepository = Injection.provideNewsRepository();
     }
 
     @Override

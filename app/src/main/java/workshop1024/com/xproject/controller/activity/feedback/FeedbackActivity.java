@@ -20,6 +20,7 @@ import workshop1024.com.xproject.controller.adapter.MessageListAdapter;
 import workshop1024.com.xproject.databinding.FeedbackActivityBinding;
 import workshop1024.com.xproject.databinding.MessagelistFooterBinding;
 import workshop1024.com.xproject.databinding.MessagelistHeaderBinding;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
 import workshop1024.com.xproject.model.message.source.MessageDataSource;
@@ -32,7 +33,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
         AccountDialogListener, SubmitMessageDialog.SubmitMessageDialogListener, MessageDataSource.
         LoadMessagesCallback, SwipeRefreshLayout.OnRefreshListener {
 
-    private MessageRepository mMessageRepository;
+    private MessageDataSource mMessageRepository;
 
     private FeedbackActivityBinding mFeedbackActivityBinding;
     private MessagelistHeaderBinding mMessagelistHeaderBinding;
@@ -72,7 +73,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     }
 
     private void refreshMessageGroupList() {
-        mMessageRepository = MessageRepository.getInstance();
+        mMessageRepository = Injection.provideMessageRepository();
         mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mMessageRepository.getMessages(this);
     }

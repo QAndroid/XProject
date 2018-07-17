@@ -28,6 +28,7 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.TagListAdapter;
 import workshop1024.com.xproject.databinding.NewsdetailActivityBinding;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.news.NewsDetail;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
@@ -44,7 +45,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
 
     private String mNewsId;
     private Float mSelectedFontSize;
-    private NewsRepository mNewsRepository;
+    private NewsDataSource mNewsRepository;
     private SharedPreferences mSharedPreferences;
 
     private NewsdetailActivityBinding mNewsdetailActivityBinding;
@@ -83,7 +84,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
     protected void onStart() {
         super.onStart();
         mNewsId = getIntent().getStringExtra(NEWS_ID_KEY);
-        mNewsRepository = NewsRepository.getInstance();
+        mNewsRepository = Injection.provideNewsRepository();
         mNewsRepository.getNewsDetailByNewsId(mNewsId, this);
     }
 
@@ -263,7 +264,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
         }
 
         public void onClickSheetitem3(View view) {
-            NewsRepository newsRepository = NewsRepository.getInstance();
+            NewsDataSource newsRepository = Injection.provideNewsRepository();
             newsRepository.saveNewsById(mNewsId);
             Toast.makeText(NewsDetailActivity.this, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show();
             sheetViewOut();

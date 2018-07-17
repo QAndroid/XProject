@@ -20,6 +20,7 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
 import workshop1024.com.xproject.databinding.PublisherActivityBinding;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherRepository;
@@ -83,7 +84,7 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     protected void onStart() {
         super.onStart();
         //使用默认选中的发布者类型请求发布者信息
-        mPublisherRepository = PublisherRepository.getInstance();
+        mPublisherRepository = Injection.providePublisherRepository();
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mPublisherRepository.getPublishersByType(mSelectTypeStrings[mSelectedTypeIndex], this);
     }

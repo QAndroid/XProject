@@ -14,6 +14,7 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
 import workshop1024.com.xproject.databinding.HomesubFragmentBinding;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
@@ -24,7 +25,7 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
  */
 public abstract class HomeSubFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener,
         SubListItemListener, SubInfoDataSource.LoadSubInfoCallback {
-    SubInfoRepository mSubInfoRepository;
+    SubInfoDataSource mSubInfoRepository;
     List<SubInfo> mSubInfoList;
 
     //Fragment是否在前台展示
@@ -35,7 +36,7 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSubInfoRepository = SubInfoRepository.getInstance();
+        mSubInfoRepository = Injection.provideSubInfoRepository();
     }
 
     @Override
