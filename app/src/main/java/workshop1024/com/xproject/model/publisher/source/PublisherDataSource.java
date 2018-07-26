@@ -8,13 +8,14 @@ import workshop1024.com.xproject.model.publisher.Publisher;
  * 发布者数据源接口，定义了关于发布者数据相关的处理接口
  */
 public interface PublisherDataSource {
+
     /**
      * 获取指定类型的发布者
      *
-     * @param type                   发布者指定的类型
+     * @param typeId                   发布者指定类型的id
      * @param loadPublishersCallback 加载发布者信息回调
      */
-    void getPublishersByType(String type, LoadPublishersCallback loadPublishersCallback);
+    void getPublishersByType(String typeId, LoadPublishersCallback loadPublishersCallback);
 
     /**
      * 获取指定语言的发布者

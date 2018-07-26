@@ -3,6 +3,8 @@ package workshop1024.com.xproject.model.publisher.source;
 import android.os.Handler;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -104,10 +106,11 @@ public class PublisherMockRepository implements PublisherDataSource {
                 List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
                 for (Publisher publisher : publisherList) {
                     //获取指定类型的发布者
-                    if (publisher.getType().equals(type)) {
+                    if (publisher.getTypeId().equals(type)) {
                         typedPublishers.add(publisher);
                     }
                 }
+                Log.i("XProject", "PublisherRemoteDataSource  publisherList =" + new Gson().toJson(typedPublishers));
                 loadPublishersCallback.onPublishersLoaded(typedPublishers);
             }
         }, SERVICE_LATENCY_IN_MILLIS);

@@ -8,7 +8,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import workshop1024.com.xproject.model.publisher.Publisher;
+import workshop1024.com.xproject.net.PublisherService;
+import workshop1024.com.xproject.net.RetrofitBuilder;
 
 /**
  * 发布者远程数据源
@@ -24,15 +30,15 @@ public class PublisherRepository implements PublisherDataSource {
         //TODO 如何本地提供Mock环境
         PUBLISHERS_SERVICE_DATA = new LinkedHashMap<>(2);
 
-        addPublisher("p001", "Tech", "English", "/imag1", "The Tech", "970601 subscribers", false);
-        addPublisher("p002", "Tech", "English", "/imag1", "Engadget", "1348433 subscribers", false);
-        addPublisher("p003", "Tech", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
-        addPublisher("p004", "Tech", "English", "/imag1", "ReadWrite", "254332 subscribers", false);
-        addPublisher("p005", "Tech", "English", "/imag1", "Digital Trends", "145694 subscribers", false);
-        addPublisher("p006", "Tech", "English", "/imag1", "Business Insider", "331892 subscribers", false);
-        addPublisher("p007", "Tech", "中文", "/imag1", "月光博客", "254321 subscribers", false);
-        addPublisher("p008", "Tech", "中文", "/imag1", "36氪", "125345 subscribers", false);
-        addPublisher("p009", "Tech", "English", "/imag1", "TechCrunch", "994287 subscribers", false);
+        addPublisher("p001", "t001", "English", "/imag1", "The Tech", "970601 subscribers", false);
+        addPublisher("p002", "t001", "English", "/imag1", "Engadget", "1348433 subscribers", false);
+        addPublisher("p003", "t001", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
+        addPublisher("p004", "t001", "English", "/imag1", "ReadWrite", "254332 subscribers", false);
+        addPublisher("p005", "t001", "English", "/imag1", "Digital Trends", "145694 subscribers", false);
+        addPublisher("p006", "t001", "English", "/imag1", "Business Insider", "331892 subscribers", false);
+        addPublisher("p007", "t001", "中文", "/imag1", "月光博客", "254321 subscribers", false);
+        addPublisher("p008", "t001", "中文", "/imag1", "36氪", "125345 subscribers", false);
+        addPublisher("p009", "t001", "English", "/imag1", "TechCrunch", "994287 subscribers", false);
 
 
         addPublisher("p101", "News", "English", "/imag1", "The News",  "970601 subscribers", false);
@@ -97,23 +103,23 @@ public class PublisherRepository implements PublisherDataSource {
     }
 
     @Override
-    public void getPublishersByType(final String type, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByType =" + type);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+    public void getPublishersByType(String typeId, final LoadPublishersCallback loadPublishersCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByType =" + typeId);
+        Retrofit retrofit = RetrofitBuilder.getRetrofit();
+        PublisherService publisherService = retrofit.create(PublisherService.class);
+        Call<List<Publisher>> publisherListCall = publisherService.getPublishersByType(typeId);
+        publisherListCall.enqueue(new Callback<List<Publisher>>() {
             @Override
-            public void run() {
-                List<Publisher> typedPublishers = new ArrayList<>();
-                List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
-                for (Publisher publisher : publisherList) {
-                    //获取指定类型的发布者
-                    if (publisher.getType().equals(type)) {
-                        typedPublishers.add(publisher);
-                    }
-                }
-                loadPublishersCallback.onPublishersLoaded(typedPublishers);
+            public void onResponse(Call<List<Publisher>> call, Response<List<Publisher>> response) {
+                List<Publisher> publisherList = response.body();
+                loadPublishersCallback.onPublishersLoaded(publisherList);
             }
-        }, SERVICE_LATENCY_IN_MILLIS);
+
+            @Override
+            public void onFailure(Call<List<Publisher>> call, Throwable t) {
+                loadPublishersCallback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override

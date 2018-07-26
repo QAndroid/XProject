@@ -68,32 +68,9 @@
     <!--主页面结束-->
 
     <!--发布者列表页面开始-->
+    <string name="publisher_title_default">Select Publisher</string>
     <string name="publisher_dialog_title">Select Publisher</string>
-    <string-array name="publisher_dialog_publishers">
-        <item>Tech</item>
-        <item>News</item>
-        <item>Business</item>
-        <item>Health</item>
-        <item>Gaming</item>
-        <item>Photography</item>
-        <item>Design</item>
-        <item>Fashion</item>
-        <item>Cooking</item>
-        <item>Comics</item>
-        <item>DIY</item>
-        <item>Sport</item>
-        <item>Cinema</item>
-        <item>Youtube</item>
-        <item>Funny</item>
-        <item>Esty</item>
-    </string-array>
-
     <string name="language_dialog_title">Select Language</string>
-    <string-array name="language_dialog_languages">
-        <item>English</item>
-        <item>日本语</item>
-        <item>中文</item>
-    </string-array>
     <!--发布者列表页面结束-->
 
     <!--过滤器列表页面开始-->
