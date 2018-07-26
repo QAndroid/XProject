@@ -14,7 +14,7 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
 
 public class Injection {
-    public static PublisherTypeDataSource provideContentTypeRepository() {
+    public static PublisherTypeDataSource providePublisherTypeRepository() {
         return PublisherTypeRepository.getInstance();
     }
 

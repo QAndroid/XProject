@@ -81,7 +81,7 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     @Override
     protected void onStart() {
         super.onStart();
-        mPublisherTypeDataSource = Injection.provideContentTypeRepository();
+        mPublisherTypeDataSource = Injection.providePublisherTypeRepository();
         mPublisherTypeDataSource.getPublisherContentTypes(this);
         mPublisherTypeDataSource.getPublisherLanguageTypes(this);
     }

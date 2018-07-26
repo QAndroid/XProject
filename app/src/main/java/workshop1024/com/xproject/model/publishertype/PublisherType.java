@@ -9,6 +9,11 @@ public class PublisherType {
     //单选项名称
     private String mName;
 
+    public PublisherType(String typeId, String name) {
+        mTypeId = typeId;
+        mName = name;
+    }
+
     public String getTypeId() {
         return mTypeId;
     }
