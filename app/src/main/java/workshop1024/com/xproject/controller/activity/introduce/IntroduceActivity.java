@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BindingMethod;
 import android.databinding.BindingMethods;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -103,6 +104,7 @@ public class IntroduceActivity extends FragmentActivity {
     }
 
     public class IntroduceHandlers implements ViewPager.OnPageChangeListener {
+        public ObservableInt currentPagePosition = new ObservableInt();
 
         public void onClickSkip(View view) {
             toMainActivity();
@@ -118,22 +120,7 @@ public class IntroduceActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-            mIntroduceActivityBinding.introduceCricledotindicatorIndex.setCurrentSelectedCircleDot(position);
-
-            switch (position) {
-                case 0:
-                case 1:
-                    //TODO 是否有某种设计模式可优化
-                    mIntroduceActivityBinding.introduceButtonSkip.setVisibility(View.VISIBLE);
-                    mIntroduceActivityBinding.introduceButtonNext.setVisibility(View.VISIBLE);
-                    mIntroduceActivityBinding.introduceButtonDone.setVisibility(View.GONE);
-                    break;
-                case 2:
-                    mIntroduceActivityBinding.introduceButtonSkip.setVisibility(View.GONE);
-                    mIntroduceActivityBinding.introduceButtonNext.setVisibility(View.GONE);
-                    mIntroduceActivityBinding.introduceButtonDone.setVisibility(View.VISIBLE);
-                    break;
-            }
+            currentPagePosition.set(position);
         }
 
         @Override

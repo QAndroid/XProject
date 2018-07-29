@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="introduceHandlers"
             type="workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity.IntroduceHandlers" />
@@ -36,7 +38,7 @@
                 android:layout_alignParentLeft="true"
                 android:onClick="@{introduceHandlers::onClickSkip}"
                 android:text="SKIP"
-                android:visibility="visible"
+                android:visibility="@{introduceHandlers.currentPagePosition == 2 ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible" />
 
             <!--介绍指示器-->
@@ -44,7 +46,8 @@
                 android:id="@+id/introduce_cricledotindicator_index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                app:currentSelectedCircleDot="@{introduceHandlers.currentPagePosition}" />
 
             <!--下一步按钮-->
             <ImageButton
@@ -56,7 +59,7 @@
                 android:background="@null"
                 android:onClick="@{introduceHandlers::onClickNext}"
                 android:src="@drawable/introduce_nextbutton_background"
-                android:visibility="visible"
+                android:visibility="@{introduceHandlers.currentPagePosition == 2 ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible" />
 
             <!--完成按钮-->
@@ -66,7 +69,7 @@
                 android:layout_alignParentRight="true"
                 android:onClick="@{introduceHandlers::onClickDone}"
                 android:text="DONE"
-                android:visibility="gone"
+                android:visibility="@{introduceHandlers.currentPagePosition == 2 ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible" />
         </RelativeLayout>
 
