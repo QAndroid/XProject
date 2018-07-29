@@ -38,7 +38,7 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
     public PublisherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PublishlistItemContentBinding publishlistItemContentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.publishlist_item_content, parent, false);
-        publishlistItemContentBinding.setSlectedCheckBoxOnTouchListener(new SlectedCheckBoxOnTouchListener());
+        publishlistItemContentBinding.setPublisherHandlers(new PublisherHandlers());
         return new PublisherViewHolder(publishlistItemContentBinding);
     }
 
@@ -65,7 +65,7 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
         }
     }
 
-    public class SlectedCheckBoxOnTouchListener {
+    public class PublisherHandlers {
         public boolean onTouch(View v, MotionEvent event, Publisher publisher) {
             //CheckBox选中后，先不更改状态，待请求结果后在更改状态，参考 https://blog.csdn.net/qq_37822393/article/details/80195090
             if (event.getAction() == MotionEvent.ACTION_UP) {
