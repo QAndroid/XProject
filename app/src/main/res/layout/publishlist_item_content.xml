@@ -72,7 +72,7 @@
                 android:layout_centerVertical="true"
                 android:button="@drawable/publisherlist_checkbox_selector"
                 android:checked="@{publisher.isSubscribed}"
-                app:onTouchListener1="@{(view,event)->publisherHandlers.onTouch(view,event,publisher)}" />
+                app:onTouchListener="@{(view,event)->publisherHandlers.onTouchSelected(view,event,publisher)}" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>

@@ -1,7 +1,5 @@
 package workshop1024.com.xproject.controller.adapter;
 
-import android.databinding.BindingMethod;
-import android.databinding.BindingMethods;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,10 +14,6 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.databinding.PublishlistItemContentBinding;
 import workshop1024.com.xproject.model.publisher.Publisher;
-
-@BindingMethods({
-        @BindingMethod(type = CheckBox.class, attribute = "app:onTouchListener1", method = "setOnTouchListener")
-})
 
 /**
  * 发布者列表选择适配器
@@ -66,10 +60,10 @@ public class PublisherListAdapter extends RecyclerView.Adapter<PublisherListAdap
     }
 
     public class PublisherHandlers {
-        public boolean onTouch(View v, MotionEvent event, Publisher publisher) {
+        public boolean onTouchSelected(View v, MotionEvent event, Publisher publisher) {
             //CheckBox选中后，先不更改状态，待请求结果后在更改状态，参考 https://blog.csdn.net/qq_37822393/article/details/80195090
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.i("XProject", "public boolean onTouch, publisher = " + publisher.getTypeId());
+                Log.i("XProject", "public boolean onTouchSelected, publisher = " + publisher.getTypeId());
                 if (mOnPublisherListSelectListener != null) {
                     mOnPublisherListSelectListener.onPublisherListItemSelect(publisher, !((CheckBox) v).isChecked());
                 }

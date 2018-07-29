@@ -2,6 +2,8 @@ package workshop1024.com.xproject.controller.activity.introduce;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BindingMethod;
+import android.databinding.BindingMethods;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,11 @@ import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.MainActivity;
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment;
 import workshop1024.com.xproject.databinding.IntroduceActivityBinding;
+
+@BindingMethods({
+        @BindingMethod(type = ViewPager.class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")
+})
+
 
 /**
  * 介绍页面
@@ -51,7 +58,6 @@ public class IntroduceActivity extends FragmentActivity {
 
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
         mIntroduceActivityBinding.introduceViewpagerContent.setAdapter(mPagerAdapter);
-        mIntroduceActivityBinding.introduceViewpagerContent.addOnPageChangeListener(new ViewPageChangeListener());
 
         mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.
                 introduceViewpagerContent);
@@ -96,14 +102,18 @@ public class IntroduceActivity extends FragmentActivity {
         }
     }
 
-    /**
-     * ViewPager页面切换监听器，处理指示器中圆点的选中和未选中状态切换动画
-     */
-    private class ViewPageChangeListener implements ViewPager.OnPageChangeListener {
+    public class IntroduceHandlers implements ViewPager.OnPageChangeListener {
 
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        public void onClickSkip(View view) {
+            toMainActivity();
+        }
 
+        public void onClickNext(View view) {
+            toNextViewPageItem();
+        }
+
+        public void onClickDone(View view) {
+            toMainActivity();
         }
 
         @Override
@@ -127,23 +137,13 @@ public class IntroduceActivity extends FragmentActivity {
         }
 
         @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
         public void onPageScrollStateChanged(int state) {
 
-        }
-    }
-
-    public class IntroduceHandlers {
-
-        public void onClickSkip(View view) {
-            toMainActivity();
-        }
-
-        public void onClickNext(View view) {
-            toNextViewPageItem();
-        }
-
-        public void onClickDone(View view) {
-            toMainActivity();
         }
     }
 
