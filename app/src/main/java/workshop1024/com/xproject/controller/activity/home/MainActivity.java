@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +35,7 @@ import workshop1024.com.xproject.view.popupwindow.BottomMenu;
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
-        NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
+        FragmentManager.OnBackStackChangedListener {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     private FragmentManager mFragmentManager;
@@ -51,9 +52,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         MainleftNavigatorHeaderBinding mainLeftNavigatorHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(),
                 R.layout.mainleft_navigator_header, mMainActivityBinding.mainleftNavigationview, false);
         mainLeftNavigatorHeaderBinding.setHeaderHandlers(new HeaderHandlers());
+
+        //设置抽屉导航HeaderView视图
         mMainActivityBinding.mainleftNavigationview.addHeaderView(mainLeftNavigatorHeaderBinding.getRoot());
 
+        //设置顶部toolBar视图
         setSupportActionBar(mMainActivityBinding.mainIncludeRight.mainrightToolbarNavigator);
+
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mMainActivityBinding.mainDrawerlayoutNavigator,
                 mMainActivityBinding.mainIncludeRight.mainrightToolbarNavigator, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -66,11 +71,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         });
         mActionBarDrawerToggle.setDrawerSlideAnimationEnabled(false);
-        mMainActivityBinding.mainleftNavigationview.setNavigationItemSelectedListener(this);
 
+        //处理Fragment的交互显示，默认显示HomeFragment
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
-
         showHomePageFragment();
     }
 
@@ -96,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         switch (item.getItemId()) {
             case R.id.homepage_menu_add:
                 BottomMenu bottomMenu = new BottomMenu(this);
-                bottomMenu.showAtLocation(mMainActivityBinding.mainIncludeRight.mainrightCoordinatorlayoutRoot, Gravity.BOTTOM, 0, 0);
+                bottomMenu.showAtLocation(mMainActivityBinding.mainIncludeRight.mainrightCoordinatorlayoutRoot,
+                        Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.homepage_menu_refresh:
                 ((HomePageFragment) mCurrentFragment).onRefresh();
@@ -128,31 +133,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int selectItemId = item.getItemId();
-
-        if (selectItemId == R.id.leftnavigator_menu_home) {
-            showHomePageFragment();
-        } else if (selectItemId == R.id.leftnavigator_menu_saved) {
-            SavedFragment savedFragment = SavedFragment.newInstance();
-            mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit();
-
-            //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
-            mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved);
-            mCurrentFragment = savedFragment;
-        } else if (selectItemId == R.id.leftnavigator_menu_settings) {
-            SettingsActivity.startActivity(this);
-        } else if (selectItemId == R.id.leftnavigator_menu_feedback) {
-            FeedbackActivity.startActivity(this);
-        }
-
-        mMainActivityBinding.mainDrawerlayoutNavigator.closeDrawer(GravityCompat.START);
-        invalidateOptionsMenu();
-
-        return true;
     }
 
     @Override
@@ -211,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
-    public class MainHandlers {
+    public class MainHandlers implements NavigationView.OnNavigationItemSelectedListener {
         public void onClickAction(View view) {
             if (mCurrentFragment instanceof NewsListFragment) {
                 ((NewsListFragment) mCurrentFragment).markAsRead();
@@ -219,15 +199,41 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 ((SavedFragment) mCurrentFragment).markAsRead();
             }
         }
+
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            int selectItemId = item.getItemId();
+
+            if (selectItemId == R.id.leftnavigator_menu_home) {
+                showHomePageFragment();
+            } else if (selectItemId == R.id.leftnavigator_menu_saved) {
+                SavedFragment savedFragment = SavedFragment.newInstance();
+                mFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit();
+
+                //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
+                mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved);
+                mCurrentFragment = savedFragment;
+            } else if (selectItemId == R.id.leftnavigator_menu_settings) {
+                SettingsActivity.startActivity(MainActivity.this);
+            } else if (selectItemId == R.id.leftnavigator_menu_feedback) {
+                FeedbackActivity.startActivity(MainActivity.this);
+            }
+
+            mMainActivityBinding.mainDrawerlayoutNavigator.closeDrawer(GravityCompat.START);
+            invalidateOptionsMenu();
+
+            return true;
+        }
     }
 
     public class HeaderHandlers {
         public void onClickLogin(View view) {
+            Log.i("XProject", "onClickLogin");
             LoginActivity.startActivity(MainActivity.this);
         }
 
         public void onClickLogout(View view) {
-
+            Log.i("XProject", "onClickLogout");
         }
     }
 }

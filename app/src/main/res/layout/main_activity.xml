@@ -36,6 +36,7 @@
             app:itemIconTint="@color/main_navigationview_item_icontintselector"
             app:itemTextColor="@color/main_navigationview_item_textselector"
             app:menu="@menu/mainleft_navigator_menu"
+            app:navigationItemSelectedListener="@{mainHandlers}"
             tools:headerLayout="@layout/main_leftnavigator_header" />
     </android.support.v4.widget.DrawerLayout>
 </layout>

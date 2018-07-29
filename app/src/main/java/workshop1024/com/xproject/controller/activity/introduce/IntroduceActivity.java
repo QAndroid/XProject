@@ -104,6 +104,7 @@ public class IntroduceActivity extends FragmentActivity {
     }
 
     public class IntroduceHandlers implements ViewPager.OnPageChangeListener {
+        //可观察的ViewPager当前页面索引，用于布局中按钮和指示器的更新
         public ObservableInt currentPagePosition = new ObservableInt();
 
         public void onClickSkip(View view) {

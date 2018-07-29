@@ -31,10 +31,19 @@ public class LoginActivity extends Activity {
     }
 
     public class LoginHandlers {
+        /**
+         * 登录按钮点击
+         *
+         * @param view
+         */
         public void onClickLogin(View view) {
             Toast.makeText(LoginActivity.this, "login click", Toast.LENGTH_SHORT).show();
         }
 
+        /**
+         * 尝试按钮点击
+         * @param view
+         */
         public void onClickTry(View view) {
             IntroduceActivity.startActivity(LoginActivity.this);
         }
