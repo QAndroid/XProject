@@ -8,6 +8,10 @@
         <variable
             name="publisher"
             type="workshop1024.com.xproject.model.publisher.Publisher" />
+
+        <variable
+            name="slectedCheckBoxOnTouchListener"
+            type="workshop1024.com.xproject.controller.adapter.PublisherListAdapter.SlectedCheckBoxOnTouchListener" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -67,7 +71,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:button="@drawable/publisherlist_checkbox_selector"
-                android:checked="@{publisher.isSubscribed}" />
+                android:checked="@{publisher.isSubscribed}"
+                app:onTouchListener1="@{(view,event)->slectedCheckBoxOnTouchListener.onTouch(view,event,publisher)}" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>
