@@ -8,6 +8,9 @@ import retrofit2.http.Path;
 import workshop1024.com.xproject.model.publisher.Publisher;
 
 public interface PublisherService {
-    @GET("/publisherses/{typeId}")
-    Call<List<Publisher>> getPublishersByType(@Path("typeId") String typeId);
+    @GET("/publisherses/{contentId}")
+    Call<List<Publisher>> getPublishersByContentType(@Path("contentId") String contentId);
+
+    @GET("/publisherses/{languageId}")
+    Call<List<Publisher>> getPublishersByLanguageType(@Path("languageId") String languageId);
 }

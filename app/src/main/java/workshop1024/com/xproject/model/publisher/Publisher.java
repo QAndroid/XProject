@@ -1,6 +1,8 @@
 package workshop1024.com.xproject.model.publisher;
 
 
+import android.databinding.ObservableBoolean;
+
 /**
  * 发布者数据类
  */
@@ -18,7 +20,7 @@ public class Publisher {
     //发布者订阅数量
     private String mSubscribeNum;
     //发布者是否被订阅
-    private boolean mIsSubscribed;
+    public final ObservableBoolean isSubscribed = new ObservableBoolean();
 
     public Publisher(String publisherId, String type, String language, String iconUrl, String name,
                      String subscribeNum, boolean isSubscribed) {
@@ -28,7 +30,7 @@ public class Publisher {
         mIconUrl = iconUrl;
         mName = name;
         mSubscribeNum = subscribeNum;
-        mIsSubscribed = isSubscribed;
+        this.isSubscribed.set(isSubscribed);
     }
 
     public String getPublisherId() {
@@ -79,14 +81,6 @@ public class Publisher {
         mSubscribeNum = subscribeNum;
     }
 
-    public boolean isIsSubscribed() {
-        return mIsSubscribed;
-    }
-
-    public void setIsSubscribed(boolean isSubscribed) {
-        mIsSubscribed = isSubscribed;
-    }
-
     @Override
     public String toString() {
         return "Publisher{" +
@@ -96,7 +90,7 @@ public class Publisher {
                 ", mIconUrl='" + mIconUrl + '\'' +
                 ", mName='" + mName + '\'' +
                 ", mSubscribeNum='" + mSubscribeNum + '\'' +
-                ", mIsSubscribed=" + mIsSubscribed +
+                ", mIsSubscribed=" + isSubscribed +
                 '}';
     }
 }

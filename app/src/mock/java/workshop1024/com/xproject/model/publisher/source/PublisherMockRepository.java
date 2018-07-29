@@ -96,8 +96,8 @@ public class PublisherMockRepository implements PublisherDataSource {
     }
 
     @Override
-    public void getPublishersByType(final String type, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByType =" + type);
+    public void getPublishersByContentType(final String contentId, final LoadPublishersCallback loadPublishersCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByContentType =" + contentId);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -106,7 +106,7 @@ public class PublisherMockRepository implements PublisherDataSource {
                 List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
                 for (Publisher publisher : publisherList) {
                     //获取指定类型的发布者
-                    if (publisher.getTypeId().equals(type)) {
+                    if (publisher.getTypeId().equals(contentId)) {
                         typedPublishers.add(publisher);
                     }
                 }
@@ -117,8 +117,8 @@ public class PublisherMockRepository implements PublisherDataSource {
     }
 
     @Override
-    public void getPublishersByLanguage(final String language, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguage =" + language);
+    public void getPublishersByLanguageType(final String languageId, final LoadPublishersCallback loadPublishersCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguageType =" + languageId);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -127,10 +127,11 @@ public class PublisherMockRepository implements PublisherDataSource {
                 List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
                 for (Publisher publisher : publisherList) {
                     //获取指定语言的发布者
-                    if (publisher.getLanguage().equals(language)) {
+                    if (publisher.getLanguage().equals(languageId)) {
                         languagedPublishers.add(publisher);
                     }
                 }
+                Log.i("XProject", "PublisherRemoteDataSource  languagedPublishers =" + new Gson().toJson(languagedPublishers));
                 loadPublishersCallback.onPublishersLoaded(languagedPublishers);
             }
         }, SERVICE_LATENCY_IN_MILLIS);
@@ -140,13 +141,13 @@ public class PublisherMockRepository implements PublisherDataSource {
     public void subscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.setIsSubscribed(true);
+        subscribedPublisher.isSubscribed.set(true);
     }
 
     @Override
     public void unSubscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.setIsSubscribed(false);
+        subscribedPublisher.isSubscribed.set(false);
     }
 }

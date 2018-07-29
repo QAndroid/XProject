@@ -119,9 +119,9 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     public void onRefresh() {
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
         if (mSelectedDialog == mTypeChoiceDialog) {
-            mPublisherDataSource.getPublishersByType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
+            mPublisherDataSource.getPublishersByContentType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
         } else if (mSelectedDialog == mLanguageChoiceDialog) {
-            mPublisherDataSource.getPublishersByLanguage(mLanguageTypeList.get(mSelectedLanguageIndex).getTypeId(), this);
+            mPublisherDataSource.getPublishersByLanguageType(mLanguageTypeList.get(mSelectedLanguageIndex).getTypeId(), this);
         }
     }
 
@@ -131,22 +131,22 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
         mPublisherActivityBinding.publisherToolbarNavigator.setTitle(publisherType.getName());
 
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
-
         if (dialog == mTypeChoiceDialog) {
-            mPublisherDataSource.getPublishersByType(publisherType.getTypeId(), this);
+            mPublisherDataSource.getPublishersByContentType(publisherType.getTypeId(), this);
         } else if (dialog == mLanguageChoiceDialog) {
-            mPublisherDataSource.getPublishersByLanguage(publisherType.getTypeId(), this);
+            mPublisherDataSource.getPublishersByLanguageType(publisherType.getTypeId(), this);
         }
     }
 
     @Override
-    public void publisherListItemSelect(Publisher selectPublisher, boolean isSelected) {
+    public void onPublisherListItemSelect(Publisher selectPublisher, boolean isSelected) {
         if (isSelected) {
-            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " selected", Snackbar.LENGTH_SHORT).show();
+            //FIXME 订阅网络请求返回后，在提示并且选中
             mPublisherDataSource.subscribePublisherById(selectPublisher.getPublisherId());
+            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " selected", Snackbar.LENGTH_SHORT).show();
         } else {
-            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " unselected", Snackbar.LENGTH_SHORT).show();
             mPublisherDataSource.unSubscribePublisherById(selectPublisher.getPublisherId());
+            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " unselected", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -162,12 +162,13 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
 
     @Override
     public void onPublisherTypesLoaded(List<PublisherType> publisherTypeList, String type) {
+        //TODO type equals很别扭
         if (type.equals("content")) {
             mContentTypeList = (ArrayList<PublisherType>) publisherTypeList;
             //使用默认选中的发布者类型请求发布者信息
             mPublisherDataSource = Injection.providePublisherRepository();
             mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
-            mPublisherDataSource.getPublishersByType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
+            mPublisherDataSource.getPublishersByContentType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
         } else {
             mLanguageTypeList = (ArrayList<PublisherType>) publisherTypeList;
         }

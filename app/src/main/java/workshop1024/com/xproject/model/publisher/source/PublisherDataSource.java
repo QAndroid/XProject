@@ -12,18 +12,18 @@ public interface PublisherDataSource {
     /**
      * 获取指定类型的发布者
      *
-     * @param typeId                   发布者指定类型的id
+     * @param contentId                   发布者指定类型的id
      * @param loadPublishersCallback 加载发布者信息回调
      */
-    void getPublishersByType(String typeId, LoadPublishersCallback loadPublishersCallback);
+    void getPublishersByContentType(String contentId, LoadPublishersCallback loadPublishersCallback);
 
     /**
      * 获取指定语言的发布者
      *
-     * @param language               发布者指定的语言
+     * @param languageId               发布者指定的语言
      * @param loadPublishersCallback 加载发布者信息回调
      */
-    void getPublishersByLanguage(String language, LoadPublishersCallback loadPublishersCallback);
+    void getPublishersByLanguageType(String languageId, LoadPublishersCallback loadPublishersCallback);
 
     /**
      * 订阅指定id的发布者
