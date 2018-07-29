@@ -32,7 +32,7 @@ public class TagFragment extends HomeSubFragment {
 
     private void refreshTagList() {
         Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more tag ...", Snackbar.LENGTH_SHORT).show();
-        mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(true);
+        mHomeSubFragmentHanlders.isRefreshing.set(true);
         mSubInfoRepository.getTagSubInfos(this);
     }
 
@@ -41,7 +41,7 @@ public class TagFragment extends HomeSubFragment {
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(false);
+            mHomeSubFragmentHanlders.isRefreshing.set(false);
             HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
             mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(homeSubListAdapter);
             Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch " + subInfoList.size() + " tags ...", Snackbar.LENGTH_SHORT).show();
@@ -67,7 +67,6 @@ public class TagFragment extends HomeSubFragment {
         for (SubInfo subInfo : mSubInfoList) {
             subInfoIds.add(subInfo.getInfoId());
         }
-
         mSubInfoRepository.markedTagSubInfoesAsRead(subInfoIds);
 
         refreshTagList();

@@ -39,7 +39,7 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
 
     private void refreshSubscribedList() {
         Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show();
-        mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(true);
+        mHomeSubFragmentHanlders.isRefreshing.set(true);
         mSubInfoRepository.getSubscribeSubInfos(this);
     }
 
@@ -47,7 +47,8 @@ public class SubscribeFragment extends HomeSubFragment implements SubscribeListA
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(false);
+
+            mHomeSubFragmentHanlders.isRefreshing.set(false);
             mSubscribeListAdapter = new SubscribeListAdapter(getContext(), subInfoList,
                     this, this);
             mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(mSubscribeListAdapter);

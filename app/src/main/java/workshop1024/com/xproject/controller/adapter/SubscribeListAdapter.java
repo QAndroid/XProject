@@ -18,6 +18,7 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
     private Context mContext;
     private SubInfoListMenuListener mSubInfoListMenuListener;
     private SubscribeItemViewHolder mSubscribeItemViewHolder;
+    private SubInfo mSelectedSubInfo;
 
     public SubscribeListAdapter(Context context, List<SubInfo> subInfoList, SubListItemListener
             subListItemListener, SubInfoListMenuListener subInfoListMenuListener) {
@@ -49,10 +50,10 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.homepage_recyclerviewmenu_rename:
-                    mSubInfoListMenuListener.onRenameMenuClick(mHomesublistItemContentBinding.getSubInfo());
+                    mSubInfoListMenuListener.onRenameMenuClick(mSelectedSubInfo);
                     return true;
                 case R.id.homepage_recyclerviewmenu_unsubscribe:
-                    mSubInfoListMenuListener.onUnscribeMenuClick(mHomesublistItemContentBinding.getSubInfo());
+                    mSubInfoListMenuListener.onUnscribeMenuClick(mSelectedSubInfo);
                     return true;
                 default:
                     return false;
@@ -61,7 +62,9 @@ public class SubscribeListAdapter extends HomeSubListAdapter {
     }
 
     public class SubscribeHandlers {
-        public boolean onLongClickItem(View view) {
+        public boolean onLongClickItem(View view, SubInfo subInfo) {
+            mSelectedSubInfo = subInfo;
+
             PopupMenu popupMenu = new PopupMenu(mContext, view);
             popupMenu.setOnMenuItemClickListener(mSubscribeItemViewHolder);
             MenuInflater inflater = popupMenu.getMenuInflater();

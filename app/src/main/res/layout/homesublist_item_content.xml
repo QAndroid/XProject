@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="@{(view)->homeSubHandlers.onClickItem(view,subInfo)}"
-            android:onLongClick="@{(view)->subscribeHandlers.onLongClickItem(view)}">
+            android:onLongClick="@{(view)->subscribeHandlers.onLongClickItem(view,subInfo)}">
 
             <ImageView
                 android:id="@+id/homesublist_item_imageview_icon"

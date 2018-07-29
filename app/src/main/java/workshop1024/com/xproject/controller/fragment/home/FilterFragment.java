@@ -35,7 +35,7 @@ public class FilterFragment extends HomeSubFragment {
      */
     private void refreshFilterList() {
         Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more filters ...", Snackbar.LENGTH_SHORT).show();
-        mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(true);
+        mHomeSubFragmentHanlders.isRefreshing.set(true);
         mSubInfoRepository.getFilterSubInfos(this);
     }
 
@@ -43,7 +43,7 @@ public class FilterFragment extends HomeSubFragment {
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mHomesubFragmentBinding.homesubSwiperefreshlayoutPullrefresh.setRefreshing(false);
+            mHomeSubFragmentHanlders.isRefreshing.set(false);
             HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
             mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(homeSubListAdapter);
             Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch " + subInfoList.size() + " filters ...", Snackbar.LENGTH_SHORT).show();

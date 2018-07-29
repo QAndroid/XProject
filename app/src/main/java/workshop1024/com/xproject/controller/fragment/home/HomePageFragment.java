@@ -49,6 +49,7 @@ public class HomePageFragment extends XFragment implements TopFragment {
         return homepageFragmentBinding.getRoot();
     }
 
+    //FIXME 如何定义通用接口实现
     public void onRefresh() {
         mHomeFragmentPagerAdapter.getCurrentSubFragmet().onRefresh();
     }
