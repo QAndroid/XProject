@@ -14,8 +14,12 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoMockRepository;
 
 public class Injection {
-    public static PublisherTypeDataSource provideContentTypeRepository() {
+    public static PublisherTypeDataSource providePublisherTypeRepository() {
         return PublisherTypeMockRepository.getInstance();
+    }
+
+    public static PublisherDataSource providePublisherRepository() {
+        return PublisherMockRepository.getInstance();
     }
 
     public static FilterDataSource provideFilterRepository() {
@@ -28,10 +32,6 @@ public class Injection {
 
     public static NewsDataSource provideNewsRepository() {
         return NewsMockRepository.getInstance();
-    }
-
-    public static PublisherDataSource providePublisherRepository() {
-        return PublisherMockRepository.getInstance();
     }
 
     public static SubInfoDataSource provideSubInfoRepository() {

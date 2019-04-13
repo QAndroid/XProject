@@ -2,7 +2,6 @@ package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -93,7 +92,7 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     @Override
     protected void onStart() {
         super.onStart();
-        mPublisherTypeDataSource = Injection.provideContentTypeRepository();
+        mPublisherTypeDataSource = Injection.providePublisherTypeRepository();
         mPublisherSwipeRefreshLayout.setRefreshing(true);
         mPublisherTypeDataSource.getPublisherContentTypes(this);
         mPublisherTypeDataSource.getPublisherLanguageTypes(this);
