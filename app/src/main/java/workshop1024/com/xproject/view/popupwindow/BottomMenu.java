@@ -1,44 +1,33 @@
 package workshop1024.com.xproject.view.popupwindow;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.FilterActivity;
 import workshop1024.com.xproject.controller.activity.home.PublisherActivity;
+import workshop1024.com.xproject.databinding.BottommenuViewBinding;
 
-public class BottomMenu extends PopupWindow implements View.OnClickListener {
+public class BottomMenu extends PopupWindow {
     private Context mContext;
-
-    private View mHolderView;
-    private LinearLayout mActionsLinearLayout;
-    private TextView mAddPublisherTextView;
-    private TextView mAddTopicTextView;
+    private BottommenuViewBinding mBottommenuViewBinding;
 
     public BottomMenu(Context context) {
         super(context);
         mContext = context;
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.bottommenu_view, null);
-        setContentView(view);
-
-        mHolderView = view.findViewById(R.id.bottommenu_space_holder);
-        mActionsLinearLayout = view.findViewById(R.id.bottommenu_linearlayout_actions);
-        mAddPublisherTextView = view.findViewById(R.id.bottommenu_textview_addpublisher);
-        mAddTopicTextView = view.findViewById(R.id.bottommenu_textview_addtopic);
-
-        mHolderView.setOnClickListener(this);
-        mAddPublisherTextView.setOnClickListener(this);
-        mAddTopicTextView.setOnClickListener(this);
+        mBottommenuViewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.bottommenu_view,
+                null, false);
+        mBottommenuViewBinding.setBottomMenuHandlers(new BottomMenuHandlers());
+        setContentView(mBottommenuViewBinding.getRoot());
 
         setWidth(ConstraintLayout.LayoutParams.MATCH_PARENT);
         setHeight(ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -51,7 +40,7 @@ public class BottomMenu extends PopupWindow implements View.OnClickListener {
         super.showAtLocation(parent, gravity, x, y);
 
         Animation inAnimation = AnimationUtils.loadAnimation(mContext, R.anim.bottommenu_in);
-        mActionsLinearLayout.startAnimation(inAnimation);
+        mBottommenuViewBinding.bottommenuLinearlayoutActions.startAnimation(inAnimation);
     }
 
     public void dismiss1() {
@@ -72,17 +61,22 @@ public class BottomMenu extends PopupWindow implements View.OnClickListener {
 
             }
         });
-        mActionsLinearLayout.startAnimation(outAnimation);
+        mBottommenuViewBinding.bottommenuLinearlayoutActions.startAnimation(outAnimation);
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == mAddPublisherTextView) {
+    public class BottomMenuHandlers {
+        public void onClickAddPublisher(View view) {
             PublisherActivity.startActivity(mContext);
-        } else if (view == mAddTopicTextView) {
-            FilterActivity.startActivity(mContext);
+            dismiss1();
         }
 
-        dismiss1();
+        public void onClickAddTopic(View view) {
+            FilterActivity.startActivity(mContext);
+            dismiss1();
+        }
+
+        public void onClickHolder(View view) {
+            dismiss1();
+        }
     }
 }

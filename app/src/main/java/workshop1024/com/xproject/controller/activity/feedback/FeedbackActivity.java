@@ -2,26 +2,24 @@ package workshop1024.com.xproject.controller.activity.feedback;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.MessageListAdapter;
+import workshop1024.com.xproject.databinding.FeedbackActivityBinding;
+import workshop1024.com.xproject.databinding.MessagelistFooterBinding;
+import workshop1024.com.xproject.databinding.MessagelistHeaderBinding;
 import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
@@ -33,15 +31,12 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 public class FeedbackActivity extends XActivity implements View.OnClickListener, AccountDialog.
         AccountDialogListener, SubmitMessageDialog.SubmitMessageDialogListener, MessageDataSource.
         LoadMessagesCallback, SwipeRefreshLayout.OnRefreshListener {
-    private Toolbar mToolbar;
-    private SwipeRefreshLayout mMessageSwipeRefreshLayout;
-    private RecyclerView mMessagesRecyclerView;
-    private View mHeaderView;
-    private View mFooterView;
-    private TextView mHelloTextView;
-    private FloatingActionButton mSubmitFloatingActionButton;
 
     private MessageDataSource mMessageRepository;
+
+    private FeedbackActivityBinding mFeedbackActivityBinding;
+    private MessagelistHeaderBinding mMessagelistHeaderBinding;
+    private MessagelistFooterBinding mMessagelistFooterBinding;
 
     /**
      * 启动FeedbackActivity页面
@@ -54,29 +49,20 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.feedback_activity);
+        mFeedbackActivityBinding = DataBindingUtil.setContentView(this, R.layout.feedback_activity);
+        mMessagelistHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.messagelist_header,
+                mFeedbackActivityBinding.feedbackRecyclerviewMessages, false);
+        mMessagelistFooterBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.messagelist_footer,
+                mFeedbackActivityBinding.feedbackRecyclerviewMessages, false);
 
-        mToolbar = findViewById(R.id.feedback_toolbar_navigator);
-        mMessageSwipeRefreshLayout = findViewById(R.id.feedback_swiperefreshlayout_pullrefresh);
-        mMessagesRecyclerView = findViewById(R.id.feedback_recyclerview_messages);
-        mSubmitFloatingActionButton = findViewById(R.id.feedback_floatingactionbutton_submit);
-
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mFeedbackActivityBinding.feedbackToolbarNavigator);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setTitle("Message Center");
 
-        mMessageSwipeRefreshLayout.setOnRefreshListener(this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mMessagesRecyclerView.setLayoutManager(linearLayoutManager);
-        mMessagesRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        mHeaderView = inflater.inflate(R.layout.messagelist_header, mMessagesRecyclerView, false);
-        mFooterView = inflater.inflate(R.layout.messagelist_footer, mMessagesRecyclerView, false);
-        mHelloTextView = mHeaderView.findViewById(R.id.feedback_textview_hello);
-
-        mSubmitFloatingActionButton.setOnClickListener(this);
+        mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setOnRefreshListener(this);
+        mFeedbackActivityBinding.feedbackRecyclerviewMessages.addItemDecoration(new RecyclerViewItemDecoration(6));
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.setOnClickListener(this);
     }
 
     @Override
@@ -87,7 +73,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
 
     private void refreshMessageGroupList() {
         mMessageRepository = Injection.provideMessageRepository();
-        mMessageSwipeRefreshLayout.setRefreshing(true);
+        mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mMessageRepository.getMessages(this);
     }
 
@@ -111,29 +97,29 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v == mSubmitFloatingActionButton) {
+        if (v == mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit) {
             SubmitMessageDialog submitMessageDialog = SubmitMessageDialog.newInstance();
             submitMessageDialog.show(getSupportFragmentManager(), SubmitMessageDialog.TAG);
 
-            mSubmitFloatingActionButton.setVisibility(View.GONE);
+            mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void cancelButtonClick(DialogFragment dialogFragment) {
         dialogFragment.dismiss();
-        mSubmitFloatingActionButton.setVisibility(View.VISIBLE);
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void okButtonClick(DialogFragment dialogFragment, String nameString, String emailString) {
-        mHelloTextView.setText(new StringBuffer("Hello!").append(nameString).toString());
+        mMessagelistHeaderBinding.feedbackTextviewHello.setText(new StringBuffer("Hello!").append(nameString).toString());
     }
 
     @Override
     public void submitButtonClick(DialogFragment dialogFragment, String messageConent) {
         dialogFragment.dismiss();
-        mSubmitFloatingActionButton.setVisibility(View.VISIBLE);
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.setVisibility(View.VISIBLE);
 
         Message message = new Message("m999", messageConent);
         mMessageRepository.submitMessage(message);
@@ -144,12 +130,12 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     @Override
     public void onMessagesLoaded(List<MessageGroup> messageGroupList) {
         if (mIsForeground) {
-            mMessageSwipeRefreshLayout.setRefreshing(false);
+            mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setRefreshing(false);
 
             MessageListAdapter messageListAdapter = new MessageListAdapter(messageGroupList);
-            mMessagesRecyclerView.setAdapter(messageListAdapter);
-            messageListAdapter.setHeaderView(mHeaderView);
-            messageListAdapter.setFooterView(mFooterView);
+            mFeedbackActivityBinding.feedbackRecyclerviewMessages.setAdapter(messageListAdapter);
+            messageListAdapter.setHeaderView(mMessagelistHeaderBinding.getRoot());
+            messageListAdapter.setFooterView(mMessagelistFooterBinding.getRoot());
         }
     }
 

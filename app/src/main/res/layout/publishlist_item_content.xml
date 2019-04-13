@@ -1,62 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--发布者列表项布局-->
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--发布者列表项布局-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Base.CardView"
-    app:cardBackgroundColor="@android:color/transparent"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    app:cardElevation="2dp"
-    app:cardPreventCornerOverlap="false">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
-        android:layout_height="wrap_content"
+    <data>
+
+        <variable
+            name="publisher"
+            type="workshop1024.com.xproject.model.publisher.Publisher" />
+
+        <variable
+            name="publisherHandlers"
+            type="workshop1024.com.xproject.controller.adapter.PublisherListAdapter.PublisherHandlers" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        style="@style/Base.CardView"
         android:layout_width="match_parent"
-        android:padding="6.0dp">
-        <!--发布者图标-->
-        <ImageView
-            android:id="@+id/publisherlist_imageview_icon"
-            android:layout_centerVertical="true"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:scaleType="fitCenter"
-            android:src="@drawable/login_icon"/>
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false">
 
-        <LinearLayout
-            android:layout_centerVertical="true"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/publisherlist_imageview_icon"
-            android:layout_width="wrap_content"
-            android:orientation="vertical">
-            <!--发布者名称-->
-            <TextView
-                android:id="@+id/publisherlist_textview_name"
-                android:layout_height="wrap_content"
+            android:padding="6.0dp">
+            <!--发布者图标-->
+            <ImageView
+                android:id="@+id/publisherlist_imageview_icon"
                 android:layout_width="wrap_content"
-                android:textColor="@color/xproject_daynight_textcolor"
-                android:textSize="18.0sp"
-                tools:text="The Verge"/>
-            <!--发布者订阅数量-->
-            <TextView
-                android:ellipsize="end"
-                android:id="@+id/publisherlist_textview_subscribenum"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="@color/xproject_textcolor_secondary"
-                android:textSize="12.0sp"
-                tools:text="970603 subscribers"/>
-        </LinearLayout>
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/login_icon" />
 
-        <!--发布者是否选中-->
-        <CheckBox
-            android:id="@+id/publisherlist_checkbox_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:button="@drawable/publisherlist_checkbox_selector" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/publisherlist_imageview_icon"
+                android:orientation="vertical">
+                <!--发布者名称-->
+                <TextView
+                    android:id="@+id/publisherlist_textview_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{publisher.name}"
+                    android:textColor="@color/xproject_daynight_textcolor"
+                    android:textSize="18.0sp"
+                    tools:text="The Verge" />
+                <!--发布者订阅数量-->
+                <TextView
+                    android:id="@+id/publisherlist_textview_subscribenum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@{publisher.subscribeNum}"
+                    android:textColor="@color/xproject_textcolor_secondary"
+                    android:textSize="12.0sp"
+                    tools:text="970603 subscribers" />
+            </LinearLayout>
+
+            <!--发布者是否选中-->
+            <CheckBox
+                android:id="@+id/publisherlist_checkbox_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:button="@drawable/publisherlist_checkbox_selector"
+                android:checked="@{publisher.isSubscribed}"
+                app:onTouchListener="@{(view,event)->publisherHandlers.onTouchSelected(view,event,publisher)}" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

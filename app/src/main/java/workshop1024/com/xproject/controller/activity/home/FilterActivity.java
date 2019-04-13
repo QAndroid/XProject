@@ -2,14 +2,11 @@ package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +17,7 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.FilterListAdapter;
+import workshop1024.com.xproject.databinding.FilterActivityBinding;
 import workshop1024.com.xproject.model.filter.Filter;
 import workshop1024.com.xproject.model.filter.source.FilterDataSource;
 import workshop1024.com.xproject.model.filter.source.FilterRepository;
@@ -29,13 +27,11 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRefreshListener,
         InputStringDialog.InputStringDialogListener, FilterDataSource.LoadFiltersCallback,
         FilterListAdapter.OnFilterListDeleteListener {
-    private CoordinatorLayout mRootView;
-    private Toolbar mToolbar;
-    private SwipeRefreshLayout mFilterSwipeRefreshLayout;
-    private RecyclerView mFilterRecyclerView;
 
     private FilterRepository mFilterRepository;
     private FilterListAdapter mFilterListAdapter;
+
+    private FilterActivityBinding mFilterActivityBinding;
 
     /**
      * 启动FilterActivity页面
@@ -50,21 +46,15 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filter_activity);
+        mFilterActivityBinding = DataBindingUtil.setContentView(this, R.layout.filter_activity);
 
-        mRootView = findViewById(R.id.filter_coordinatorlayout_rootview);
-        mToolbar = findViewById(R.id.filter_toolbar_navigator);
-        mFilterSwipeRefreshLayout = findViewById(R.id.filter_swiperefreshlayout_pullrefresh);
-        mFilterRecyclerView = findViewById(R.id.filter_recyclerview_list);
-
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mFilterActivityBinding.filterToolbarNavigator);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Manage Filter");
 
-        mFilterSwipeRefreshLayout.setOnRefreshListener(this);
-        mFilterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mFilterRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.setOnRefreshListener(this);
+        mFilterActivityBinding.filterRecyclerviewList.addItemDecoration(new RecyclerViewItemDecoration(6));
     }
 
     @Override
@@ -110,9 +100,9 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
     @Override
     public void onPublishersLoaded(List<Filter> filterList) {
         if (mIsForeground) {
-            mFilterSwipeRefreshLayout.setRefreshing(false);
+            mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.setRefreshing(false);
             mFilterListAdapter = new FilterListAdapter(filterList, this);
-            mFilterRecyclerView.setAdapter(mFilterListAdapter);
+            mFilterActivityBinding.filterRecyclerviewList.setAdapter(mFilterListAdapter);
         }
     }
 
@@ -129,7 +119,7 @@ public class FilterActivity extends XActivity implements SwipeRefreshLayout.OnRe
 
     private void refreshFilterList() {
         mFilterRepository = FilterRepository.getInstance();
-        mFilterSwipeRefreshLayout.setRefreshing(true);
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mFilterRepository.getFilters(this);
     }
 }

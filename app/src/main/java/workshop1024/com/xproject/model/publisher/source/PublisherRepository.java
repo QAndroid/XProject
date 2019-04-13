@@ -1,9 +1,7 @@
 package workshop1024.com.xproject.model.publisher.source;
 
-import android.os.Handler;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +11,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import workshop1024.com.xproject.model.publisher.Publisher;
+import workshop1024.com.xproject.net.PublisherService;
+import workshop1024.com.xproject.net.XRetrofit;
 import workshop1024.com.xproject.net.PublisherService;
 import workshop1024.com.xproject.net.RetrofitBuilder;
 
@@ -30,7 +30,7 @@ public class PublisherRepository implements PublisherDataSource {
         //TODO 如何本地提供Mock环境
         PUBLISHERS_SERVICE_DATA = new LinkedHashMap<>(2);
 
-        addPublisher("p001", "t001", "English", "/imag1", "The Tech", "970601 subscribers", false);
+        addPublisher("p001", "t001", "l001", "/imag1", "The Tech", "970601 subscribers", false);
         addPublisher("p002", "t001", "English", "/imag1", "Engadget", "1348433 subscribers", false);
         addPublisher("p003", "t001", "English", "/imag1", "Lifehacker", "934273 subscribers", false);
         addPublisher("p004", "t001", "English", "/imag1", "ReadWrite", "254332 subscribers", false);
@@ -103,11 +103,11 @@ public class PublisherRepository implements PublisherDataSource {
     }
 
     @Override
-    public void getPublishersByType(String typeId, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByType =" + typeId);
-        Retrofit retrofit = RetrofitBuilder.getRetrofit();
+    public void getPublishersByContentType(String contentId, final LoadPublishersCallback loadPublishersCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByContentType =" + contentId);
+        Retrofit retrofit = XRetrofit.getRetrofit();
         PublisherService publisherService = retrofit.create(PublisherService.class);
-        Call<List<Publisher>> publisherListCall = publisherService.getPublishersByType(typeId);
+        Call<List<Publisher>> publisherListCall = publisherService.getPublishersByContentType(contentId);
         publisherListCall.enqueue(new Callback<List<Publisher>>() {
             @Override
             public void onResponse(Call<List<Publisher>> call, Response<List<Publisher>> response) {
@@ -123,36 +123,36 @@ public class PublisherRepository implements PublisherDataSource {
     }
 
     @Override
-    public void getPublishersByLanguage(final String language, final LoadPublishersCallback loadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguage =" + language);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+    public void getPublishersByLanguageType(final String languageId, final LoadPublishersCallback loadPublishersCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguageType =" + languageId);
+        Retrofit retrofit = XRetrofit.getRetrofit();
+        PublisherService publisherService = retrofit.create(PublisherService.class);
+        Call<List<Publisher>> publisherListCall = publisherService.getPublishersByLanguageType(languageId);
+        publisherListCall.enqueue(new Callback<List<Publisher>>() {
             @Override
-            public void run() {
-                List<Publisher> languagedPublishers = new ArrayList<>();
-                List<Publisher> publisherList = new ArrayList<>(PUBLISHERS_SERVICE_DATA.values());
-                for (Publisher publisher : publisherList) {
-                    //获取指定语言的发布者
-                    if (publisher.getLanguage().equals(language)) {
-                        languagedPublishers.add(publisher);
-                    }
-                }
-                loadPublishersCallback.onPublishersLoaded(languagedPublishers);
+            public void onResponse(Call<List<Publisher>> call, Response<List<Publisher>> response) {
+                List<Publisher> publisherList = response.body();
+                loadPublishersCallback.onPublishersLoaded(publisherList);
             }
-        }, SERVICE_LATENCY_IN_MILLIS);
+
+            @Override
+            public void onFailure(Call<List<Publisher>> call, Throwable t) {
+                loadPublishersCallback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override
     public void subscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.setIsSubscribed(true);
+        subscribedPublisher.isSubscribed.set(true);
     }
 
     @Override
     public void unSubscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.setIsSubscribed(false);
+        subscribedPublisher.isSubscribed.set(false);
     }
 }

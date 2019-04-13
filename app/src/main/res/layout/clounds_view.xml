@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--云朵视图-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--云朵视图-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <!--云朵1-->
-    <ImageView
-        android:id="@+id/cloundsview_imageview_clound1"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/empty_cloud1"/>
+        <!--云朵1-->
+        <ImageView
+            android:id="@+id/cloundsview_imageview_clound1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/empty_cloud1" />
 
-    <!--云朵2-->
-    <ImageView
-        android:id="@+id/cloundsview_imageview_clound2"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/empty_cloud2"/>
+        <!--云朵2-->
+        <ImageView
+            android:id="@+id/cloundsview_imageview_clound2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/empty_cloud2" />
 
-    <!--云朵3-->
-    <ImageView
-        android:id="@+id/cloundsview_imageview_clound3"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/empty_cloud3"/>
+        <!--云朵3-->
+        <ImageView
+            android:id="@+id/cloundsview_imageview_clound3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/empty_cloud3" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</layout>

@@ -1,5 +1,9 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
+import android.databinding.BindingMethod;
+import android.databinding.BindingMethods;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,29 +17,29 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener;
 import workshop1024.com.xproject.controller.fragment.LazyFragment;
+import workshop1024.com.xproject.databinding.HomesubFragmentBinding;
 import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.subinfo.SubInfo;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
-import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
+
+@BindingMethods({
+        @BindingMethod(type = RecyclerView.class, attribute = "itemDecoration", method = "addItemDecoration")
+})
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment，处理布局和视图相关公共逻辑
  */
 public abstract class HomeSubFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener,
         SubListItemListener, SubInfoDataSource.LoadSubInfoCallback {
-    //根视图
-    View mRootView;
-    //下拉刷新
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    //订阅的发布者列表
-    RecyclerView mSubRecyclerView;
-
     SubInfoDataSource mSubInfoRepository;
     List<SubInfo> mSubInfoList;
 
     //Fragment是否在前台展示
     protected boolean mIsForeground;
+
+    HomesubFragmentBinding mHomesubFragmentBinding;
+    HomeSubFragmentHanlders mHomeSubFragmentHanlders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,16 +49,15 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.homesub_fragment, container, false);
+        mHomesubFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.homesub_fragment, container, false);
+        mHomesubFragmentBinding.setGridLayoutManager(new GridLayoutManager(getContext(), 2));
+        mHomesubFragmentBinding.setRecyclerViewItemDecoration(new RecyclerViewItemDecoration(6));
+        mHomesubFragmentBinding.setOnRefreshListener(this);
 
-        mSwipeRefreshLayout = mRootView.findViewById(R.id.homesub_swiperefreshlayout_pullrefresh);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mHomeSubFragmentHanlders = new HomeSubFragmentHanlders();
+        mHomesubFragmentBinding.setHomeSubFragmentHanlders(mHomeSubFragmentHanlders);
 
-        mSubRecyclerView = mRootView.findViewById(R.id.homesub_recyclerview_list);
-        mSubRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mSubRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
-
-        return mRootView;
+        return mHomesubFragmentBinding.getRoot();
     }
 
     @Override
@@ -70,4 +73,8 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
     }
 
     abstract void markAsRead();
+
+    public class HomeSubFragmentHanlders {
+        public final ObservableBoolean isRefreshing = new ObservableBoolean();
+    }
 }

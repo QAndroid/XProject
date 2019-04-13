@@ -1,15 +1,16 @@
 package workshop1024.com.xproject.controller.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.databinding.MessagelistItemChildBinding;
+import workshop1024.com.xproject.databinding.MessagelistItemGroupBinding;
 import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
 
@@ -44,24 +45,21 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.i("XProject", "onCreateViewHolder()");
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         if (mHeaderView != null && viewType == TYPEP_HEADER) {
-            Log.i("XProject", "mHeaderView != null && viewType == TYPEP_HEADER");
             viewHolder = new HeaderViewHolder(mHeaderView);
         } else if (mFooterView != null && viewType == TYPE_FOOTER) {
             viewHolder = new FooterViewHolder(mFooterView);
-            Log.i("XProject", "mFooterView != null && viewType == TYPE_FOOTER");
         } else if (viewType == TYPE_GROUP) {
-            Log.i("XProject", "viewType == TYPE_GROUP");
-            View groupView = layoutInflater.inflate(R.layout.messagelist_item_group, parent, false);
-            viewHolder = new GroupViewHolder(groupView);
+            MessagelistItemGroupBinding messagelistItemGroupBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_item_group,
+                    parent, false);
+            viewHolder = new GroupViewHolder(messagelistItemGroupBinding);
         } else if (viewType == TYPE_CHILD) {
-            Log.i("XProject", "viewType == TYPE_CHILD");
-            View childView = layoutInflater.inflate(R.layout.messagelist_item_child, parent, false);
-            viewHolder = new ChildViewHolder(childView);
+            MessagelistItemChildBinding messagelistItemChildBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_item_child,
+                    parent, false);
+            viewHolder = new ChildViewHolder(messagelistItemChildBinding);
         }
 
         return viewHolder;
@@ -69,13 +67,12 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.i("XProject", "onBindViewHolder()");
         if (holder instanceof GroupViewHolder) {
-            Log.i("XProject", "holder instanceof GroupViewHolder.position = " + position + ",text = " + getItemTextByPosition(position));
-            ((GroupViewHolder) holder).mDataTextView.setText(getItemTextByPosition(position));
+            ((GroupViewHolder) holder).mMessagelistItemGroupBinding.messagelistTextviewGroupdata.setText(
+                    getItemTextByPosition(position));
         } else if (holder instanceof ChildViewHolder) {
-            Log.i("XProject", "holder instanceof ChildViewHolder = " + position + ",text = " + getItemTextByPosition(position));
-            ((ChildViewHolder) holder).mContentTextView.setText(getItemTextByPosition(position));
+            ((ChildViewHolder) holder).mMessagelistItemChildBinding.messagelistTextviewChildcontent.setText(
+                    getItemTextByPosition(position));
         }
     }
 
@@ -104,11 +101,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        Log.i("XProject", "getItemViewType()");
         int viewType;
 
         if (mHeaderView == null && mFooterView == null) {
-            Log.i("XProject", "mHeaderView == null && mFooterView == null");
             viewType = getMessageTypeByPosition(position);
         } else if (mHeaderView != null && mFooterView == null) {
             if (position == 0) {
@@ -132,7 +127,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             }
         }
 
-        Log.i("XProject", "position = " + position + ",viewType = " + viewType);
         return viewType;
     }
 
@@ -159,19 +153,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        Log.i("XProject", "getItemCount()");
         int itemCount;
         if (mHeaderView != null && mFooterView != null) {
-            Log.i("XProject", "mHeaderView != null && mFooterView != null");
             itemCount = getMessageGroupItemCount() + 2;
         } else if (mHeaderView == null && mFooterView == null) {
-            Log.i("XProject", "mHeaderView == null && mFooterView == null");
             itemCount = getMessageGroupItemCount();
         } else {
             itemCount = getMessageGroupItemCount() + 1;
         }
 
-        Log.i("XProject", "itemCount = " + itemCount);
         return itemCount;
     }
 
@@ -194,20 +184,20 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     }
 
     public class GroupViewHolder extends RecyclerView.ViewHolder {
-        private TextView mDataTextView;
+        private final MessagelistItemGroupBinding mMessagelistItemGroupBinding;
 
-        public GroupViewHolder(View itemView) {
-            super(itemView);
-            mDataTextView = itemView.findViewById(R.id.messagelist_textview_groupdata);
+        public GroupViewHolder(MessagelistItemGroupBinding messagelistItemGroupBinding) {
+            super(messagelistItemGroupBinding.getRoot());
+            mMessagelistItemGroupBinding = messagelistItemGroupBinding;
         }
     }
 
     public class ChildViewHolder extends RecyclerView.ViewHolder {
-        public TextView mContentTextView;
+        private final MessagelistItemChildBinding mMessagelistItemChildBinding;
 
-        public ChildViewHolder(View itemView) {
-            super(itemView);
-            mContentTextView = itemView.findViewById(R.id.messagelist_textview_childcontent);
+        public ChildViewHolder(MessagelistItemChildBinding messagelistItemChildBinding) {
+            super(messagelistItemChildBinding.getRoot());
+            mMessagelistItemChildBinding = messagelistItemChildBinding;
         }
     }
 

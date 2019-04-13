@@ -8,7 +8,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import workshop1024.com.xproject.model.publishertype.PublisherType;
 import workshop1024.com.xproject.net.PublisherTypeService;
-import workshop1024.com.xproject.net.RetrofitBuilder;
+import workshop1024.com.xproject.net.XRetrofit;
 
 public class PublisherTypeRepository implements PublisherTypeDataSource {
     private static PublisherTypeRepository INSTANCE;
@@ -26,7 +26,8 @@ public class PublisherTypeRepository implements PublisherTypeDataSource {
 
     @Override
     public void getPublisherContentTypes(final LoadPublisherTypeCallback loadPublisherTypeCallback) {
-        Retrofit retrofit = RetrofitBuilder.getRetrofit();
+        //TODO 如何处理网络错误等逻辑
+        Retrofit retrofit = XRetrofit.getRetrofit();
         PublisherTypeService publisherTypeService = retrofit.create(PublisherTypeService.class);
         Call<List<PublisherType>> publisherTypesCall = publisherTypeService.getPublisherContentTypes();
         publisherTypesCall.enqueue(new Callback<List<PublisherType>>() {
@@ -45,7 +46,7 @@ public class PublisherTypeRepository implements PublisherTypeDataSource {
 
     @Override
     public void getPublisherLanguageTypes(final LoadPublisherTypeCallback loadPublisherTypeCallback) {
-        Retrofit retrofit = RetrofitBuilder.getRetrofit();
+        Retrofit retrofit = XRetrofit.getRetrofit();
         PublisherTypeService languageTypeService = retrofit.create(PublisherTypeService.class);
         Call<List<PublisherType>> languageTypesCall = languageTypeService.getPublisherLanguageTypes();
         languageTypesCall.enqueue(new Callback<List<PublisherType>>() {

@@ -10,8 +10,8 @@ public class PublisherType {
     private String mName;
 
     public PublisherType(String typeId, String name) {
-        this.mTypeId = typeId;
-        this.mName = name;
+        mTypeId = typeId;
+        mName = name;
     }
 
     public String getTypeId() {
