@@ -175,19 +175,6 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void onPublisherTypesLoaded(List<PublisherType> publisherTypeList, String type) {
-        if (type.equals("content")) {
-            mContentTypeList = (ArrayList<PublisherType>) publisherTypeList;
-            //使用默认选中的发布者类型请求发布者信息
-            mPublisherDataSource = Injection.providePublisherRepository();
-            mPublisherSwipeRefreshLayout.setRefreshing(true);
-            mPublisherDataSource.getPublishersByType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
-        } else {
-            mLanguageTypeList = (ArrayList<PublisherType>) publisherTypeList;
-        }
-    }
-
-    @Override
     public void onDataNotAvailable() {
 
     }
