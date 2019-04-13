@@ -12,7 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import workshop1024.com.xproject.R;
-import workshop1024.com.xproject.model.filter.source.FilterRepository;
+import workshop1024.com.xproject.model.Injection;
+import workshop1024.com.xproject.model.filter.source.FilterDataSource;
 import workshop1024.com.xproject.utils.UnitUtils;
 import workshop1024.com.xproject.view.dialog.InputStringDialog;
 
@@ -71,7 +72,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
 
         @Override
         public void onInputStringDialogClick(DialogFragment dialog, String inputString) {
-            FilterRepository filterRepository = FilterRepository.getInstance();
+            FilterDataSource filterRepository = Injection.provideFilterRepository();
             filterRepository.addFilterByName(inputString);
         }
     }

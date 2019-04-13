@@ -22,10 +22,10 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.MessageListAdapter;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.message.Message;
 import workshop1024.com.xproject.model.message.MessageGroup;
 import workshop1024.com.xproject.model.message.source.MessageDataSource;
-import workshop1024.com.xproject.model.message.source.MessageRepository;
 import workshop1024.com.xproject.view.dialog.AccountDialog;
 import workshop1024.com.xproject.view.dialog.SubmitMessageDialog;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
@@ -41,7 +41,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     private TextView mHelloTextView;
     private FloatingActionButton mSubmitFloatingActionButton;
 
-    private MessageRepository mMessageRepository;
+    private MessageDataSource mMessageRepository;
 
     /**
      * 启动FeedbackActivity页面
@@ -86,7 +86,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     }
 
     private void refreshMessageGroupList() {
-        mMessageRepository = MessageRepository.getInstance();
+        mMessageRepository = Injection.provideMessageRepository();
         mMessageSwipeRefreshLayout.setRefreshing(true);
         mMessageRepository.getMessages(this);
     }

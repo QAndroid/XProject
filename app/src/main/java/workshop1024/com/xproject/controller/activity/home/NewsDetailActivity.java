@@ -29,6 +29,7 @@ import com.google.android.flexbox.JustifyContent;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.TagListAdapter;
+import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.news.NewsDetail;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsRepository;
@@ -57,7 +58,7 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
 
     private String mNewsId;
     private Float mSelectedFontSize;
-    private NewsRepository mNewsRepository;
+    private NewsDataSource mNewsRepository;
     private SharedPreferences mSharedPreferences;
 
     public static void startActivity(Context context, String newsId) {
@@ -113,7 +114,7 @@ public class NewsDetailActivity extends XActivity implements View.OnClickListene
     protected void onStart() {
         super.onStart();
         mNewsId = getIntent().getStringExtra(NEWS_ID_KEY);
-        mNewsRepository = NewsRepository.getInstance();
+        mNewsRepository = Injection.provideNewsRepository();
         mNewsRepository.getNewsDetailByNewsId(mNewsId, this);
     }
 
