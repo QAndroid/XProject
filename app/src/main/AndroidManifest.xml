@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="workshop1024.com.xproject">
+    package="workshop1024.com.xproject">
+
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".XApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+        <!-- 选择登录页面 -->
+        <activity android:name=".controller.activity.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 介绍页面 -->
+        <activity android:name=".controller.activity.introduce.IntroduceActivity" />
+        <!-- 主页面 -->
+        <activity android:name=".controller.activity.home.MainActivity" />
+        <!--TODO 把其他的setTitle去除-->
+        <activity
+            android:name=".controller.activity.settings.SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".controller.activity.home.MainActivity"
+            android:theme="@style/SettingsTheme" />
+        <activity
+            android:name=".controller.activity.feedback.FeedbackActivity"
+            android:parentActivityName=".controller.activity.home.MainActivity" />
+        <activity
+            android:name=".controller.activity.home.NewsDetailActivity"
+            android:parentActivityName=".controller.activity.home.MainActivity" />
+        <activity
+            android:name=".controller.activity.home.PublisherActivity"
+            android:parentActivityName=".controller.activity.home.MainActivity" />
+        <activity
+            android:name=".controller.activity.home.FilterActivity"
+            android:parentActivityName=".controller.activity.home.MainActivity" />
+        <activity
+            android:name=".controller.activity.home.AboutActivity"
+            android:parentActivityName=".controller.activity.home.MainActivity" />
     </application>
 
 </manifest>

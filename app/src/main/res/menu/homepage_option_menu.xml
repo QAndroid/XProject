@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--HomePageFragment的选项菜单-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--添加发布者-->
+    <item
+        android:id="@+id/homepage_optionmenu_addpublisher"
+        android:title="@string/homepage_bottommenu_addpublisher"
+        app:showAsAction="always"/>
+    <!--添加主题-->
+    <item
+        android:id="@+id/homepage_optionmenu_addtopic"
+        android:title="@string/homepage_bottommenu_addtopic"
+        app:showAsAction="always"/>
+    <!--添加过滤器-->
+    <item
+        android:id="@+id/homepage_optionmenu_addfilter"
+        android:title="@string/homepage_bottommenu_addfilter"
+        app:showAsAction="always"/>
+</menu>

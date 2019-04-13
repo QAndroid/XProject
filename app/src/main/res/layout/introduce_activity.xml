@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><!--应用介绍页面--><!--TODO 试用约束性布局优化-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controller.activity.introduce.IntroduceActivity">
+    <!--TODO 如何预览ViewPager内容-->
+    <!--介绍ViewPager-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/introduce_viewpager_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--底部导航栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <!--跳过按钮-->
+        <Button
+            android:id="@+id/introduce_button_skip"
+            style="@style/introduce_button"
+            android:layout_alignParentLeft="true"
+            android:text="SKIP"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+        <!--介绍指示器-->
+        <workshop1024.com.xproject.view.group.CircleDotIndicator
+            android:id="@+id/introduce_cricledotindicator_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <!--下一步按钮-->
+        <ImageButton
+            android:id="@+id/introduce_button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/introduce_button_done"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@drawable/introduce_nextbutton_background"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+        <!--完成按钮-->
+        <Button
+            android:id="@id/introduce_button_done"
+            style="@style/introduce_button"
+            android:layout_alignParentRight="true"
+            android:text="DONE"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+</RelativeLayout>
+

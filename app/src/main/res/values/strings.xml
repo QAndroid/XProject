@@ -1,3 +1,193 @@
 <resources>
     <string name="app_name">XProject</string>
+
+    <!--登陆选择页面开始-->
+    <string name="login_login">LOGIN TO FEEDLY</string>
+    <string name="login_try">TRY THINGS OUT</string>
+    <!--登陆选择页面结束-->
+
+    <!--介绍页面开始-->
+    <string name="introduce1_description">Thank you for installing Paperboy.What makes Paperboy different form other news reader apps is its simplicity and elegant design.</string>
+    <string name="introduce1_title">Welcome</string>
+    <string name="introduce2_title">Customizations</string>
+    <string name="introduce2_description">We believe tha each user is unique and hence several customization options are provided to suit different reading styles.To customize please visit the settings page.</string>
+    <string name="introduce3_title">Reading pattern learner</string>
+    <string name="introduce3_description">The home screen tiles will automatically reaarrange based on reading patterns for better user experence.All data is stored locally kepping in mind user privacy.</string>
+    <!--介绍页面结束-->
+
+    <!--主页面开始-->
+    <string name="main_leftnavigator_header_login">Click to login</string>
+
+    <string name="leftnavigator_menu_home">Home</string>
+    <string name="leftnavigator_menu_saved">Saved</string>
+    <string name="leftnavigator_menu_settings">Settings</string>
+    <string name="leftnavigator_menu_feedback">Feedback</string>
+
+    <string name="toolbar_title_home">Paperboy</string>
+    <string name="toolbar_title_saved">Saved</string>
+
+    <string name="toolbar_menu_search">Search</string>
+    <string name="toolbar_menu_add">Add</string>
+
+    <string name="toolbar_menu_refresh">Refresh</string>
+    <string name="toolbar_menu_marked">Marked as read</string>
+    <string name="toolbar_menu_rate">Rate app</string>
+    <string name="toolbar_menu_product">Product Tour</string>
+    <string name="toolbar_menu_about">About Paperboy</string>
+    <string name="toolbar_menu_help">Help</string>
+
+    <string name="toolbar_menu_refresh1">Refresh1</string>
+
+    <string name="toolbar_menu_magazine">Magazine</string>
+    <string name="main_menu_cards">Big cards</string>
+    <string name="main_menu_compact">Compact</string>
+    <string name="main_menu_minimal">Minimal</string>
+    <string name="toolbar_menu_picture">Picture</string>
+
+    <string name="toolbar_menu_language">Language</string>
+    <string name="toolbar_menu_filter">Filter</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="homepage_bottommenu_addpublisher">Add Publisher</string>
+    <string name="homepage_bottommenu_addtopic">Add Topic</string>
+    <string name="homepage_bottommenu_addfilter">Add Filter</string>
+
+    <string-array name="homepage_tabs_strings">
+        <item>Subscribe</item>
+        <item>Tag</item>
+        <item>Filter</item>
+    </string-array>
+
+    <string name="homepage_recyclerviewmenu_rename">Rename</string>
+    <string name="homepage_recyclerviewmenu_unsubscribe">Unsubscribe</string>
+
+    <string name="rename_dialog_title">Rename Publisher</string>
+    <string name="rename_dialog_positive">RENAME</string>
+    <!--主页面结束-->
+
+    <!--发布者列表页面开始-->
+    <string name="publisher_title_default">Select Publisher</string>
+    <string name="publisher_dialog_title">Select Publisher</string>
+    <string name="language_dialog_title">Select Language</string>
+    <!--发布者列表页面结束-->
+
+    <!--过滤器列表页面开始-->
+    <string name="addfilter_dialog_title">Add a filter</string>
+    <string name="addfilter_dialog_positive">ADD</string>
+    <!--过滤器列表页面结束-->
+
+    <!--设置页面开始-->
+    <string name="settings_header_extra_key">Settings</string>
+    <string name="settings_header_display_title">Display</string>
+    <string name="settings_header_display_extravalue">Display</string>
+    <string name="settings_header_sync_title">Sync</string>
+    <string name="settings_header_sync_extravalue">Sync</string>
+    <string name="settings_header_widget_title">Widget</string>
+    <string name="settings_header_widget_extravalue">Widget</string>
+    <string name="settings_header_advance_title">Advanced</string>
+    <string name="settings_header_advance_extravalue">Advanced</string>
+    <string name="settings_header_version_title">Version</string>
+
+    <string name="settings_preferencescreen_display_key">settings_preferencescreen_display</string>
+    <string name="settings_preferencescreen_display_title">Display</string>
+
+    <string name="settings_preferencecategory_display_key">settings_preferencecategory_display</string>
+    <string name="settings_preferencecategory_display_title">Display</string>
+    <string name="settings_preference_displaythemes_key">settings_preference_themes</string>
+    <string name="settings_preference_displaythemes_title">Themes</string>
+    <string name="settings_preference_displaythemes_dialogtitle">Themes</string>
+    <string name="settings_preference_displaythemes_default">0</string>
+    <string-array name="settings_preference_displaythemes">
+        <item>Light</item>
+        <item>Night</item>
+    </string-array>
+    <string-array name="settings_preference_displaythemes_codes">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="settings_preference_notificatorbar_key">notificatorbar_preference</string>
+    <string name="settings_preference_notificatorbar_title">Show notification bar</string>
+    <string name="settings_preferencecategory_articlelist_key">articlelist_preferencecategory</string>
+    <string name="settings_preferencecategory_articlelist_title">Article List</string>
+    <string name="settings_preference_unreadfirst_key">unreadfirst_preference</string>
+    <string name="settings_preference_unreadfirst_title">Unread First</string>
+    <string name="settings_preference_unreadfirst_summary">Show unread article first</string>
+    <string name="settings_preference_sortorder_key">sortorder_preference</string>
+    <string name="settings_preference_sortorder_title">Sort order</string>
+    <string name="settings_preference_sortorder_summary">Newest to oldest</string>
+    <string name="settings_preference_hidereadarticles_key">hidereaded_preferences</string>
+    <string name="settings_preference_hidereadarticles_title">Hide read articles</string>
+
+    <string name="settings_preferencecategory_text_key">text_preferencecategory</string>
+    <string name="settings_preferencecategory_text_title">Text</string>
+    <string name="settings_preference_fontsizes_key">settings_preference_fontsize</string>
+    <string name="settings_preference_fontsizes_default">6.0</string>
+    <string name="settings_preference_fontsize_title">Font Size</string>
+    <string name="settings_preference_fontsize_dialogtitle">Font Size</string>
+    <string-array name="settings_preference_fontsizes">
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Really Large</item>
+    </string-array>
+    <!--注意：直接用于setTextSize(float)，Share保存的String为2.0，则codes为2.0、4.0和8.0等-->
+    <string-array name="settings_preference_fontsizes_codes">
+        <item>4.0</item>
+        <item>6.0</item>
+        <item>8.0</item>
+        <item>10.0</item>
+        <item>12.0</item>
+    </string-array>
+    <string name="settings_preferencecategory_sync_key">sync_preferencecategory</string>
+    <string name="settings_preferencecategory_sync_title">Sync</string>
+    <string name="settings_preference_autodatarefresh_key">automaticrefresh_preference</string>
+    <string name="settings_preference_autodatarefresh_title">Automatic Data Refresh</string>
+    <string name="settings_preference_refreshinterval_key">refreshinterval_preference</string>
+    <string name="settings_preference_refreshinterval_title">Refresh Interval</string>
+    <string-array name="settings_refresh_interval">
+        <item>15 mins</item>
+        <item>30 mins</item>
+        <item>every hour</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+        <item>8 hours</item>
+    </string-array>
+    <string-array name="settings_refresh_interval_codes">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="settings_preference_synconlywifi_key">refreshwifi_preference</string>
+    <string name="settings_preference_synconlywifi_title">Sync Only If On WIFI</string>
+    <string name="settings_preference_refreshonlaunch_key">refreshlaunch_preference</string>
+    <string name="settings_preference_refreshonlaunch_title">Refresh data on launch</string>
+
+    <string name="settings_preferencecategory_widget_key">widget_preferencecategory</string>
+    <string name="settings_preferencecategory_widget_title">Widget</string>
+    <string name="settings_preference_showimages_key">showimages_preference</string>
+    <string name="settings_preference_showimages_title">Show Images</string>
+
+    <string name="settings_preferencecategory_advance_key">advanced_preferencecategory</string>
+    <string name="settings_preferencecategory_advance_title">Advanced</string>
+    <string name="settings_preference_cleardatabase_key">cleardatabase_preference</string>
+    <string name="settings_preference_cleardatabase_title">Clear Database</string>
+    <string name="settings_preference_cleardatabase_summary">Remove all data in database</string>
+
+    <string name="settings_advance_cleardatadialog_title">Clear Cache?</string>
+    <string name="settings_advance_cleardatadialog_message">Are you sure you want to remove all cached articles?</string>
+    <string name="settings_advance_cleardatadialog_positive">Confirm</string>
+    <string name="settings_advance_cleardatadialog_cancle">Cancle</string>
+    <!--设置页面结束-->
+
+    <!--反馈页面开始-->
+    <string name="account_dialog_title">Profile</string>
+    <string name="account_dialog_cancle">Cancle</string>
+    <string name="account_dialog_save">Save</string>
+    <!--反馈页面结束-->
 </resources>

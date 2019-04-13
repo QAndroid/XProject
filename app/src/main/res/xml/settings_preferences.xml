@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="workshop1024.com.xproject.controller.fragment.settings.SettingsFragment"
+        android:title="@string/settings_header_display_title">
+        <extra
+            android:name="@string/settings_header_extra_key"
+            android:value="@string/settings_header_display_extravalue" />
+    </header>
+    <header
+        android:fragment="workshop1024.com.xproject.controller.fragment.settings.SettingsFragment"
+        android:title="@string/settings_header_sync_title">
+        <extra
+            android:name="@string/settings_header_extra_key"
+            android:value="@string/settings_header_sync_extravalue" />
+    </header>
+    <header
+        android:fragment="workshop1024.com.xproject.controller.fragment.settings.SettingsFragment"
+        android:title="@string/settings_header_widget_title">
+        <extra
+            android:name="@string/settings_header_extra_key"
+            android:value="@string/settings_header_widget_extravalue" />
+    </header>
+    <header
+        android:fragment="workshop1024.com.xproject.controller.fragment.settings.SettingsFragment"
+        android:title="@string/settings_header_advance_title">
+        <extra
+            android:name="@string/settings_header_extra_key"
+            android:value="@string/settings_header_advance_extravalue" />
+    </header>
+    <header
+        android:summary="9.8.5.2"
+        android:title="@string/settings_header_version_title" />
+</preference-headers>

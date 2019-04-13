@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--主页右部内容布局-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainright_coordinatorlayout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.activity.home.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mainright_appbarlayout_navigator"
+        style="@style/xproject_appbarlayout">
+
+        <!--顶部标题栏-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar_navigator"
+            style="@style/xproject_toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/xproject_toolbarmenu" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!--下部内容Fragments-->
+    <FrameLayout
+        android:id="@+id/mainright_framelayout_fragments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--全部已读按钮-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mainright_floatingactionbutton_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/floatingactionbutton_newslist"
+        android:tint="@color/main_floatingactionbutton_tintcolor"
+        android:visibility="gone"
+        app:layout_behavior="workshop1024.com.xproject.view.floatbutton.FloatingActionButtonBehavior"
+        tools:visibility="visible" />
+</android.support.design.widget.CoordinatorLayout>

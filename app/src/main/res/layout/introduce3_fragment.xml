@@ -1,0 +1,25 @@
+<!--介绍3布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/introduce_root"
+    android:background="@color/introduce3_background"
+    tools:context="workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment">
+
+    <!--标题-->
+    <TextView
+        style="@style/introduce_title"
+        android:text="@string/introduce3_title" />
+
+    <!--介绍图-->
+    <ImageView
+        style="@style/introduce_icon"
+        android:src="@drawable/introduce_icon3" />
+
+    <!--说明-->
+    <TextView
+        style="@style/introduce_description"
+        android:text="@string/introduce3_description" />
+
+    <!--分割线-->
+    <View style="@style/introduce_line" />
+</LinearLayout>

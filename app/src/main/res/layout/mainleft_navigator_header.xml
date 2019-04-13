@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主页左抽屉导航头部布局-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/leftnavigator_header_background"
+    android:layout_height="@dimen/main_leftnavigator_header_height"
+    android:layout_width="match_parent"
+    android:padding="16dp">
+
+    <!--登陆按钮-->
+    <Button
+        android:background="@null"
+        android:gravity="bottom"
+        android:id="@+id/leftnavigator_button_login"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/main_leftnavigator_header_login"
+        android:textColor="@color/main_navigatorheader_buttontextcolor" />
+
+    <!--退出按钮-->
+    <ImageButton
+        android:background="@drawable/leftnavigator_header_logout"
+        android:id="@+id/leftnavigator_imagebutton_logout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+</RelativeLayout>
