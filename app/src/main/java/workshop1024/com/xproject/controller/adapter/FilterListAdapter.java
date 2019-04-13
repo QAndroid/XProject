@@ -1,16 +1,18 @@
 package workshop1024.com.xproject.controller.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.controller.activity.home.NewsDetailActivity;
+import workshop1024.com.xproject.databinding.FilterlistItemContentBinding;
 import workshop1024.com.xproject.model.filter.Filter;
+import workshop1024.com.xproject.model.news.News;
 
 public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.FilterViewHolder> {
     private List<Filter> mFilterList;
@@ -23,17 +25,15 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Fi
 
     @Override
     public FilterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filterlist_item_content, parent,
-                false);
-        return new FilterViewHolder(view);
+        FilterlistItemContentBinding filterlistItemContentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.filterlist_item_content, parent, false);
+        filterlistItemContentBinding.setFilterHandlers(new FilterHandlers());
+        return new FilterViewHolder(filterlistItemContentBinding);
     }
 
     @Override
     public void onBindViewHolder(FilterViewHolder holder, int position) {
-        Filter filter = mFilterList.get(position);
-
-        holder.mNameTextView.setText(filter.getFilterName());
-        holder.mFilter = filter;
+        holder.mFilterlistItemContentBinding.setFilter(mFilterList.get(position));
     }
 
     @Override
@@ -45,23 +45,19 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Fi
         void filterListItemDelete(Filter filter);
     }
 
-    public class FilterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mNameTextView;
-        private ImageButton mDeleteButton;
-        private Filter mFilter;
+    public class FilterViewHolder extends RecyclerView.ViewHolder {
+        private final FilterlistItemContentBinding mFilterlistItemContentBinding;
 
-        public FilterViewHolder(View view) {
-            super(view);
-            mNameTextView = view.findViewById(R.id.filterlist_textview_name);
-            mDeleteButton = view.findViewById(R.id.filterlist_imagebutton_delete);
-
-            mDeleteButton.setOnClickListener(this);
+        public FilterViewHolder(FilterlistItemContentBinding filterlistItemContentBinding) {
+            super(filterlistItemContentBinding.getRoot());
+            mFilterlistItemContentBinding = filterlistItemContentBinding;
         }
+    }
 
-        @Override
-        public void onClick(View v) {
+    public class FilterHandlers {
+        public void onClickDelete(View view, Filter filter) {
             if (mOnFilterListDeleteListener != null) {
-                mOnFilterListDeleteListener.filterListItemDelete(mFilter);
+                mOnFilterListDeleteListener.filterListItemDelete(filter);
             }
         }
     }

@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home;
 
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,11 @@ public class FilterFragment extends HomeSubFragment {
 
     @Override
     public void onRefresh() {
-        Log.i("XProject", "FilterFragment onRefresh");
         refreshFilterList();
     }
 
     @Override
     protected void loadData() {
-        Log.i("XProject", "FilterFragment loadData");
         refreshFilterList();
     }
 
@@ -37,8 +34,8 @@ public class FilterFragment extends HomeSubFragment {
      * 刷新过滤器列表
      */
     private void refreshFilterList() {
-        Snackbar.make(mRootView, "Fetch more filters ...", Snackbar.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(true);
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch more filters ...", Snackbar.LENGTH_SHORT).show();
+        mHomeSubFragmentHanlders.isRefreshing.set(true);
         mSubInfoRepository.getFilterSubInfos(this);
     }
 
@@ -46,16 +43,16 @@ public class FilterFragment extends HomeSubFragment {
     public void onSubInfosLoaded(List<SubInfo> subInfoList) {
         if (mIsForeground) {
             mSubInfoList = subInfoList;
-            mSwipeRefreshLayout.setRefreshing(false);
+            mHomeSubFragmentHanlders.isRefreshing.set(false);
             HomeSubListAdapter homeSubListAdapter = new HomeSubListAdapter(subInfoList, this);
-            mSubRecyclerView.setAdapter(homeSubListAdapter);
-            Snackbar.make(mRootView, "Fetch " + subInfoList.size() + " filters ...", Snackbar.LENGTH_SHORT).show();
+            mHomesubFragmentBinding.homesubRecyclerviewList.setAdapter(homeSubListAdapter);
+            Snackbar.make(mHomesubFragmentBinding.getRoot(), "Fetch " + subInfoList.size() + " filters ...", Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDataNotAvailable() {
-        Snackbar.make(mRootView, "No filters refresh...", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mHomesubFragmentBinding.getRoot(), "No filters refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

@@ -2,6 +2,10 @@ package workshop1024.com.xproject.controller.activity.introduce;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BindingMethod;
+import android.databinding.BindingMethods;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,8 +14,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,28 +22,24 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.MainActivity;
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment;
-import workshop1024.com.xproject.view.group.CircleDotIndicator;
+import workshop1024.com.xproject.databinding.IntroduceActivityBinding;
+
+@BindingMethods({
+        @BindingMethod(type = ViewPager.class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")
+})
+
 
 /**
  * 介绍页面
  */
-public class IntroduceActivity extends FragmentActivity implements View.OnClickListener {
-    //介绍内容ViewPager
-    private ViewPager mContentViewpager;
-    //圆点索引指示器
-    private CircleDotIndicator mCricledotindicator;
-    //跳过按钮
-    private Button mSkipButton;
-    //下一步按钮
-    private ImageButton mNextButton;
-    //完成按钮
-    private Button mDoneButton;
-
+public class IntroduceActivity extends FragmentActivity {
     //介绍布局id
     private List<Integer> mLayoutIdList = new ArrayList<>(Arrays.asList(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment));
     //介绍ViewPager适配器
     private PagerAdapter mPagerAdapter;
+
+    private IntroduceActivityBinding mIntroduceActivityBinding;
 
     /**
      * 启动介绍页面
@@ -56,40 +54,22 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.introduce_activity);
-
-        mContentViewpager = findViewById(R.id.introduce_viewpager_content);
-        mCricledotindicator = findViewById(R.id.introduce_cricledotindicator_index);
-        //TODO 使用ViewSwitcher优化重构
-        mSkipButton = findViewById(R.id.introduce_button_skip);
-        mNextButton = findViewById(R.id.introduce_button_next);
-        mDoneButton = findViewById(R.id.introduce_button_done);
-
-        mSkipButton.setOnClickListener(this);
-        mNextButton.setOnClickListener(this);
-        mDoneButton.setOnClickListener(this);
+        mIntroduceActivityBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity);
+        mIntroduceActivityBinding.setIntroduceHandlers(new IntroduceHandlers());
 
         mPagerAdapter = new IntroducePagerAdapter(getSupportFragmentManager(), mLayoutIdList);
-        mContentViewpager.setAdapter(mPagerAdapter);
-        mContentViewpager.addOnPageChangeListener(new ViewPageChangeListener());
+        mIntroduceActivityBinding.introduceViewpagerContent.setAdapter(mPagerAdapter);
 
-        mCricledotindicator.setViewPager(mContentViewpager);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == mNextButton) {
-            toNextViewPageItem();
-        } else if (view == mSkipButton || view == mDoneButton) {
-            toMainActivity();
-        }
+        mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.
+                introduceViewpagerContent);
     }
 
     /**
      * 跳转下一个ViewPager的页面
      */
     private void toNextViewPageItem() {
-        mContentViewpager.setCurrentItem(mContentViewpager.getCurrentItem() + 1);
+        mIntroduceActivityBinding.introduceViewpagerContent.setCurrentItem(mIntroduceActivityBinding.
+                introduceViewpagerContent.getCurrentItem() + 1);
     }
 
     /**
@@ -123,10 +103,26 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
         }
     }
 
-    /**
-     * ViewPager页面切换监听器，处理指示器中圆点的选中和未选中状态切换动画
-     */
-    private class ViewPageChangeListener implements ViewPager.OnPageChangeListener {
+    public class IntroduceHandlers implements ViewPager.OnPageChangeListener {
+        //可观察的ViewPager当前页面索引，用于布局中按钮和指示器的更新
+        public ObservableInt currentPagePosition = new ObservableInt();
+
+        public void onClickSkip(View view) {
+            toMainActivity();
+        }
+
+        public void onClickNext(View view) {
+            toNextViewPageItem();
+        }
+
+        public void onClickDone(View view) {
+            toMainActivity();
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            currentPagePosition.set(position);
+        }
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -134,28 +130,9 @@ public class IntroduceActivity extends FragmentActivity implements View.OnClickL
         }
 
         @Override
-        public void onPageSelected(int position) {
-            mCricledotindicator.setCurrentSelectedCircleDot(position);
-
-            switch (position) {
-                case 0:
-                case 1:
-                    //TODO 是否有某种设计模式可优化
-                    mSkipButton.setVisibility(View.VISIBLE);
-                    mNextButton.setVisibility(View.VISIBLE);
-                    mDoneButton.setVisibility(View.GONE);
-                    break;
-                case 2:
-                    mSkipButton.setVisibility(View.GONE);
-                    mNextButton.setVisibility(View.GONE);
-                    mDoneButton.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
-
-        @Override
         public void onPageScrollStateChanged(int state) {
 
         }
     }
+
 }

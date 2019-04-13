@@ -26,6 +26,9 @@ android {
             dimension "default"
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

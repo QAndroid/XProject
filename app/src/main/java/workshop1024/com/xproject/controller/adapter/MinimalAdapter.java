@@ -1,22 +1,23 @@
 package workshop1024.com.xproject.controller.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.home.NewsDetailActivity;
+import workshop1024.com.xproject.databinding.NewslistItemMinimalBinding;
 import workshop1024.com.xproject.model.news.News;
 
 /**
  * Created by chengxiang.peng on 2018/1/24.
  */
-public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.NewsViewHolder> {
+public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.MinimalViewHolder> {
     private Context mContext;
     private List<News> mNewsList;
 
@@ -26,18 +27,16 @@ public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.NewsView
     }
 
     @Override
-    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newslist_item_minimal, parent,
-                false);
-        return new NewsViewHolder(view);
+    public MinimalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        NewslistItemMinimalBinding newslistItemMinimalBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.newslist_item_minimal, parent, false);
+        newslistItemMinimalBinding.setMinimalHandlers(new MinimalHandlers());
+        return new MinimalViewHolder(newslistItemMinimalBinding);
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
-        holder.mNews = mNewsList.get(position);
-        holder.mTitleTextView.setText(mNewsList.get(position).getTitle());
-        holder.mAuthorTextView.setText(mNewsList.get(position).getPublisher());
-        holder.mTimeTextView.setText(mNewsList.get(position).getPubDate());
+    public void onBindViewHolder(MinimalViewHolder holder, int position) {
+        holder.mNewslistItemMinimalBinding.setNews(mNewsList.get(position));
     }
 
     @Override
@@ -45,24 +44,18 @@ public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.NewsView
         return mNewsList.size();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView mTitleTextView;
-        private final TextView mAuthorTextView;
-        private final TextView mTimeTextView;
-        private News mNews;
+    public class MinimalViewHolder extends RecyclerView.ViewHolder {
+        private final NewslistItemMinimalBinding mNewslistItemMinimalBinding;
 
-        private NewsViewHolder(View view) {
-            super(view);
-            view.setOnClickListener(this);
-
-            mTitleTextView = view.findViewById(R.id.minimal_textview_title);
-            mAuthorTextView = view.findViewById(R.id.minimal_textview_author);
-            mTimeTextView = view.findViewById(R.id.minimal_textview_time);
+        private MinimalViewHolder(NewslistItemMinimalBinding newslistItemMinimalBinding) {
+            super(newslistItemMinimalBinding.getRoot());
+            mNewslistItemMinimalBinding = newslistItemMinimalBinding;
         }
+    }
 
-        @Override
-        public void onClick(View view) {
-            NewsDetailActivity.startActivity(mContext, mNews.getNewId());
+    public class MinimalHandlers {
+        public void onClickItem(View view, News news) {
+            NewsDetailActivity.startActivity(mContext, news.getNewId());
         }
     }
 }

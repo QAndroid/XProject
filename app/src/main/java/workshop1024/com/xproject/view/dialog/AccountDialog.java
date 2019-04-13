@@ -3,22 +3,19 @@ package workshop1024.com.xproject.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import workshop1024.com.xproject.R;
+import workshop1024.com.xproject.databinding.AccountDialogBinding;
 
 public class AccountDialog extends DialogFragment implements DialogInterface.OnClickListener {
     public static final String TAG = "AccountDialog";
 
-    private TextInputEditText mNameEditText;
-    private TextInputEditText mEmailEditText;
-
+    private AccountDialogBinding mAccountDialogBinding;
     private AccountDialogListener mAccountDialogListener;
 
     public static AccountDialog newInstance() {
@@ -38,14 +35,9 @@ public class AccountDialog extends DialogFragment implements DialogInterface.OnC
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View contentView = layoutInflater.inflate(R.layout.account_dialog, null);
-
-        mNameEditText = contentView.findViewById(R.id.account_textinputedittext_name);
-        mEmailEditText = contentView.findViewById(R.id.account_textinputedittext_email);
-
+        mAccountDialogBinding = DataBindingUtil.inflate(getActivity().getLayoutInflater(), R.layout.account_dialog, null, false);
         return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.xproject_alertdialog)).setTitle(R.string.account_dialog_title).setView(contentView).
+                R.style.xproject_alertdialog)).setTitle(R.string.account_dialog_title).setView(mAccountDialogBinding.getRoot()).
                 setPositiveButton(R.string.account_dialog_cancle, this).
                 setNegativeButton(R.string.account_dialog_save, this).create();
     }
@@ -55,8 +47,8 @@ public class AccountDialog extends DialogFragment implements DialogInterface.OnC
         if (which == DialogInterface.BUTTON_POSITIVE) {
             mAccountDialogListener.cancelButtonClick(this);
         } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-            mAccountDialogListener.okButtonClick(this, mNameEditText.getText().toString(),
-                    mEmailEditText.getText().toString());
+            mAccountDialogListener.okButtonClick(this, mAccountDialogBinding.accountTextinputedittextName.getText().toString(),
+                    mAccountDialogBinding.accountTextinputedittextEmail.getText().toString());
         }
     }
 

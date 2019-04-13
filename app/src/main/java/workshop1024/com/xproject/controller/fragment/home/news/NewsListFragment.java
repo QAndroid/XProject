@@ -1,5 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home.news;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import workshop1024.com.xproject.controller.adapter.BigCardsAdapter;
 import workshop1024.com.xproject.controller.adapter.CompactAdapter;
 import workshop1024.com.xproject.controller.adapter.MinimalAdapter;
 import workshop1024.com.xproject.controller.fragment.XFragment;
+import workshop1024.com.xproject.databinding.NewslistFragmentBinding;
 import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
@@ -28,13 +30,12 @@ import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
  */
 public abstract class NewsListFragment extends XFragment implements SwipeRefreshLayout.OnRefreshListener,
         NewsDataSource.LoadNewsListCallback {
-    private View mRootView;
-    private SwipeRefreshLayout mSwipeRefreshLayoutPull;
-    private RecyclerView mStoryRecyclerView;
     private RecyclerView.Adapter mListAdapter;
 
     protected NewsDataSource mNewsRepository;
     private List<News> mNewsList;
+
+    private NewslistFragmentBinding mNewsListFragmentBinding;
 
     public NewsListFragment() {
     }
@@ -47,16 +48,13 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.homelist_fragment, container, false);
+        mNewsListFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.newslist_fragment, container, false);
 
-        mSwipeRefreshLayoutPull = mRootView.findViewById(R.id.homelist_swiperefreshlayout_pullrefresh);
-        mSwipeRefreshLayoutPull.setOnRefreshListener(this);
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setOnRefreshListener(this);
+        mNewsListFragmentBinding.newslistRecyclerviewList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mNewsListFragmentBinding.newslistRecyclerviewList.addItemDecoration(new RecyclerViewItemDecoration(6));
 
-        mStoryRecyclerView = mRootView.findViewById(R.id.homelist_recyclerview_list);
-        mStoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mStoryRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
-
-        return mRootView;
+        return mNewsListFragmentBinding.getRoot();
     }
 
     @Override
@@ -74,20 +72,20 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
     public void onNewsLoaded(List<News> newsList) {
         if (mIsForeground) {
             mNewsList = newsList;
-            mSwipeRefreshLayoutPull.setRefreshing(false);
+            mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setRefreshing(false);
             showBigCardsList();
-            Snackbar.make(mRootView, "Fetch " + newsList.size() + " newses ...", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mNewsListFragmentBinding.getRoot(), "Fetch " + newsList.size() + " newses ...", Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDataNotAvaiable() {
-        Snackbar.make(mRootView, "No newses refresh...", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mNewsListFragmentBinding.getRoot(), "No newses refresh...", Snackbar.LENGTH_SHORT).show();
     }
 
     private void refreshNewsList() {
-        Snackbar.make(mRootView, "Fetch more newses ...", Snackbar.LENGTH_SHORT).show();
-        mSwipeRefreshLayoutPull.setRefreshing(true);
+        Snackbar.make(mNewsListFragmentBinding.getRoot(), "Fetch more newses ...", Snackbar.LENGTH_SHORT).show();
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setRefreshing(true);
         getNewsList();
     }
 
@@ -95,17 +93,17 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
 
     public void showBigCardsList() {
         mListAdapter = new BigCardsAdapter(getContext(), mNewsList);
-        mStoryRecyclerView.setAdapter(mListAdapter);
+        mNewsListFragmentBinding.newslistRecyclerviewList.setAdapter(mListAdapter);
     }
 
     public void showMinimalList() {
         mListAdapter = new MinimalAdapter(getContext(), mNewsList);
-        mStoryRecyclerView.setAdapter(mListAdapter);
+        mNewsListFragmentBinding.newslistRecyclerviewList.setAdapter(mListAdapter);
     }
 
     public void showCompactList() {
         mListAdapter = new CompactAdapter(getContext(), mNewsList);
-        mStoryRecyclerView.setAdapter(mListAdapter);
+        mNewsListFragmentBinding.newslistRecyclerviewList.setAdapter(mListAdapter);
     }
 
     public void markAsRead() {

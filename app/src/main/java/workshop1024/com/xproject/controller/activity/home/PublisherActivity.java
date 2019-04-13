@@ -2,15 +2,12 @@ package workshop1024.com.xproject.controller.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +19,7 @@ import java.util.List;
 import workshop1024.com.xproject.R;
 import workshop1024.com.xproject.controller.activity.XActivity;
 import workshop1024.com.xproject.controller.adapter.PublisherListAdapter;
+import workshop1024.com.xproject.databinding.PublisherActivityBinding;
 import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
@@ -39,11 +37,6 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
 
     private TypeChoiceDialog mTypeChoiceDialog;
     private TypeChoiceDialog mLanguageChoiceDialog;
-    private CoordinatorLayout mRootView;
-    private Toolbar mToolbar;
-    private SwipeRefreshLayout mPublisherSwipeRefreshLayout;
-    private RecyclerView mPublisherRecyclerView;
-
     private DialogFragment mSelectedDialog;
 
     private PublisherListAdapter mPublisherListAdapter;
@@ -60,6 +53,8 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     //选择的语言索引
     private int mSelectedLanguageIndex = 0;
 
+    private PublisherActivityBinding mPublisherActivityBinding;
+
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, PublisherActivity.class);
         context.startActivity(intent);
@@ -68,20 +63,14 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.publisher_activity);
+        mPublisherActivityBinding = DataBindingUtil.setContentView(this, R.layout.publisher_activity);
 
-        mRootView = findViewById(R.id.publisher_coordinatorlayout_rootview);
-        mToolbar = findViewById(R.id.publisher_toolbar_navigator);
-        mPublisherSwipeRefreshLayout = findViewById(R.id.publisher_swiperefreshlayout_pullrefresh);
-        mPublisherRecyclerView = findViewById(R.id.publisher_recyclerview_list);
-
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mPublisherActivityBinding.publisherToolbarNavigator);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mPublisherSwipeRefreshLayout.setOnRefreshListener(this);
-        mPublisherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mPublisherRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(6));
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setOnRefreshListener(this);
+        mPublisherActivityBinding.publisherRecyclerviewList.addItemDecoration(new RecyclerViewItemDecoration(6));
 
         //显示默认选中的发布者
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
@@ -93,7 +82,6 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     protected void onStart() {
         super.onStart();
         mPublisherTypeDataSource = Injection.providePublisherTypeRepository();
-        mPublisherSwipeRefreshLayout.setRefreshing(true);
         mPublisherTypeDataSource.getPublisherContentTypes(this);
         mPublisherTypeDataSource.getPublisherLanguageTypes(this);
     }
@@ -129,36 +117,36 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        mPublisherSwipeRefreshLayout.setRefreshing(true);
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
         if (mSelectedDialog == mTypeChoiceDialog) {
-            mPublisherDataSource.getPublishersByType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
+            mPublisherDataSource.getPublishersByContentType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
         } else if (mSelectedDialog == mLanguageChoiceDialog) {
-            mPublisherDataSource.getPublishersByLanguage(mLanguageTypeList.get(mSelectedLanguageIndex).getTypeId(), this);
+            mPublisherDataSource.getPublishersByLanguageType(mLanguageTypeList.get(mSelectedLanguageIndex).getTypeId(), this);
         }
     }
 
     @Override
     public void onTypeChoiceDialogItemClick(DialogFragment dialog, PublisherType publisherType) {
         mSelectedDialog = dialog;
-        mToolbar.setTitle(publisherType.getName());
+        mPublisherActivityBinding.publisherToolbarNavigator.setTitle(publisherType.getName());
 
-        mPublisherSwipeRefreshLayout.setRefreshing(true);
-
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
         if (dialog == mTypeChoiceDialog) {
-            mPublisherDataSource.getPublishersByType(publisherType.getTypeId(), this);
+            mPublisherDataSource.getPublishersByContentType(publisherType.getTypeId(), this);
         } else if (dialog == mLanguageChoiceDialog) {
-            mPublisherDataSource.getPublishersByLanguage(publisherType.getTypeId(), this);
+            mPublisherDataSource.getPublishersByLanguageType(publisherType.getTypeId(), this);
         }
     }
 
     @Override
-    public void publisherListItemSelect(Publisher selectPublisher, boolean isSelected) {
+    public void onPublisherListItemSelect(Publisher selectPublisher, boolean isSelected) {
         if (isSelected) {
-            Snackbar.make(mRootView, selectPublisher.getName() + " selected", Snackbar.LENGTH_SHORT).show();
+            //FIXME 订阅网络请求返回后，在提示并且选中
             mPublisherDataSource.subscribePublisherById(selectPublisher.getPublisherId());
+            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " selected", Snackbar.LENGTH_SHORT).show();
         } else {
-            Snackbar.make(mRootView, selectPublisher.getName() + " unselected", Snackbar.LENGTH_SHORT).show();
             mPublisherDataSource.unSubscribePublisherById(selectPublisher.getPublisherId());
+            Snackbar.make(mPublisherActivityBinding.getRoot(), selectPublisher.getName() + " unselected", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -166,9 +154,23 @@ public class PublisherActivity extends XActivity implements SwipeRefreshLayout.O
     public void onPublishersLoaded(List<Publisher> publisherList) {
         //FIXME 每次都需要创建适配器吗？
         if (mIsForeground) {
-            mPublisherSwipeRefreshLayout.setRefreshing(false);
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(false);
             mPublisherListAdapter = new PublisherListAdapter(publisherList, this);
-            mPublisherRecyclerView.setAdapter(mPublisherListAdapter);
+            mPublisherActivityBinding.publisherRecyclerviewList.setAdapter(mPublisherListAdapter);
+        }
+    }
+
+    @Override
+    public void onPublisherTypesLoaded(List<PublisherType> publisherTypeList, String type) {
+        //TODO type equals很别扭
+        if (type.equals("content")) {
+            mContentTypeList = (ArrayList<PublisherType>) publisherTypeList;
+            //使用默认选中的发布者类型请求发布者信息
+            mPublisherDataSource = Injection.providePublisherRepository();
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.setRefreshing(true);
+            mPublisherDataSource.getPublishersByContentType(mContentTypeList.get(mSelectedTypeIndex).getTypeId(), this);
+        } else {
+            mLanguageTypeList = (ArrayList<PublisherType>) publisherTypeList;
         }
     }
 
