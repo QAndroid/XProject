@@ -8,10 +8,16 @@ import workshop1024.com.xproject.model.news.source.NewsDataSource;
 import workshop1024.com.xproject.model.news.source.NewsMockRepository;
 import workshop1024.com.xproject.model.publisher.source.PublisherDataSource;
 import workshop1024.com.xproject.model.publisher.source.PublisherMockRepository;
+import workshop1024.com.xproject.model.publishertype.source.PublisherTypeDataSource;
+import workshop1024.com.xproject.model.publishertype.source.PublisherTypeMockRepository;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource;
 import workshop1024.com.xproject.model.subinfo.source.SubInfoMockRepository;
 
 public class Injection {
+    public static PublisherTypeDataSource provideContentTypeRepository() {
+        return PublisherTypeMockRepository.getInstance();
+    }
+
     public static FilterDataSource provideFilterRepository() {
         return FilterMockRepository.getInstance();
     }
