@@ -8,7 +8,7 @@ public class Publisher {
     //发布者id
     private String mPublisherId;
     //发布者类型
-    private String mType;
+    private String mTypeId;
     //发布者语言类型
     private String mLanguage;
     //发布者图标URL
@@ -23,7 +23,7 @@ public class Publisher {
     public Publisher(String publisherId, String type, String language, String iconUrl, String name,
                      String subscribeNum, boolean isSubscribed) {
         mPublisherId = publisherId;
-        mType = type;
+        mTypeId = type;
         mLanguage = language;
         mIconUrl = iconUrl;
         mName = name;
@@ -39,12 +39,12 @@ public class Publisher {
         mPublisherId = publisherId;
     }
 
-    public String getType() {
-        return mType;
+    public String getTypeId() {
+        return mTypeId;
     }
 
-    public void setType(String type) {
-        mType = type;
+    public void setTypeId(String typeId) {
+        mTypeId = typeId;
     }
 
     public String getLanguage() {
@@ -91,7 +91,7 @@ public class Publisher {
     public String toString() {
         return "Publisher{" +
                 "mPublisherId='" + mPublisherId + '\'' +
-                ", mType='" + mType + '\'' +
+                ", mTypeId='" + mTypeId + '\'' +
                 ", mLanguage='" + mLanguage + '\'' +
                 ", mIconUrl='" + mIconUrl + '\'' +
                 ", mName='" + mName + '\'' +
