@@ -6,5 +6,6 @@
 
 | 分支        | 描述           |
 | ------------- |-------------|
-| master| 项目创建第一次提交，没开发任何功能，主要用README.md介绍项目 |
+| master| 项目的最新稳定代码分支，主要用README.md更新和维护 |
 | java-mvc-materialdesign| 该分支使用java语言，mvc结构，使用materialdesign控件实现项目的基本功能 |
+| java-mvc-databinding| 改分支基于java-mvc-materialdesign开发，使用databinding组件完成了相关功能的实现 |
