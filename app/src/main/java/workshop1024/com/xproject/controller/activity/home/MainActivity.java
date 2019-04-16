@@ -229,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public class HeaderHandlers {
         public void onClickLogin(View view) {
             Log.i("XProject", "onClickLogin");
-            LoginActivity.startActivity(MainActivity.this);
+//            LoginActivity.startActivity(MainActivity.this);
+            LoginActivity.Companion.startActivity(MainActivity.this);
         }
 
         public void onClickLogout(View view) {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="workshop1024.com.xproject">
-
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +11,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <!-- 选择登录页面 -->
         <activity android:name=".controller.activity.login.LoginActivity">
             <intent-filter>
@@ -20,12 +18,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 介绍页面 -->
-        <activity android:name=".controller.activity.introduce.IntroduceActivity" />
-        <!-- 主页面 -->
-        <activity android:name=".controller.activity.home.MainActivity" />
-        <!--TODO 把其他的setTitle去除-->
+        </activity> <!-- 介绍页面 -->
+        <activity android:name=".controller.activity.introduce.IntroduceActivity" /> <!-- 主页面 -->
+        <activity android:name=".controller.activity.home.MainActivity" /> <!-- TODO 把其他的setTitle去除 -->
         <activity
             android:name=".controller.activity.settings.SettingsActivity"
             android:label="Settings"
