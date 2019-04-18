@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 ((HomePageFragment) mCurrentFragment).markAsRead();
                 break;
             case R.id.homepage_menu_product:
-                IntroduceActivity.startActivity(this);
+                IntroduceActivity.Companion.startActivity(this);
                 finish();
                 break;
             case R.id.homepage_menu_about:
