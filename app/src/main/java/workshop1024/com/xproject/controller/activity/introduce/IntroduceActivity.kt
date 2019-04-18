@@ -2,10 +2,7 @@ package workshop1024.com.xproject.controller.activity.introduce
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.BindingMethod
-import android.databinding.BindingMethods
-import android.databinding.DataBindingUtil
-import android.databinding.ObsergvableInt
+import android.databinding.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
