@@ -56,7 +56,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             ListPreference listPreference = (ListPreference) preference;
             preference.setSummary(listPreference.getEntry());
             if (key.equals(getString(R.string.settings_preference_displaythemes_key))) {
-                ThemeUtils.INSTANCE.INSTANCE.INSTANCE.refreshThemesShow(getActivity());
+                ThemeUtils.INSTANCE.refreshThemesShow(getActivity());
             }
         }
     }

@@ -13,8 +13,6 @@ import retrofit2.Retrofit;
 import workshop1024.com.xproject.model.publisher.Publisher;
 import workshop1024.com.xproject.net.PublisherService;
 import workshop1024.com.xproject.net.XRetrofit;
-import workshop1024.com.xproject.net.PublisherService;
-import workshop1024.com.xproject.net.RetrofitBuilder;
 
 /**
  * 发布者远程数据源
@@ -105,7 +103,7 @@ public class PublisherRepository implements PublisherDataSource {
     @Override
     public void getPublishersByContentType(String contentId, final LoadPublishersCallback loadPublishersCallback) {
         Log.i("XProject", "PublisherRemoteDataSource getPublishersByContentType =" + contentId);
-        Retrofit retrofit = XRetrofit.getRetrofit();
+        Retrofit retrofit = XRetrofit.INSTANCE.getRetrofit();
         PublisherService publisherService = retrofit.create(PublisherService.class);
         Call<List<Publisher>> publisherListCall = publisherService.getPublishersByContentType(contentId);
         publisherListCall.enqueue(new Callback<List<Publisher>>() {
@@ -125,7 +123,7 @@ public class PublisherRepository implements PublisherDataSource {
     @Override
     public void getPublishersByLanguageType(final String languageId, final LoadPublishersCallback loadPublishersCallback) {
         Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguageType =" + languageId);
-        Retrofit retrofit = XRetrofit.getRetrofit();
+        Retrofit retrofit = XRetrofit.INSTANCE.getRetrofit();
         PublisherService publisherService = retrofit.create(PublisherService.class);
         Call<List<Publisher>> publisherListCall = publisherService.getPublishersByLanguageType(languageId);
         publisherListCall.enqueue(new Callback<List<Publisher>>() {

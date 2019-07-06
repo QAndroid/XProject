@@ -221,14 +221,14 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
     }
 
     private float getTranslationX(FloatingActionButton floatingActionButton, CardView sheetCardView) {
-        int floatingActionButtonX = ViewUtils.getRelativeLeft(floatingActionButton) + floatingActionButton.getWidth() / 2;
-        int mSheetCardViewX = ViewUtils.getRelativeLeft(sheetCardView) + sheetCardView.getWidth() / 2;
+        int floatingActionButtonX = ViewUtils.INSTANCE.getRelativeLeft(floatingActionButton) + floatingActionButton.getWidth() / 2;
+        int mSheetCardViewX = ViewUtils.INSTANCE.getRelativeLeft(sheetCardView) + sheetCardView.getWidth() / 2;
         return mSheetCardViewX - floatingActionButtonX;
     }
 
     private float getTranslationY(FloatingActionButton floatingActionButton, CardView sheetCardView) {
-        int floatingActionButtonY = ViewUtils.getRelativeTop(floatingActionButton) + floatingActionButton.getHeight() / 2;
-        int mSheetCardViewY = ViewUtils.getRelativeTop(sheetCardView) + sheetCardView.getHeight() / 2;
+        int floatingActionButtonY = ViewUtils.INSTANCE.getRelativeTop(floatingActionButton) + floatingActionButton.getHeight() / 2;
+        int mSheetCardViewY = ViewUtils.INSTANCE.getRelativeTop(sheetCardView) + sheetCardView.getHeight() / 2;
         return mSheetCardViewY - floatingActionButtonY;
     }
 

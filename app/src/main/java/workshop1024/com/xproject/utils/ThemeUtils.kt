@@ -5,6 +5,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import workshop1024.com.xproject.R
 
+//object单例对象
 object ThemeUtils {
 
     fun refreshThemesShow(context: Context) {

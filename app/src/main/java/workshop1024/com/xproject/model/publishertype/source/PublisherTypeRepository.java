@@ -27,7 +27,7 @@ public class PublisherTypeRepository implements PublisherTypeDataSource {
     @Override
     public void getPublisherContentTypes(final LoadPublisherTypeCallback loadPublisherTypeCallback) {
         //TODO 如何处理网络错误等逻辑
-        Retrofit retrofit = XRetrofit.getRetrofit();
+        Retrofit retrofit = XRetrofit.INSTANCE.getRetrofit();
         PublisherTypeService publisherTypeService = retrofit.create(PublisherTypeService.class);
         Call<List<PublisherType>> publisherTypesCall = publisherTypeService.getPublisherContentTypes();
         publisherTypesCall.enqueue(new Callback<List<PublisherType>>() {
@@ -46,7 +46,7 @@ public class PublisherTypeRepository implements PublisherTypeDataSource {
 
     @Override
     public void getPublisherLanguageTypes(final LoadPublisherTypeCallback loadPublisherTypeCallback) {
-        Retrofit retrofit = XRetrofit.getRetrofit();
+        Retrofit retrofit = XRetrofit.INSTANCE.getRetrofit();
         PublisherTypeService languageTypeService = retrofit.create(PublisherTypeService.class);
         Call<List<PublisherType>> languageTypesCall = languageTypeService.getPublisherLanguageTypes();
         languageTypesCall.enqueue(new Callback<List<PublisherType>>() {
