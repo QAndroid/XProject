@@ -17,8 +17,8 @@ import kotlin.math.min
 class ScaleSeekBar : View {
     private var mContext: Context
 
-    private var mSelectedPaint: Paint? = null
-    private var mUnSelectedPaint: Paint? = null
+    private lateinit var mSelectedPaint: Paint
+    private lateinit var mUnSelectedPaint: Paint
 
     //字体大小刻度数组，注意该字符串必须是Float字符串
     private var mSizes: Array<String>? = null
@@ -66,15 +66,18 @@ class ScaleSeekBar : View {
         }
 
         //初始化绘制属性
-        mSelectedPaint = Paint()
-        mSelectedPaint?.isAntiAlias = true
-        mSelectedPaint?.strokeWidth = UnitUtils.dpToPx(mContext, 6f).toFloat()
-        mSelectedPaint?.color = Color.parseColor("#01A3AE")
+        mSelectedPaint = Paint().apply {
+            isAntiAlias = true
+            strokeWidth = UnitUtils.dpToPx(mContext, 6f).toFloat()
+            color = Color.parseColor("#01A3AE")
+        }
 
-        mUnSelectedPaint = Paint()
-        mUnSelectedPaint?.isAntiAlias = true
-        mUnSelectedPaint?.strokeWidth = UnitUtils.dpToPx(mContext, 6f).toFloat()
-        mUnSelectedPaint?.color = Color.parseColor("#C3C3C3")
+
+        mUnSelectedPaint = Paint().apply {
+            isAntiAlias = true
+            strokeWidth = UnitUtils.dpToPx(mContext, 6f).toFloat()
+            color = Color.parseColor("#C3C3C3")
+        }
 
         //计算绘制相关数据
         mCirclePointNum = mSizes?.size ?: 0

@@ -11,7 +11,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.databinding.GrassViewBinding
-
+/**
+ * 草视图
+ */
 class GrassView : LinearLayout {
     private lateinit var mGrassViewBinding: GrassViewBinding
 
