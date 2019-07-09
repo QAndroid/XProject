@@ -1,7 +1,8 @@
 package workshop1024.com.xproject.model.subinfo
 
-//Info的id
-//Info图标URL
-//Info名称
-//Info未阅读新闻数量
-data class SubInfo(var infoId: String, var iconUrl: String, var name: String, var unreadCount: String)
+
+data class SubInfo(//Info的id var
+        var infoId: String, //Info图标URL
+        var iconUrl: String, //Info名称
+        var name: String, //Info未阅读新闻数量
+        var unreadCount: String)
