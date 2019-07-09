@@ -246,7 +246,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
         }
 
         public void onClickViewOverlay(View view) {
-            sheetViewIn();
+            sheetViewOut();
         }
 
         public void onClickSheetitem1(View view) {
