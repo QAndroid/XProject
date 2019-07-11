@@ -8,35 +8,35 @@ import workshop1024.com.xproject.net.PublisherTypeService
 import workshop1024.com.xproject.net.XRetrofit
 
 class PublisherTypeRepository : PublisherTypeDataSource {
-    override fun getPublisherContentTypes(loadPublisherTypeCallback: PublisherTypeDataSource.LoadPublisherTypeCallback?) {
+    override fun getPublisherContentTypes(loadPublisherTypeCallback: PublisherTypeDataSource.LoadPublisherTypeCallback) {
         //TODO 如何处理网络错误等逻辑
         val retrofit = XRetrofit.retrofit
         val publisherTypeService = retrofit?.create(PublisherTypeService::class.java)
         val publisherTypesCall = publisherTypeService?.getPublisherContentTypes()
         publisherTypesCall?.enqueue(object : Callback<List<PublisherType>> {
             override fun onFailure(call: Call<List<PublisherType>>, t: Throwable) {
-                loadPublisherTypeCallback?.onDataNotAvailable()
+                loadPublisherTypeCallback.onDataNotAvailable()
             }
 
             override fun onResponse(call: Call<List<PublisherType>>, response: Response<List<PublisherType>>) {
                 val publisherTypeList = response.body()
-                loadPublisherTypeCallback?.onPublisherTypesLoaded(publisherTypeList, "content")
+                publisherTypeList?.let { loadPublisherTypeCallback.onPublisherTypesLoaded(it, "content") }
             }
         })
     }
 
-    override fun getPublisherLanguageTypes(loadPublisherTypeCallback: PublisherTypeDataSource.LoadPublisherTypeCallback?) {
+    override fun getPublisherLanguageTypes(loadPublisherTypeCallback: PublisherTypeDataSource.LoadPublisherTypeCallback) {
         val retrofit = XRetrofit.retrofit
         val publisherTypeService = retrofit?.create(PublisherTypeService::class.java)
         val languageTypesCall = publisherTypeService?.getPublisherLanguageTypes()
         languageTypesCall?.enqueue(object : Callback<List<PublisherType>> {
             override fun onFailure(call: Call<List<PublisherType>>, t: Throwable) {
-                loadPublisherTypeCallback?.onDataNotAvailable()
+                loadPublisherTypeCallback.onDataNotAvailable()
             }
 
             override fun onResponse(call: Call<List<PublisherType>>, response: Response<List<PublisherType>>) {
                 val languageTypeList = response.body()
-                loadPublisherTypeCallback?.onPublisherTypesLoaded(languageTypeList, "language")
+                languageTypeList?.let { loadPublisherTypeCallback.onPublisherTypesLoaded(it, "language") }
             }
         })
     }
