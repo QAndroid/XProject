@@ -1,23 +1,21 @@
-package workshop1024.com.xproject.model.publishertype.source;
+package workshop1024.com.xproject.model.publishertype.source
 
-import java.util.List;
+import workshop1024.com.xproject.model.publishertype.PublisherType
 
-import workshop1024.com.xproject.model.publishertype.PublisherType;
-
-public interface PublisherTypeDataSource {
+interface PublisherTypeDataSource {
     /**
      * 获取发布者的所有内容类型
      *
      * @param loadPublisherTypeCallback 加载发布者内容类型信息回调
      */
-    void getPublisherContentTypes(LoadPublisherTypeCallback loadPublisherTypeCallback);
+    fun getPublisherContentTypes(loadPublisherTypeCallback: LoadPublisherTypeCallback)
 
     /**
      * 获取发布者的所有语言类型
      *
      * @param loadPublisherTypeCallback 加载发布者语言类型信息回调
      */
-    void getPublisherLanguageTypes(LoadPublisherTypeCallback loadPublisherTypeCallback);
+    fun getPublisherLanguageTypes(loadPublisherTypeCallback: LoadPublisherTypeCallback)
 
     /**
      * 获取发布者类型信息
@@ -28,11 +26,11 @@ public interface PublisherTypeDataSource {
          *
          * @param publisherTypeList 加载返回的发布者类型信息
          */
-        void onPublisherTypesLoaded(List<PublisherType> publisherTypeList, String type);
+        fun onPublisherTypesLoaded(publisherTypeList: List<PublisherType>, type: String)
 
         /**
          * 没有有效的发布者内容类型信息
          */
-        void onDataNotAvailable();
+        fun onDataNotAvailable()
     }
 }
