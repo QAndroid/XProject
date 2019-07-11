@@ -35,6 +35,6 @@ public class Injection {
     }
 
     public static SubInfoDataSource provideSubInfoRepository() {
-        return SubInfoRepository.getInstance();
+        return SubInfoRepository.Companion.getInstance();
     }
 }
