@@ -144,13 +144,13 @@ public class PublisherRepository implements PublisherDataSource {
     public void subscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.isSubscribed.set(true);
+        subscribedPublisher.isSubscribed().set(true);
     }
 
     @Override
     public void unSubscribePublisherById(String publisherId) {
         Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =" + publisherId);
         Publisher subscribedPublisher = PUBLISHERS_SERVICE_DATA.get(publisherId);
-        subscribedPublisher.isSubscribed.set(false);
+        subscribedPublisher.isSubscribed().set(false);
     }
 }

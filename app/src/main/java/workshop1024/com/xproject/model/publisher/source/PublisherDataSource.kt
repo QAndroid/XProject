@@ -1,13 +1,11 @@
-package workshop1024.com.xproject.model.publisher.source;
+package workshop1024.com.xproject.model.publisher.source
 
-import java.util.List;
-
-import workshop1024.com.xproject.model.publisher.Publisher;
+import workshop1024.com.xproject.model.publisher.Publisher
 
 /**
  * 发布者数据源接口，定义了关于发布者数据相关的处理接口
  */
-public interface PublisherDataSource {
+interface PublisherDataSource {
 
     /**
      * 获取指定类型的发布者
@@ -15,7 +13,7 @@ public interface PublisherDataSource {
      * @param contentId                   发布者指定类型的id
      * @param loadPublishersCallback 加载发布者信息回调
      */
-    void getPublishersByContentType(String contentId, LoadPublishersCallback loadPublishersCallback);
+    fun getPublishersByContentType(contentId: String, loadPublishersCallback: LoadPublishersCallback)
 
     /**
      * 获取指定语言的发布者
@@ -23,21 +21,21 @@ public interface PublisherDataSource {
      * @param languageId               发布者指定的语言
      * @param loadPublishersCallback 加载发布者信息回调
      */
-    void getPublishersByLanguageType(String languageId, LoadPublishersCallback loadPublishersCallback);
+    fun getPublishersByLanguageType(languageId: String, loadPublishersCallback: LoadPublishersCallback)
 
     /**
      * 订阅指定id的发布者
      *
      * @param id 要订阅的发布者id
      */
-    void subscribePublisherById(String id);
+    fun subscribePublisherById(id: String)
 
     /**
      * 取消订阅指定id发布者
      *
      * @param id 要取消订阅的发布者id
      */
-    void unSubscribePublisherById(String id);
+    fun unSubscribePublisherById(id: String)
 
     /**
      * 获取发布者信息回调
@@ -48,11 +46,11 @@ public interface PublisherDataSource {
          *
          * @param publisherList 加载返回的发布者信息
          */
-        void onPublishersLoaded(List<Publisher> publisherList);
+        fun onPublishersLoaded(publisherList: List<Publisher>)
 
         /**
          * 没有有效的发布者信息
          */
-        void onDataNotAvailable();
+        fun onDataNotAvailable()
     }
 }

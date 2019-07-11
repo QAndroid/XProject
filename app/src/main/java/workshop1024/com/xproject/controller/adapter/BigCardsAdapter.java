@@ -18,9 +18,9 @@ import workshop1024.com.xproject.model.news.News;
 
 public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.BigCardsViewHolder> {
     private Context mContext;
-    private List<News> mNewsList;
+    private List<? extends News> mNewsList;
 
-    public BigCardsAdapter(Context context, List<News> newsList) {
+    public BigCardsAdapter(Context context, List<? extends News> newsList) {
         mContext = context;
         mNewsList = newsList;
     }

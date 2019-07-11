@@ -22,7 +22,6 @@ import workshop1024.com.xproject.databinding.NewslistFragmentBinding;
 import workshop1024.com.xproject.model.Injection;
 import workshop1024.com.xproject.model.news.News;
 import workshop1024.com.xproject.model.news.source.NewsDataSource;
-import workshop1024.com.xproject.model.news.source.NewsRepository;
 import workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration;
 
 /**
@@ -33,7 +32,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
     private RecyclerView.Adapter mListAdapter;
 
     protected NewsDataSource mNewsRepository;
-    private List<News> mNewsList;
+    private List<? extends News> mNewsList;
 
     private NewslistFragmentBinding mNewsListFragmentBinding;
 
@@ -69,7 +68,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
     }
 
     @Override
-    public void onNewsLoaded(List<News> newsList) {
+    public void onNewsLoaded(List<? extends News> newsList) {
         if (mIsForeground) {
             mNewsList = newsList;
             mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setRefreshing(false);

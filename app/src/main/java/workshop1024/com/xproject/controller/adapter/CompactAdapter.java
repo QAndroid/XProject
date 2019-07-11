@@ -19,9 +19,9 @@ import workshop1024.com.xproject.model.news.News;
  */
 public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.CompactViewHolder> {
     private Context mContext;
-    private List<News> mNewsList;
+    private List<? extends News> mNewsList;
 
-    public CompactAdapter(Context context, List<News> newsList) {
+    public CompactAdapter(Context context, List<? extends News> newsList) {
         mContext = context;
         mNewsList = newsList;
     }

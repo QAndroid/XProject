@@ -24,12 +24,12 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public static final int TYPE_GROUP = 2;
     public static final int TYPE_CHILD = 3;
 
-    private List<MessageGroup> mMessageGroupList;
+    private List<? extends MessageGroup> mMessageGroupList;
 
     private View mHeaderView;
     private View mFooterView;
 
-    public MessageListAdapter(List<MessageGroup> messageGroupList) {
+    public MessageListAdapter(List<? extends MessageGroup> messageGroupList) {
         mMessageGroupList = messageGroupList;
     }
 

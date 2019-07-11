@@ -19,9 +19,9 @@ import workshop1024.com.xproject.model.news.News;
  */
 public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.MinimalViewHolder> {
     private Context mContext;
-    private List<News> mNewsList;
+    private List<? extends News> mNewsList;
 
-    public MinimalAdapter(Context context, List<News> newsList) {
+    public MinimalAdapter(Context context, List<? extends News> newsList) {
         mContext = context;
         mNewsList = newsList;
     }

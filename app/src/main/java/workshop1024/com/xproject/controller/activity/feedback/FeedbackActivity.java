@@ -128,7 +128,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onMessagesLoaded(List<MessageGroup> messageGroupList) {
+    public void onMessagesLoaded(List<? extends MessageGroup> messageGroupList) {
         if (mIsForeground) {
             mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setRefreshing(false);
 
