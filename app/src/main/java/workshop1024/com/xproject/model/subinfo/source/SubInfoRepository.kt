@@ -79,55 +79,54 @@ class SubInfoRepository : SubInfoDataSource {
         }
     }
 
-    override fun getSubscribeSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback?) {
+    override fun getSubscribeSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback) {
         val handler = Handler()
         handler.postDelayed({
             val subscribeList = ArrayList(SUBSCRIBE_SERVICE_DATA.values)
             //FIXME 为什么远程的回调不放在主线程中执行
-            loadSubInfoCallback?.onSubInfosLoaded(subscribeList)
+            loadSubInfoCallback.onSubInfosLoaded(subscribeList)
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun unSubscribeSubInfoById(subInfoId: String?) {
+    override fun unSubscribeSubInfoById(subInfoId: String) {
         val handler = Handler()
         handler.postDelayed({
-            subInfoId?.let { SUBSCRIBE_SERVICE_DATA.remove(it) }
+            SUBSCRIBE_SERVICE_DATA.remove(subInfoId)
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun reNameSubscribeSubInfoById(subInfoId: String?, newName: String?) {
+    override fun reNameSubscribeSubInfoById(subInfoId: String, newName: String) {
         val handler = Handler()
         handler.postDelayed({
-            subInfoId?.let { SUBSCRIBE_SERVICE_DATA.get(it) }
+            val subInfo = SUBSCRIBE_SERVICE_DATA[subInfoId]
+            subInfo?.name = newName
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun getTagSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback?) {
+    override fun getTagSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback) {
         val handler = Handler()
         handler.postDelayed({
             val subInfos = ArrayList(TAG_SERVICE_DATA.values)
-            loadSubInfoCallback?.onSubInfosLoaded(subInfos)
+            loadSubInfoCallback.onSubInfosLoaded(subInfos)
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun getFilterSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback?) {
+    override fun getFilterSubInfos(loadSubInfoCallback: SubInfoDataSource.LoadSubInfoCallback) {
         val handler = Handler()
         handler.postDelayed({
             val subInfos = ArrayList(FILTER_SERVICE_DATA.values)
-            loadSubInfoCallback?.onSubInfosLoaded(subInfos)
+            loadSubInfoCallback.onSubInfosLoaded(subInfos)
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun markedSubscribeSubInfoesAsRead(subInfoIdList: MutableList<String>?) {
+    override fun markedSubscribeSubInfoesAsRead(subInfoIdList: List<String>) {
         val handler = Handler()
         handler.postDelayed({
             val subInfos = ArrayList(SUBSCRIBE_SERVICE_DATA.values)
             for (subInfo in subInfos) {
-                if (subInfoIdList != null) {
-                    for (subInfoId in subInfoIdList) {
-                        if (subInfo.infoId == subInfoId) {
-                            subInfo.unreadCount = "0"
-                        }
+                for (subInfoId in subInfoIdList) {
+                    if (subInfo.infoId == subInfoId) {
+                        subInfo.unreadCount = "0"
                     }
                 }
 
@@ -135,32 +134,28 @@ class SubInfoRepository : SubInfoDataSource {
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun markedTagSubInfoesAsRead(subInfoIdList: MutableList<String>?) {
+    override fun markedTagSubInfoesAsRead(subInfoIdList: List<String>) {
         val handler = Handler()
         handler.postDelayed({
             val subInfos = ArrayList(TAG_SERVICE_DATA.values)
             for (subInfo in subInfos) {
-                if (subInfoIdList != null) {
-                    for (subInfoId in subInfoIdList) {
-                        if (subInfo.infoId == subInfoId) {
-                            subInfo.unreadCount = "0"
-                        }
+                for (subInfoId in subInfoIdList) {
+                    if (subInfo.infoId == subInfoId) {
+                        subInfo.unreadCount = "0"
                     }
                 }
             }
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun markeFilterSubInfoesAsRead(subInfoIdList: MutableList<String>?) {
+    override fun markeFilterSubInfoesAsRead(subInfoIdList: List<String>) {
         val handler = Handler()
         handler.postDelayed({
             val subInfos = ArrayList(FILTER_SERVICE_DATA.values)
             for (subInfo in subInfos) {
-                if (subInfoIdList != null) {
-                    for (subInfoId in subInfoIdList) {
-                        if (subInfo.infoId == subInfoId) {
-                            subInfo.unreadCount = "0"
-                        }
+                for (subInfoId in subInfoIdList) {
+                    if (subInfo.infoId == subInfoId) {
+                        subInfo.unreadCount = "0"
                     }
                 }
             }
