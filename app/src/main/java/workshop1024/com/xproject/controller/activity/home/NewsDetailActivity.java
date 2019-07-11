@@ -84,7 +84,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
     protected void onStart() {
         super.onStart();
         mNewsId = getIntent().getStringExtra(NEWS_ID_KEY);
-        mNewsRepository = Injection.provideNewsRepository();
+        mNewsRepository = Injection.INSTANCE.provideNewsRepository();
         mNewsRepository.getNewsDetailByNewsId(mNewsId, this);
     }
 
@@ -264,7 +264,7 @@ public class NewsDetailActivity extends XActivity implements NewsDataSource.Load
         }
 
         public void onClickSheetitem3(View view) {
-            NewsDataSource newsRepository = Injection.provideNewsRepository();
+            NewsDataSource newsRepository = Injection.INSTANCE.provideNewsRepository();
             newsRepository.saveNewsById(mNewsId);
             Toast.makeText(NewsDetailActivity.this, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show();
             sheetViewOut();

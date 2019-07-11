@@ -44,7 +44,7 @@ public abstract class HomeSubFragment extends LazyFragment implements SwipeRefre
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSubInfoRepository = Injection.provideSubInfoRepository();
+        mSubInfoRepository = Injection.INSTANCE.provideSubInfoRepository();
     }
 
     @Override

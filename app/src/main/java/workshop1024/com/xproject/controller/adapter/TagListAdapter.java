@@ -72,7 +72,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
 
         @Override
         public void onInputStringDialogClick(DialogFragment dialog, String inputString) {
-            FilterDataSource filterRepository = Injection.provideFilterRepository();
+            FilterDataSource filterRepository = Injection.INSTANCE.provideFilterRepository();
             filterRepository.addFilterByName(inputString);
         }
     }

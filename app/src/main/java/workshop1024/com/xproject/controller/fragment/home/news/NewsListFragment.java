@@ -42,7 +42,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNewsRepository = Injection.provideNewsRepository();
+        mNewsRepository = Injection.INSTANCE.provideNewsRepository();
     }
 
     @Override

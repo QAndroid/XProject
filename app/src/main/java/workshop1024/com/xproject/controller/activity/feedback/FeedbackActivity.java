@@ -72,7 +72,7 @@ public class FeedbackActivity extends XActivity implements View.OnClickListener,
     }
 
     private void refreshMessageGroupList() {
-        mMessageRepository = Injection.provideMessageRepository();
+        mMessageRepository = Injection.INSTANCE.provideMessageRepository();
         mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setRefreshing(true);
         mMessageRepository.getMessages(this);
     }
