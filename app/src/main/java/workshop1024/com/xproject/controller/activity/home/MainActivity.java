@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             } else if (selectItemId == R.id.leftnavigator_menu_settings) {
                 SettingsActivity.startActivity(MainActivity.this);
             } else if (selectItemId == R.id.leftnavigator_menu_feedback) {
-                FeedbackActivity.startActivity(MainActivity.this);
+                FeedbackActivity.Companion.startActivity(MainActivity.this);
             }
 
             mMainActivityBinding.mainDrawerlayoutNavigator.closeDrawer(GravityCompat.START);
