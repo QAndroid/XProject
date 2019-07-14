@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 finish();
                 break;
             case R.id.homepage_menu_about:
-                AboutActivity.startActivity(this);
+                AboutActivity.Companion.startActivity(this);
                 break;
             case R.id.newslist_menu_refresh:
                 ((NewsListFragment) mCurrentFragment).onRefresh();
