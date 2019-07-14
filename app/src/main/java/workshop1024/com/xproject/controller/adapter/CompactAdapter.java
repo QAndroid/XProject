@@ -55,7 +55,7 @@ public class CompactAdapter extends RecyclerView.Adapter<CompactAdapter.CompactV
 
     public class CompactHandlers {
         public void onClickItem(View view, News news) {
-            NewsDetailActivity.startActivity(mContext, news.getNewId());
+            NewsDetailActivity.Companion.startActivity(mContext, news.getNewId());
         }
     }
 }

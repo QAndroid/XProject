@@ -66,7 +66,7 @@ public class BigCardsAdapter extends RecyclerView.Adapter<BigCardsAdapter.BigCar
 
     public class BigCardsHandlers {
         public void onClickItem(View view, News news) {
-            NewsDetailActivity.startActivity(mContext, news.getNewId());
+            NewsDetailActivity.Companion.startActivity(mContext, news.getNewId());
         }
     }
 }

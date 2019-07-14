@@ -55,7 +55,7 @@ public class MinimalAdapter extends RecyclerView.Adapter<MinimalAdapter.MinimalV
 
     public class MinimalHandlers {
         public void onClickItem(View view, News news) {
-            NewsDetailActivity.startActivity(mContext, news.getNewId());
+            NewsDetailActivity.Companion.startActivity(mContext, news.getNewId());
         }
     }
 }
