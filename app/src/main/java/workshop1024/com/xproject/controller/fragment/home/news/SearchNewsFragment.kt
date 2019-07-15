@@ -16,7 +16,7 @@ class SearchNewsFragment : NewsListFragment(), SubFragment {
     }
 
     override fun getNewsList() {
-        mNewsRepository.getNewsListBySearch(mFilterName!!, this)
+        mNewsRepository?.getNewsListBySearch(mFilterName!!, this)
     }
 
     companion object {

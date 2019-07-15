@@ -11,7 +11,7 @@ import workshop1024.com.xproject.controller.fragment.home.news.NewsListFragment
 class SavedFragment : NewsListFragment(), TopFragment {
 
     override fun getNewsList() {
-        mNewsRepository.getSavedNewsList(this)
+        mNewsRepository?.getSavedNewsList(this)
     }
 
     companion object {

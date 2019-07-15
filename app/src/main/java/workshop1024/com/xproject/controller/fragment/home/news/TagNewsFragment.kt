@@ -16,7 +16,7 @@ class TagNewsFragment : NewsListFragment(), SubFragment {
     }
 
     override fun getNewsList() {
-        mNewsRepository.getNewsListByTag(mTagName!!, this)
+        mNewsRepository?.getNewsListByTag(mTagName!!, this)
     }
 
     companion object {

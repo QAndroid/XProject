@@ -16,7 +16,7 @@ class SubscribeNewsFragment : NewsListFragment(), SubFragment {
     }
 
     override fun getNewsList() {
-        mNewsRepository.getNewsListBySubscribe(mSubscribeName!!, this)
+        mNewsRepository?.getNewsListBySubscribe(mSubscribeName!!, this)
     }
 
     companion object {
