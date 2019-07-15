@@ -74,9 +74,9 @@ public class HomePageFragment extends XFragment implements TopFragment {
 
             if (position == 0) {
                 //FIXME 是不是有必要每次都Nes一个Fragment对象
-                fragment = SubscribeFragment.newInstance();
+                fragment = SubscribeFragment.Companion.newInstance();
             } else if (position == 1) {
-                fragment = TagFragment.newInstance();
+                fragment = TagFragment.Companion.newInstance();
             } else if (position == 2) {
                 fragment = FilterFragment.newInstance();
             }
