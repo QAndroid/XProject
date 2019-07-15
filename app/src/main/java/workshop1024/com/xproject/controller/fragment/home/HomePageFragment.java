@@ -78,7 +78,7 @@ public class HomePageFragment extends XFragment implements TopFragment {
             } else if (position == 1) {
                 fragment = TagFragment.Companion.newInstance();
             } else if (position == 2) {
-                fragment = FilterFragment.newInstance();
+                fragment = FilterFragment.Companion.newInstance();
             }
 
             return fragment;
