@@ -27,7 +27,7 @@ public class HomePageFragment extends XFragment implements TopFragment {
 
     public static HomePageFragment newInstance() {
         HomePageFragment homePageFragment = new HomePageFragment();
-        homePageFragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        homePageFragment.setMNavigationItemId(R.id.leftnavigator_menu_home);
         return homePageFragment;
     }
 

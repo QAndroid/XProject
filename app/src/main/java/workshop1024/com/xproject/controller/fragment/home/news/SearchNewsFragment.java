@@ -11,7 +11,7 @@ public class SearchNewsFragment extends NewsListFragment implements SubFragment 
 
     public static SearchNewsFragment newInstance(String searchName) {
         SearchNewsFragment searchNewsFragment = new SearchNewsFragment();
-        searchNewsFragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        searchNewsFragment.setMNavigationItemId(R.id.leftnavigator_menu_home);
         Bundle args = new Bundle();
         args.putString(SEARCH_NAME, searchName);
         searchNewsFragment.setArguments(args);

@@ -11,7 +11,7 @@ public class TagNewsFragment extends NewsListFragment implements SubFragment {
 
     public static TagNewsFragment newInstance(String subscribeName) {
         TagNewsFragment tagNewsFragment = new TagNewsFragment();
-        tagNewsFragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        tagNewsFragment.setMNavigationItemId(R.id.leftnavigator_menu_home);
         Bundle args = new Bundle();
         args.putString(TAG_NAME, subscribeName);
         tagNewsFragment.setArguments(args);

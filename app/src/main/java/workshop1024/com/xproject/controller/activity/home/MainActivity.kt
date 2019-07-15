@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
         if (mCurrentFragment != null) {
             //更具当前显示的Fragment多包含的导航栏id，更新导航栏列表选中的选项
-            mMainActivityBinding?.mainleftNavigationview?.setCheckedItem(mCurrentFragment!!.navigationItemId)
+            mMainActivityBinding?.mainleftNavigationview?.setCheckedItem(mCurrentFragment!!.mNavigationItemId)
 
             //如果是一级Fragment则显示抽屉导航图标和隐藏FloatingActionButton，如果只其它级别Fragment这显示返回上一页图标
             mActionBarDrawerToggle.isDrawerSlideAnimationEnabled = mCurrentFragment is TopFragment

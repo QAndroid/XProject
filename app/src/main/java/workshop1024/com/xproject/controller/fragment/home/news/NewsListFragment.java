@@ -69,7 +69,7 @@ public abstract class NewsListFragment extends XFragment implements SwipeRefresh
 
     @Override
     public void onNewsLoaded(List<? extends News> newsList) {
-        if (mIsForeground) {
+        if (getMIsForeground()) {
             mNewsList = newsList;
             mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setRefreshing(false);
             showBigCardsList();

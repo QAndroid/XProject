@@ -11,7 +11,7 @@ public class SubscribeNewsFragment extends NewsListFragment implements SubFragme
 
     public static SubscribeNewsFragment newInstance(String subscribeName) {
         SubscribeNewsFragment subscribeNewsFragment = new SubscribeNewsFragment();
-        subscribeNewsFragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        subscribeNewsFragment.setMNavigationItemId(R.id.leftnavigator_menu_home);
         Bundle args = new Bundle();
         args.putString(SUBSCRIBE_NAME, subscribeName);
         subscribeNewsFragment.setArguments(args);

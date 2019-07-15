@@ -11,7 +11,7 @@ public class FilterNewsFragment extends NewsListFragment implements SubFragment 
 
     public static FilterNewsFragment newInstance(String filterName) {
         FilterNewsFragment filterNewsFragment = new FilterNewsFragment();
-        filterNewsFragment.setNavigationItemId(R.id.leftnavigator_menu_home);
+        filterNewsFragment.setMNavigationItemId(R.id.leftnavigator_menu_home);
         Bundle args = new Bundle();
         args.putString(FILTER_NAME, filterName);
         filterNewsFragment.setArguments(args);

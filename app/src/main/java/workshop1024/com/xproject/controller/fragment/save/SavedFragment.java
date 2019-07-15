@@ -12,7 +12,7 @@ public class SavedFragment extends NewsListFragment implements TopFragment {
 
     public static SavedFragment newInstance() {
         SavedFragment savedFragment = new SavedFragment();
-        savedFragment.setNavigationItemId(R.id.leftnavigator_menu_saved);
+        savedFragment.setMNavigationItemId(R.id.leftnavigator_menu_saved);
         return savedFragment;
     }
 
