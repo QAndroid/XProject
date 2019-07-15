@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        val searchNewsFragment = SearchNewsFragment.newInstance(query)
+        val searchNewsFragment = SearchNewsFragment.newInstance(query!!)
         supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, searchNewsFragment).addToBackStack("").commit()
         title = query
 
