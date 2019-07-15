@@ -152,7 +152,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
             Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher?.name + " selected", Snackbar.LENGTH_SHORT).show()
         } else {
             mPublisherDataSource!!.unSubscribePublisherById(selectPublisher?.publisherId!!)
-            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher?.name + " unselected", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher.name + " unselected", Snackbar.LENGTH_SHORT).show()
         }
     }
 
