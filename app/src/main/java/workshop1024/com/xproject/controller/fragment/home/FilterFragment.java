@@ -57,7 +57,7 @@ public class FilterFragment extends HomeSubFragment {
 
     @Override
     public void onSubListItemClick(SubInfo subInfo) {
-        FilterNewsFragment filterNewsFragment = FilterNewsFragment.newInstance(subInfo.getInfoId());
+        FilterNewsFragment filterNewsFragment = FilterNewsFragment.Companion.newInstance(subInfo.getInfoId());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.mainright_framelayout_fragments, filterNewsFragment)
                 .addToBackStack("").commit();
         getActivity().setTitle(subInfo.getName());
