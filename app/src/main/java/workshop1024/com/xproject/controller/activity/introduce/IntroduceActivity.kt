@@ -90,6 +90,7 @@ class IntroduceActivity : FragmentActivity() {
             toMainActivity()
         }
 
+
         override fun onPageSelected(position: Int) {
             currentPagePosition.set(position)
         }
