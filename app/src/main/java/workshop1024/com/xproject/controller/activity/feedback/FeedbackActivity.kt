@@ -97,8 +97,8 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
         mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
     }
 
-    override fun submitButtonClick(dialogFragment: DialogFragment?, messageConent: String?) {
-        dialogFragment?.dismiss()
+    override fun submitButtonClick(dialogFragment: DialogFragment, messageConent: String) {
+        dialogFragment.dismiss()
         mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
 
         val message = Message("m99", messageConent)
