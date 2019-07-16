@@ -101,7 +101,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
 
     }
 
-    override fun onDisplaySettingDialogClick(dialogFragment: DialogFragment?, textSize: Float) {
+    override fun onDisplaySettingDialogClick(dialogFragment: DialogFragment, textSize: Float) {
         mSelectedFontSize = textSize
         mNewsdetailActivityBinding?.newsdetailTextviewContent?.textSize = UnitUtils.spToPx(this, mSelectedFontSize!!).toFloat()
 
@@ -217,7 +217,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
         fun onClickSheetitem1(view: View) {
             if (mDisplaySettingsDialog == null) {
                 mDisplaySettingsDialog = DisplaySettingsDialog.newInstance()
-                mDisplaySettingsDialog?.setSelectTextSize(mSelectedFontSize!!)
+                mDisplaySettingsDialog?.mSelectTextSize = mSelectedFontSize!!
             }
 
             mDisplaySettingsDialog?.show(supportFragmentManager, "DisplaySettingsDialog")
