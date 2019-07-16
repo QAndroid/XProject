@@ -88,12 +88,12 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
         }
     }
 
-    override fun okButtonClick(dialogFragment: DialogFragment?, nameString: String?, emailString: String?) {
+    override fun okButtonClick(dialogFragment: DialogFragment, nameString: String, emailString: String) {
         mMessagelistHeaderBinding?.feedbackTextviewHello?.text = StringBuffer("Hello!").append(nameString).toString()
     }
 
-    override fun cancelButtonClick(dialogFragment: DialogFragment?) {
-        dialogFragment?.dismiss()
+    override fun cancelButtonClick(dialogFragment: DialogFragment) {
+        dialogFragment.dismiss()
         mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
     }
 
