@@ -63,7 +63,7 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
                 Toast.makeText(this, "filter_menu_add", Toast.LENGTH_SHORT).show()
                 val addFilterDialog = InputStringDialog.newInstance(R.string.addfilter_dialog_title,
                         R.string.addfilter_dialog_positive)
-                addFilterDialog.setInputStringDialogListener(this)
+                addFilterDialog.mInputStringDialogListener = this
                 addFilterDialog.show(supportFragmentManager, "addFilterDialog")
             }
         }
@@ -74,8 +74,8 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
         refreshFilterList()
     }
 
-    override fun onInputStringDialogClick(dialog: DialogFragment?, inputString: String?) {
-        mFilterRepository?.addFilterByName(inputString!!)
+    override fun onInputStringDialogClick(dialog: DialogFragment, inputString: String) {
+        mFilterRepository?.addFilterByName(inputString)
         refreshFilterList()
     }
 

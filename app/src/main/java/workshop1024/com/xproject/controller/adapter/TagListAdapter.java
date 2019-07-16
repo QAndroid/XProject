@@ -62,10 +62,10 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
 
         @Override
         public void onClick(View v) {
-            InputStringDialog addFilterDialog = InputStringDialog.newInstance(R.string.addfilter_dialog_title, R.string
+            InputStringDialog addFilterDialog = InputStringDialog.Companion.newInstance(R.string.addfilter_dialog_title, R.string
                     .addfilter_dialog_positive);
-            addFilterDialog.setPreInputString(mTagTextView.getText().toString());
-            addFilterDialog.setInputStringDialogListener(this);
+            addFilterDialog.setMPreInputString(mTagTextView.getText().toString());
+            addFilterDialog.setMInputStringDialogListener(this);
             //FIXME 似乎获取getSupportFragmentManager有点别扭
             addFilterDialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "addFilterDialog");
         }

@@ -60,7 +60,7 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
         mRenameSubInfo = subscribe
         val renamePublisherDialog = InputStringDialog.newInstance(R.string.rename_dialog_title, R.string
                 .rename_dialog_positive)
-        renamePublisherDialog.setInputStringDialogListener(this)
+        renamePublisherDialog.mInputStringDialogListener = this
         renamePublisherDialog.show(fragmentManager!!, "renamePublisherDialog")
     }
 
