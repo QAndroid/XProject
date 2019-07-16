@@ -85,12 +85,12 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
             R.id.publisher_menu_filter -> {
                 //FIXME 每次都要创建一个对象吗？
                 mTypeChoiceDialog = TypeChoiceDialog.newInstance(R.string.publisher_dialog_title,
-                        mContentTypeList, mSelectedTypeIndex)
+                        mContentTypeList!!, mSelectedTypeIndex)
                 mTypeChoiceDialog!!.show(supportFragmentManager, "ChoiceTypeDialog")
             }
             R.id.publisher_menu_language -> {
                 mLanguageChoiceDialog = TypeChoiceDialog.newInstance(R.string.language_dialog_title,
-                        mLanguageTypeList, mSelectedLanguageIndex)
+                        mLanguageTypeList!!, mSelectedLanguageIndex)
                 mLanguageChoiceDialog!!.show(supportFragmentManager, "ChoiceLanguageDialog")
             }
         }
@@ -133,7 +133,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    override fun onTypeChoiceDialogItemClick(dialog: DialogFragment?, publisherType: PublisherType?) {
+    override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType) {
         mSelectedDialog = dialog
         mPublisherActivityBinding?.publisherToolbarNavigator?.title = publisherType?.name
 
