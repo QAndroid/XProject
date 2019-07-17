@@ -39,7 +39,7 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
             mSubInfoList = subInfoList
 
             mHomeSubFragmentHanlders.isRefreshing.set(false)
-            mSubscribeListAdapter = SubscribeListAdapter(context, subInfoList,
+            mSubscribeListAdapter = SubscribeListAdapter(context!!, subInfoList,
                     this, this)
             mHomesubFragmentBinding.homesubRecyclerviewList.adapter = mSubscribeListAdapter
             Snackbar.make(mHomesubFragmentBinding.root, "Fetch " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
