@@ -83,7 +83,7 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     fun showMinimalList() {
-        mListAdapter = MinimalAdapter(context, mNewsList)
+        mListAdapter = MinimalAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
     }
 
