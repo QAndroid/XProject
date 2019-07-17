@@ -88,7 +88,7 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     fun showCompactList() {
-        mListAdapter = CompactAdapter(context, mNewsList)
+        mListAdapter = CompactAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
     }
 
