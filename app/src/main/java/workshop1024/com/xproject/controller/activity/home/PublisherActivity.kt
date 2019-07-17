@@ -145,7 +145,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    override fun onPublisherListItemSelect(selectPublisher: Publisher?, isSelected: Boolean) {
+    override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             //FIXME 订阅网络请求返回后，在提示并且选中
             mPublisherDataSource?.subscribePublisherById(selectPublisher?.publisherId!!)
