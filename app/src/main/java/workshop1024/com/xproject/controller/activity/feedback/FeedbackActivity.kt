@@ -113,8 +113,8 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
 
             val messageListAdapter = MessageListAdapter(messageGroupList)
             mFeedbackActivityBinding?.feedbackRecyclerviewMessages?.adapter = messageListAdapter
-            messageListAdapter.setHeaderView(mMessagelistHeaderBinding?.root)
-            messageListAdapter.setFooterView(mMessagelistFooterBinding?.root)
+            messageListAdapter.setHeaderView(mMessagelistHeaderBinding!!.root)
+            messageListAdapter.setFooterView(mMessagelistFooterBinding!!.root)
         }
     }
 
