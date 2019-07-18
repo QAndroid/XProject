@@ -16,7 +16,7 @@ import android.view.ViewGroup
  */
 abstract class AppCompatPreferenceActivity : PreferenceActivity() {
 
-    //FIXME 幕后字段的具体作用？？？
+    //不使用幕后字段，会出现StackOverflowError，参考：https://juejin.im/post/5b95321ae51d450e6475b7c6
     private var mDelegate: AppCompatDelegate? = null
         get() {
             if (field == null) {
