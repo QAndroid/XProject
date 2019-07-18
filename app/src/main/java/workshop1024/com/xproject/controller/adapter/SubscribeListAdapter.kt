@@ -15,8 +15,8 @@ class SubscribeListAdapter(private val mContext: Context, private val mSubInfoLi
     private var mSubscribeItemViewHolder: SubscribeItemViewHolder? = null
     private var mSelectedSubInfo: SubInfo? = null
 
-    override fun getItemViewHolder(homesublistItemContentBinding: HomesublistItemContentBinding?): RecyclerView.ViewHolder {
-        homesublistItemContentBinding?.subscribeHandlers = SubscribeHandlers()
+    override fun getItemViewHolder(homesublistItemContentBinding: HomesublistItemContentBinding): RecyclerView.ViewHolder {
+        homesublistItemContentBinding.subscribeHandlers = SubscribeHandlers()
         mSubscribeItemViewHolder = SubscribeItemViewHolder(homesublistItemContentBinding)
         return mSubscribeItemViewHolder!!
     }
@@ -27,7 +27,7 @@ class SubscribeListAdapter(private val mContext: Context, private val mSubInfoLi
         fun onUnscribeMenuClick(subscribe: SubInfo)
     }
 
-    inner class SubscribeItemViewHolder(homesublistItemContentBinding: HomesublistItemContentBinding?) : ItemViewHolder(homesublistItemContentBinding),
+    inner class SubscribeItemViewHolder(homesublistItemContentBinding: HomesublistItemContentBinding) : ItemViewHolder(homesublistItemContentBinding),
             PopupMenu.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             return when (item?.itemId) {
