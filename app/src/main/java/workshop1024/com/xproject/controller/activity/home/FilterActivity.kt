@@ -46,7 +46,7 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
     }
 
     private fun refreshFilterList() {
-        mFilterRepository = FilterRepository.getInstance()
+        mFilterRepository = FilterRepository.instance
         mFilterActivityBinding?.filterSwiperefreshlayoutPullrefresh?.isRefreshing = true
         mFilterRepository?.getFilters(this)
 
