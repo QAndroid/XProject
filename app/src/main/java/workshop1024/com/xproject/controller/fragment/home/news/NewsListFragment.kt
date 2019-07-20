@@ -96,7 +96,7 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
         //将现有文章置为可读
         val newsIdList = ArrayList<String>()
         for (news in mNewsList!!) {
-            newsIdList.add(news.newId)
+            newsIdList.add(news.newId!!)
         }
         mNewsRepository?.markNewsesReadedByNewsId(newsIdList)
 

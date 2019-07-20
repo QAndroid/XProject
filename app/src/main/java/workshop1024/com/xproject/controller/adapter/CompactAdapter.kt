@@ -36,7 +36,7 @@ class CompactAdapter(private val mContext: Context, private val mNewsList: List<
 
     inner class CompactHandlers {
         fun onClickItem(view: View, news: News) {
-            NewsDetailActivity.startActivity(mContext, news.newId)
+            NewsDetailActivity.startActivity(mContext, news.newId!!)
         }
     }
 }

@@ -46,7 +46,7 @@ class BigCardsAdapter(private val mContext: Context?, private val mNewsList: Lis
 
     inner class BigCardsHandlers {
         fun onClickItem(view: View, news: News) {
-            NewsDetailActivity.startActivity(mContext!!, news.newId)
+            NewsDetailActivity.startActivity(mContext!!, news.newId!!)
         }
     }
 }

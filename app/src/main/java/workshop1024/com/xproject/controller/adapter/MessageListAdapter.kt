@@ -26,7 +26,7 @@ class MessageListAdapter(private val mMessageGroupList: List<MessageGroup>) : Re
             var itemCount = 0
             for (messageGroup in mMessageGroupList) {
                 itemCount++
-                for (message in messageGroup.messageList) {
+                for (message in messageGroup.messageList!!) {
                     itemCount++
                 }
             }
@@ -85,7 +85,7 @@ class MessageListAdapter(private val mMessageGroupList: List<MessageGroup>) : Re
                 itemText = messageGroup.publishData
             }
             position--
-            for (message in messageGroup.messageList) {
+            for (message in messageGroup.messageList!!) {
                 if (position == 0) {
                     itemText = message.content
                 }
@@ -136,7 +136,7 @@ class MessageListAdapter(private val mMessageGroupList: List<MessageGroup>) : Re
                 return viewType
             }
             position--
-            for (message in messageGroup.messageList) {
+            for (message in messageGroup.messageList!!) {
                 if (position == 0) {
                     viewType = TYPE_CHILD
                     return viewType
