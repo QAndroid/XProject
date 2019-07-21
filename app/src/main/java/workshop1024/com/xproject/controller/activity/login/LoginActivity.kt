@@ -18,9 +18,8 @@ class LoginActivity : AppCompatActivity() {
         //对象的创建不使用new关键字
         //var可重复复制变量
         //语句结尾不使用;
-        var binding = DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity)
-        var handlers = LoginHandlers()
-        binding.loginHandlers = handlers
+        val binding = DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity)
+        binding.loginHandlers = LoginHandlers()
     }
 
     //内部类，使用inner关键字声明
