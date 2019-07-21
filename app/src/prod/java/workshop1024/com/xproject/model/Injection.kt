@@ -15,26 +15,26 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoRepository
 
 object Injection {
     fun providePublisherTypeRepository(): PublisherTypeDataSource {
-        return PublisherTypeRepository.Companion.getInstance()
+        return PublisherTypeRepository.instance!!
     }
 
     fun providePublisherRepository(): PublisherDataSource {
-        return PublisherRepository.getInstance()
+        return PublisherRepository.instance!!
     }
 
     fun provideFilterRepository(): FilterDataSource {
-        return FilterRepository.getInstance()
+        return FilterRepository.instance!!
     }
 
     fun provideMessageRepository(): MessageDataSource {
-        return MessageRepository.getInstance()
+        return MessageRepository.instance!!
     }
 
     fun provideNewsRepository(): NewsDataSource {
-        return NewsRepository.getInstance()
+        return NewsRepository.instance!!
     }
 
     fun provideSubInfoRepository(): SubInfoDataSource {
-        return SubInfoRepository.Companion.getInstance()
+        return SubInfoRepository.instance!!
     }
 }
