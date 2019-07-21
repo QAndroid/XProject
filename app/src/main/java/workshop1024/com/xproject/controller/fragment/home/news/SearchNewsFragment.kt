@@ -10,13 +10,11 @@ class SearchNewsFragment : NewsListFragment(), SubFragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mFilterName = arguments!!.getString(SEARCH_NAME)
-        }
+        mFilterName = arguments?.getString(SEARCH_NAME)
     }
 
     override fun getNewsList() {
-        mNewsRepository?.getNewsListBySearch(mFilterName!!, this)
+        mFilterName?.let { mNewsRepository?.getNewsListBySearch(it, this) }
     }
 
     companion object {
