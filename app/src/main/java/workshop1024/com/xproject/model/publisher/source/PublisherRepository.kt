@@ -129,13 +129,13 @@ class PublisherRepository private constructor() : PublisherDataSource {
             PUBLISHERS_SERVICE_DATA!![newPublisher.publisherId] = newPublisher
         }
 
-        val instance: PublisherRepository?
+        val instance: PublisherRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = PublisherRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

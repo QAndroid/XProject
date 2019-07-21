@@ -80,13 +80,13 @@ class MessageRepository private constructor() : MessageDataSource {
             MESSAGEGROUP_SERVICE_DATA!![messageGroup4.groupId!!] = messageGroup4
         }
 
-        val instance: MessageRepository?
+        val instance: MessageRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = MessageRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

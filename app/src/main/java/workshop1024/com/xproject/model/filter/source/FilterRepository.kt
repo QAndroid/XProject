@@ -60,13 +60,13 @@ class FilterRepository private constructor() : FilterDataSource {
             FILTERS_SERVICE_DATA!![filter.filterId!!] = filter
         }
 
-        val instance: FilterRepository?
+        val instance: FilterRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = FilterRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

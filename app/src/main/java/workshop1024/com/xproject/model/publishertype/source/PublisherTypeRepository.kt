@@ -44,12 +44,12 @@ class PublisherTypeRepository : PublisherTypeDataSource {
     companion object {
         private var INSTANCE: PublisherTypeRepository? = null
 
-        val instance: PublisherTypeRepository?
+        val instance: PublisherTypeRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = PublisherTypeRepository()
                 }
-                return INSTANCE
+                return INSTANCE!!
             }
 
     }

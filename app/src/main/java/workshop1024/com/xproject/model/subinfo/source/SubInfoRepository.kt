@@ -17,12 +17,12 @@ class SubInfoRepository : SubInfoDataSource {
          *
          * @return 远程数据源对象
          */
-        val instance: SubInfoRepository?
+        val instance: SubInfoRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = SubInfoRepository()
                 }
-                return INSTANCE
+                return INSTANCE!!
             }
 
         init {

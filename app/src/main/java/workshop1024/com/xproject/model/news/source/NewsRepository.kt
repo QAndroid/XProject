@@ -147,12 +147,12 @@ class NewsRepository private constructor() : NewsDataSource {
             NEWSDETAILS_SERVICE_DATA!![newsDetail.newId!!] = newsDetail
         }
 
-        val instance: NewsRepository?
+        val instance: NewsRepository
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = NewsRepository()
                 }
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }
