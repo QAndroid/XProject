@@ -37,33 +37,33 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
     private var mDisplaySettingsDialog: DisplaySettingsDialog? = null
 
     private var mNewsId: String? = null
-    private var mSelectedFontSize: Float? = null
+    private var mSelectedFontSize: Float = 0.0f
     private var mNewsRepository: NewsDataSource? = null
-    private var mSharedPreferences: SharedPreferences? = null
+    private lateinit var mSharedPreferences: SharedPreferences
 
-    private var mNewsdetailActivityBinding: NewsdetailActivityBinding? = null
+    private lateinit var mNewsdetailActivityBinding: NewsdetailActivityBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mNewsdetailActivityBinding = DataBindingUtil.setContentView(this, R.layout.newsdetail_activity)
-        mNewsdetailActivityBinding?.newsDetailHandlers = NewsDetailHandlers()
+        mNewsdetailActivityBinding.newsDetailHandlers = NewsDetailHandlers()
 
-        setSupportActionBar(mNewsdetailActivityBinding?.detailToolbarNavigator)
+        setSupportActionBar(mNewsdetailActivityBinding.detailToolbarNavigator)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val fontSizeString = mSharedPreferences?.getString(getString(R.string.settings_preference_fontsizes_key),
+        val fontSizeString = mSharedPreferences.getString(getString(R.string.settings_preference_fontsizes_key),
                 getString(R.string.settings_preference_fontsizes_default)) as String
         mSelectedFontSize = fontSizeString.toFloat()
-        mNewsdetailActivityBinding?.newsdetailTextviewContent?.textSize = UnitUtils.spToPx(this, mSelectedFontSize!!).toFloat()
+        mNewsdetailActivityBinding.newsdetailTextviewContent.textSize = UnitUtils.spToPx(this, mSelectedFontSize).toFloat()
 
         val flexboxLayoutManager = FlexboxLayoutManager(this)
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
         flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
-        mNewsdetailActivityBinding?.newsdetailRecyclerViewTags?.layoutManager = flexboxLayoutManager
-        mNewsdetailActivityBinding?.newsdetailRecyclerViewTags?.addItemDecoration(RecyclerViewItemDecoration(UnitUtils.dpToPx(this, 4f)))
+        mNewsdetailActivityBinding.newsdetailRecyclerViewTags.layoutManager = flexboxLayoutManager
+        mNewsdetailActivityBinding.newsdetailRecyclerViewTags.addItemDecoration(RecyclerViewItemDecoration(UnitUtils.dpToPx(this, 4f)))
     }
 
     override fun onStart() {
@@ -88,12 +88,12 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
 
     override fun onNewsDetailLoaded(newsDetail: NewsDetail) {
         if (mIsForeground) {
-            mNewsdetailActivityBinding?.newsdetailTextviewPublisher?.text = newsDetail.publisher
-            mNewsdetailActivityBinding?.newsdetailTextviewPubdata?.text = newsDetail.pubDate
-            mNewsdetailActivityBinding?.newsdetailTextviewContent?.text = newsDetail.content
+            mNewsdetailActivityBinding.newsdetailTextviewPublisher.text = newsDetail.publisher
+            mNewsdetailActivityBinding.newsdetailTextviewPubdata.text = newsDetail.pubDate
+            mNewsdetailActivityBinding.newsdetailTextviewContent.text = newsDetail.content
 
             val tagListAdapter = TagListAdapter(this, newsDetail.tagList!!)
-            mNewsdetailActivityBinding?.newsdetailRecyclerViewTags?.adapter = tagListAdapter
+            mNewsdetailActivityBinding.newsdetailRecyclerViewTags.adapter = tagListAdapter
         }
     }
 
@@ -103,29 +103,28 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
 
     override fun onDisplaySettingDialogClick(dialogFragment: DialogFragment, textSize: Float) {
         mSelectedFontSize = textSize
-        mNewsdetailActivityBinding?.newsdetailTextviewContent?.textSize = UnitUtils.spToPx(this, mSelectedFontSize!!).toFloat()
+        mNewsdetailActivityBinding.newsdetailTextviewContent.textSize = UnitUtils.spToPx(this, mSelectedFontSize).toFloat()
 
-        val editor = mSharedPreferences?.edit()
+        val editor = mSharedPreferences.edit()
         editor?.putString(getString(R.string.settings_preference_fontsizes_key), textSize.toString())
         editor?.commit()
     }
 
     private fun sheetViewIn() {
-        mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.animate().scaleX(1.2f).scaleY(1.2f).translationX(getTranslationX(mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding!!.newsdetailCardviewSheet)).translationY(getTranslationY(mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding!!.newsdetailCardviewSheet)).setInterpolator(AccelerateInterpolator()).setDuration(300).setListener(object : Animator.AnimatorListener {
+        mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.animate().scaleX(1.2f).scaleY(1.2f).translationX(getTranslationX(mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding.newsdetailCardviewSheet)).translationY(getTranslationY(mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction, mNewsdetailActivityBinding.newsdetailCardviewSheet)).setInterpolator(AccelerateInterpolator()).setDuration(300).setListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {
-                mNewsdetailActivityBinding!!.newsdetailViewOverlay.visibility = View.VISIBLE
-                mNewsdetailActivityBinding!!.newsdetailViewOverlay.animate().alpha(1f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator()).start()
+                mNewsdetailActivityBinding.newsdetailViewOverlay.visibility = View.VISIBLE
+                mNewsdetailActivityBinding.newsdetailViewOverlay.animate().alpha(1f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator()).start()
             }
 
             override fun onAnimationEnd(animation: Animator) {
-                mNewsdetailActivityBinding!!.newsdetailCardviewSheet.visibility = View.VISIBLE
-                mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.visibility = View.INVISIBLE
+                mNewsdetailActivityBinding.newsdetailCardviewSheet.visibility = View.VISIBLE
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.visibility = View.INVISIBLE
 
-                val animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding!!.newsdetailCardviewSheet,
-                        getCenterX(mNewsdetailActivityBinding!!.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding!!.newsdetailCardviewSheet),
-                        (mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.width / 2).toFloat(),
-                        Math.hypot(mNewsdetailActivityBinding!!.newsdetailCardviewSheet.width.toDouble(),
-                                mNewsdetailActivityBinding!!.newsdetailCardviewSheet.height.toDouble()).toFloat() / 2)
+                val animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding.newsdetailCardviewSheet,
+                        getCenterX(mNewsdetailActivityBinding.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding.newsdetailCardviewSheet),
+                        (mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.width / 2).toFloat(),
+                        hypot(mNewsdetailActivityBinding.newsdetailCardviewSheet.width.toDouble(), mNewsdetailActivityBinding.newsdetailCardviewSheet.height.toDouble()).toFloat() / 2)
                 animator.interpolator = DecelerateInterpolator()
                 animator.duration = 300
                 animator.start()
@@ -142,9 +141,9 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
     }
 
     private fun sheetViewOut() {
-        val animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding!!.newsdetailCardviewSheet,
-                getCenterX(mNewsdetailActivityBinding!!.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding!!.newsdetailCardviewSheet),
-                hypot(mNewsdetailActivityBinding!!.newsdetailCardviewSheet.width.toDouble(), mNewsdetailActivityBinding!!.newsdetailCardviewSheet.height.toDouble()).toFloat() / 2, (mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.width / 2).toFloat())
+        val animator = ViewAnimationUtils.createCircularReveal(mNewsdetailActivityBinding.newsdetailCardviewSheet,
+                getCenterX(mNewsdetailActivityBinding.newsdetailCardviewSheet), getCenterY(mNewsdetailActivityBinding.newsdetailCardviewSheet),
+                hypot(mNewsdetailActivityBinding.newsdetailCardviewSheet.width.toDouble(), mNewsdetailActivityBinding.newsdetailCardviewSheet.height.toDouble()).toFloat() / 2, (mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.width / 2).toFloat())
         animator.interpolator = DecelerateInterpolator()
         animator.duration = 300
         animator.addListener(object : Animator.AnimatorListener {
@@ -153,15 +152,15 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
             }
 
             override fun onAnimationEnd(animation: Animator) {
-                mNewsdetailActivityBinding!!.newsdetailCardviewSheet.visibility = View.INVISIBLE
-                mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.visibility = View.VISIBLE
-                mNewsdetailActivityBinding!!.newsdetailFloatingactionbuttonAction.animate().scaleX(1f).scaleY(1f).translationX(0f).translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(300).setListener(object : Animator.AnimatorListener {
+                mNewsdetailActivityBinding.newsdetailCardviewSheet.visibility = View.INVISIBLE
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.visibility = View.VISIBLE
+                mNewsdetailActivityBinding.newsdetailFloatingactionbuttonAction.animate().scaleX(1f).scaleY(1f).translationX(0f).translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(300).setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator) {
-                        mNewsdetailActivityBinding!!.newsdetailViewOverlay.animate().alpha(0f).setDuration(500).setInterpolator(AccelerateDecelerateInterpolator()).start()
+                        mNewsdetailActivityBinding.newsdetailViewOverlay.animate().alpha(0f).setDuration(500).setInterpolator(AccelerateDecelerateInterpolator()).start()
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
-                        mNewsdetailActivityBinding!!.newsdetailViewOverlay.visibility = View.INVISIBLE
+                        mNewsdetailActivityBinding.newsdetailViewOverlay.visibility = View.INVISIBLE
                     }
 
                     override fun onAnimationCancel(animation: Animator) {
@@ -217,7 +216,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
         fun onClickSheetitem1(view: View) {
             if (mDisplaySettingsDialog == null) {
                 mDisplaySettingsDialog = DisplaySettingsDialog.newInstance()
-                mDisplaySettingsDialog?.mSelectTextSize = mSelectedFontSize!!
+                mDisplaySettingsDialog?.mSelectTextSize = mSelectedFontSize
             }
 
             mDisplaySettingsDialog?.show(supportFragmentManager, "DisplaySettingsDialog")
