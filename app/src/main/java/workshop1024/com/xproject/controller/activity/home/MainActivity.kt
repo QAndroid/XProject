@@ -37,29 +37,29 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
     private var mCurrentFragment: XFragment? = null
 
-    private var mMainActivityBinding: MainActivityBinding? = null
+    private lateinit var mMainActivityBinding: MainActivityBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMainActivityBinding = DataBindingUtil.setContentView(this, R.layout.main_activity)
-        mMainActivityBinding?.mainHandlers = MainHandlers()
+        mMainActivityBinding.mainHandlers = MainHandlers()
 
         val mainLeftNavigatorHeaderBinding = DataBindingUtil.inflate<MainleftNavigatorHeaderBinding>(layoutInflater,
-                R.layout.mainleft_navigator_header, mMainActivityBinding!!.mainleftNavigationview, false)
+                R.layout.mainleft_navigator_header, mMainActivityBinding.mainleftNavigationview, false)
         mainLeftNavigatorHeaderBinding.headerHandlers = HeaderHandlers()
 
         //设置抽屉导航HeaderView视图
-        mMainActivityBinding?.mainleftNavigationview?.addHeaderView(mainLeftNavigatorHeaderBinding.root)
+        mMainActivityBinding.mainleftNavigationview.addHeaderView(mainLeftNavigatorHeaderBinding.root)
 
         //设置顶部toolBar视图
-        setSupportActionBar(mMainActivityBinding?.mainIncludeRight?.mainrightToolbarNavigator)
+        setSupportActionBar(mMainActivityBinding.mainIncludeRight.mainrightToolbarNavigator)
 
         //创建ActionBar左边的up action，点击开关左侧抽屉导航
-        mActionBarDrawerToggle = ActionBarDrawerToggle(this, mMainActivityBinding?.mainDrawerlayoutNavigator,
-                mMainActivityBinding?.mainIncludeRight?.mainrightToolbarNavigator, R.string.navigation_drawer_open,
+        mActionBarDrawerToggle = ActionBarDrawerToggle(this, mMainActivityBinding.mainDrawerlayoutNavigator,
+                mMainActivityBinding.mainIncludeRight.mainrightToolbarNavigator, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close)
-        mMainActivityBinding?.mainDrawerlayoutNavigator?.addDrawerListener(mActionBarDrawerToggle)
+        mMainActivityBinding.mainDrawerlayoutNavigator.addDrawerListener(mActionBarDrawerToggle)
         mActionBarDrawerToggle.syncState()
         mActionBarDrawerToggle.setToolbarNavigationClickListener {
             View.OnClickListener {
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
         supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).commit()
 
         //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
-        mMainActivityBinding?.mainleftNavigationview?.setCheckedItem(R.id.leftnavigator_menu_home)
+        mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_home)
         mCurrentFragment = homePageFragment
     }
 
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
         when (item?.itemId) {
             R.id.homepage_menu_add -> {
                 val bottomMenu = BottomMenu(this)
-                bottomMenu.showAtLocation(mMainActivityBinding?.mainIncludeRight?.mainrightCoordinatorlayoutRoot, Gravity.BOTTOM, 0, 0)
+                bottomMenu.showAtLocation(mMainActivityBinding.mainIncludeRight.mainrightCoordinatorlayoutRoot, Gravity.BOTTOM, 0, 0)
             }
             R.id.homepage_menu_refresh -> (mCurrentFragment as HomePageFragment).onRefresh()
             R.id.homepage_menu_marked -> (mCurrentFragment as HomePageFragment).markAsRead()
@@ -133,14 +133,14 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
         if (mCurrentFragment != null) {
             //更具当前显示的Fragment多包含的导航栏id，更新导航栏列表选中的选项
-            mMainActivityBinding?.mainleftNavigationview?.setCheckedItem(mCurrentFragment!!.mNavigationItemId)
+            mMainActivityBinding.mainleftNavigationview.setCheckedItem(mCurrentFragment!!.mNavigationItemId)
 
             //如果是一级Fragment则显示抽屉导航图标和隐藏FloatingActionButton，如果只其它级别Fragment这显示返回上一页图标
             mActionBarDrawerToggle.isDrawerSlideAnimationEnabled = mCurrentFragment is TopFragment
             supportActionBar?.setDisplayHomeAsUpEnabled(mCurrentFragment !is TopFragment)
             mActionBarDrawerToggle.syncState()
 
-            mMainActivityBinding?.mainIncludeRight?.mainrightFloatingactionbuttonAction?.visibility = if (mCurrentFragment is TopFragment) View.GONE
+            mMainActivityBinding.mainIncludeRight.mainrightFloatingactionbuttonAction.visibility = if (mCurrentFragment is TopFragment) View.GONE
             else View.VISIBLE
 
             //Fragment堆栈有变化，根据当前显示的Fragment重新更新菜单展示
@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                     supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit()
 
                     //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
-                    mMainActivityBinding?.mainleftNavigationview?.setCheckedItem(R.id.leftnavigator_menu_saved)
+                    mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved)
                     mCurrentFragment = savedFragment
                 }
                 R.id.leftnavigator_menu_settings -> {
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 }
             }
 
-            mMainActivityBinding?.mainDrawerlayoutNavigator?.closeDrawer(GravityCompat.START)
+            mMainActivityBinding.mainDrawerlayoutNavigator.closeDrawer(GravityCompat.START)
             invalidateOptionsMenu()
 
             return true
