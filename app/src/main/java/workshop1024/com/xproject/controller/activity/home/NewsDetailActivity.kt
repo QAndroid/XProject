@@ -92,7 +92,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
             mNewsdetailActivityBinding?.newsdetailTextviewPubdata?.text = newsDetail.pubDate
             mNewsdetailActivityBinding?.newsdetailTextviewContent?.text = newsDetail.content
 
-            val tagListAdapter = TagListAdapter(this, newsDetail.tagList)
+            val tagListAdapter = TagListAdapter(this, newsDetail.tagList!!)
             mNewsdetailActivityBinding?.newsdetailRecyclerViewTags?.adapter = tagListAdapter
         }
     }
@@ -221,6 +221,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
             }
 
             mDisplaySettingsDialog?.show(supportFragmentManager, "DisplaySettingsDialog")
+            sheetViewOut()
         }
 
         fun onClickSheetitem2(view: View) {
