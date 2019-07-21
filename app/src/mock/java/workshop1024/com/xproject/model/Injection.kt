@@ -15,7 +15,7 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoMockRepository
 
 object Injection {
     fun providePublisherTypeRepository(): PublisherTypeDataSource {
-        return PublisherTypeMockRepository.getInstance()
+        return PublisherTypeMockRepository.instance!!
     }
 
     fun providePublisherRepository(): PublisherDataSource {
