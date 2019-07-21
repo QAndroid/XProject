@@ -27,7 +27,7 @@ object Injection {
     }
 
     fun provideMessageRepository(): MessageDataSource {
-        return MessageMockRepository.getInstance()
+        return MessageMockRepository.instance!!
     }
 
     fun provideNewsRepository(): NewsDataSource {
