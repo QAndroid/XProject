@@ -10,13 +10,11 @@ class SubscribeNewsFragment : NewsListFragment(), SubFragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mSubscribeName = arguments!!.getString(SUBSCRIBE_NAME)
-        }
+            mSubscribeName = arguments?.getString(SUBSCRIBE_NAME)
     }
 
     override fun getNewsList() {
-        mNewsRepository?.getNewsListBySubscribe(mSubscribeName!!, this)
+        mSubscribeName?.let { mNewsRepository?.getNewsListBySubscribe(it, this) }
     }
 
     companion object {

@@ -10,13 +10,11 @@ class TagNewsFragment : NewsListFragment(), SubFragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mTagName = arguments!!.getString(TAG_NAME)
-        }
+        mTagName = arguments!!.getString(TAG_NAME)
     }
 
     override fun getNewsList() {
-        mNewsRepository?.getNewsListByTag(mTagName!!, this)
+        mTagName?.let { mNewsRepository?.getNewsListByTag(it, this) }
     }
 
     companion object {
