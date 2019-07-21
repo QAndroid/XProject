@@ -14,7 +14,7 @@ class FilterNewsFragment : NewsListFragment(), SubFragment {
     }
 
     override fun getNewsList() {
-        mNewsRepository?.getNewsListByFilter(mFilterName!!, this)
+        mFilterName?.let { mNewsRepository?.getNewsListByFilter(it, this) }
     }
 
     companion object {
