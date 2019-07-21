@@ -20,29 +20,27 @@ class InputStringDialog : DialogFragment(), DialogInterface.OnClickListener {
     private var mPositiveStringId: Int = 0
 
     var mInputStringDialogListener: InputStringDialogListener? = null
-    private var mInputstringDialogBinding: InputstringDialogBinding? = null
+    private lateinit var mInputstringDialogBinding: InputstringDialogBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bundle = arguments
-        if (bundle != null) {
-            mTitleStringId = bundle.getInt(TITLE_STRING_KEY)
-            mPositiveStringId = bundle.getInt(POSITIVE_STRING_KEY)
+        arguments?.let {
+            mTitleStringId = it.getInt(TITLE_STRING_KEY)
+            mPositiveStringId = it.getInt(POSITIVE_STRING_KEY)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mInputstringDialogBinding = DataBindingUtil.inflate(activity!!.layoutInflater, R.layout.inputstring_dialog, null, false)
-        mInputstringDialogBinding!!.inputstringTextinputedittextName.setText(mPreInputString)
+        mInputstringDialogBinding.inputstringTextinputedittextName.setText(mPreInputString)
 
         return AlertDialog.Builder(ContextThemeWrapper(activity,
-                R.style.xproject_alertdialog)).setTitle(mTitleStringId).setView(mInputstringDialogBinding!!.root).setPositiveButton(mPositiveStringId, this).create()
+                R.style.xproject_alertdialog)).setTitle(mTitleStringId).setView(mInputstringDialogBinding.root).setPositiveButton(mPositiveStringId, this).create()
     }
 
-    override fun onClick(dialogInterface: DialogInterface, i: Int) {
-        mInputStringDialogListener!!.onInputStringDialogClick(this, mInputstringDialogBinding!!.inputstringTextinputedittextName.text.toString())
-    }
+    override fun onClick(dialogInterface: DialogInterface, i: Int) =
+            mInputStringDialogListener!!.onInputStringDialogClick(this, mInputstringDialogBinding.inputstringTextinputedittextName.text.toString())
 
 
     /**
