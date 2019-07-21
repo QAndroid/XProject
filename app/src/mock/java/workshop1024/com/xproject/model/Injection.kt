@@ -23,7 +23,7 @@ object Injection {
     }
 
     fun provideFilterRepository(): FilterDataSource {
-        return FilterMockRepository.getInstance()
+        return FilterMockRepository.instance!!
     }
 
     fun provideMessageRepository(): MessageDataSource {
