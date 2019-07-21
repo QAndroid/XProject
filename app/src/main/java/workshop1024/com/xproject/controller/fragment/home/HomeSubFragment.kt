@@ -22,14 +22,14 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoDataSource
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-HomeSubFragment，处理布局和视图相关公共逻辑
  */
 abstract class HomeSubFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener, SubListItemListener, SubInfoDataSource.LoadSubInfoCallback {
-    internal var mSubInfoRepository: SubInfoDataSource? = null
+    internal lateinit var mSubInfoRepository: SubInfoDataSource
     internal var mSubInfoList: List<SubInfo>? = null
 
     //Fragment是否在前台展示
     protected var mIsForeground: Boolean = false
 
-    internal var mHomesubFragmentBinding: HomesubFragmentBinding? = null
-    internal var mHomeSubFragmentHanlders: HomeSubFragmentHanlders? = null
+    internal lateinit var mHomesubFragmentBinding: HomesubFragmentBinding
+    internal lateinit var mHomeSubFragmentHanlders: HomeSubFragmentHanlders
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +38,14 @@ abstract class HomeSubFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshLis
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mHomesubFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.homesub_fragment, container, false)
-        mHomesubFragmentBinding?.gridLayoutManager = GridLayoutManager(context, 2)
+        mHomesubFragmentBinding.gridLayoutManager = GridLayoutManager(context, 2)
 //        mHomesubFragmentBinding?.recyclerViewItemDecoration = RecyclerViewItemDecoration(6)
-        mHomesubFragmentBinding?.onRefreshListener = this
+        mHomesubFragmentBinding.onRefreshListener = this
 
         mHomeSubFragmentHanlders = HomeSubFragmentHanlders()
-        mHomesubFragmentBinding?.homeSubFragmentHanlders = mHomeSubFragmentHanlders
+        mHomesubFragmentBinding.homeSubFragmentHanlders = mHomeSubFragmentHanlders
 
-        return mHomesubFragmentBinding?.root
+        return mHomesubFragmentBinding.root
     }
 
     override fun onResume() {

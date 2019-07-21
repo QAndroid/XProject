@@ -23,24 +23,24 @@ class TagFragment : HomeSubFragment() {
     }
 
     private fun refreshTagList() {
-        Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch more tag ...", Snackbar.LENGTH_SHORT).show()
-        mHomeSubFragmentHanlders?.isRefreshing?.set(true)
-        mSubInfoRepository?.getTagSubInfos(this)
+        Snackbar.make(mHomesubFragmentBinding.root, "Fetch more tag ...", Snackbar.LENGTH_SHORT).show()
+        mHomeSubFragmentHanlders.isRefreshing.set(true)
+        mSubInfoRepository.getTagSubInfos(this)
     }
 
 
     override fun onSubInfosLoaded(subInfoList: List<SubInfo>) {
         if (mIsForeground) {
             mSubInfoList = subInfoList
-            mHomeSubFragmentHanlders?.isRefreshing?.set(false)
+            mHomeSubFragmentHanlders.isRefreshing.set(false)
             val homeSubListAdapter = HomeSubListAdapter(subInfoList, this)
-            mHomesubFragmentBinding?.homesubRecyclerviewList?.adapter = homeSubListAdapter
-            Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
+            mHomesubFragmentBinding.homesubRecyclerviewList.adapter = homeSubListAdapter
+            Snackbar.make(mHomesubFragmentBinding.root, "Fetch " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
         }
     }
 
     override fun onDataNotAvailable() {
-        Snackbar.make(mHomesubFragmentBinding?.root!!, "No tags refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mHomesubFragmentBinding.root, "No tags refresh...", Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onSubListItemClick(subInfo: SubInfo) {
