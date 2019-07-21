@@ -28,27 +28,27 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
         MessageDataSource.LoadMessagesCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private var mMessageRepository: MessageDataSource? = null
-    private var mFeedbackActivityBinding: FeedbackActivityBinding? = null
-    private var mMessagelistHeaderBinding: MessagelistHeaderBinding? = null
-    private var mMessagelistFooterBinding: MessagelistFooterBinding? = null
+    private lateinit var mFeedbackActivityBinding: FeedbackActivityBinding
+    private lateinit var mMessagelistHeaderBinding: MessagelistHeaderBinding
+    private lateinit var mMessagelistFooterBinding: MessagelistFooterBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFeedbackActivityBinding = DataBindingUtil.setContentView(this, R.layout.feedback_activity)
-        mMessagelistHeaderBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_header, mFeedbackActivityBinding?.feedbackRecyclerviewMessages,
+        mMessagelistHeaderBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_header, mFeedbackActivityBinding.feedbackRecyclerviewMessages,
                 false)
-        mMessagelistFooterBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_footer, mFeedbackActivityBinding?.feedbackRecyclerviewMessages,
+        mMessagelistFooterBinding = DataBindingUtil.inflate(layoutInflater, R.layout.messagelist_footer, mFeedbackActivityBinding.feedbackRecyclerviewMessages,
                 false)
 
-        setSupportActionBar(mFeedbackActivityBinding?.feedbackToolbarNavigator)
+        setSupportActionBar(mFeedbackActivityBinding.feedbackToolbarNavigator)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         title = "Message Center"
 
-        mFeedbackActivityBinding?.feedbackSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
-        mFeedbackActivityBinding?.feedbackRecyclerviewMessages?.addItemDecoration(RecyclerViewItemDecoration(6))
-        mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.setOnClickListener(this)
+        mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.setOnRefreshListener(this)
+        mFeedbackActivityBinding.feedbackRecyclerviewMessages.addItemDecoration(RecyclerViewItemDecoration(6))
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -58,7 +58,7 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
 
     private fun refreshMessageGroupList() {
         mMessageRepository = Injection.provideMessageRepository()
-        mFeedbackActivityBinding?.feedbackSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.isRefreshing = true
         mMessageRepository?.getMessages(this)
     }
 
@@ -80,26 +80,26 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
     }
 
     override fun onClick(v: View?) {
-        if (v === mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit) {
+        if (v === mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit) {
             val submitMessageDialog = SubmitMessageDialog.newInstance()
             submitMessageDialog.show(supportFragmentManager, SubmitMessageDialog.TAG)
 
-            mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.GONE
+            mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.visibility = View.GONE
         }
     }
 
     override fun okButtonClick(dialogFragment: DialogFragment, nameString: String, emailString: String) {
-        mMessagelistHeaderBinding?.feedbackTextviewHello?.text = StringBuffer("Hello!").append(nameString).toString()
+        mMessagelistHeaderBinding.feedbackTextviewHello?.text = StringBuffer("Hello!").append(nameString).toString()
     }
 
     override fun cancelButtonClick(dialogFragment: DialogFragment) {
         dialogFragment.dismiss()
-        mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
     }
 
     override fun submitButtonClick(dialogFragment: DialogFragment, messageConent: String) {
         dialogFragment.dismiss()
-        mFeedbackActivityBinding?.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
 
         val message = Message("m99", messageConent)
         mMessageRepository?.submitMessage(message)
@@ -109,12 +109,12 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
 
     override fun onMessagesLoaded(messageGroupList: List<MessageGroup>) {
         if (mIsForeground) {
-            mFeedbackActivityBinding?.feedbackSwiperefreshlayoutPullrefresh?.isRefreshing = false
+            mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh?.isRefreshing = false
 
             val messageListAdapter = MessageListAdapter(messageGroupList)
-            mFeedbackActivityBinding?.feedbackRecyclerviewMessages?.adapter = messageListAdapter
-            messageListAdapter.setHeaderView(mMessagelistHeaderBinding!!.root)
-            messageListAdapter.setFooterView(mMessagelistFooterBinding!!.root)
+            mFeedbackActivityBinding.feedbackRecyclerviewMessages?.adapter = messageListAdapter
+            messageListAdapter.setHeaderView(mMessagelistHeaderBinding.root)
+            messageListAdapter.setFooterView(mMessagelistFooterBinding.root)
         }
     }
 
