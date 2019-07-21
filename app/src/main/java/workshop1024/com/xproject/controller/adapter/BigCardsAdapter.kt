@@ -13,7 +13,7 @@ import workshop1024.com.xproject.controller.activity.home.NewsDetailActivity
 import workshop1024.com.xproject.databinding.NewslistItemBigcardsBinding
 import workshop1024.com.xproject.model.news.News
 
-class BigCardsAdapter(private val mContext: Context?, private val mNewsList: List<News>?) : RecyclerView.Adapter<BigCardsAdapter.BigCardsViewHolder>() {
+class BigCardsAdapter(private val mContext: Context, private val mNewsList: List<News>) : RecyclerView.Adapter<BigCardsAdapter.BigCardsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BigCardsViewHolder {
         val newslistItemBigcardsBinding = DataBindingUtil.inflate<NewslistItemBigcardsBinding>(LayoutInflater.from(parent.context),
@@ -23,15 +23,15 @@ class BigCardsAdapter(private val mContext: Context?, private val mNewsList: Lis
     }
 
     override fun getItemCount(): Int {
-        return mNewsList!!.size
+        return mNewsList.size
     }
 
     override fun onBindViewHolder(holder: BigCardsViewHolder, position: Int) {
-        val showNews = mNewsList?.get(position)
+        val showNews = mNewsList.get(position)
         holder.mNewslistItemBigcardsBinding.news = showNews
 
         //FIXME 如何使用Databinding来处理这块逻辑？
-        if (showNews!!.isIsReaded) {
+        if (showNews.isIsReaded) {
             //FIXME 有必要每次都创造对象吗？
             val colorMatrix = ColorMatrix()
             colorMatrix.setSaturation(0.0f)
@@ -46,7 +46,7 @@ class BigCardsAdapter(private val mContext: Context?, private val mNewsList: Lis
 
     inner class BigCardsHandlers {
         fun onClickItem(view: View, news: News) {
-            NewsDetailActivity.startActivity(mContext!!, news.newId!!)
+            NewsDetailActivity.startActivity(mContext, news.newId!!)
         }
     }
 }

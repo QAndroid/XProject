@@ -30,7 +30,7 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     protected var mNewsRepository: NewsDataSource? = null
     private var mNewsList: List<News>? = null
 
-    private var mNewsListFragmentBinding: NewslistFragmentBinding? = null
+    private lateinit var mNewsListFragmentBinding: NewslistFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +40,11 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mNewsListFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.newslist_fragment, container, false)
 
-        mNewsListFragmentBinding?.newslistSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
-        mNewsListFragmentBinding?.newslistRecyclerviewList?.layoutManager = LinearLayoutManager(context)
-        mNewsListFragmentBinding?.newslistRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.setOnRefreshListener(this)
+        mNewsListFragmentBinding.newslistRecyclerviewList.layoutManager = LinearLayoutManager(context)
+        mNewsListFragmentBinding.newslistRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
 
-        return mNewsListFragmentBinding?.root
+        return mNewsListFragmentBinding.root
     }
 
     override fun onStart() {
@@ -59,35 +59,38 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     override fun onNewsLoaded(newsList: List<News>) {
         if (mIsForeground) {
             mNewsList = newsList
-            mNewsListFragmentBinding!!.newslistSwiperefreshlayoutPullrefresh.isRefreshing = false
+            mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = false
             showBigCardsList()
-            Snackbar.make(mNewsListFragmentBinding!!.root, "Fetch " + newsList.size + " newses ...", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(mNewsListFragmentBinding.root, "Fetch " + newsList.size + " newses ...", Snackbar.LENGTH_SHORT).show()
         }
     }
 
     override fun onDataNotAvaiable() {
-        Snackbar.make(mNewsListFragmentBinding!!.root, "No newses refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mNewsListFragmentBinding.root, "No newses refresh...", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun refreshNewsList() {
-        Snackbar.make(mNewsListFragmentBinding!!.root, "Fetch more newses ...", Snackbar.LENGTH_SHORT).show()
-        mNewsListFragmentBinding!!.newslistSwiperefreshlayoutPullrefresh.isRefreshing = true
+        Snackbar.make(mNewsListFragmentBinding.root, "Fetch more newses ...", Snackbar.LENGTH_SHORT).show()
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = true
         getNewsList()
     }
 
     abstract fun getNewsList()
 
     fun showBigCardsList() {
-        mListAdapter = BigCardsAdapter(context, mNewsList)
-        mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
+        //FIXME 用双引号是不是有点激进
+        mListAdapter = BigCardsAdapter(context!!, mNewsList!!)
+        mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
     fun showMinimalList() {
+        //FIXME 用双引号是不是有点激进
         mListAdapter = MinimalAdapter(context!!, mNewsList!!)
-        mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
+        mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
     fun showCompactList() {
+        //FIXME 用双引号是不是有点激进
         mListAdapter = CompactAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
     }
