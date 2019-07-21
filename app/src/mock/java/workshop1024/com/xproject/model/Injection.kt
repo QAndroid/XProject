@@ -35,6 +35,6 @@ object Injection {
     }
 
     fun provideSubInfoRepository(): SubInfoDataSource {
-        return SubInfoMockRepository.getInstance()
+        return SubInfoMockRepository.instance!!
     }
 }
