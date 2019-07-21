@@ -19,7 +19,7 @@ object Injection {
     }
 
     fun providePublisherRepository(): PublisherDataSource {
-        return PublisherMockRepository.getInstance()
+        return PublisherMockRepository.instance!!
     }
 
     fun provideFilterRepository(): FilterDataSource {
