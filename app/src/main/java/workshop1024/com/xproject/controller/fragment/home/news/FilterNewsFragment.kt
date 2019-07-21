@@ -10,9 +10,7 @@ class FilterNewsFragment : NewsListFragment(), SubFragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mFilterName = arguments!!.getString(FILTER_NAME)
-        }
+        mFilterName = arguments?.getString(FILTER_NAME)
     }
 
     override fun getNewsList() {
@@ -20,7 +18,7 @@ class FilterNewsFragment : NewsListFragment(), SubFragment {
     }
 
     companion object {
-        private val FILTER_NAME = "filter_Name"
+        private const val FILTER_NAME = "filter_Name"
 
         fun newInstance(filterName: String): FilterNewsFragment {
             val filterNewsFragment = FilterNewsFragment()
