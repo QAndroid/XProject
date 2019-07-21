@@ -9,9 +9,9 @@
             name="gridLayoutManager"
             type="android.support.v7.widget.GridLayoutManager" />
 
-        <variable
-            name="recyclerViewItemDecoration"
-            type="workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration" />
+        <!--<variable-->
+            <!--name="recyclerViewItemDecoration"-->
+            <!--type="workshop1024.com.xproject.view.recyclerview.RecyclerViewItemDecoration" />-->
 
         <variable
             name="onRefreshListener"
@@ -39,9 +39,9 @@
                 android:id="@+id/homesub_recyclerview_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemDecoration="@{recyclerViewItemDecoration}"
                 app:layoutManager="@{gridLayoutManager}"
                 tools:listItem="@layout/item_content" />
+            <!--app:itemDecoration="@{recyclerViewItemDecoration}"-->
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

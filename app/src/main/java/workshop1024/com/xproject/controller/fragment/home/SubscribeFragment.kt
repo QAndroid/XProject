@@ -29,29 +29,29 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
 
 
     private fun refreshSubscribedList() {
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show()
-        mHomeSubFragmentHanlders.isRefreshing.set(true)
-        mSubInfoRepository.getSubscribeSubInfos(this)
+        Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch more subscribe ...", Snackbar.LENGTH_SHORT).show()
+        mHomeSubFragmentHanlders?.isRefreshing?.set(true)
+        mSubInfoRepository?.getSubscribeSubInfos(this)
     }
 
     override fun onSubInfosLoaded(subInfoList: List<SubInfo>) {
         if (mIsForeground) {
             mSubInfoList = subInfoList
 
-            mHomeSubFragmentHanlders.isRefreshing.set(false)
+            mHomeSubFragmentHanlders?.isRefreshing?.set(false)
             mSubscribeListAdapter = SubscribeListAdapter(context!!, subInfoList,
                     this, this)
-            mHomesubFragmentBinding.homesubRecyclerviewList.adapter = mSubscribeListAdapter
-            Snackbar.make(mHomesubFragmentBinding.root, "Fetch " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
+            mHomesubFragmentBinding?.homesubRecyclerviewList?.adapter = mSubscribeListAdapter
+            Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
         }
     }
 
     override fun onDataNotAvailable() {
-        Snackbar.make(mHomesubFragmentBinding.root, "No subscribes refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mHomesubFragmentBinding?.root!!, "No subscribes refresh...", Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onInputStringDialogClick(dialog: DialogFragment, inputString: String) {
-        mSubInfoRepository.reNameSubscribeSubInfoById(mRenameSubInfo!!.infoId, inputString)
+        mSubInfoRepository?.reNameSubscribeSubInfoById(mRenameSubInfo!!.infoId, inputString)
         refreshSubscribedList()
     }
 
@@ -65,7 +65,7 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
     }
 
     override fun onUnscribeMenuClick(subscribe: SubInfo) {
-        mSubInfoRepository.unSubscribeSubInfoById(subscribe.infoId)
+        mSubInfoRepository?.unSubscribeSubInfoById(subscribe.infoId)
         refreshSubscribedList()
     }
 
@@ -78,11 +78,11 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
 
     public override fun markAsRead() {
         val subInfoIds = ArrayList<String>()
-        for ((infoId) in mSubInfoList) {
+        for ((infoId) in mSubInfoList!!) {
             subInfoIds.add(infoId)
         }
 
-        mSubInfoRepository.markedSubscribeSubInfoesAsRead(subInfoIds)
+        mSubInfoRepository?.markedSubscribeSubInfoesAsRead(subInfoIds)
 
         refreshSubscribedList()
     }

@@ -26,23 +26,23 @@ class FilterFragment : HomeSubFragment() {
      * 刷新过滤器列表
      */
     private fun refreshFilterList() {
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch more filters ...", Snackbar.LENGTH_SHORT).show()
-        mHomeSubFragmentHanlders.isRefreshing.set(true)
-        mSubInfoRepository.getFilterSubInfos(this)
+        Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch more filters ...", Snackbar.LENGTH_SHORT).show()
+        mHomeSubFragmentHanlders?.isRefreshing?.set(true)
+        mSubInfoRepository?.getFilterSubInfos(this)
     }
 
     override fun onSubInfosLoaded(subInfoList: List<SubInfo>) {
         if (mIsForeground) {
             mSubInfoList = subInfoList
-            mHomeSubFragmentHanlders.isRefreshing.set(false)
+            mHomeSubFragmentHanlders?.isRefreshing?.set(false)
             val homeSubListAdapter = HomeSubListAdapter(subInfoList, this)
-            mHomesubFragmentBinding.homesubRecyclerviewList.adapter = homeSubListAdapter
-            Snackbar.make(mHomesubFragmentBinding.root, "Fetch " + subInfoList.size + " filters ...", Snackbar.LENGTH_SHORT).show()
+            mHomesubFragmentBinding?.homesubRecyclerviewList?.adapter = homeSubListAdapter
+            Snackbar.make(mHomesubFragmentBinding?.root!!, "Fetch " + subInfoList.size + " filters ...", Snackbar.LENGTH_SHORT).show()
         }
     }
 
     override fun onDataNotAvailable() {
-        Snackbar.make(mHomesubFragmentBinding.root, "No filters refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mHomesubFragmentBinding?.root!!, "No filters refresh...", Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onSubListItemClick(subInfo: SubInfo) {
@@ -54,11 +54,11 @@ class FilterFragment : HomeSubFragment() {
 
     public override fun markAsRead() {
         val subInfoIds = ArrayList<String>()
-        for ((infoId) in mSubInfoList) {
+        for ((infoId) in mSubInfoList!!) {
             subInfoIds.add(infoId)
         }
 
-        mSubInfoRepository.markeFilterSubInfoesAsRead(subInfoIds)
+        mSubInfoRepository?.markeFilterSubInfoesAsRead(subInfoIds)
 
         refreshFilterList()
     }

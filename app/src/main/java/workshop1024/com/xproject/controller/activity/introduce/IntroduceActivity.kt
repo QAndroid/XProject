@@ -20,7 +20,7 @@ import workshop1024.com.xproject.controller.activity.home.MainActivity
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment
 import workshop1024.com.xproject.databinding.IntroduceActivityBinding
 
-@BindingMethods(BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener"))
+@BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
 /**
  * 介绍页面
  */
