@@ -26,7 +26,7 @@ class PublisherTypeMockRepository private constructor() : PublisherTypeDataSourc
     }
 
     companion object {
-        private val SERVICE_LATENCY_IN_MILLIS = 1000
+        private const val SERVICE_LATENCY_IN_MILLIS = 1000
 
         private var CONTENT_SERVICE_DATA: MutableMap<String, PublisherType>? = null
         private var LANGUAGE_SERVICE_DATA: MutableMap<String, PublisherType>? = null
@@ -68,13 +68,13 @@ class PublisherTypeMockRepository private constructor() : PublisherTypeDataSourc
             LANGUAGE_SERVICE_DATA!![publisherType.typeId] = publisherType
         }
 
-        val instance: PublisherTypeDataSource?
+        val instance: PublisherTypeDataSource
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = PublisherTypeMockRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

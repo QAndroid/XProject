@@ -80,13 +80,13 @@ class MessageMockRepository private constructor() : MessageDataSource {
             MESSAGEGROUP_SERVICE_DATA!![messageGroup4.groupId!!] = messageGroup4
         }
 
-        val instance: MessageDataSource?
+        val instance: MessageDataSource
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = MessageMockRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

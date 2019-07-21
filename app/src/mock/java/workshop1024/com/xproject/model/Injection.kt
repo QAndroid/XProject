@@ -15,26 +15,26 @@ import workshop1024.com.xproject.model.subinfo.source.SubInfoMockRepository
 
 object Injection {
     fun providePublisherTypeRepository(): PublisherTypeDataSource {
-        return PublisherTypeMockRepository.instance!!
+        return PublisherTypeMockRepository.instance
     }
 
     fun providePublisherRepository(): PublisherDataSource {
-        return PublisherMockRepository.instance!!
+        return PublisherMockRepository.instance
     }
 
     fun provideFilterRepository(): FilterDataSource {
-        return FilterMockRepository.instance!!
+        return FilterMockRepository.instance
     }
 
     fun provideMessageRepository(): MessageDataSource {
-        return MessageMockRepository.instance!!
+        return MessageMockRepository.instance
     }
 
     fun provideNewsRepository(): NewsDataSource {
-        return NewsMockRepository.instance!!
+        return NewsMockRepository.instance
     }
 
     fun provideSubInfoRepository(): SubInfoDataSource {
-        return SubInfoMockRepository.instance!!
+        return SubInfoMockRepository.instance
     }
 }

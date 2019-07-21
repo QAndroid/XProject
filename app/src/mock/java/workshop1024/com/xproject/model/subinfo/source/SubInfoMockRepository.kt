@@ -162,12 +162,12 @@ class SubInfoMockRepository : SubInfoDataSource {
          *
          * @return 远程数据源对象
          */
-        val instance: SubInfoDataSource?
+        val instance: SubInfoDataSource
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = SubInfoMockRepository()
                 }
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

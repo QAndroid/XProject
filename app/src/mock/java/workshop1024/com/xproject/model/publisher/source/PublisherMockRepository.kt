@@ -129,13 +129,13 @@ class PublisherMockRepository private constructor() : PublisherDataSource {
             PUBLISHERS_SERVICE_DATA!![newPublisher.publisherId] = newPublisher
         }
 
-        val instance: PublisherDataSource?
+        val instance: PublisherDataSource
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = PublisherMockRepository()
                 }
 
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }

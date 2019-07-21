@@ -144,12 +144,12 @@ class NewsMockRepository private constructor() : NewsDataSource {
             NEWSDETAILS_SERVICE_DATA!![newsDetail.newId!!] = newsDetail
         }
 
-        val instance: NewsDataSource?
+        val instance: NewsDataSource
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = NewsMockRepository()
                 }
-                return INSTANCE
+                return INSTANCE!!
             }
     }
 }
