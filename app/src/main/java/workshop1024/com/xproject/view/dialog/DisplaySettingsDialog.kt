@@ -13,9 +13,9 @@ import workshop1024.com.xproject.databinding.DisplaysettingsDialogBinding
 
 class DisplaySettingsDialog : DialogFragment() {
     var mSelectTextSize: Float = 0.0f
-    private var mDialogFragment: DialogFragment? = null
+    private lateinit var mDialogFragment: DialogFragment
     private var mDisplaySettingsDialogListener: DisplaySettingsDialogListener? = null
-    private var mDisplaysettingsDialogBinding: DisplaysettingsDialogBinding? = null
+    private lateinit var mDisplaysettingsDialogBinding: DisplaysettingsDialogBinding
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -32,10 +32,10 @@ class DisplaySettingsDialog : DialogFragment() {
                 R.style.xproject_alertdialog))
         mDisplaysettingsDialogBinding = DataBindingUtil.inflate(activity!!.layoutInflater, R.layout.displaysettings_dialog,
                 null, false)
-        mDisplaysettingsDialogBinding!!.displayHandlers = DisplayHandlers()
-        builder.setView(mDisplaysettingsDialogBinding!!.root)
+        mDisplaysettingsDialogBinding.displayHandlers = DisplayHandlers()
+        builder.setView(mDisplaysettingsDialogBinding.root)
 
-        mDisplaysettingsDialogBinding!!.displaysettingScalseekbarTextsize.selectedTextSize = mSelectTextSize
+        mDisplaysettingsDialogBinding.displaysettingScalseekbarTextsize.selectedTextSize = mSelectTextSize
 
         return builder.create()
     }
@@ -46,8 +46,8 @@ class DisplaySettingsDialog : DialogFragment() {
 
     inner class DisplayHandlers {
         fun onClickConfirm(view: View) {
-            mSelectTextSize = mDisplaysettingsDialogBinding!!.displaysettingScalseekbarTextsize.selectedTextSize
-            mDisplaySettingsDialogListener!!.onDisplaySettingDialogClick(mDialogFragment!!, mSelectTextSize)
+            mSelectTextSize = mDisplaysettingsDialogBinding.displaysettingScalseekbarTextsize.selectedTextSize
+            mDisplaySettingsDialogListener?.onDisplaySettingDialogClick(mDialogFragment, mSelectTextSize)
             dismiss()
         }
     }
