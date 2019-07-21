@@ -9,7 +9,7 @@ import workshop1024.com.xproject.R
 import workshop1024.com.xproject.utils.ThemeUtils
 
 class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-    private var mSharedPreferences: SharedPreferences? = null
+    private lateinit var mSharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +40,12 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
 
     override fun onResume() {
         super.onResume()
-        mSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
