@@ -31,7 +31,7 @@ object Injection {
     }
 
     fun provideNewsRepository(): NewsDataSource {
-        return NewsMockRepository.getInstance()
+        return NewsMockRepository.instance!!
     }
 
     fun provideSubInfoRepository(): SubInfoDataSource {
