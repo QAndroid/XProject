@@ -11,10 +11,10 @@ import workshop1024.com.xproject.R
 import workshop1024.com.xproject.databinding.SubmitmessageDialogBinding
 
 class SubmitMessageDialog : DialogFragment() {
-    private var mSubmitMessageDialog: SubmitMessageDialog? = null
+    private lateinit var mSubmitMessageDialog: SubmitMessageDialog
 
     private var mSubmitMessageDialogListener: SubmitMessageDialogListener? = null
-    private var mSubmitmessageDialogBinding: SubmitmessageDialogBinding? = null
+    private lateinit var mSubmitmessageDialogBinding: SubmitmessageDialogBinding
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -29,8 +29,8 @@ class SubmitMessageDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mSubmitmessageDialogBinding = DataBindingUtil.inflate(activity!!.layoutInflater,
                 R.layout.submitmessage_dialog, null, false)
-        mSubmitmessageDialogBinding!!.submitMessageHandlers = SubmitMessageHandlers()
-        return AlertDialog.Builder(activity!!).setView(mSubmitmessageDialogBinding!!.root).create()
+        mSubmitmessageDialogBinding.submitMessageHandlers = SubmitMessageHandlers()
+        return AlertDialog.Builder(activity!!).setView(mSubmitmessageDialogBinding.root).create()
     }
 
     override fun onDetach() {
@@ -47,11 +47,11 @@ class SubmitMessageDialog : DialogFragment() {
 
     inner class SubmitMessageHandlers {
         fun onClickCancel(view: View) {
-            mSubmitMessageDialogListener!!.cancelButtonClick(mSubmitMessageDialog!!)
+            mSubmitMessageDialogListener!!.cancelButtonClick(mSubmitMessageDialog)
         }
 
         fun onClickSubmit(view: View) {
-            mSubmitMessageDialogListener!!.submitButtonClick(mSubmitMessageDialog!!, mSubmitmessageDialogBinding!!.submitmessageEdittextMessage.text.toString())
+            mSubmitMessageDialogListener!!.submitButtonClick(mSubmitMessageDialog, mSubmitmessageDialogBinding.submitmessageEdittextMessage.text.toString())
         }
     }
 
