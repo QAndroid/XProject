@@ -10,15 +10,15 @@ import workshop1024.com.xproject.databinding.HomesublistItemContentBinding
 import workshop1024.com.xproject.model.subinfo.SubInfo
 
 //FIXME 这几个Adapter是什么关系
-class SubscribeListAdapter(private val mContext: Context, private val mSubInfoList: List<SubInfo>, private val mSubListItemListener: SubListItemListener
+class SubscribeListAdapter(private val mContext: Context, mSubInfoList: List<SubInfo>, mSubListItemListener: SubListItemListener
                            , private val mSubInfoListMenuListener: SubInfoListMenuListener) : HomeSubListAdapter(mSubInfoList, mSubListItemListener) {
-    private var mSubscribeItemViewHolder: SubscribeItemViewHolder? = null
-    private var mSelectedSubInfo: SubInfo? = null
+    private lateinit var mSubscribeItemViewHolder: SubscribeItemViewHolder
+    private lateinit var mSelectedSubInfo: SubInfo
 
     override fun getItemViewHolder(homesublistItemContentBinding: HomesublistItemContentBinding): RecyclerView.ViewHolder {
         homesublistItemContentBinding.subscribeHandlers = SubscribeHandlers()
         mSubscribeItemViewHolder = SubscribeItemViewHolder(homesublistItemContentBinding)
-        return mSubscribeItemViewHolder!!
+        return mSubscribeItemViewHolder
     }
 
     interface SubInfoListMenuListener {
@@ -32,11 +32,11 @@ class SubscribeListAdapter(private val mContext: Context, private val mSubInfoLi
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             return when (item?.itemId) {
                 R.id.homepage_recyclerviewmenu_rename -> {
-                    mSubInfoListMenuListener.onRenameMenuClick(mSelectedSubInfo!!)
+                    mSubInfoListMenuListener.onRenameMenuClick(mSelectedSubInfo)
                     true
                 }
                 R.id.homepage_recyclerviewmenu_unsubscribe -> {
-                    mSubInfoListMenuListener.onUnscribeMenuClick(mSelectedSubInfo!!)
+                    mSubInfoListMenuListener.onUnscribeMenuClick(mSelectedSubInfo)
                     true
                 }
                 else -> false

@@ -21,7 +21,7 @@ class MessageListAdapter(private val mMessageGroupList: List<MessageGroup>) : Re
     private var mHeaderView: View? = null
     private var mFooterView: View? = null
 
-    val messageGroupItemCount: Int
+    private val messageGroupItemCount: Int
         get() {
             var itemCount = 0
             for (messageGroup in mMessageGroupList) {
