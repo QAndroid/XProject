@@ -2,7 +2,10 @@ package workshop1024.com.xproject.controller.activity.introduce
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.*
+import android.databinding.BindingMethod
+import android.databinding.BindingMethods
+import android.databinding.DataBindingUtil
+import android.databinding.ObservableInt
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
@@ -11,10 +14,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.View
-
-import java.util.ArrayList
-import java.util.Arrays
-
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.home.MainActivity
 import workshop1024.com.xproject.controller.fragment.introduce.IntroduceFragment
@@ -26,29 +25,29 @@ import workshop1024.com.xproject.databinding.IntroduceActivityBinding
  */
 class IntroduceActivity : FragmentActivity() {
     //介绍布局id
-    private val mLayoutIdList = ArrayList(Arrays.asList(R.layout.introduce1_fragment, R.layout
-            .introduce2_fragment, R.layout.introduce3_fragment))
+    private val mLayoutIdList = listOf(R.layout.introduce1_fragment, R.layout
+            .introduce2_fragment, R.layout.introduce3_fragment)
     //介绍ViewPager适配器
-    private var mPagerAdapter: PagerAdapter? = null
+    private lateinit var mPagerAdapter: PagerAdapter
 
-    private var mIntroduceActivityBinding: IntroduceActivityBinding? = null
+    private lateinit var mIntroduceActivityBinding: IntroduceActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mIntroduceActivityBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity)
-        mIntroduceActivityBinding!!.introduceHandlers = IntroduceHandlers()
+        mIntroduceActivityBinding.introduceHandlers = IntroduceHandlers()
 
         mPagerAdapter = IntroducePagerAdapter(supportFragmentManager, mLayoutIdList)
-        mIntroduceActivityBinding!!.introduceViewpagerContent.adapter = mPagerAdapter
+        mIntroduceActivityBinding.introduceViewpagerContent.adapter = mPagerAdapter
 
-        mIntroduceActivityBinding!!.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding!!.introduceViewpagerContent)
+        mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.introduceViewpagerContent)
     }
 
     /**
      * 跳转下一个ViewPager的页面
      */
     private fun toNextViewPageItem() {
-        mIntroduceActivityBinding!!.introduceViewpagerContent.currentItem = mIntroduceActivityBinding!!.introduceViewpagerContent.currentItem + 1
+        mIntroduceActivityBinding.introduceViewpagerContent.currentItem = mIntroduceActivityBinding.introduceViewpagerContent.currentItem + 1
     }
 
     /**
