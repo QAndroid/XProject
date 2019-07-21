@@ -25,19 +25,19 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
     private var mFilterRepository: FilterRepository? = null
     private var mFilterListAdapter: FilterListAdapter? = null
 
-    private var mFilterActivityBinding: FilterActivityBinding? = null
+    private lateinit var mFilterActivityBinding: FilterActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFilterActivityBinding = DataBindingUtil.setContentView(this, R.layout.filter_activity)
 
-        setSupportActionBar(mFilterActivityBinding?.filterToolbarNavigator)
+        setSupportActionBar(mFilterActivityBinding.filterToolbarNavigator)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.title = "Manage Filter"
 
-        mFilterActivityBinding?.filterSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
-        mFilterActivityBinding?.filterRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.setOnRefreshListener(this)
+        mFilterActivityBinding.filterRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
     }
 
     override fun onStart() {
@@ -47,7 +47,7 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
 
     private fun refreshFilterList() {
         mFilterRepository = FilterRepository.instance
-        mFilterActivityBinding?.filterSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isRefreshing = true
         mFilterRepository?.getFilters(this)
 
     }
@@ -81,9 +81,9 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
 
     override fun onPublishersLoaded(filterList: List<Filter>) {
         if (mIsForeground) {
-            mFilterActivityBinding?.filterSwiperefreshlayoutPullrefresh?.isRefreshing = false;
+            mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isRefreshing = false;
             mFilterListAdapter = FilterListAdapter(filterList, this)
-            mFilterActivityBinding?.filterRecyclerviewList?.adapter = mFilterListAdapter
+            mFilterActivityBinding.filterRecyclerviewList.adapter = mFilterListAdapter
         }
     }
 
