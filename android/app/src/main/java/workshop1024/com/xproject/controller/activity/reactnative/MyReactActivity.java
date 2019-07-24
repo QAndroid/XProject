@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.facebook.react.BuildConfig;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
@@ -15,7 +17,7 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
-public class MyReactActivity extends Activity implements DefaultHardwareBackBtnHandler {
+public class MyReactActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
     private final int OVERLAY_PERMISSION_REQ_CODE = 1;  // Choose any value
 
     private ReactRootView mReactRootView;
