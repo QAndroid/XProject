@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="workshop1024.com.xproject.controller.activity.home.MainActivity">
     <!--下拉刷新-->
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.core.widget.SwipeRefreshLayout
         android:id="@+id/savelist_swiperefreshlayout_pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,5 +16,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/newslist_item_bigcards" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.core.widget.SwipeRefreshLayout>
 </RelativeLayout>

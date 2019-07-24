@@ -2,11 +2,11 @@ package workshop1024.com.xproject.controller.activity.login
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity
 import workshop1024.com.xproject.databinding.LoginActivityBinding

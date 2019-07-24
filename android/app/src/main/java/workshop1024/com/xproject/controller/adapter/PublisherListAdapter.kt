@@ -1,13 +1,13 @@
 package workshop1024.com.xproject.controller.adapter
 
-import android.databinding.DataBindingUtil
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.databinding.PublishlistItemContentBinding

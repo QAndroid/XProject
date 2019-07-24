@@ -1,14 +1,14 @@
 package workshop1024.com.xproject.controller.fragment.home.news
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.adapter.BigCardsAdapter
 import workshop1024.com.xproject.controller.adapter.CompactAdapter
@@ -92,7 +92,7 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     fun showCompactList() {
         //FIXME 用双引号是不是有点激进
         mListAdapter = CompactAdapter(context!!, mNewsList!!)
-        mNewsListFragmentBinding!!.newslistRecyclerviewList.adapter = mListAdapter
+        mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
     fun markAsRead() {

@@ -1,13 +1,13 @@
 package workshop1024.com.xproject.controller.fragment.home
 
-import android.databinding.DataBindingUtil
-import android.databinding.ObservableBoolean
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.adapter.HomeSubListAdapter.SubListItemListener
 import workshop1024.com.xproject.controller.fragment.LazyFragment

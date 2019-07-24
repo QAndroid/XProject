@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.controller.fragment.home
 
-import android.support.design.widget.Snackbar
-
+import com.google.android.material.snackbar.Snackbar
 import java.util.ArrayList
 
 import workshop1024.com.xproject.R

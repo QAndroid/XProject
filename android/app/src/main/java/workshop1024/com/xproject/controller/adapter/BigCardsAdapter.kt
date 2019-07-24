@@ -1,13 +1,13 @@
 package workshop1024.com.xproject.controller.adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.home.NewsDetailActivity
 import workshop1024.com.xproject.databinding.NewslistItemBigcardsBinding

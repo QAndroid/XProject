@@ -9,15 +9,15 @@
         android:orientation="vertical"
         tools:context=".controller.activity.home.AboutActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/about_appbarlayout_navigator"
             style="@style/xproject_appbarlayout">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/about_toolbar_navigator"
                 style="@style/xproject_toolbar" />
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

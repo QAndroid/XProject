@@ -3,13 +3,13 @@ package workshop1024.com.xproject.view.group
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.content.Context
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.animation.Interpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.viewpager.widget.ViewPager
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.utils.UnitUtils
 import kotlin.math.abs

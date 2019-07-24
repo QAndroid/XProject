@@ -1,14 +1,14 @@
 package workshop1024.com.xproject.view.popupwindow
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.graphics.drawable.ColorDrawable
-import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.PopupWindow
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.home.FilterActivity
 import workshop1024.com.xproject.controller.activity.home.PublisherActivity

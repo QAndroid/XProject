@@ -9,16 +9,16 @@
         android:orientation="vertical"
         tools:context=".controller.activity.home.MainActivity">
         <!--下拉刷新-->
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/newslist_swiperefreshlayout_pullrefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <!--Story列表-->
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/newslist_recyclerview_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/newslist_item_bigcards" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </layout>

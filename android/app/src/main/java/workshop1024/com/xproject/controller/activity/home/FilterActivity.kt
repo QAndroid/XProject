@@ -2,13 +2,13 @@ package workshop1024.com.xproject.controller.activity.home
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.XActivity
 import workshop1024.com.xproject.controller.adapter.FilterListAdapter

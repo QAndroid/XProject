@@ -14,7 +14,7 @@
             type="workshop1024.com.xproject.controller.adapter.FilterListAdapter.FilterHandlers" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         style="@style/Base.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,5 +47,5 @@
                 android:onClick="@{(view)->filterHandlers.onClickDelete(view,filter)}"
                 android:src="@drawable/filterlist_button_delete" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>

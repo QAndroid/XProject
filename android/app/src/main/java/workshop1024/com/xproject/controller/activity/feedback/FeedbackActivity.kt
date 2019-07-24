@@ -2,13 +2,13 @@ package workshop1024.com.xproject.controller.activity.feedback
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.XActivity
 import workshop1024.com.xproject.controller.adapter.MessageListAdapter
@@ -89,17 +89,17 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
     }
 
     override fun okButtonClick(dialogFragment: DialogFragment, nameString: String, emailString: String) {
-        mMessagelistHeaderBinding.feedbackTextviewHello?.text = StringBuffer("Hello!").append(nameString).toString()
+        mMessagelistHeaderBinding.feedbackTextviewHello.text = StringBuffer("Hello!").append(nameString).toString()
     }
 
     override fun cancelButtonClick(dialogFragment: DialogFragment) {
         dialogFragment.dismiss()
-        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.visibility = View.VISIBLE
     }
 
     override fun submitButtonClick(dialogFragment: DialogFragment, messageConent: String) {
         dialogFragment.dismiss()
-        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit?.visibility = View.VISIBLE
+        mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.visibility = View.VISIBLE
 
         val message = Message("m99", messageConent)
         mMessageRepository?.submitMessage(message)
@@ -109,10 +109,10 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
 
     override fun onMessagesLoaded(messageGroupList: List<MessageGroup>) {
         if (mIsForeground) {
-            mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh?.isRefreshing = false
+            mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.isRefreshing = false
 
             val messageListAdapter = MessageListAdapter(messageGroupList)
-            mFeedbackActivityBinding.feedbackRecyclerviewMessages?.adapter = messageListAdapter
+            mFeedbackActivityBinding.feedbackRecyclerviewMessages.adapter = messageListAdapter
             messageListAdapter.setHeaderView(mMessagelistHeaderBinding.root)
             messageListAdapter.setFooterView(mMessagelistFooterBinding.root)
         }

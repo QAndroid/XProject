@@ -1,19 +1,19 @@
 package workshop1024.com.xproject.controller.activity.home
 
 import android.content.res.Configuration
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentManager
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.navigation.NavigationView
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.controller.activity.feedback.FeedbackActivity
 import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity

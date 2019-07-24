@@ -1,6 +1,6 @@
 package workshop1024.com.xproject.controller.activity
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 open class XActivity : AppCompatActivity() {
     var mIsForeground: Boolean = false

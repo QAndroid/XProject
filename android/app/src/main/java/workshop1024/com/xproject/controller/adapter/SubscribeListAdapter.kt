@@ -1,10 +1,10 @@
 package workshop1024.com.xproject.controller.adapter
 
 import android.content.Context
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import workshop1024.com.xproject.R
 import workshop1024.com.xproject.databinding.HomesublistItemContentBinding
 import workshop1024.com.xproject.model.subinfo.SubInfo
