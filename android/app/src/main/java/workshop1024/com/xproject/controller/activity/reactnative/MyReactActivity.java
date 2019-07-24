@@ -1,6 +1,5 @@
 package workshop1024.com.xproject.controller.activity.reactnative;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +16,7 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
+//FIXME 为什么必须用FragmentActivity，摇一摇没反应？？
 public class MyReactActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
     private final int OVERLAY_PERMISSION_REQ_CODE = 1;  // Choose any value
 
@@ -28,6 +28,7 @@ public class MyReactActivity extends FragmentActivity implements DefaultHardware
         super.onCreate(savedInstanceState);
 
         mReactRootView = new ReactRootView(this);
+        //参考：打本地Bundler，https://stackoverflow.com/questions/55441230/unable-to-load-script-make-sure-you-are-either-running-a-metro-server-or-that-yo
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setCurrentActivity(this)
