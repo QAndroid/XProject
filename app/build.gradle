@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.compilesdk_version
     defaultConfig {
+        //应用ID，参考：https://developer.android.com/studio/build/application-id
         applicationId "workshop1024.com.xproject"
         minSdkVersion rootProject.minsdk_version
         targetSdkVersion rootProject.targetsdk_version
@@ -17,11 +18,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            //debug构建类型，应用ID后缀，workshop1024.com.xproject.debug
+            applicationIdSuffix ".debug"
+        }
     }
     flavorDimensions "default"
     productFlavors {
         mock {
             dimension "default"
+            //mock产品类型，应用ID后缀workshop1024.com.xproject.mock
             applicationIdSuffix = ".mock"
         }
         prod {
