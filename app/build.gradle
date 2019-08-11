@@ -24,6 +24,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //启动Multidex，参考：https://developer.android.com/studio/build/multidex
+        multiDexEnabled true
     }
     buildTypes {
         //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
@@ -46,18 +48,6 @@ android {
             //签名配置：使用发布构建签名
             signingConfig signingConfigs.release
         }
-        //集成测试构建：代码压缩（混淆）、应用包名区分、清单文件占位（App名称）
-        integration{
-            //打开代码压缩——重要！避免混淆定义"不充分"，引入错误
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            shrinkResources true
-            //设置ApplicationId后缀——允许同一个设备，安装不同构建类型APK
-            //applicationId：workshop1024.com.xproject.integration
-            applicationIdSuffix ".integration"
-            //设置应用Label：XProject—IT
-            manifestPlaceholders = [label:"XProject—IT"]
-        }
         //调试构建类型
         debug {
             //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
@@ -75,7 +65,7 @@ android {
     //产品维度
     flavorDimensions "default"
     productFlavors {
-        //开发产品风格，用于开发构建包，相关数据的Mock实现
+        //Mock产品风格，相关数据的Mock实现
         mock {
             dimension "default"
             versionNameSuffix "-mock"
@@ -84,6 +74,18 @@ android {
 
             //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
             proguardFile "mock-rules.pro"
+
+            //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
+            //参考：https://developer.android.com/studio/build/multidex
+            minSdkVersion rootProject.dalvik_minsdk_version
+        }
+        //Dev产品风格
+        dev{
+            dimension "default"
+            versionNameSuffix "-dev"
+            applicationIdSuffix ".dev"
+
+            minSdkVersion rootProject.dalvik_minsdk_version
         }
         //线上产品风格
         prod {
