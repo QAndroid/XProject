@@ -3,6 +3,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
+    signingConfigs {
+        //发布构建签名配置
+        release {
+            //密钥库文件
+            storeFile file('/Users/qitmac0000562/keystores/xproject-keystore.jks')
+            //密钥库密码
+            storePassword 'xprojectstore'
+            keyAlias = 'xproject'
+            keyPassword 'xprojectkey'
+        }
+    }
     compileSdkVersion rootProject.compilesdk_version
     defaultConfig {
         //应用ID，参考：https://developer.android.com/studio/build/application-id
@@ -14,22 +26,66 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //打开代码压缩——1.移除未使用的类、字段、方法属性，包括自带代码库中；2.优化字节码，移除未使用的代码指令；3.短名称混淆其余类、字段和方法
+            //参考：https://developer.android.com/studio/build/shrink-code?hl=zh-CN
+            minifyEnabled true
+            //ProGuard路径——从Android SDK/tools/proguard/文件夹获取默认的ProGuard设置
+            //使用proguard-android-optimize.txt文件，包括其它在字节码一级（方法内和方法间）执行分析的优化
+            //proguard-rules.pro文件用于添加自定义ProGuard规则
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //打开资源压缩
+            shrinkResources true
+
+            //设置清单占位符——不同构建替换不同的清单文件配置。参考:https://blog.csdn.net/qq_21793463/article/details/52069127
+            //应用Label——在设备上安装不同构建类型的APK后，应用名称好区分
+            //应用Label：XProject
+            manifestPlaceholders = [label:"XProject"]
+
+            //签名配置：使用发布构建签名
+            signingConfig signingConfigs.release
         }
+        //集成测试构建：代码压缩（混淆）、应用包名区分、清单文件占位（App名称）
+        integration{
+            //打开代码压缩——重要！避免混淆定义"不充分"，引入错误
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            //设置ApplicationId后缀——允许同一个设备，安装不同构建类型APK
+            //applicationId：workshop1024.com.xproject.integration
+            applicationIdSuffix ".integration"
+            //设置应用Label：XProject—IT
+            manifestPlaceholders = [label:"XProject—IT"]
+        }
+        //调试构建类型
         debug {
-            //debug构建类型，应用ID后缀，workshop1024.com.xproject.debug
+            //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
+            minifyEnabled false
+            shrinkResources false
+
+            //applicationId：workshop1024.com.xproject.debug
             applicationIdSuffix ".debug"
+            //应用Label：XProject—DB
+            manifestPlaceholders = [label:"XProjet-D"]
+
+            debuggable true
         }
     }
+    //产品维度
     flavorDimensions "default"
     productFlavors {
+        //开发产品风格，用于开发构建包，相关数据的Mock实现
         mock {
             dimension "default"
-            //mock产品类型，应用ID后缀workshop1024.com.xproject.mock
-            applicationIdSuffix = ".mock"
+            versionNameSuffix "-mock"
+            //应用ID后缀workshop1024.com.xproject.mock
+            applicationIdSuffix ".mock"
+
+            //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
+            proguardFile "mock-rules.pro"
         }
+        //线上产品风格
         prod {
             dimension "default"
         }
