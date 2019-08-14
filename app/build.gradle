@@ -26,6 +26,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //启动Multidex，参考：https://developer.android.com/studio/build/multidex
         multiDexEnabled true
+        //明确定义测试应用ID，默认应用ID后追加.test
+        testApplicationId "workshop1024.com.xproject.test"
     }
     buildTypes {
         //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
@@ -62,15 +64,17 @@ android {
             debuggable true
         }
     }
-    //产品维度
-    flavorDimensions "default"
+    //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
+    //参考：https://blog.csdn.net/user11223344abc/article/details/78784373
+    flavorDimensions "develop","channel"
+
     productFlavors {
         //Mock产品风格，相关数据的Mock实现
         mock {
-            dimension "default"
+            dimension "develop"
             versionNameSuffix "-mock"
-            //应用ID后缀workshop1024.com.xproject.mock
-            applicationIdSuffix ".mock"
+            //不使用后缀，直接定义应用ID：workshop1024.com.xproject.mock
+            applicationId "workshop1024.com.xproject.mock"
 
             //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
             proguardFile "mock-rules.pro"
@@ -81,7 +85,7 @@ android {
         }
         //Dev产品风格
         dev{
-            dimension "default"
+            dimension "develop"
             versionNameSuffix "-dev"
             applicationIdSuffix ".dev"
 
@@ -89,7 +93,14 @@ android {
         }
         //线上产品风格
         prod {
-            dimension "default"
+            dimension "develop"
+        }
+
+        baidu{
+            dimension "channel"
+        }
+        xiaomi{
+            dimension "channel"
         }
     }
     dataBinding {
@@ -97,7 +108,9 @@ android {
     }
 }
 
+//参考：https://developer.android.com/studio/build/dependencies
 dependencies {
+    //主源集依赖项
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:design:$rootProject.design_version"
     implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
@@ -110,8 +123,11 @@ dependencies {
     implementation "com.google.code.gson:gson:$rootProject.gson_version"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
+    //注解处理器依赖项，分离编译类路径和注解处理器路径，提供构建性能
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.compiler_version"
+    //本地测试源集依赖
     testImplementation "junit:junit:$rootProject.junit_version"
+    //设备化测试源集依赖
     androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }
