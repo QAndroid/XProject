@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+int MILLIS_IN_MINUTE = 1000 * 60
+int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
+
 android {
     //签名配置，参考：https://developer.android.com/studio/publish/app-signing
     signingConfigs {
@@ -21,14 +24,30 @@ android {
         applicationId "workshop1024.com.xproject"
         minSdkVersion rootProject.minsdk_version
         targetSdkVersion rootProject.targetsdk_version
+
+        //动态设置versionCode和versionName任意两个值，将会触发全量的APK构建和安装，
+        //因为AndroidManifest.xml必须更新(它不支持Instant Run)
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //启动Multidex，参考：https://developer.android.com/studio/build/multidex
         multiDexEnabled true
         //明确定义测试应用ID，默认应用ID后追加.test
         testApplicationId "workshop1024.com.xproject.test"
     }
+
+    //上面defaultConfig值是固定的，所以你的增量构建不需要重新构建清单文件(因为整个APK，减慢了构建时间)
+    //但是release构建，没问题。下面的脚本遍历所有已知的variants，查找是"release"构建类型的，改变这些动态的属性
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.each { output ->
+                output.versionCodeOverride = minutesSinceEpoch;
+                output.versionNameOverride = minutesSinceEpoch + "-" + variant.flavorName;
+            }
+        }
+    }
+
     buildTypes {
         //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
         release {
@@ -50,7 +69,7 @@ android {
             //签名配置：使用发布构建签名
             signingConfig signingConfigs.release
         }
-        //调试构建类型
+        //调试构建类型，仅包含需要的配置，不包含压缩、签名等，加快开发构建速度
         debug {
             //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
             minifyEnabled false
@@ -62,6 +81,8 @@ android {
             manifestPlaceholders = [label:"XProjet-D"]
 
             debuggable true
+
+            ext.enableCrashlytics = false
         }
     }
     //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
@@ -69,6 +90,8 @@ android {
     flavorDimensions "develop","channel"
 
     productFlavors {
+        //当构建一个variant使用flavor时，下面的配置覆盖defaultConfig块中的配置
+
         //Mock产品风格，相关数据的Mock实现
         mock {
             dimension "develop"
@@ -82,6 +105,8 @@ android {
             //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
             //参考：https://developer.android.com/studio/build/multidex
             minSdkVersion rootProject.dalvik_minsdk_version
+
+            resConfigs "en", "xxhdpi"
         }
         //Dev产品风格
         dev{
@@ -89,7 +114,12 @@ android {
             versionNameSuffix "-dev"
             applicationIdSuffix ".dev"
 
+            //在从命令行构建时避免使用传统的multidex，设置minSdkVersion为21或更高。当我们使用Andoid 2.3或者更高
+            //在面向运行API level 21或则更高的设备开发时，构建自动避免了传统的multidex，无论是设置什么minSdkVersion
             minSdkVersion rootProject.dalvik_minsdk_version
+
+            //下面的配置限制"dev" flavor使用英语字符资源和xxhdpi屏幕密度资源
+            resConfigs "en", "xxhdpi"
         }
         //线上产品风格
         prod {
