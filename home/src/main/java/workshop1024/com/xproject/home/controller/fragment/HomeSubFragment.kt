@@ -14,7 +14,7 @@ import workshop1024.com.xproject.home.controller.adapter.HomeSubListAdapter.SubL
 import workshop1024.com.xproject.home.databinding.HomesubFragmentBinding
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
 import workshop1024.com.xproject.home.model.subinfo.source.SubInfoDataSource
-import workshop1024.com.xproject.model.Injection
+import workshop1024.com.xproject.home.model.Injection
 
 //参考：https://developer.android.com/topic/libraries/data-binding/binding-adapters
 //@BindingMethods(value = [BindingMethod(type = RecyclerView::class, attribute = "itemDecoration", method = "addItemDecoration")])

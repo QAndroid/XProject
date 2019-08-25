@@ -16,9 +16,9 @@ import workshop1024.com.xproject.home.controller.adapter.BigCardsAdapter
 import workshop1024.com.xproject.home.controller.adapter.CompactAdapter
 import workshop1024.com.xproject.home.controller.adapter.MinimalAdapter
 import workshop1024.com.xproject.home.databinding.NewslistFragmentBinding
+import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.model.news.News
 import workshop1024.com.xproject.home.model.news.source.NewsDataSource
-import workshop1024.com.xproject.model.Injection
 
 /**
  * 新闻列表Fragmnet，用于展示新闻列表

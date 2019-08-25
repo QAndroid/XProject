@@ -13,9 +13,9 @@ import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.FilterListAdapter
-import workshop1024.com.xproject.home.controller.model.filter.Filter
-import workshop1024.com.xproject.home.controller.model.filter.source.FilterDataSource
-import workshop1024.com.xproject.home.controller.model.filter.source.FilterRepository
+import workshop1024.com.xproject.home.model.filter.Filter
+import workshop1024.com.xproject.home.model.filter.source.FilterDataSource
+import workshop1024.com.xproject.home.model.filter.source.FilterRepository
 import workshop1024.com.xproject.home.databinding.FilterActivityBinding
 import workshop1024.com.xproject.home.view.dialog.InputStringDialog
 

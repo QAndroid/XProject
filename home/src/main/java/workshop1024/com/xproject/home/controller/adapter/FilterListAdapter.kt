@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import workshop1024.com.xproject.home.R
-import workshop1024.com.xproject.home.controller.model.filter.Filter
+import workshop1024.com.xproject.home.model.filter.Filter
 import workshop1024.com.xproject.home.databinding.FilterlistItemContentBinding
 
 class FilterListAdapter(private val mFilterList: List<Filter>, private val mOnFilterListDeleteListener: OnFilterListDeleteListener?) : RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {

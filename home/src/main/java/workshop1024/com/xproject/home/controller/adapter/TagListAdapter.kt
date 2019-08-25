@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import workshop1024.com.xproject.base.utils.UnitUtils
 import workshop1024.com.xproject.home.R
+import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.view.dialog.InputStringDialog
-import workshop1024.com.xproject.model.Injection
 
 class TagListAdapter(private val mContext: Context, private val mTagList: List<String>) : RecyclerView.Adapter<TagListAdapter.TagViewHolder>() {
 

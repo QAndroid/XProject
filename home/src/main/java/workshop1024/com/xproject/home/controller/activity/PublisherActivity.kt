@@ -15,12 +15,12 @@ import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecorati
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.PublisherListAdapter
 import workshop1024.com.xproject.home.databinding.PublisherActivityBinding
+import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.model.publisher.Publisher
 import workshop1024.com.xproject.home.model.publisher.source.PublisherDataSource
 import workshop1024.com.xproject.home.model.publishertype.PublisherType
 import workshop1024.com.xproject.home.model.publishertype.source.PublisherTypeDataSource
 import workshop1024.com.xproject.home.view.dialog.TypeChoiceDialog
-import workshop1024.com.xproject.model.Injection
 
 /**
  * 发布者列表页面

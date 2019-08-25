@@ -7,7 +7,7 @@
 
         <variable
             name="filter"
-            type="workshop1024.com.xproject.home.controller.model.filter.Filter" />
+            type="workshop1024.com.xproject.home.model.filter.Filter" />
 
         <variable
             name="filterHandlers"

@@ -1,6 +1,6 @@
-package workshop1024.com.xproject.model
+package workshop1024.com.xproject.home.model
 
-import workshop1024.com.xproject.home.controller.model.filter.source.FilterDataSource
+import workshop1024.com.xproject.home.model.filter.source.FilterDataSource
 import workshop1024.com.xproject.home.model.news.source.NewsDataSource
 import workshop1024.com.xproject.home.model.publisher.source.PublisherDataSource
 import workshop1024.com.xproject.home.model.publishertype.source.PublisherTypeDataSource

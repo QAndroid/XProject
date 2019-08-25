@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.home.controller.model.filter
+package workshop1024.com.xproject.home.model.filter
 
 data class Filter(//过滤器id
         var filterId: String?, //过滤器名称

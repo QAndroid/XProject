@@ -1,8 +1,8 @@
 package workshop1024.com.xproject.model.filter.source
 
 import android.os.Handler
-import workshop1024.com.xproject.home.controller.model.filter.Filter
-import workshop1024.com.xproject.home.controller.model.filter.source.FilterDataSource
+import workshop1024.com.xproject.home.model.filter.Filter
+import workshop1024.com.xproject.home.model.filter.source.FilterDataSource
 
 import java.util.ArrayList
 import java.util.LinkedHashMap

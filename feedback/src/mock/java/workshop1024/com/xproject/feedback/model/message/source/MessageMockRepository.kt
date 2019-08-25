@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.message.source
+package workshop1024.com.xproject.feedback.model.message.source
 
 import android.os.Handler
 import workshop1024.com.xproject.feedback.model.message.Message

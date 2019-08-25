@@ -1,11 +1,11 @@
-package workshop1024.com.xproject.home.controller.model.filter.source
+package workshop1024.com.xproject.home.model.filter.source
 
 import android.os.Handler
 
 import java.util.ArrayList
 import java.util.LinkedHashMap
 
-import workshop1024.com.xproject.home.controller.model.filter.Filter
+import workshop1024.com.xproject.home.model.filter.Filter
 
 class FilterRepository private constructor() : FilterDataSource {
 

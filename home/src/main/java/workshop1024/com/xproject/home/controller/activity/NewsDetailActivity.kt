@@ -27,10 +27,10 @@ import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecorati
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.TagListAdapter
 import workshop1024.com.xproject.home.databinding.NewsdetailActivityBinding
+import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.model.news.NewsDetail
 import workshop1024.com.xproject.home.model.news.source.NewsDataSource
 import workshop1024.com.xproject.home.view.dialog.DisplaySettingsDialog
-import workshop1024.com.xproject.model.Injection
 import kotlin.math.hypot
 
 class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
