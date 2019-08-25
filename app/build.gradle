@@ -37,6 +37,7 @@ android {
         testApplicationId "workshop1024.com.xproject.test"
 
         //启动Multidex，参考：https://developer.android.com/studio/build/multidex
+        //打开Multidex，会导致构建缓存关闭，参考：https://developer.android.com/studio/build/build-cache
         multiDexEnabled true
 
         //使用variant-aware依赖管理，home库包含的develop，channel维度，app不包含
@@ -61,6 +62,7 @@ android {
         release {
             //打开代码压缩——1.移除未使用的类、字段、方法属性，包括自带代码库中；2.优化字节码，移除未使用的代码指令；3.短名称混淆其余类、字段和方法
             //参考：https://developer.android.com/studio/build/shrink-code?hl=zh-CN
+            //打开代码压缩，会导致构建缓存关闭，参考：https://developer.android.com/studio/build/build-cache
             minifyEnabled true
             //ProGuard路径——从Android SDK/tools/proguard/文件夹获取默认的ProGuard设置
             //使用proguard-android-optimize.txt文件，包括其它在字节码一级（方法内和方法间）执行分析的优化
