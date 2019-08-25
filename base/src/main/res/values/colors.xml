@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#01A3AE</color>
+    <color name="colorPrimaryDark">#01818A</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--公共颜色-->
+    <color name="white">#ffffffff</color>
+
+    <!--导航栏-->
+    <color name="toolbar_background">#01A3AE</color>
+</resources>

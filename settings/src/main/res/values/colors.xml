@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--日间模式-->
+    <color name="xproject_daynight_background">#ffffff</color>
+    <color name="xproject_daynight_textcolor">#000000</color>
+    <color name="xproject_daynight_icontint">#9E9E9E</color>
+    <color name="xproject_daynight_listdivider">#e0e0e0e0</color>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--介绍页面开始-->
+    <color name="introduce1_background">#01A3AE</color>
+    <color name="introduce2_background">#4CAF50</color>
+    <color name="introduce3_background">#673AB8</color>
+    <!--介绍页面结束-->
+</resources>

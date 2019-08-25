@@ -1,0 +1,49 @@
+<!--HomePageFragment中ViewPager的SubFragment布局-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="gridLayoutManager"
+            type="android.support.v7.widget.GridLayoutManager" />
+
+        <!--<variable-->
+            <!--name="recyclerViewItemDecoration"-->
+            <!--type="workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration" />-->
+
+        <variable
+            name="onRefreshListener"
+            type="android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener" />
+
+        <variable
+            name="homeSubFragmentHanlders"
+            type="workshop1024.com.xproject.home.controller.fragment.HomeSubFragment.HomeSubFragmentHanlders" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".controller.activity.home.MainActivity">
+        <!--下拉刷新-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/homesub_swiperefreshlayout_pullrefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:onRefreshListener="@{onRefreshListener}"
+            app:refreshing="@{homeSubFragmentHanlders.isRefreshing}">
+            <!--信息列表-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/homesub_recyclerview_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="@{gridLayoutManager}"
+                tools:listItem="@layout/item_content" />
+            <!--app:itemDecoration="@{recyclerViewItemDecoration}"-->
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>
+
+

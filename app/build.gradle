@@ -6,6 +6,8 @@ int MILLIS_IN_MINUTE = 1000 * 60
 int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
 
 android {
+    compileSdkVersion rootProject.compilesdk_version
+
     //签名配置，参考：https://developer.android.com/studio/publish/app-signing
     signingConfigs {
         //发布构建签名配置
@@ -18,7 +20,7 @@ android {
             keyPassword 'xprojectkey'
         }
     }
-    compileSdkVersion rootProject.compilesdk_version
+
     defaultConfig {
         //应用ID，参考：https://developer.android.com/studio/build/application-id
         applicationId "workshop1024.com.xproject"
@@ -31,10 +33,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //启动Multidex，参考：https://developer.android.com/studio/build/multidex
-        multiDexEnabled true
         //明确定义测试应用ID，默认应用ID后追加.test
         testApplicationId "workshop1024.com.xproject.test"
+
+        //启动Multidex，参考：https://developer.android.com/studio/build/multidex
+        multiDexEnabled true
+
+        //使用variant-aware依赖管理，home库包含的develop，channel维度，app不包含
+        //参考：https://developer.android.com/studio/build/dependencies
+        missingDimensionStrategy 'develop', 'mock', 'dev', 'prod'
+        missingDimensionStrategy 'channel', 'baidu', 'xiaomi'
     }
 
     //上面defaultConfig值是固定的，所以你的增量构建不需要重新构建清单文件(因为整个APK，减慢了构建时间)
@@ -64,11 +72,12 @@ android {
             //设置清单占位符——不同构建替换不同的清单文件配置。参考:https://blog.csdn.net/qq_21793463/article/details/52069127
             //应用Label——在设备上安装不同构建类型的APK后，应用名称好区分
             //应用Label：XProject
-            manifestPlaceholders = [label:"XProject"]
+            manifestPlaceholders = [label: "XProject"]
 
             //签名配置：使用发布构建签名
             signingConfig signingConfigs.release
         }
+
         //调试构建类型，仅包含需要的配置，不包含压缩、签名等，加快开发构建速度
         debug {
             //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
@@ -78,61 +87,14 @@ android {
             //applicationId：workshop1024.com.xproject.debug
             applicationIdSuffix ".debug"
             //应用Label：XProject—DB
-            manifestPlaceholders = [label:"XProjet-D"]
+            manifestPlaceholders = [label: "XProjet-D"]
 
             debuggable true
 
             ext.enableCrashlytics = false
         }
     }
-    //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
-    //参考：https://blog.csdn.net/user11223344abc/article/details/78784373
-    flavorDimensions "develop","channel"
 
-    productFlavors {
-        //当构建一个variant使用flavor时，下面的配置覆盖defaultConfig块中的配置
-
-        //Mock产品风格，相关数据的Mock实现
-        mock {
-            dimension "develop"
-            versionNameSuffix "-mock"
-            //不使用后缀，直接定义应用ID：workshop1024.com.xproject.mock
-            applicationId "workshop1024.com.xproject.mock"
-
-            //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
-            proguardFile "mock-rules.pro"
-
-            //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
-            //参考：https://developer.android.com/studio/build/multidex
-            minSdkVersion rootProject.dalvik_minsdk_version
-
-            resConfigs "en", "xxhdpi"
-        }
-        //Dev产品风格
-        dev{
-            dimension "develop"
-            versionNameSuffix "-dev"
-            applicationIdSuffix ".dev"
-
-            //在从命令行构建时避免使用传统的multidex，设置minSdkVersion为21或更高。当我们使用Andoid 2.3或者更高
-            //在面向运行API level 21或则更高的设备开发时，构建自动避免了传统的multidex，无论是设置什么minSdkVersion
-            minSdkVersion rootProject.dalvik_minsdk_version
-
-            //下面的配置限制"dev" flavor使用英语字符资源和xxhdpi屏幕密度资源
-            resConfigs "en", "xxhdpi"
-        }
-        //线上产品风格
-        prod {
-            dimension "develop"
-        }
-
-        baidu{
-            dimension "channel"
-        }
-        xiaomi{
-            dimension "channel"
-        }
-    }
     dataBinding {
         enabled = true
     }
@@ -142,19 +104,15 @@ android {
 dependencies {
     //主源集依赖项
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:design:$rootProject.design_version"
+
+    implementation project(':base')
+    implementation project(':introduce')
+    implementation project(':home')
+    implementation project(':settings')
+    implementation project(':feedback')
+
     implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout_version"
-    implementation "com.android.support:support-v4:$rootProject.support_v4_version"
-    implementation "com.google.android.gms:play-services-plus:$rootProject.play_services_plus_version"
-    implementation "com.android.support:recyclerview-v7:$rootProject.recyclerview_v7_version"
-    implementation "com.android.support:cardview-v7:$rootProject.cardview_v7_version"
-    implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
-    implementation "com.google.code.gson:gson:$rootProject.gson_version"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
-    //注解处理器依赖项，分离编译类路径和注解处理器路径，提供构建性能
-    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.compiler_version"
+
     //本地测试源集依赖
     testImplementation "junit:junit:$rootProject.junit_version"
     //设备化测试源集依赖

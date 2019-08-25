@@ -1,0 +1,117 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.compilesdk_version
+    buildToolsVersion rootProject.build_tools_version
+
+    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
+    signingConfigs {
+        //发布构建签名配置
+        release {
+            //密钥库文件
+            storeFile file('/Users/qitmac0000562/keystores/xproject-keystore.jks')
+            //密钥库密码
+            storePassword 'xprojectstore'
+            keyAlias = 'xproject'
+            keyPassword 'xprojectkey'
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.minsdk_version
+        targetSdkVersion rootProject.targetsdk_version
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId "workshop1024.com.xproject.home.test"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
+    }
+    //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
+    //参考：https://blog.csdn.net/user11223344abc/article/details/78784373
+    flavorDimensions "develop", "channel"
+
+    productFlavors {
+        //当构建一个variant使用flavor时，下面的配置覆盖defaultConfig块中的配置
+
+        //Mock产品风格，相关数据的Mock实现
+        mock {
+            dimension "develop"
+            versionNameSuffix "-mock"
+
+            //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
+            proguardFile "mock-rules.pro"
+
+            //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
+            //参考：https://developer.android.com/studio/build/multidex
+            minSdkVersion rootProject.dalvik_minsdk_version
+
+            resConfigs "en", "xxhdpi"
+        }
+        //Dev产品风格
+        dev {
+            dimension "develop"
+            versionNameSuffix "-dev"
+
+            //在从命令行构建时避免使用传统的multidex，设置minSdkVersion为21或更高。当我们使用Andoid 2.3或者更高
+            //在面向运行API level 21或则更高的设备开发时，构建自动避免了传统的multidex，无论是设置什么minSdkVersion
+            minSdkVersion rootProject.dalvik_minsdk_version
+
+            //下面的配置限制"dev" flavor使用英语字符资源和xxhdpi屏幕密度资源
+            resConfigs "en", "xxhdpi"
+        }
+        //线上产品风格
+        prod {
+            dimension "develop"
+        }
+
+        baidu {
+            dimension "channel"
+        }
+        xiaomi {
+            dimension "channel"
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':base')
+
+    implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
+    implementation "com.android.support:recyclerview-v7:$rootProject.recyclerview_v7_version"
+    implementation "com.android.support:cardview-v7:$rootProject.cardview_v7_version"
+    implementation "com.android.support:design:$rootProject.design_version"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout_version"
+    implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation "junit:junit:$rootProject.junit_version"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
+}
+repositories {
+    mavenCentral()
+}

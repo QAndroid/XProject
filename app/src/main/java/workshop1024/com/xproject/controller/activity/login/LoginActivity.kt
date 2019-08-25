@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import workshop1024.com.xproject.R
-import workshop1024.com.xproject.controller.activity.introduce.IntroduceActivity
 import workshop1024.com.xproject.databinding.LoginActivityBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -29,8 +28,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         fun onClickTry(view: View) {
-            IntroduceActivity.startActivity(this@LoginActivity)
-            Toast.makeText(this@LoginActivity, "try Click", Toast.LENGTH_SHORT).show()
+            //使用隐式意图时间，组件之间的跳转，避免组件间的依赖
+            //常规的隐式意图
+            val intent = Intent("workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity")
+            //隐式意图需要验证至少有一个应用能够处理该Intent，才可以安全调用startActivity
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+                Toast.makeText(this@LoginActivity, "try Click", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

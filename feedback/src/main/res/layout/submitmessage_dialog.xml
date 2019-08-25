@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="submitMessageHandlers"
+            type="workshop1024.com.xproject.feedback.view.dialog.SubmitMessageDialog.SubmitMessageHandlers" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/submitmessage_dialog_background"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/submitmessage_imagebutton_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:onClick="@{submitMessageHandlers::onClickCancel}"
+                android:src="@drawable/apptentive_ic_composing_close"
+                android:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/submitmessage_textview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/submitmessage_imagebutton_cancel"
+                android:text="New Message"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="18dp" />
+
+            <ImageButton
+                android:id="@+id/submitmessage_imagebutton_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="?android:selectableItemBackground"
+                android:onClick="@{submitMessageHandlers::onClickSubmit}"
+                android:src="@drawable/apptentive_ic_action_send"
+                android:tint="@color/colorPrimary" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <EditText
+            android:id="@+id/submitmessage_edittext_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="Please leave detailded feedback"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="8"
+            android:textSize="16sp" />
+    </LinearLayout>
+</layout>

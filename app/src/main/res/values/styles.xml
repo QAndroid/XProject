@@ -2,30 +2,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
-    <style name="xproject_appbarlayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    </style>
-
-    <style name="xproject_toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/toolbar_background</item>
-    </style>
-
-    <style name="xproject_toolbarmenu">
-        <item name="android:colorBackground">@color/xproject_daynight_background</item>
-        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
-    </style>
-
-    <style name="xproject_alertdialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
-        <item name="android:background">@color/xproject_daynight_background</item>
-        <item name="android:textColorAlertDialogListItem">@color/xproject_daynight_textcolor
-        </item>
-    </style>
-
     <!---登录页面按钮-->
     <style name="login_button">
         <item name="android:layout_width">250dp</item>
@@ -33,70 +9,4 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <!--介绍页面根布局-->
-    <style name="introduce_root">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <!--介绍页面按钮-->
-    <style name="introduce_button">
-        <item name="android:background">@null</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <!--介绍页面标题-->
-    <style name="introduce_title">
-        <item name="android:gravity">center</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">3.0</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">28.0sp</item>
-    </style>
-
-    <!--介绍页面图标-->
-    <style name="introduce_icon">
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">3.0</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
-    <!--介绍页面说明-->
-    <style name="introduce_description">
-        <item name="android:gravity">bottom|center_horizontal</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">3.0</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">16.0sp</item>
-    </style>
-
-    <style name="introduce_line">
-        <item name="android:background">#55000000</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:layout_marginBottom">50dp</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
-    <!--为了PreferenceActivity增加ActionBar-->
-    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--修改toolbar background颜色-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <!--修改activity background颜色-->
-        <item name="android:windowBackground">@color/xproject_daynight_background</item>
-        <!--修改preference title颜色-->
-        <item name="android:textColorPrimary">@color/xproject_daynight_textcolor</item>
-        <!--修改preference summary颜色-->
-        <item name="android:textColorSecondary">@color/xproject_textcolor_secondary</item>
-        <!--修改listpreference dialog样式-->
-        <item name="android:alertDialogTheme">@style/xproject_alertdialog</item>
-    </style>
 </resources>

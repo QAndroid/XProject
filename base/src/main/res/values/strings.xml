@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">base</string>
+
+    <string name="settings_preference_displaythemes_default">0</string>
+    <string name="settings_preference_displaythemes_key">settings_preference_themes</string>
+
+    <string name="settings_preference_fontsizes_key">settings_preference_fontsize</string>
+    <string name="settings_preference_fontsizes_default">6.0</string>
+</resources>

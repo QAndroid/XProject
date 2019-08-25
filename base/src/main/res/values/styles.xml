@@ -1,0 +1,24 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="xproject_toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/toolbar_background</item>
+    </style>
+
+    <style name="xproject_appbarlayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="xproject_alertdialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
+        <item name="android:background">@color/xproject_daynight_background</item>
+        <item name="android:textColorAlertDialogListItem">@color/xproject_daynight_textcolor
+        </item>
+    </style>
+
+</resources>
