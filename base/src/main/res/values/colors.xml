@@ -9,4 +9,13 @@
 
     <!--导航栏-->
     <color name="toolbar_background">#01A3AE</color>
+
+    <!--日间模式-->
+    <color name="xproject_daynight_background">#ffffff</color>
+    <color name="xproject_daynight_textcolor">#000000</color>
+    <color name="xproject_daynight_icontint">#9E9E9E</color>
+    <color name="xproject_daynight_listdivider">#e0e0e0e0</color>
+
+
+    <color name="xproject_textcolor_secondary">#73737373</color>
 </resources>

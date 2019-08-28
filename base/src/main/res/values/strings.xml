@@ -6,4 +6,14 @@
 
     <string name="settings_preference_fontsizes_key">settings_preference_fontsize</string>
     <string name="settings_preference_fontsizes_default">6.0</string>
+
+    <!--注意：直接用于setTextSize(float)，Share保存的String为2.0，则codes为2.0、4.0和8.0等-->
+    <string-array name="settings_preference_fontsizes_codes">
+        <item>4.0</item>
+        <item>6.0</item>
+        <item>8.0</item>
+        <item>10.0</item>
+        <item>12.0</item>
+    </string-array>
+
 </resources>

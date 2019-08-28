@@ -18,6 +18,4 @@
     <color name="newsdetail_taglist_textcolor">#ffffff</color>
     <color name="newsdetail_floatingactionbutton_tintcolor">#ffffff</color>
     <!--新闻详情页面结束-->
-
-    <color name="xproject_textcolor_secondary">#73737373</color>
 </resources>

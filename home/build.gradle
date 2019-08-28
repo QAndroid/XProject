@@ -87,6 +87,17 @@ android {
         }
     }
 
+    //过滤变体，过滤不需要的编译变体
+    //参考：过滤变体-https://developer.android.com/studio/build/build-variants
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("xiaomi")) {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+    }
+
     dataBinding {
         enabled = true
     }
