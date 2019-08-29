@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">settings</string>
+
+    <!--设置页面开始-->
+    <string name="settings_header_extra_key">Settings</string>
+    <string name="settings_header_display_title">Display</string>
+    <string name="settings_header_display_extravalue">Display</string>
+    <string name="settings_header_sync_title">Sync</string>
+    <string name="settings_header_sync_extravalue">Sync</string>
+    <string name="settings_header_widget_title">Widget</string>
+    <string name="settings_header_widget_extravalue">Widget</string>
+    <string name="settings_header_advance_title">Advanced</string>
+    <string name="settings_header_advance_extravalue">Advanced</string>
+    <string name="settings_header_version_title">Version</string>
+
+    <string name="settings_preferencescreen_display_key">settings_preferencescreen_display</string>
+    <string name="settings_preferencescreen_display_title">Display</string>
+
+    <string name="settings_preferencecategory_display_key">settings_preferencecategory_display</string>
+    <string name="settings_preferencecategory_display_title">Display</string>
+    <string name="settings_preference_displaythemes_title">Themes</string>
+    <string name="settings_preference_displaythemes_dialogtitle">Themes</string>
+    <string-array name="settings_preference_displaythemes">
+        <item>Light</item>
+        <item>Night</item>
+    </string-array>
+    <string-array name="settings_preference_displaythemes_codes">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="settings_preference_notificatorbar_key">notificatorbar_preference</string>
+    <string name="settings_preference_notificatorbar_title">Show notification bar</string>
+    <string name="settings_preferencecategory_articlelist_key">articlelist_preferencecategory</string>
+    <string name="settings_preferencecategory_articlelist_title">Article List</string>
+    <string name="settings_preference_unreadfirst_key">unreadfirst_preference</string>
+    <string name="settings_preference_unreadfirst_title">Unread First</string>
+    <string name="settings_preference_unreadfirst_summary">Show unread article first</string>
+    <string name="settings_preference_sortorder_key">sortorder_preference</string>
+    <string name="settings_preference_sortorder_title">Sort order</string>
+    <string name="settings_preference_sortorder_summary">Newest to oldest</string>
+    <string name="settings_preference_hidereadarticles_key">hidereaded_preferences</string>
+    <string name="settings_preference_hidereadarticles_title">Hide read articles</string>
+
+    <string name="settings_preferencecategory_text_key">text_preferencecategory</string>
+    <string name="settings_preferencecategory_text_title">Text</string>
+    <string name="settings_preference_fontsize_title">Font Size</string>
+    <string name="settings_preference_fontsize_dialogtitle">Font Size</string>
+    <string-array name="settings_preference_fontsizes">
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Really Large</item>
+    </string-array>
+    <string name="settings_preferencecategory_sync_key">sync_preferencecategory</string>
+    <string name="settings_preferencecategory_sync_title">Sync</string>
+    <string name="settings_preference_autodatarefresh_key">automaticrefresh_preference</string>
+    <string name="settings_preference_autodatarefresh_title">Automatic Data Refresh</string>
+    <string name="settings_preference_refreshinterval_key">refreshinterval_preference</string>
+    <string name="settings_preference_refreshinterval_title">Refresh Interval</string>
+    <string-array name="settings_refresh_interval">
+        <item>15 mins</item>
+        <item>30 mins</item>
+        <item>every hour</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+        <item>8 hours</item>
+    </string-array>
+    <string-array name="settings_refresh_interval_codes">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="settings_preference_synconlywifi_key">refreshwifi_preference</string>
+    <string name="settings_preference_synconlywifi_title">Sync Only If On WIFI</string>
+    <string name="settings_preference_refreshonlaunch_key">refreshlaunch_preference</string>
+    <string name="settings_preference_refreshonlaunch_title">Refresh data on launch</string>
+
+    <string name="settings_preferencecategory_widget_key">widget_preferencecategory</string>
+    <string name="settings_preferencecategory_widget_title">Widget</string>
+    <string name="settings_preference_showimages_key">showimages_preference</string>
+    <string name="settings_preference_showimages_title">Show Images</string>
+
+    <string name="settings_preferencecategory_advance_key">advanced_preferencecategory</string>
+    <string name="settings_preferencecategory_advance_title">Advanced</string>
+    <string name="settings_preference_cleardatabase_key">cleardatabase_preference</string>
+    <string name="settings_preference_cleardatabase_title">Clear Database</string>
+    <string name="settings_preference_cleardatabase_summary">Remove all data in database</string>
+
+    <string name="settings_advance_cleardatadialog_title">Clear Cache?</string>
+    <string name="settings_advance_cleardatadialog_message">Are you sure you want to remove all cached articles?</string>
+    <string name="settings_advance_cleardatadialog_positive">Confirm</string>
+    <string name="settings_advance_cleardatadialog_cancle">Cancle</string>
+    <!--设置页面结束-->
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">feedback</string>
+
+    <!--反馈页面开始-->
+    <string name="account_dialog_title">Profile</string>
+    <string name="account_dialog_cancle">Cancle</string>
+    <string name="account_dialog_save">Save</string>
+    <!--反馈页面结束-->
+</resources>

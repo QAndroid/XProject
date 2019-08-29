@@ -1,0 +1,64 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.compilesdk_version
+    buildToolsVersion rootProject.build_tools_version
+
+    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
+    signingConfigs {
+        //发布构建签名配置
+        release {
+            //密钥库文件
+            storeFile file('/Users/qitmac0000562/keystores/xproject-keystore.jks')
+            //密钥库密码
+            storePassword 'xprojectstore'
+            keyAlias = 'xproject'
+            keyPassword 'xprojectkey'
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.minsdk_version
+        targetSdkVersion rootProject.targetsdk_version
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId "workshop1024.com.xproject.introduce.test"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':base')
+
+    implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
+
+    testImplementation "junit:junit:$rootProject.junit_version"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
+}
+
+repositories {
+    mavenCentral()
+}

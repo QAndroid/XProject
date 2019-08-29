@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#01A3AE</color>
+    <color name="colorPrimaryDark">#01818A</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--公共颜色-->
+    <color name="white">#ffffffff</color>
+
+    <!--导航栏-->
+    <color name="toolbar_background">#01A3AE</color>
+
+    <!--日间模式-->
+    <color name="xproject_daynight_background">#ffffff</color>
+    <color name="xproject_daynight_textcolor">#000000</color>
+    <color name="xproject_daynight_icontint">#9E9E9E</color>
+    <color name="xproject_daynight_listdivider">#e0e0e0e0</color>
+
+
+    <color name="xproject_textcolor_secondary">#73737373</color>
+</resources>

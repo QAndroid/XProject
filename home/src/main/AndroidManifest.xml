@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="workshop1024.com.xproject.home">
+
+    <application>
+        <!-- 主页面 -->
+        <activity android:name=".controller.activity.MainActivity"/><!-- TODO 把其他的setTitle去除 -->
+        <activity
+            android:name=".controller.activity.NewsDetailActivity"
+            android:parentActivityName=".controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.PublisherActivity"
+            android:parentActivityName=".controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.FilterActivity"
+            android:parentActivityName=".controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.AboutActivity"
+            android:parentActivityName=".controller.activity.MainActivity" />
+    </application>
+</manifest>

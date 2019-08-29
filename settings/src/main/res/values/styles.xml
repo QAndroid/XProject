@@ -1,0 +1,15 @@
+<resources>
+    <!--为了PreferenceActivity增加ActionBar-->
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--修改toolbar background颜色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--修改activity background颜色-->
+        <item name="android:windowBackground">@color/xproject_daynight_background</item>
+        <!--修改preference title颜色-->
+        <item name="android:textColorPrimary">@color/xproject_daynight_textcolor</item>
+        <!--修改preference summary颜色-->
+        <item name="android:textColorSecondary">@color/xproject_textcolor_secondary</item>
+        <!--修改listpreference dialog样式-->
+        <item name="android:alertDialogTheme">@style/xproject_alertdialog</item>
+    </style>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="xproject_toolbarmenu">
+        <item name="android:colorBackground">@color/xproject_daynight_background</item>
+        <item name="android:textColor">@color/xproject_daynight_textcolor</item>
+    </style>
+
+</resources>

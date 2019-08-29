@@ -2,52 +2,196 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+import com.android.build.OutputFile
+
+int MILLIS_IN_MINUTE = 1000 * 60
+int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
+
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.compilesdk_version
+
+    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
+    signingConfigs {
+        //发布构建签名配置
+        release {
+            //密钥库文件，一个包含一组私钥的二进制文件，变量保存在gradle.properties中
+            storeFile file(STOREFILE)
+            //密钥库密码，变量保存在.bash_profile环境变量中，参考：
+            //隐藏密码-https://www.jianshu.com/p/714ea34f739a
+            //配置签名设置-https://developer.android.com/studio/build/build-variants
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias = 'xproject'
+            keyPassword System.getenv("KKEYPWD")
+
+            //FIXME 为什么System.console()没有提示输入？？
+            //if (System.console() != null)
+            //  keyPassword System.console().readLine("\nKey password: ")
+        }
+    }
+
     defaultConfig {
+        //应用ID，参考：https://developer.android.com/studio/build/application-id
         applicationId "workshop1024.com.xproject"
-        minSdkVersion 26
-        targetSdkVersion 28
+        minSdkVersion rootProject.minsdk_version
+        targetSdkVersion rootProject.targetsdk_version
+
+        //动态设置versionCode和versionName任意两个值，将会触发全量的APK构建和安装，
+        //因为AndroidManifest.xml必须更新(它不支持Instant Run)
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //明确定义测试应用ID，默认应用ID后追加.test
+        testApplicationId "workshop1024.com.xproject.test"
+
+        //启动Multidex，参考：https://developer.android.com/studio/build/multidex
+        //打开Multidex，会导致构建缓存关闭，参考：https://developer.android.com/studio/build/build-cache
+        multiDexEnabled true
+
+        //使用variant-aware依赖管理，home库包含的develop，channel维度，app不包含
+        //参考：https://developer.android.com/studio/build/dependencies
+        missingDimensionStrategy 'develop', 'mock', 'dev', 'prod'
+        missingDimensionStrategy 'channel', 'baidu', 'xiaomi'
     }
+
     buildTypes {
+        //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
         release {
+            //打开代码压缩——1.移除未使用的类、字段、方法属性，包括自带代码库中；2.优化字节码，移除未使用的代码指令；3.短名称混淆其余类、字段和方法
+            //参考：https://developer.android.com/studio/build/shrink-code?hl=zh-CN
+            //打开代码压缩，会导致构建缓存关闭，参考：https://developer.android.com/studio/build/build-cache
+            minifyEnabled true
+            //ProGuard路径——从Android SDK/tools/proguard/文件夹获取默认的ProGuard设置
+            //使用proguard-android-optimize.txt文件，包括其它在字节码一级（方法内和方法间）执行分析的优化
+            //proguard-rules.pro文件用于添加自定义ProGuard规则
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //打开资源压缩
+            shrinkResources true
+
+            //设置清单占位符——不同构建替换不同的清单文件配置。参考:https://blog.csdn.net/qq_21793463/article/details/52069127
+            //应用Label——在设备上安装不同构建类型的APK后，应用名称好区分
+            //应用Label：XProject
+            //参考：https://developer.android.com/studio/build/manifest-build-variables?hl=zh-cn
+            manifestPlaceholders = [label: "XProject"]
+
+            //签名配置：使用发布构建签名
+            signingConfig signingConfigs.release
+        }
+
+        //调试构建类型，仅包含需要的配置，不包含压缩、签名等，加快开发构建速度
+        debug {
+            //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+
+            //applicationId：workshop1024.com.xproject.debug
+            applicationIdSuffix ".debug"
+            //应用Label：XProject—DB
+            manifestPlaceholders = [label: "XProjet-D"]
+
+            debuggable true
+
+            ext.enableCrashlytics = false
+        }
+
+        staging {
+            //initWith属性其它配置属性，然后设置你想修改
+            initWith debug
+            applicationIdSuffix ".debugStaging"
+
+            //当依赖库不包含staging构建类型的时，插件尝试使用该列表中的构建
+            //参考：解决与变体匹配相关的构建错误-https://developer.android.com/studio/build/dependencies
+            matchingFallbacks = ['debug', 'release']
         }
     }
-    flavorDimensions "default"
-    productFlavors {
-        mock {
-            dimension "default"
-            applicationIdSuffix = ".mock"
-        }
-        prod {
-            dimension "default"
+
+    //参考：创建源集-https://developer.android.com/studio/build/build-variants
+    sourceSets {
+        //staging构建类型源集配置
+        staging {
+            //资源目录
+            //如果你设置列表，Gradle以相同的优先级，使用所有来收集资源
+            //如果相同资源在超过一个目录中，merge资源时报错
+            //注意，你必须避免制定的所有目录在同一个根目录，如：res.srcDirs = ['other/res1', 'other/res1/layouts', 'other/res1/strings']
+            res.srcDirs = ['src/staging/res', 'src/main/res/staging']
+            //清单文件目录
+            manifest.srcFile 'src/main/staging/AndroidManifest.xml'
         }
     }
+
+    splits {
+        //根据屏幕密度配置构建多个apk
+        density {
+            //启动根据屏幕密度配置多个apk
+            enable true
+            //指定Gradle不生成apk的屏幕密度列表
+            exclude "hdpi", "mhdpi", "xxhdpi"
+            //为清单文件指定兼容的屏幕尺寸列表，仅用于第三方服务
+            compatibleScreens 'small', 'normal', 'large', 'xlarge'
+        }
+        //根据ABI配置构建多个apk
+        abi {
+            //启动根据ABI构建多个apk
+            enable true
+            //默认情况下包含所有的ABIs，所以使用reset()，并且指定包含我们想要的x86和x86_64配置的APK
+            //将Gradle创建APK的ABIs列表重置为空
+            reset()
+            //指定Gradle创建Apk的ABIs列表
+            include 'armeabi-v7a', 'arm64-v8a', 'x86'
+            //设置我们希望也生成一个包含所有ABIs的通用APK
+            universalApk true
+        }
+    }
+
     dataBinding {
         enabled = true
     }
+
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version "3.10.2"
+        }
+    }
 }
 
+//给每个ABI的值设置一个版本号
+ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3]
+
+//上面defaultConfig值是固定的，所以你的增量构建不需要重新构建清单文件(因为整个APK，减慢了构建时间)
+//但是release构建，没问题。下面的脚本遍历所有已知的variants，查找是"release"构建类型的，改变这些动态的属性
+android.applicationVariants.all { variant ->
+    if (variant.buildType.name == "release") {
+        variant.outputs.each { output ->
+            def baseAbiVersionCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
+            if (baseAbiVersionCode != null) {
+                output.versionCodeOverride = baseAbiVersionCode * 1000 + variant.versionCode;
+            }
+            output.versionNameOverride = minutesSinceEpoch + "-" + variant.flavorName;
+        }
+    }
+}
+
+
+//参考：https://developer.android.com/studio/build/dependencies
 dependencies {
+    //主源集依赖项
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.google.android.gms:play-services-plus:16.0.0'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.google.android:flexbox:1.0.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation project(':base')
+    implementation project(':introduce')
+    implementation project(':home')
+    implementation project(':settings')
+    implementation project(':feedback')
+
+    //Debug构建类型依赖
+    debugImplementation project(':base')
+
+    implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
+
+    //本地测试源集依赖
+    testImplementation "junit:junit:$rootProject.junit_version"
+    //设备化测试源集依赖
+    androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }

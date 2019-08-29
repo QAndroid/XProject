@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="workshop1024.com.xproject.settings">
+
+    <application>
+        <activity
+            android:name=".controller.activity.SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName="workshop1024.com.xproject.home.controller.activity.home.MainActivity"
+            android:theme="@style/SettingsTheme" />
+    </application>
+</manifest>

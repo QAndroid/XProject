@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--反馈页面开始-->
+    <color name="feedback_textview_hello_textcolor">#ffffff</color>
+    <!--反馈页面结束-->
+</resources>

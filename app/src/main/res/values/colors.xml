@@ -1,53 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#01A3AE</color>
-    <color name="colorPrimaryDark">#01818A</color>
-    <color name="colorAccent">#FF4081</color>
-
-    <!--公共颜色-->
-    <color name="white">#ffffffff</color>
-
-    <!--导航栏-->
-    <color name="toolbar_background">#01A3AE</color>
-
     <!--登陆选择页面开始-->
     <color name="login_login_background">#01A3AE</color>
     <color name="login_try_background">#AAAAAA</color>
     <!--登陆选择页面结束-->
-
-    <!--介绍页面开始-->
-    <color name="introduce1_background">#01A3AE</color>
-    <color name="introduce2_background">#4CAF50</color>
-    <color name="introduce3_background">#673AB8</color>
-    <!--介绍页面结束-->
-
-    <!--主页面开始-->
-    <color name="main_navigationview_item_textcolorchecked">#01A3AE</color>
-    <color name="main_navigationview_item_icontintchecked">#01A3AE</color>
-    <color name="main_floatingactionbutton_tintcolor">#ffffff</color>
-    <color name="main_navigatorheader_buttontextcolor">#ffffff</color>
-    <color name="home_tablayout_indicatorcolor">#BAD976</color>
-    <color name="home_tablayout_textselectedcolor">#01A3AE</color>
-    <color name="homesub_listitem_textcolorname">#ffffff</color>
-    <color name="homesub_listitem_textcolorcount">#ffffeb3b</color>
-    <color name="homesub_newslistitem_textcolortitle">#ffffff</color>
-    <color name="homesub_emptyitem_background">#ffd8f3ff</color>
-    <color name="homesub_emptyitem_bottombackground">#fff2ac4b</color>
-    <!--主页面介绍-->
-
-    <!--新闻详情页面开始-->
-    <color name="newsdetail_taglist_textcolor">#ffffff</color>
-    <color name="newsdetail_floatingactionbutton_tintcolor">#ffffff</color>
-    <!--新闻详情页面结束-->
-
-    <!--反馈页面开始-->
-    <color name="feedback_textview_hello_textcolor">#ffffff</color>
-    <!--反馈页面结束-->
-
-    <color name="xproject_textcolor_secondary">#73737373</color>
-    <!--日间模式-->
-    <color name="xproject_daynight_background">#ffffff</color>
-    <color name="xproject_daynight_textcolor">#000000</color>
-    <color name="xproject_daynight_icontint">#9E9E9E</color>
-    <color name="xproject_daynight_listdivider">#e0e0e0e0</color>
 </resources>
