@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+import com.android.build.OutputFile
+
 int MILLIS_IN_MINUTE = 1000 * 60
 int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
 
@@ -20,7 +22,7 @@ android {
             storePassword System.getenv("KSTOREPWD")
             keyAlias = 'xproject'
             keyPassword System.getenv("KKEYPWD")
-            
+
             //FIXME 为什么System.console()没有提示输入？？
             //if (System.console() != null)
             //  keyPassword System.console().readLine("\nKey password: ")
@@ -50,17 +52,6 @@ android {
         //参考：https://developer.android.com/studio/build/dependencies
         missingDimensionStrategy 'develop', 'mock', 'dev', 'prod'
         missingDimensionStrategy 'channel', 'baidu', 'xiaomi'
-    }
-
-    //上面defaultConfig值是固定的，所以你的增量构建不需要重新构建清单文件(因为整个APK，减慢了构建时间)
-    //但是release构建，没问题。下面的脚本遍历所有已知的variants，查找是"release"构建类型的，改变这些动态的属性
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
-            variant.outputs.each { output ->
-                output.versionCodeOverride = minutesSinceEpoch;
-                output.versionNameOverride = minutesSinceEpoch + "-" + variant.flavorName;
-            }
-        }
     }
 
     buildTypes {
@@ -127,11 +118,59 @@ android {
         }
     }
 
+    splits {
+        //根据屏幕密度配置构建多个apk
+        density {
+            //启动根据屏幕密度配置多个apk
+            enable true
+            //指定Gradle不生成apk的屏幕密度列表
+            exclude "hdpi", "mhdpi", "xxhdpi"
+            //为清单文件指定兼容的屏幕尺寸列表，仅用于第三方服务
+            compatibleScreens 'small', 'normal', 'large', 'xlarge'
+        }
+        //根据ABI配置构建多个apk
+        abi {
+            //启动根据ABI构建多个apk
+            enable true
+            //默认情况下包含所有的ABIs，所以使用reset()，并且指定包含我们想要的x86和x86_64配置的APK
+            //将Gradle创建APK的ABIs列表重置为空
+            reset()
+            //指定Gradle创建Apk的ABIs列表
+            include 'armeabi-v7a', 'arm64-v8a', 'x86'
+            //设置我们希望也生成一个包含所有ABIs的通用APK
+            universalApk true
+        }
+    }
+
     dataBinding {
         enabled = true
     }
 
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version "3.10.2"
+        }
+    }
 }
+
+//给每个ABI的值设置一个版本号
+ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3]
+
+//上面defaultConfig值是固定的，所以你的增量构建不需要重新构建清单文件(因为整个APK，减慢了构建时间)
+//但是release构建，没问题。下面的脚本遍历所有已知的variants，查找是"release"构建类型的，改变这些动态的属性
+android.applicationVariants.all { variant ->
+    if (variant.buildType.name == "release") {
+        variant.outputs.each { output ->
+            def baseAbiVersionCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
+            if (baseAbiVersionCode != null) {
+                output.versionCodeOverride = baseAbiVersionCode * 1000 + variant.versionCode;
+            }
+            output.versionNameOverride = minutesSinceEpoch + "-" + variant.flavorName;
+        }
+    }
+}
+
 
 //参考：https://developer.android.com/studio/build/dependencies
 dependencies {

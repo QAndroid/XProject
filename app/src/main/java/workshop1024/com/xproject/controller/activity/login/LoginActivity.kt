@@ -19,6 +19,8 @@ class LoginActivity : AppCompatActivity() {
         //语句结尾不使用;
         val binding = DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity)
         binding.loginHandlers = LoginHandlers()
+
+        binding.loginButtonLogin.text = stringFromJNI()
     }
 
     //内部类，使用inner关键字声明
@@ -39,11 +41,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * A native method that is implemented by the 'native-lib' native library,
+     * which is packaged with this application.
+     */
+    external fun stringFromJNI(): String
+
     //伴生对象类的唯一对象，声明的方法和成员都是类的唯一值
     companion object {
         fun startActivity(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
+        }
+
+        // Used to load the 'native-lib' library on application startup.
+        init {
+            System.loadLibrary("native-lib")
         }
     }
 }
