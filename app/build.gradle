@@ -71,6 +71,7 @@ android {
             //设置清单占位符——不同构建替换不同的清单文件配置。参考:https://blog.csdn.net/qq_21793463/article/details/52069127
             //应用Label——在设备上安装不同构建类型的APK后，应用名称好区分
             //应用Label：XProject
+            //参考：https://developer.android.com/studio/build/manifest-build-variables?hl=zh-cn
             manifestPlaceholders = [label: "XProject"]
 
             //签名配置：使用发布构建签名
