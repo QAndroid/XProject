@@ -1,1 +1,1 @@
-include ':app', ':introduce', ':home', ':base', ':settings', ':feedback'
+include ':app', ':introduce', ':home', ':base', ':settings', ':feedback', ':main', ':save'
