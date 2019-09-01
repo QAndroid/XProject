@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="workshop1024.com.xproject.introduce">
+    package="workshop1024.com.xproject.introduce"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <application>
+    <application android:name=".IntroduceApplication"
+        tools:replace="android:name">
         <!-- 介绍页面 -->
         <!-- android:exported="false"，intent-filter不向外暴露-->
         <activity

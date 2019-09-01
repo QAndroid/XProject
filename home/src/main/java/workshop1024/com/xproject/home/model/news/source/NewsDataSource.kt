@@ -16,7 +16,7 @@ interface NewsDataSource {
 
     fun getNewsListBySearch(searchString: String, loadNewsListCallback: LoadNewsListCallback)
 
-    fun markNewsesReadedByNewsId(newsIdList: List<String>)
+    fun markNewsesReadedByNewsId(newsIdList: List<String>, markNewsesReadedCallback: MarkNewsesReadedCallback)
 
     fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: LoadNewsDetailCallBack)
 
@@ -34,5 +34,11 @@ interface NewsDataSource {
         fun onNewsDetailLoaded(newsDetail: NewsDetail)
 
         fun onDataNotAvaiable()
+    }
+
+    interface MarkNewsesReadedCallback {
+        fun onMarkNewsesReadedSuccess()
+
+        fun onMarkNewsesReadedFaild()
     }
 }

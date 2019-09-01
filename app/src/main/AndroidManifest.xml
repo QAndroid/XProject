@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="workshop1024.com.xproject">
 
+    <!--Home组件也声明了Application，引起Manifest Merge冲突，使用tools:replace解决-->
     <application
-        android:name=".XApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${label}"

@@ -10,4 +10,5 @@
 | java-mvc-materialdesign| 该分支使用java语言，mvc结构，使用materialdesign控件实现项目的基本功能 |
 | java-mvc-databinding| 该分支基于java-mvc-materialdesign开发，使用databinding组件完成了相关功能的实现 |
 | kotlin-mvc| 该分支基于java-mvc-databinding开发，使用Kotlin语言完成了相关功能的实现 |
-| java-gradle| 该分支基于java-mvc-kotlin开发，完成基本的Gradle构建配置优化 |
+| kotlin-gradle| 该分支基于kotlin-mvc开发，完成基本的Gradle构建配置优化，包含模块化等 |
+| kotlin-componential| 该分支基于kotlin-gradle开发，完成基本的组件化架构的实现 |

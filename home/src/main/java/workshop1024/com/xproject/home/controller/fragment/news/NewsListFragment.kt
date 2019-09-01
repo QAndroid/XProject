@@ -6,15 +6,22 @@ import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import workshop1024.com.xproject.base.controller.fragment.XFragment
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.BigCardsAdapter
 import workshop1024.com.xproject.home.controller.adapter.CompactAdapter
 import workshop1024.com.xproject.home.controller.adapter.MinimalAdapter
+import workshop1024.com.xproject.home.controller.event.NewsListAsReadEvent
+import workshop1024.com.xproject.home.controller.event.NewsListShowBigCardsEvent
+import workshop1024.com.xproject.home.controller.event.NewsListShowCompactEvent
+import workshop1024.com.xproject.home.controller.event.NewsListShowMinimalEvent
 import workshop1024.com.xproject.home.databinding.NewslistFragmentBinding
 import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.model.news.News
@@ -24,7 +31,7 @@ import workshop1024.com.xproject.home.model.news.source.NewsDataSource
  * 新闻列表Fragmnet，用于展示新闻列表
  */
 abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListener,
-        NewsDataSource.LoadNewsListCallback {
+        NewsDataSource.LoadNewsListCallback, NewsDataSource.MarkNewsesReadedCallback {
     private var mListAdapter: RecyclerView.Adapter<*>? = null
 
     protected var mNewsRepository: NewsDataSource? = null
@@ -49,8 +56,15 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
 
     override fun onStart() {
         super.onStart()
+        EventBus.getDefault().register(this)
         refreshNewsList()
     }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
+    }
+
 
     override fun onRefresh() {
         refreshNewsList()
@@ -77,33 +91,47 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
 
     abstract fun getNewsList()
 
-    fun showBigCardsList() {
+    @Subscribe
+    fun onShowBigCardsListEvent(event: NewsListShowBigCardsEvent) {
         //FIXME 用双引号是不是有点激进
-        mListAdapter = BigCardsAdapter(context!!, mNewsList!!)
-        mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
+        showBigCardsList()
     }
 
-    fun showMinimalList() {
+    @Subscribe
+    fun onShowMinimalListEvent(event: NewsListShowMinimalEvent) {
         //FIXME 用双引号是不是有点激进
         mListAdapter = MinimalAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
-    fun showCompactList() {
+    @Subscribe
+    fun onShowCompactListEvent(event: NewsListShowCompactEvent) {
         //FIXME 用双引号是不是有点激进
         mListAdapter = CompactAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
-    fun markAsRead() {
+    @Subscribe
+    fun onMarkAsReadEvent(event: NewsListAsReadEvent) {
         //将现有文章置为可读
         val newsIdList = ArrayList<String>()
         for (news in mNewsList!!) {
             newsIdList.add(news.newId!!)
         }
-        mNewsRepository?.markNewsesReadedByNewsId(newsIdList)
+        mNewsRepository?.markNewsesReadedByNewsId(newsIdList, this)
+    }
 
+    override fun onMarkNewsesReadedSuccess() {
         //刷新列表
         refreshNewsList()
+    }
+
+    override fun onMarkNewsesReadedFaild() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun showBigCardsList() {
+        mListAdapter = BigCardsAdapter(context!!, mNewsList!!)
+        mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 }

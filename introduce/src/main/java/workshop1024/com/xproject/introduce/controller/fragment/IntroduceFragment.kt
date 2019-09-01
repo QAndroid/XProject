@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 
 //TODO Nullable注解的作用？
-
 /**
  * 介绍Fragment
  */

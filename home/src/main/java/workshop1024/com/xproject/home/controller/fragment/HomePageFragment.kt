@@ -8,10 +8,15 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import workshop1024.com.xproject.base.controller.fragment.TopFragment
 import workshop1024.com.xproject.base.controller.fragment.XFragment
 
 import workshop1024.com.xproject.home.R
+import workshop1024.com.xproject.home.controller.event.HomePageAsReadEvent
+import workshop1024.com.xproject.home.controller.event.HomePageRefreshEvent
 import workshop1024.com.xproject.home.databinding.HomepageFragmentBinding
 
 
@@ -40,11 +45,23 @@ class HomePageFragment : XFragment(), TopFragment {
         return homepageFragmentBinding.root
     }
 
-    fun onRefresh() {
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
+    }
+
+    @Subscribe
+    fun onRefreshEvent(event: HomePageRefreshEvent) {
         mHomeFragmentPagerAdapter?.mCurrentSubFragmet?.onRefresh()
     }
 
-    fun markAsRead() {
+    @Subscribe
+    fun onMarkAsReadEvent(event: HomePageAsReadEvent) {
         mHomeFragmentPagerAdapter?.mCurrentSubFragmet?.markAsRead()
     }
 

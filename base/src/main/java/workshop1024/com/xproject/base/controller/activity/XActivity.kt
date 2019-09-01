@@ -2,6 +2,9 @@ package workshop1024.com.xproject.base.controller.activity
 
 import android.support.v7.app.AppCompatActivity
 
+/**
+ * XActivity，完成了一些Activity基础逻辑，如是否在其前台检测
+ */
 open class XActivity : AppCompatActivity() {
     var mIsForeground: Boolean = false
 

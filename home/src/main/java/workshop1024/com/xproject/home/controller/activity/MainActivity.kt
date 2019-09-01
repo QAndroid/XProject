@@ -16,9 +16,11 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import org.greenrobot.eventbus.EventBus
 import workshop1024.com.xproject.base.controller.fragment.TopFragment
 import workshop1024.com.xproject.base.controller.fragment.XFragment
 import workshop1024.com.xproject.home.R
+import workshop1024.com.xproject.home.controller.event.*
 import workshop1024.com.xproject.home.controller.fragment.HomePageFragment
 import workshop1024.com.xproject.home.controller.fragment.news.NewsListFragment
 import workshop1024.com.xproject.home.controller.fragment.news.SearchNewsFragment
@@ -100,20 +102,20 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 val bottomMenu = BottomMenu(this)
                 bottomMenu.showAtLocation(mMainActivityBinding.mainIncludeRight.mainrightCoordinatorlayoutRoot, Gravity.BOTTOM, 0, 0)
             }
-            R.id.homepage_menu_refresh -> (mCurrentFragment as HomePageFragment).onRefresh()
-            R.id.homepage_menu_marked -> (mCurrentFragment as HomePageFragment).markAsRead()
+            R.id.homepage_menu_refresh -> EventBus.getDefault().post(HomePageRefreshEvent())
+            R.id.homepage_menu_marked -> EventBus.getDefault().post(HomePageAsReadEvent())
             R.id.homepage_menu_product -> {
                 val intent = Intent("workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity")
                 //检验隐式意图，安全调用
-                if(intent.resolveActivity(packageManager) != null){
+                if (intent.resolveActivity(packageManager) != null) {
                     startActivity(intent)
                 }
             }
             R.id.homepage_menu_about -> AboutActivity.startActivity(this)
-            R.id.newslist_menu_cards -> (mCurrentFragment as NewsListFragment).showBigCardsList()
-            R.id.newslist_menu_compact -> (mCurrentFragment as NewsListFragment).showCompactList()
-            R.id.newslist_menu_minimal -> (mCurrentFragment as NewsListFragment).showMinimalList()
-            R.id.newslist_menu_marked -> (mCurrentFragment as NewsListFragment).markAsRead()
+            R.id.newslist_menu_cards -> EventBus.getDefault().post(NewsListShowBigCardsEvent())
+            R.id.newslist_menu_compact -> EventBus.getDefault().post(NewsListShowCompactEvent())
+            R.id.newslist_menu_minimal -> EventBus.getDefault().post(NewsListShowMinimalEvent())
+            R.id.newslist_menu_marked -> EventBus.getDefault().post(NewsListAsReadEvent())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -165,11 +167,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
     inner class MainHandlers : NavigationView.OnNavigationItemSelectedListener {
         fun onClickAction(view: View) {
-            if (mCurrentFragment is NewsListFragment) {
-                (mCurrentFragment as NewsListFragment).markAsRead()
-            } else {
-                (mCurrentFragment as SavedFragment).markAsRead()
-            }
+            EventBus.getDefault().post(NewsListAsReadEvent())
         }
 
         override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -117,6 +117,8 @@ dependencies {
     implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
 
+    implementation "org.greenrobot:eventbus:$rootProject.eventbus_version"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation "junit:junit:$rootProject.junit_version"
