@@ -4,12 +4,8 @@ import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.DialogFragment
-import android.support.v7.widget.CardView
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -17,9 +13,13 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.utils.UnitUtils
 import workshop1024.com.xproject.base.utils.ViewUtils

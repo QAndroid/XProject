@@ -2,12 +2,12 @@ package workshop1024.com.xproject.home.controller.adapter
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.RecyclerView
 import workshop1024.com.xproject.base.utils.UnitUtils
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.model.Injection

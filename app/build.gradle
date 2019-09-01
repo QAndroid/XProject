@@ -40,7 +40,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //明确定义测试应用ID，默认应用ID后追加.test
         testApplicationId "workshop1024.com.xproject.test"
 
@@ -188,11 +188,11 @@ dependencies {
     //Debug构建类型依赖
     debugImplementation project(':base')
 
-    implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
 
     //本地测试源集依赖
     testImplementation "junit:junit:$rootProject.junit_version"
     //设备化测试源集依赖
-    androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }

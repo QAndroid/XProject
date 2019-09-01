@@ -3,10 +3,10 @@ package workshop1024.com.xproject.home.controller.view.group
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.databinding.DataBindingUtil
 import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.databinding.CloundsViewBinding
 

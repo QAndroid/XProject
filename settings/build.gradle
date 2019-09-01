@@ -13,7 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -34,13 +34,13 @@ dependencies {
 
     implementation project(':base')
 
-    implementation "com.android.support:appcompat-v7:$rootProject.appcompat_v7_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation "junit:junit:$rootProject.junit_version"
-    androidTestImplementation "com.android.support.test:runner:$rootProject.runner_version"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }
 repositories {
     mavenCentral()

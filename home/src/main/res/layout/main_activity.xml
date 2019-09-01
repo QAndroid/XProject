@@ -10,7 +10,7 @@
             type="workshop1024.com.xproject.home.controller.activity.MainActivity.MainHandlers" />
     </data>
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/main_drawerlayout_navigator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +26,7 @@
             app:mainHandlers="@{mainHandlers}" />
 
         <!--左侧导航视图-->
-        <android.support.design.widget.NavigationView
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/mainleft_navigationview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -38,5 +38,5 @@
             app:menu="@menu/mainleft_navigator_menu"
             app:navigationItemSelectedListener="@{mainHandlers}"
             tools:headerLayout="@layout/main_leftnavigator_header" />
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

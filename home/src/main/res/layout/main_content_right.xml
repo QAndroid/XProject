@@ -10,24 +10,24 @@
             type="workshop1024.com.xproject.home.controller.activity.MainActivity.MainHandlers" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/mainright_coordinatorlayout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".controller.activity.home.MainActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainright_appbarlayout_navigator"
             style="@style/xproject_appbarlayout">
 
             <!--顶部标题栏-->
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/mainright_toolbar_navigator"
                 style="@style/xproject_toolbar"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/xproject_toolbarmenu" />
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <!--下部内容Fragments-->
         <FrameLayout
@@ -37,7 +37,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <!--全部已读按钮-->
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/mainright_floatingactionbutton_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,5 +49,5 @@
             android:visibility="gone"
             app:layout_behavior="workshop1024.com.xproject.home.view.floatbutton.FloatingActionButtonBehavior"
             tools:visibility="visible" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

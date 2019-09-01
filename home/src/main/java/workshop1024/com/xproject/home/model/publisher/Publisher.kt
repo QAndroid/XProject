@@ -1,6 +1,6 @@
 package workshop1024.com.xproject.home.model.publisher
 
-import android.databinding.ObservableBoolean
+import androidx.databinding.ObservableBoolean
 
 /**
  * 发布者数据类

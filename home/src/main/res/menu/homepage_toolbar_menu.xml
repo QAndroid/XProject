@@ -7,7 +7,7 @@
         android:icon="@drawable/toolbar_menu_search"
         android:id="@+id/homepage_menu_search"
         android:title="@string/toolbar_menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
 
     <!--添加-->

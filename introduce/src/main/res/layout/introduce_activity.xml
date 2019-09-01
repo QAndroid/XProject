@@ -19,7 +19,7 @@
         tools:context=".controller.activity.introduce.IntroduceActivity">
         <!--TODO 如何预览ViewPager内容-->
         <!--介绍ViewPager-->
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/introduce_viewpager_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -14,7 +14,7 @@
             type="workshop1024.com.xproject.home.model.news.News" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         style="@style/Base.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,6 +88,6 @@
                 tools:text="title1title1title1title1title1title1title1title1titleitle1title1" />
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>
 

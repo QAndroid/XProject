@@ -2,14 +2,14 @@ package workshop1024.com.xproject.home.controller.activity
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.DialogFragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.home.R
@@ -148,10 +148,10 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             //FIXME 订阅网络请求返回后，在提示并且选中
-            mPublisherDataSource?.subscribePublisherById(selectPublisher?.publisherId!!)
-            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher?.name + " selected", Snackbar.LENGTH_SHORT).show()
+            mPublisherDataSource?.subscribePublisherById(selectPublisher.publisherId)
+            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher.name + " selected", Snackbar.LENGTH_SHORT).show()
         } else {
-            mPublisherDataSource!!.unSubscribePublisherById(selectPublisher?.publisherId!!)
+            mPublisherDataSource!!.unSubscribePublisherById(selectPublisher.publisherId)
             Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher.name + " unselected", Snackbar.LENGTH_SHORT).show()
         }
     }

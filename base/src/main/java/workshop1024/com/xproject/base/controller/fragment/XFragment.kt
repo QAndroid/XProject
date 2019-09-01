@@ -1,6 +1,6 @@
 package workshop1024.com.xproject.base.controller.fragment
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * XProject Fragment基类，抽象Fragment一些公共的属性和方法，用于Fragment堆栈变化的时候，更新导航列表当前选项
