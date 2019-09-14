@@ -1,46 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
 import com.android.build.OutputFile
 
 int MILLIS_IN_MINUTE = 1000 * 60
 int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
 
 android {
-    compileSdkVersion rootProject.compilesdk_version
-
-    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
-    signingConfigs {
-        //发布构建签名配置
-        release {
-            //密钥库文件，一个包含一组私钥的二进制文件，变量保存在gradle.properties中
-            storeFile file(STOREFILE)
-            //密钥库密码，变量保存在.bash_profile环境变量中，参考：
-            //隐藏密码-https://www.jianshu.com/p/714ea34f739a
-            //配置签名设置-https://developer.android.com/studio/build/build-variants
-            storePassword System.getenv("KSTOREPWD")
-            keyAlias = 'xproject'
-            keyPassword System.getenv("KKEYPWD")
-
-            //FIXME 为什么System.console()没有提示输入？？
-            //if (System.console() != null)
-            //  keyPassword System.console().readLine("\nKey password: ")
-        }
-    }
-
     defaultConfig {
         //应用ID，参考：https://developer.android.com/studio/build/application-id
         applicationId "workshop1024.com.xproject"
-        minSdkVersion rootProject.minsdk_version
-        targetSdkVersion rootProject.targetsdk_version
 
         //动态设置versionCode和versionName任意两个值，将会触发全量的APK构建和安装，
         //因为AndroidManifest.xml必须更新(它不支持Instant Run)
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //明确定义测试应用ID，默认应用ID后追加.test
         testApplicationId "workshop1024.com.xproject.test"
 
@@ -73,25 +45,14 @@ android {
             //应用Label：XProject
             //参考：https://developer.android.com/studio/build/manifest-build-variables?hl=zh-cn
             manifestPlaceholders = [label: "XProject"]
-
-            //签名配置：使用发布构建签名
-            signingConfig signingConfigs.release
         }
 
         //调试构建类型，仅包含需要的配置，不包含压缩、签名等，加快开发构建速度
         debug {
-            //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
-            minifyEnabled false
-            shrinkResources false
-
             //applicationId：workshop1024.com.xproject.debug
             applicationIdSuffix ".debug"
             //应用Label：XProject—DB
             manifestPlaceholders = [label: "XProjet-D"]
-
-            debuggable true
-
-            ext.enableCrashlytics = false
         }
 
         staging {
@@ -143,15 +104,9 @@ android {
         }
     }
 
+    //FIXME 为什么app模块必须配置，否则报错java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
     dataBinding {
         enabled = true
-    }
-
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version "3.10.2"
-        }
     }
 }
 
@@ -172,16 +127,14 @@ android.applicationVariants.all { variant ->
     }
 }
 
-
 //参考：https://developer.android.com/studio/build/dependencies
 dependencies {
-    //主源集依赖项
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     //调整依赖顺序，构建顺序改变，当AndroidManifest.xml中Module中Application冲突时，解决后谁后编译使用谁
-    implementation project(':base')
-    implementation project(':home')
+    implementation project(':login')
     implementation project(':introduce')
+    implementation project(':main')
+    implementation project(':home')
+    implementation project(':save')
     implementation project(':settings')
     implementation project(':feedback')
 
@@ -189,10 +142,4 @@ dependencies {
     debugImplementation project(':base')
 
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
-
-    //本地测试源集依赖
-    testImplementation "junit:junit:$rootProject.junit_version"
-    //设备化测试源集依赖
-    androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }

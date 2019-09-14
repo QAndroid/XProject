@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.model.subinfo.source
+package workshop1024.com.xproject.home.model.subinfo.source
 
 import android.os.Handler
 import workshop1024.com.xproject.home.model.subinfo.SubInfo

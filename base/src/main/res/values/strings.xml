@@ -16,4 +16,8 @@
         <item>12.0</item>
     </string-array>
 
+    <!--过滤器列表页面开始-->
+    <string name="addfilter_dialog_title">Add a filter</string>
+    <string name="addfilter_dialog_positive">ADD</string>
+    <!--过滤器列表页面结束-->
 </resources>

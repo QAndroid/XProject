@@ -4,6 +4,7 @@ import android.os.Bundle
 
 import workshop1024.com.xproject.base.controller.fragment.SubFragment
 import workshop1024.com.xproject.home.R
+import workshop1024.com.xproject.news.controller.fragment.NewsListFragment
 
 class SearchNewsFragment : NewsListFragment(), SubFragment {
     private var mFilterName: String? = null
@@ -20,9 +21,9 @@ class SearchNewsFragment : NewsListFragment(), SubFragment {
     companion object {
         private const val SEARCH_NAME = "search_Name"
 
-        fun newInstance(searchName: String): SearchNewsFragment {
+        fun newInstance(searchName: String, navigationItemId: Int): SearchNewsFragment {
             val searchNewsFragment = SearchNewsFragment()
-            searchNewsFragment.mNavigationItemId = R.id.leftnavigator_menu_home
+            searchNewsFragment.mNavigationItemId = navigationItemId
             val args = Bundle()
             args.putString(SEARCH_NAME, searchName)
             searchNewsFragment.arguments = args

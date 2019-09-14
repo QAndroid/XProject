@@ -1,9 +1,4 @@
 <resources>
-    <!--主页面开始-->
-    <dimen name="main_leftnavigator_header_height">176dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-    <!--主页面结束-->
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="card_height">304dp</dimen>

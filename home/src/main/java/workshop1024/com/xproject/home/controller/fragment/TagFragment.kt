@@ -1,6 +1,7 @@
 package workshop1024.com.xproject.home.controller.fragment
 
 import com.google.android.material.snackbar.Snackbar
+import workshop1024.com.xproject.base.service.ServiceFactory
 
 import java.util.ArrayList
 
@@ -44,10 +45,8 @@ class TagFragment : HomeSubFragment() {
     }
 
     override fun onSubListItemClick(subInfo: SubInfo) {
-        val newsListFragment = TagNewsFragment.newInstance(subInfo.infoId)
-        activity!!.supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, newsListFragment)
-                .addToBackStack("").commit()
-        activity!!.title = subInfo.name
+        //替换的布局在main组件中
+        ServiceFactory.getInstance()?.mainService?.showFilterNewsFragment(activity, subInfo.infoId, subInfo.name)
     }
 
     public override fun markAsRead() {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--主页面开始-->
+    <color name="main_navigationview_item_textcolorchecked">#01A3AE</color>
+    <color name="main_navigationview_item_icontintchecked">#01A3AE</color>
+    <color name="main_floatingactionbutton_tintcolor">#ffffff</color>
+    <color name="main_navigatorheader_buttontextcolor">#ffffff</color>
+    <!--主页面介绍-->
+</resources>

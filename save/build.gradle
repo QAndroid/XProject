@@ -1,37 +1,26 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion rootProject.compilesdk_version
-    buildToolsVersion "29.0.2"
-
-
     defaultConfig {
-        minSdkVersion rootProject.minsdk_version
-        targetSdkVersion rootProject.targetsdk_version
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
+        consumerProguardFiles 'proguard-rules.pro'
+
+        missingDimensionStrategy 'develop', 'mock', 'dev', 'prod'
+        missingDimensionStrategy 'channel', 'baidu', 'xiaomi'
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
         }
     }
-
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(':base')
+    implementation project(':news')
+
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.core:core-ktx:$rootProject.core_ktx_version"
-
-    testImplementation "junit:junit:$rootProject.junit_version"
-    androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_core_version"
 }

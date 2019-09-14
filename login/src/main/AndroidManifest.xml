@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="workshop1024.com.xproject.login">
+
+    <application>
+        <!-- 选择登录页面 -->
+        <activity android:name=".controller.activity.LoginActivity" />
+    </application>
+</manifest>

@@ -1,0 +1,32 @@
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version "3.10.2"
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation project(':base')
+
+    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
+}

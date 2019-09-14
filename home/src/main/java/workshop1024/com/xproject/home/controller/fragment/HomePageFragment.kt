@@ -10,15 +10,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import workshop1024.com.xproject.base.controller.fragment.TopFragment
 import workshop1024.com.xproject.base.controller.fragment.XFragment
 
 import workshop1024.com.xproject.home.R
-import workshop1024.com.xproject.home.controller.event.HomePageAsReadEvent
-import workshop1024.com.xproject.home.controller.event.HomePageRefreshEvent
+import workshop1024.com.xproject.base.controller.event.HomePageAsReadEvent
+import workshop1024.com.xproject.base.controller.event.HomePageRefreshEvent
 import workshop1024.com.xproject.home.databinding.HomepageFragmentBinding
-
 
 /**
  * 抽屉导航Home Fragment，包含ViewPager来显示Stories和Topies子PageFragment
@@ -97,9 +95,9 @@ class HomePageFragment : XFragment(), TopFragment {
     }
 
     companion object {
-        fun newInstance(): HomePageFragment {
+        fun newInstance(navigationItemId: Int): HomePageFragment {
             val homePageFragment = HomePageFragment()
-            homePageFragment.mNavigationItemId = R.id.leftnavigator_menu_home
+            homePageFragment.mNavigationItemId = navigationItemId
             return homePageFragment
         }
     }

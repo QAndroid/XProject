@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--新闻详情页面开始-->
+    <color name="newsdetail_taglist_textcolor">#ffffff</color>
+    <color name="newsdetail_floatingactionbutton_tintcolor">#ffffff</color>
+    <!--新闻详情页面结束-->
+</resources>

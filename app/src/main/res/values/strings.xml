@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">XProject</string>
-
-    <!--登陆选择页面开始-->
-    <string name="login_login">LOGIN TO FEEDLY</string>
-    <string name="login_try">TRY THINGS OUT</string>
-    <!--登陆选择页面结束-->
-
 </resources>

@@ -1,44 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
 android {
-    compileSdkVersion rootProject.compilesdk_version
-    buildToolsVersion rootProject.build_tools_version
-
-    //签名配置，参考：https://developer.android.com/studio/publish/app-signing
-    signingConfigs {
-        //发布构建签名配置
-        release {
-            //密钥库文件
-            storeFile file('/Users/qitmac0000562/keystores/xproject-keystore.jks')
-            //密钥库密码
-            storePassword 'xprojectstore'
-            keyAlias = 'xproject'
-            keyPassword 'xprojectkey'
-        }
-    }
-
     defaultConfig {
-        minSdkVersion rootProject.minsdk_version
-        targetSdkVersion rootProject.targetsdk_version
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testApplicationId "workshop1024.com.xproject.home.test"
+
+        consumerProguardFiles 'proguard-rules.pro'
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-
-        debug {
             minifyEnabled false
-            debuggable true
+            shrinkResources false
         }
     }
     //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
@@ -91,9 +64,9 @@ android {
     //参考：过滤变体-https://developer.android.com/studio/build/build-variants
     variantFilter { variant ->
         def names = variant.flavors*.name
-        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        //检测整个构建类型，使用variant.buildType.name == "<buildType>"
         if (names.contains("xiaomi")) {
-            // Gradle ignores any variants that satisfy the conditions above.
+            //Gradle忽略任何满足上面条件的variants
             setIgnore(true)
         }
     }
@@ -104,27 +77,15 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(':base')
+    implementation project(':news')
 
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
     implementation "androidx.cardview:cardview:$rootProject.cardview_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout_version"
-    implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
 
     implementation "org.greenrobot:eventbus:$rootProject.eventbus_version"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    testImplementation "junit:junit:$rootProject.junit_version"
-    androidTestImplementation "androidx.test:runner:$rootProject.runner_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso_core_version"
-}
-repositories {
-    mavenCentral()
 }

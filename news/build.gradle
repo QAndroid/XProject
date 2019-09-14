@@ -1,0 +1,77 @@
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
+    //参考：https://blog.csdn.net/user11223344abc/article/details/78784373
+    flavorDimensions "develop", "channel"
+
+    productFlavors {
+        //当构建一个variant使用flavor时，下面的配置覆盖defaultConfig块中的配置
+
+        //Mock产品风格，相关数据的Mock实现
+        mock {
+            dimension "develop"
+            versionNameSuffix "-mock"
+
+            //添加构建变体专用的ProGuard规则，现在mock使用所有三个defaultProguardFile，proguard-rules.pro和mock-rules.pro文件规则
+            proguardFile "mock-rules.pro"
+
+            //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
+            //参考：https://developer.android.com/studio/build/multidex
+            minSdkVersion rootProject.dalvik_minsdk_version
+
+            resConfigs "en", "xxhdpi"
+        }
+        //Dev产品风格
+        dev {
+            dimension "develop"
+            versionNameSuffix "-dev"
+
+            //在从命令行构建时避免使用传统的multidex，设置minSdkVersion为21或更高。当我们使用Andoid 2.3或者更高
+            //在面向运行API level 21或则更高的设备开发时，构建自动避免了传统的multidex，无论是设置什么minSdkVersion
+            minSdkVersion rootProject.dalvik_minsdk_version
+
+            //下面的配置限制"dev" flavor使用英语字符资源和xxhdpi屏幕密度资源
+            resConfigs "en", "xxhdpi"
+        }
+        //线上产品风格
+        prod {
+            dimension "develop"
+        }
+
+        baidu {
+            dimension "channel"
+        }
+        xiaomi {
+            dimension "channel"
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation project(':base')
+
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
+    implementation "com.google.android.material:material:$rootProject.material_version"
+    implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
+
+    implementation "org.greenrobot:eventbus:$rootProject.eventbus_version"
+}

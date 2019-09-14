@@ -2,6 +2,7 @@ package workshop1024.com.xproject.home.controller.fragment
 
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
+import workshop1024.com.xproject.base.service.ServiceFactory
 
 import java.util.ArrayList
 
@@ -9,7 +10,7 @@ import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.SubscribeListAdapter
 import workshop1024.com.xproject.home.controller.fragment.news.SubscribeNewsFragment
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
-import workshop1024.com.xproject.home.view.dialog.InputStringDialog
+import workshop1024.com.xproject.base.view.dialog.InputStringDialog
 
 /**
  * 抽屉导航HomeFragment的子Frament-HomeFragment的ViewPager的子Fragment-SubscribeFragment，显示已订阅者发布者列表
@@ -70,10 +71,9 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
     }
 
     override fun onSubListItemClick(subInfo: SubInfo) {
-        val subscribeNewsFragment = SubscribeNewsFragment.newInstance(subInfo.infoId)
-        activity!!.supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, subscribeNewsFragment)
-                .addToBackStack("").commit()
-        activity!!.title = subInfo.name
+        //由于替换的Fragment容器的id，在main组件中的不居中，无法直接访问
+        //故使用跨组件通信方案—公共组件Service接口，实跨home组件和main组件之间的通信
+        ServiceFactory.getInstance()?.mainService?.showSubscribeNewsFragment(activity, subInfo.infoId, subInfo.name)
     }
 
     public override fun markAsRead() {

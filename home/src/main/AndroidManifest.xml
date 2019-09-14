@@ -5,19 +5,5 @@
     <application
         android:name=".HomeApplication"
         tools:replace="android:name">
-        <!-- 主页面 -->
-        <activity android:name=".controller.activity.MainActivity" /><!-- TODO 把其他的setTitle去除 -->
-        <activity
-            android:name=".controller.activity.NewsDetailActivity"
-            android:parentActivityName=".controller.activity.MainActivity" />
-        <activity
-            android:name=".controller.activity.PublisherActivity"
-            android:parentActivityName=".controller.activity.MainActivity" />
-        <activity
-            android:name=".controller.activity.FilterActivity"
-            android:parentActivityName=".controller.activity.MainActivity" />
-        <activity
-            android:name=".controller.activity.AboutActivity"
-            android:parentActivityName=".controller.activity.MainActivity" />
     </application>
 </manifest>

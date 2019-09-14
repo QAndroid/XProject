@@ -3,6 +3,7 @@ package workshop1024.com.xproject.introduce.controller.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
@@ -14,6 +15,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import workshop1024.com.xproject.base.exception.IntentNotFoundException
+import workshop1024.com.xproject.base.utils.IntentUtils
 import workshop1024.com.xproject.introduce.R
 import workshop1024.com.xproject.introduce.controller.fragment.IntroduceFragment
 import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
@@ -54,11 +57,11 @@ class IntroduceActivity : FragmentActivity() {
      */
     private fun toMainActivity() {
         //setClassName(pacakgeName,className)隐式意图跳转，避免组件间的依赖
-        val intent = Intent()
-        intent.setClassName(this.packageName, "workshop1024.com.xproject.home.controller.activity.MainActivity")
-        if(intent.resolveActivity(packageManager) !=null){
-            startActivity(intent)
-            finish()
+        try {
+            IntentUtils.startActivityBySetClassName(this, "workshop1024.com.xproject.main.controller.activity.MainActivity")
+        } catch (exception: IntentNotFoundException) {
+            exception.printStackTrace()
+            Log.e("XProject", "跳转主页的意图不存在！")
         }
     }
 

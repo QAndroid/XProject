@@ -7,8 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import workshop1024.com.xproject.home.R
-
 import workshop1024.com.xproject.home.databinding.HomesublistItemContentBinding
+
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
 
 /**

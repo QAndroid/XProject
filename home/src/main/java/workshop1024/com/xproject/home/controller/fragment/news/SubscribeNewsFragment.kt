@@ -1,30 +1,30 @@
 package workshop1024.com.xproject.home.controller.fragment.news
 
 import android.os.Bundle
+import workshop1024.com.xproject.news.controller.fragment.NewsListFragment
 
 import workshop1024.com.xproject.base.controller.fragment.SubFragment
-import workshop1024.com.xproject.home.R
 
 class SubscribeNewsFragment : NewsListFragment(), SubFragment {
-    private var mSubscribeName: String? = null
+    private var mSubscribeId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            mSubscribeName = arguments?.getString(SUBSCRIBE_NAME)
+        mSubscribeId = arguments?.getString(SUBSCRIBE_ID)
     }
 
     override fun getNewsList() {
-        mSubscribeName?.let { mNewsRepository?.getNewsListBySubscribe(it, this) }
+        mSubscribeId?.let { mNewsRepository?.getNewsListBySubscribe(it, this) }
     }
 
     companion object {
-        private const val SUBSCRIBE_NAME = "subscribe_Name"
+        private const val SUBSCRIBE_ID = "subscribe_Id"
 
-        fun newInstance(subscribeName: String): SubscribeNewsFragment {
+        fun newInstance(subscribeId: String, navigationItemId: Int): SubscribeNewsFragment {
             val subscribeNewsFragment = SubscribeNewsFragment()
-            subscribeNewsFragment.mNavigationItemId = R.id.leftnavigator_menu_home
+            subscribeNewsFragment.mNavigationItemId = navigationItemId
             val args = Bundle()
-            args.putString(SUBSCRIBE_NAME, subscribeName)
+            args.putString(SUBSCRIBE_ID, subscribeId)
             subscribeNewsFragment.arguments = args
             return subscribeNewsFragment
         }

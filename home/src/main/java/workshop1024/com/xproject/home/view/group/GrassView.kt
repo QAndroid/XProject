@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.home.controller.view.group
+package workshop1024.com.xproject.home.view.group
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -37,7 +37,6 @@ class GrassView : LinearLayout {
                 -mGrassViewBinding.grassviewImageviewGrass.width.toFloat(), (width + mGrassViewBinding.grassviewImageviewGrass.width).toFloat())
                 .apply {
                     duration = 10000
-
                     repeatMode = ValueAnimator.RESTART
                     repeatCount = 1000
                 }
