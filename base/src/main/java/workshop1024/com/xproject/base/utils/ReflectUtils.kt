@@ -22,14 +22,14 @@ object ReflectUtils {
     //Kotlin没有受检查异常，Kotlin函数不会声明抛出异常，Kotlin使用@Throws注解
     //参考：受检异常-https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html#checked-exceptions
     @Throws(ReflectClassNotFoundException::class)
-    fun invokeCompanionMethod(classPath: String, methodName: String, vararg params: Any): Any? {
+    fun invokeCompanionMethod(classPath: String, methodName: String, vararg params: Any): Any {
         try {
             val clazz = Class.forName(classPath)
             val kotlinClazz = Reflection.createKotlinClass(clazz)
             val kotlinFunction = kotlinClazz.companionObject?.declaredFunctions?.find { it.name == methodName }
             //*params使用伸展操作符，在数组面前加*
             //参考：可变数量的参数（Varargs），https://www.kotlincn.net/docs/reference/functions.html#%E5%8F%AF%E5%8F%98%E6%95%B0%E9%87%8F%E7%9A%84%E5%8F%82%E6%95%B0varargs
-            return kotlinFunction?.call(kotlinClazz.companionObjectInstance, *params)
+            return kotlinFunction?.call(kotlinClazz.companionObjectInstance, *params)!!
         } catch (exception: ClassNotFoundException) {
             //参考：提倡异常封装——《改善Java程序的151个建议》，分类处理异常如下：
             //1.方便开发和维护人员，打印异常堆栈

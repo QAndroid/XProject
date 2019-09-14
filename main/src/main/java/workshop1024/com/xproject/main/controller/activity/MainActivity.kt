@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
     private fun showHomePageFragment() {
         //反射动态获取homePageFragment实例对象，避免对HomePageFragment类的直接依赖
         try {
+            //Caused by: f.a.a.b.i.b: 你调用的方法:newInstance，所在的类:workshop1024.com.xproject.home.controller.fragment.HomePageFragment不存在!
+            //反射调用，需要配置混淆忽
+            //FIXME 已经配置了混淆忽略，发射还继续报错!!
+            //Caused by: a.d
+            //        at workshop1024.com.xproject.base.utils.ReflectUtils.java.lang.Object invokeCompanionMethod(java.lang.String,java.lang.String,java.lang.Object[])(:7)
             val homePageFragment = ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.HomePageFragment",
                     "newInstance", R.id.leftnavigator_menu_home) as XFragment
 
