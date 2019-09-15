@@ -1,6 +1,6 @@
 //顶级的构建文件，你可以为所有的sub-projects/modules添加共同的配置选项
 //buildscript中，声明的是gradle脚本自身需要使用的资源
-buildscript { 
+buildscript {
     ext.kotlin_version = '1.3.50'
 
     // Define versions in a single place
@@ -31,6 +31,8 @@ buildscript {
         material_version = '1.0.0'
         constraintlayout_version = '1.1.3'
         core_ktx_version = '1.0.2'
+        arouter_api_version = '1.5.0'
+        arouter_compiler_version = '1.2.2'
     }
 
     repositories {
@@ -58,6 +60,7 @@ subprojects {
     }
     apply plugin: 'kotlin-android'
     apply plugin: 'kotlin-android-extensions'
+    apply plugin: "kotlin-kapt"
 
     android {
         compileSdkVersion rootProject.compilesdk_version
@@ -87,6 +90,15 @@ subprojects {
             targetSdkVersion rootProject.targetsdk_version
 
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+            //ARouter：annotationProcesser会使用javaCompileOptions配置类获取当前module的名字
+            //Kotlin有自己独有的kapt框架做apt相关操作，的报错-There is no route match the path [/xxx/xxx], in group [xxx][ ]"
+            //参考：https://juejin.im/post/593e5084128fe1006af179ad
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
+                }
+            }
         }
 
         buildTypes {
@@ -114,6 +126,12 @@ subprojects {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+        //ARoter:替换成最新版本,需要注意的是api。要与compiler匹配使用，均使用最新版可以保证兼容
+        //每个模块需要ARouter apt引用，不然无法在apt中生成索引文件，无法成功跳转
+        //每个模块需要ARouter api引用，不然构建报错：ARouter::Compiler The user has configuration the module name, it was [eventbus]
+        implementation "com.alibaba:arouter-api:$rootProject.arouter_api_version"
+        kapt "com.alibaba:arouter-compiler:$rootProject.arouter_compiler_version"
 
         //本地测试源集依赖
         testImplementation "junit:junit:$rootProject.junit_version"

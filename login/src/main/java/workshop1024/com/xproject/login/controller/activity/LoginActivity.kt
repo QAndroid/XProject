@@ -7,10 +7,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import workshop1024.com.xproject.base.utils.IntentUtils
 import workshop1024.com.xproject.login.R
 import workshop1024.com.xproject.login.databinding.LoginActivityBinding
 
+//ARouter：在支持路由的页面上添加注解(必选) ，这里的路径需要注意的是至少需要有两级，/xx/xx
+@Route(path = "/login/LoginActivity")
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

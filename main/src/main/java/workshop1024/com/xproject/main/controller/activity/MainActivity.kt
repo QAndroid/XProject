@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.navigation.NavigationView
 import org.greenrobot.eventbus.EventBus
 import workshop1024.com.xproject.base.controller.event.*
@@ -33,6 +35,8 @@ import kotlin.jvm.internal.Reflection
 /**
  * 主页面，包含抽屉导航栏，以及导航菜单对应的各个子Fragment页面
  */
+//ARouter：在支持路由的页面上添加注解(必选) ，这里的路径需要注意的是至少需要有两级，/xx/xx
+@Route(path = "/main/MainActivity")
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, FragmentManager.OnBackStackChangedListener {
     private lateinit var mActionBarDrawerToggle: ActionBarDrawerToggle
 
@@ -212,11 +216,21 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 }
                 R.id.leftnavigator_menu_settings -> {
                     //隐式意图2-setClass(content,...)，通过公共组件实现依赖
-                    IntentUtils.startActivityBySetClassName(this@MainActivity, "workshop1024.com.xproject.settings.controller.activity.SettingsActivity")
+                    try {
+                        IntentUtils.startActivityBySetClassName(this@MainActivity, "workshop1024.com.xproject.settings.controller.activity.SettingsActivity")
+                    } catch (exception: IntentNotFoundException) {
+                        exception.printStackTrace()
+                        Log.e("XProject", "跳转SettingsActivity的意图不存在！")
+                    }
                 }
                 R.id.leftnavigator_menu_feedback -> {
                     //隐式意图3-setComponent，避免组件直接依赖
-                    IntentUtils.startActivityBySetComponent(this@MainActivity, "workshop1024.com.xproject.feedback.controller.activity.FeedbackActivity")
+                    try{
+                        IntentUtils.startActivityBySetComponent(this@MainActivity, "workshop1024.com.xproject.feedback.controller.activity.FeedbackActivity")
+                    }catch (exception: IntentNotFoundException) {
+                        exception.printStackTrace()
+                        Log.e("XProject", "跳转FeedbackActivity的意图不存在！")
+                    }
                 }
             }
 
@@ -230,8 +244,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
 
     inner class HeaderHandlers {
         fun onClickLogin(view: View) {
-            //隐式意图2-setClass(content,...)，通过公共组件实现依赖
-            IntentUtils.startActivityBySetClassName(this@MainActivity, "workshop1024.com.xproject.login.controller.activity.LoginActivity")
+            //ARouter：应用内简单的跳转，build填写地址，navigation发射路由
+            ARouter.getInstance().build("/login/LoginActivity").navigation()
         }
 
         fun onClickLogout(view: View) {

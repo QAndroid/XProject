@@ -15,16 +15,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import workshop1024.com.xproject.base.exception.IntentNotFoundException
 import workshop1024.com.xproject.base.utils.IntentUtils
 import workshop1024.com.xproject.introduce.R
 import workshop1024.com.xproject.introduce.controller.fragment.IntroduceFragment
 import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
 
-@BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
 /**
  * 介绍页面
  */
+@BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
+@Route(path = "/introduce/IntroduceActivity")
 class IntroduceActivity : FragmentActivity() {
     //介绍布局id
     private val mLayoutIdList = listOf(R.layout.introduce1_fragment, R.layout
@@ -56,13 +59,8 @@ class IntroduceActivity : FragmentActivity() {
      * 跳转MainActivity页面
      */
     private fun toMainActivity() {
-        //setClassName(pacakgeName,className)隐式意图跳转，避免组件间的依赖
-        try {
-            IntentUtils.startActivityBySetClassName(this, "workshop1024.com.xproject.main.controller.activity.MainActivity")
-        } catch (exception: IntentNotFoundException) {
-            exception.printStackTrace()
-            Log.e("XProject", "跳转主页的意图不存在！")
-        }
+        //使用ARouter实现简单跳转，build()路由url，navigation()执行调整转，从而解耦组件间的依赖
+        ARouter.getInstance().build("/main/MainActivity").navigation();
     }
 
     /**

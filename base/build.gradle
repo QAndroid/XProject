@@ -32,6 +32,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
 
+    //添加Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
 

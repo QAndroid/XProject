@@ -9,6 +9,7 @@
         <activity
             android:name=".controller.activity.IntroduceActivity"
             android:exported="true">
+            <!--配置隐式意图过滤器-->
             <intent-filter>
                 <action android:name="workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
