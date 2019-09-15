@@ -5,14 +5,15 @@ import com.alibaba.android.arouter.launcher.ARouter
 import workshop1024.com.xproject.base.XApplication
 import workshop1024.com.xproject.base.utils.ThemeUtils
 
-class AppApplication : XApplication() {
-    val moduleApps = listOf<String>("workshop1024.com.xproject.home.HomeApplication", "workshop1024.com.xproject.main.MainApplication")
-
+class AppApplication : Application(), XApplication {
     override fun onCreate() {
         super.onCreate()
+        //动态配置Application：各模块需要快速初始化逻辑
+        onInitSpeed(this)
+
         ThemeUtils.refreshThemesShow(this)
 
-        //这两行必须写在init之前，否则这些配置在init过程中将无效
+        //ARouter：这两行必须写在init之前，否则这些配置在init过程中将无效
         if (BuildConfig.DEBUG) {
             //打印日志
             ARouter.openLog();
@@ -22,25 +23,39 @@ class AppApplication : XApplication() {
         //尽可能早，推荐在Application中初始化
         ARouter.init(this);
 
-        //通过反射解耦，初始化组件之间通信的接口实例
-        //方案参考：https://github.com/renxuelong/ComponentDemo
-        initModuleApp()
+        //动态配置Application：各模块需要再初始化逻辑
+        onInitLow(this)
     }
 
-    override fun initModuleApp() {
-        for (moduleApp in moduleApps) {
-            try {
-                val clazz = Class.forName(moduleApp)
-                val baseApp = clazz.newInstance() as XApplication
-                baseApp.initModuleApp()
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            } catch (e: InstantiationException) {
-                e.printStackTrace()
+    override fun onInitSpeed(application: Application) {
+        try {
+            for (init in AppConfig.initModules) {
+                val clazz = Class.forName(init)
+                val moduleInit = clazz.newInstance() as XApplication
+                moduleInit.onInitSpeed(this)
             }
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: InstantiationException) {
+            e.printStackTrace()
+        }
+    }
 
+    override fun onInitLow(application: Application) {
+        try {
+            for (init in AppConfig.initModules) {
+                val clazz = Class.forName(init)
+                val moduleInit = clazz.newInstance() as XApplication
+                moduleInit.onInitLow(this)
+            }
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: InstantiationException) {
+            e.printStackTrace()
         }
     }
 }
