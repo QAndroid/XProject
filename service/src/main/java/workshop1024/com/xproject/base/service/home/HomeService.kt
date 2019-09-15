@@ -13,8 +13,6 @@ interface HomeService {
 
     fun newTagNewsFragmentInstance(subscribeId: String, navigationItemId: Int): Fragment?
 
-    fun newFilterNewsFragmentInstance(subscribeId: String, navigationItemId: Int): Fragment?
-
 
     fun isHomePageFragment(fragment: Fragment?): Boolean
 

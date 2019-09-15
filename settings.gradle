@@ -1,1 +1,1 @@
-include ':app', ':base', ':introduce', ':home', ':settings', ':feedback', ':main', ':save', ':eventbus', ':login', ':news', ':service'
+include ':app', ':base', ':introduce', ':home', ':settings', ':feedback', ':main', ':save', ':eventbus', ':login', ':news', ':service', ':arouter'

@@ -12,10 +12,6 @@ class HomeServiceEmptyImpl : HomeService {
         return null
     }
 
-    override fun newFilterNewsFragmentInstance(subscribeId: String, navigationItemId: Int): Fragment? {
-        return null
-    }
-
     override fun isHomePageFragment(fragment: Fragment?): Boolean {
         return false
     }

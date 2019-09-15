@@ -18,11 +18,6 @@ class HomeServiceImpl : HomeService {
         return TagNewsFragment.newInstance(subscribeId, navigationItemId)
     }
 
-    override fun newFilterNewsFragmentInstance(subscribeId: String, navigationItemId: Int): Fragment? {
-        return FilterNewsFragment.newInstance(subscribeId, navigationItemId)
-    }
-
-
     override fun isHomePageFragment(fragment: Fragment?): Boolean {
         return fragment is HomePageFragment
     }

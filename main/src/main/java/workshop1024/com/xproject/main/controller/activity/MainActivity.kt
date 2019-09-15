@@ -19,6 +19,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.navigation.NavigationView
 import org.greenrobot.eventbus.EventBus
+import workshop1024.com.xproject.base.arouter.provider.SaveProvider
 import workshop1024.com.xproject.base.controller.event.*
 import workshop1024.com.xproject.base.controller.fragment.TopFragment
 import workshop1024.com.xproject.base.controller.fragment.XFragment
@@ -199,20 +200,15 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
             when (item.itemId) {
                 R.id.leftnavigator_menu_home -> showHomePageFragment()
                 R.id.leftnavigator_menu_saved -> {
-                    //FIXME 智能通过类型转换吗？？
-                    //TODO 是否可以通过公共接口的形式，获取Fragment对象，并且通过共同接口通信解耦
-                    try {
-                        val savedFragment = ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.save.controller.fragment.SavedFragment",
-                                "newInstance", R.id.leftnavigator_menu_saved) as XFragment
-                        supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit()
+                    //动态创建Fragment:ARouter，跨组件创建savedFragment实例
+                    //使用依赖查找发现线服务，通过SaveProvider::class.java类型查找到saveProvider如无
+                    val saveProvider = ARouter.getInstance().navigation(SaveProvider::class.java)
+                    val savedFragment = saveProvider.newSavedFragmentInstance(R.id.leftnavigator_menu_saved)
+                    supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit()
 
-                        //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
-                        mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved)
-                        mCurrentFragment = savedFragment
-                    } catch (exception: ClassNotFoundException) {
-                        Log.e("XProject", "反射获取savedFragment实例失败，调用类路径不存在！")
-                        exception.toString()
-                    }
+                    //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
+                    mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved)
+                    mCurrentFragment = savedFragment as XFragment
                 }
                 R.id.leftnavigator_menu_settings -> {
                     //隐式意图2-setClass(content,...)，通过公共组件实现依赖
@@ -225,9 +221,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 }
                 R.id.leftnavigator_menu_feedback -> {
                     //隐式意图3-setComponent，避免组件直接依赖
-                    try{
+                    try {
                         IntentUtils.startActivityBySetComponent(this@MainActivity, "workshop1024.com.xproject.feedback.controller.activity.FeedbackActivity")
-                    }catch (exception: IntentNotFoundException) {
+                    } catch (exception: IntentNotFoundException) {
                         exception.printStackTrace()
                         Log.e("XProject", "跳转FeedbackActivity的意图不存在！")
                     }

@@ -46,7 +46,7 @@ class TagFragment : HomeSubFragment() {
 
     override fun onSubListItemClick(subInfo: SubInfo) {
         //替换的布局在main组件中
-        ServiceFactory.getInstance()?.mainService?.showFilterNewsFragment(activity, subInfo.infoId, subInfo.name)
+        ServiceFactory.getInstance()?.mainService?.showTagNewsFragment(activity, subInfo.infoId, subInfo.name)
     }
 
     public override fun markAsRead() {
