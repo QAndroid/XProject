@@ -20,24 +20,35 @@ abstract class LazyFragment : Fragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
+        //TODO 解决从信息订阅者信息页面返回重新请求
+        Log.i("XProject", "LazyFragment setUserVisibleHint isVisibleToUser = ${isVisibleToUser}")
         mIsVisibleToUser = isVisibleToUser
         prepareLoadData()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.i("XProject", "LazyFragment onCreateView")
+
         mIsViewInitiated = false
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Log.i("XProject", "LazyFragment onActivityCreated")
         mIsViewInitiated = true
         prepareLoadData()
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.i("XProject", "LazyFragment onPause")
+        mIsVisibleToUser = false
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        mIsViewInitiated = false
+        Log.i("XProject", "LazyFragment onDestroyView")
         mIsDataInitiated = false
     }
 
@@ -46,11 +57,12 @@ abstract class LazyFragment : Fragment() {
      */
     private fun prepareLoadData() {
         //当且仅当Fragment对用户可见，视图初始化完毕，并且还没有获取数据的时候，加载数据
-        Log.i("XProject", "prepareLoadData mIsVisibleToUser =" + mIsVisibleToUser +
+        Log.i("XProject", "LazyFragment prepareLoadData mIsVisibleToUser =" + mIsVisibleToUser +
                 ",mIsViewInitiated =" + mIsViewInitiated + ",mIsDataInitiated =" + mIsDataInitiated)
         //FIXME 上一个页面返回之后，不会再次加载数
         if (mIsVisibleToUser && mIsViewInitiated && !mIsDataInitiated) {
             mIsDataInitiated = true
+            Log.i("XProject", "LazyFragment loadData")
             loadData()
         }
     }

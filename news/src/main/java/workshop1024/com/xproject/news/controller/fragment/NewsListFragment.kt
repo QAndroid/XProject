@@ -84,7 +84,6 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun refreshNewsList() {
-        Snackbar.make(mNewsListFragmentBinding.root, "Fetch more newses ...", Snackbar.LENGTH_SHORT).show()
         mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = true
         getNewsList()
     }

@@ -10,7 +10,7 @@
             type="androidx.recyclerview.widget.GridLayoutManager" />
 
         <!--<variable-->
-            <!--name="recyclerViewItemDecoration"-->
+            <!--mName="recyclerViewItemDecoration"-->
             <!--type="workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration" />-->
 
         <variable

@@ -72,6 +72,4 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
     implementation "com.google.android:flexbox:$rootProject.flexbox_verion"
-
-    implementation "org.greenrobot:eventbus:$rootProject.eventbus_version"
 }

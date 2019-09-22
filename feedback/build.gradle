@@ -71,6 +71,4 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
     implementation "androidx.cardview:cardview:$rootProject.cardview_version"
-
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
 }

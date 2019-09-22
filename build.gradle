@@ -33,6 +33,7 @@ buildscript {
         core_ktx_version = '1.0.2'
         arouter_api_version = '1.5.0'
         arouter_compiler_version = '1.2.2'
+        room_version = '2.2.0-rc01'
     }
 
     repositories {

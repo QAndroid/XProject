@@ -73,8 +73,4 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
-
-    implementation "org.greenrobot:eventbus:$rootProject.eventbus_version"
 }

@@ -1,13 +1,11 @@
 package workshop1024.com.xproject.home.controller.fragment
 
+import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.base.service.ServiceFactory
 
-import java.util.ArrayList
-
-import workshop1024.com.xproject.home.R
 import workshop1024.com.xproject.home.controller.adapter.HomeSubListAdapter
-import workshop1024.com.xproject.home.controller.fragment.news.TagNewsFragment
+import workshop1024.com.xproject.home.model.Injection
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
 
 /**
@@ -15,48 +13,45 @@ import workshop1024.com.xproject.home.model.subinfo.SubInfo
  */
 class TagFragment : HomeSubFragment() {
 
+    override fun onPause() {
+        super.onPause()
+        mSubInfoRepository.refreshByType(SubInfo.TAG_TYPE, false, false)
+    }
+
     override fun onRefresh() {
-        refreshTagList()
+        mSubInfoRepository.refreshByType(SubInfo.TAG_TYPE, true, false)
+        super.onRefresh()
     }
 
-    override fun loadData() {
-        refreshTagList()
+    override fun refreshSubInfoList() {
+        super.refreshSubInfoList()
+        mSubInfoRepository.getSubInfoesByType(SubInfo.TAG_TYPE, this)
     }
 
-    private fun refreshTagList() {
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch more tag ...", Snackbar.LENGTH_SHORT).show()
-        mHomeSubFragmentHanlders.isRefreshing.set(true)
-        mSubInfoRepository.getTagSubInfos(this)
+    override fun onCacheOrLocalSubInfosLoaded(subInfoList: List<SubInfo>) {
+        newHomeSubListAdapter(subInfoList)
+        Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
+
+        super.onCacheOrLocalSubInfosLoaded(subInfoList)
     }
 
+    override fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>) {
+        newHomeSubListAdapter(subInfoList)
+        Snackbar.make(mHomesubFragmentBinding.root, "Fetch remote " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
+        super.onRemoteSubInfosLoaded(subInfoList)
+    }
 
-    override fun onSubInfosLoaded(subInfoList: List<SubInfo>) {
-        if (mIsForeground) {
-            mSubInfoList = subInfoList
-            mHomeSubFragmentHanlders.isRefreshing.set(false)
-            val homeSubListAdapter = HomeSubListAdapter(subInfoList, this)
-            mHomesubFragmentBinding.homesubRecyclerviewList.adapter = homeSubListAdapter
-            Snackbar.make(mHomesubFragmentBinding.root, "Fetch " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
-        }
+    private fun newHomeSubListAdapter(subInfoList: List<SubInfo>) {
+        mHomeSubListAdapter = HomeSubListAdapter(subInfoList, this)
     }
 
     override fun onDataNotAvailable() {
-        Snackbar.make(mHomesubFragmentBinding.root, "No tags refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mHomesubFragmentBinding.root, "No tags refreshByType...", Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onSubListItemClick(subInfo: SubInfo) {
         //替换的布局在main组件中
-        ServiceFactory.getInstance()?.mainService?.showTagNewsFragment(activity, subInfo.infoId, subInfo.name)
-    }
-
-    public override fun markAsRead() {
-        val subInfoIds = ArrayList<String>()
-        for ((infoId) in mSubInfoList!!) {
-            subInfoIds.add(infoId)
-        }
-        mSubInfoRepository.markedTagSubInfoesAsRead(subInfoIds)
-
-        refreshTagList()
+        ServiceFactory.getInstance()?.mainService?.showTagNewsFragment(activity, subInfo.mInfoId, subInfo.mName)
     }
 
     companion object {

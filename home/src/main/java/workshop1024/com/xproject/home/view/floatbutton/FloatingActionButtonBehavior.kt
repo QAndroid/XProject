@@ -17,19 +17,12 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet) : Floa
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
-        Log.i("XProject", "dependency.getTop() =  ${dependency.top}")
-        Log.i("XProject", "dependency.getHeight() = ${dependency.height}")
-
         //计算菜单栏隐藏了高度的百分比
         val translationPercent = dependency.top.toFloat() / dependency.height
 
-        Log.i("XProject", "translationPercent = $translationPercent")
-        Log.i("XProject", "child.getHeight() = ${child.height}")
-        Log.i("XProject", "child.getBottom() = ${child.bottom}")
-
         //使用该百分比和FloatAtionButton高度和底部边距相乘，计算FloatAtionButton应该移动的距离
         val translationY = abs((child.height + (parent.height + child.bottom)) * translationPercent)
-        Log.i("XProject", "translationY = $translationY")
+
         child.translationY = translationY
         return true
     }

@@ -3,27 +3,32 @@ package workshop1024.com.xproject.home.model.subinfo.source
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
 
 interface SubInfoDataSource {
+    fun getSubInfoesByType(infoType: String, loadCallback: LoadCallback)
 
-    fun getSubscribeSubInfos(loadSubInfoCallback: LoadSubInfoCallback)
+    fun deleteAllSubInfoesByType(infoType: String)
 
-    fun unSubscribeSubInfoById(subInfoId: String)
+    fun saveSubInfo(subInfo: SubInfo)
 
-    fun reNameSubscribeSubInfoById(subInfoId: String, newName: String)
+    fun markedSubInfoesAsRead(subInfoIdList: List<String>)
 
-    fun getTagSubInfos(loadSubInfoCallback: LoadSubInfoCallback)
+    fun refreshByType(infoType: String, isSubInfoShowMaps: Boolean, isCacheAndLocalDirty: Boolean)
 
-    fun getFilterSubInfos(loadSubInfoCallback: LoadSubInfoCallback)
+    fun unSubInfoById(subInfoId: String)
 
-    fun markedSubscribeSubInfoesAsRead(subInfoIdList: List<String>)
+    fun reNameSubInfoById(subInfoId: String, newName: String)
 
-    fun markedTagSubInfoesAsRead(subInfoIdList: List<String>)
+    interface LoadSubInfoCallback : LoadCacheOrLocalSubInfoCallback, LoadRemoteSubInfoCallback
 
-    fun markeFilterSubInfoesAsRead(subInfoIdList: List<String>)
+    interface LoadCacheOrLocalSubInfoCallback : LoadCallback {
+        fun onCacheOrLocalSubInfosLoaded(subInfoList: List<SubInfo>)
 
-    interface LoadSubInfoCallback {
-        fun onSubInfosLoaded(subInfoList: List<SubInfo>)
-
-        fun onDataNotAvailable()
     }
 
+    interface LoadRemoteSubInfoCallback : LoadCallback {
+        fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>)
+    }
+
+    interface LoadCallback {
+        fun onDataNotAvailable()
+    }
 }
