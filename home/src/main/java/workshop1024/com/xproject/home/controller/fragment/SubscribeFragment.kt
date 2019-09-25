@@ -58,6 +58,7 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
 
     override fun onInputStringDialogClick(dialog: DialogFragment, inputString: String) {
         mSubInfoRepository.reNameSubInfoById(mRenameSubInfo!!.mInfoId, inputString)
+        //TODO 同步局部更新来刷新列表，而不是请求数据刷新！
         refreshSubInfoList()
     }
 
@@ -72,6 +73,7 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
 
     override fun onUnscribeMenuClick(subscribe: SubInfo) {
         mSubInfoRepository.unSubInfoById(subscribe.mInfoId)
+        //TODO 同步局部更新来刷新列表，而不是请求数据刷新！
         refreshSubInfoList()
     }
 

@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
@@ -111,8 +110,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
     override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
         //FIXME 每次都需要创建适配器吗？
         if (mIsForeground) {
-            newAndSetPublisherAdapter(publisherList)
-            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+            refreshPublisherList(publisherList)
             Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
         }
 
@@ -120,15 +118,16 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
         if (mIsForeground) {
-            newAndSetPublisherAdapter(publisherList)
-            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+            refreshPublisherList(publisherList)
             Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    private fun newAndSetPublisherAdapter(publisherList: List<Publisher>) {
+    private fun refreshPublisherList(publisherList: List<Publisher>) {
         mPublisherListAdapter = PublisherListAdapter(publisherList, this)
         mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
+
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
     }
 
     override fun onDataNotAvailable() {
