@@ -1,0 +1,29 @@
+package workshop1024.com.xproject.main.model.publisher.local
+
+import android.content.Context
+import androidx.databinding.ObservableBoolean
+import androidx.room.*
+import workshop1024.com.xproject.main.model.publisher.Publisher
+
+@Database(entities = [Publisher::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
+abstract class PublisherDatabase : RoomDatabase() {
+    abstract fun publisherDao(): PublisherDao
+
+    companion object {
+        private lateinit var INSTANCE: PublisherDatabase
+
+        private val sLock = Any()
+
+        fun getInstance(context: Context): PublisherDatabase {
+            //FIXME 公共访问组件注意多线程并发问题
+            synchronized(sLock) {
+                if (!this::INSTANCE.isInitialized) {
+                    INSTANCE = Room.databaseBuilder(context.applicationContext, PublisherDatabase::class.java,
+                            "publishers.db").build()
+                }
+                return INSTANCE
+            }
+        }
+    }
+}

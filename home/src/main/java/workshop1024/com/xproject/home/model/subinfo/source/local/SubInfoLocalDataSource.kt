@@ -3,7 +3,7 @@ package workshop1024.com.xproject.home.model.subinfo.source.local
 import android.util.Log
 import workshop1024.com.xproject.home.model.subinfo.SubInfo
 import workshop1024.com.xproject.home.model.subinfo.source.SubInfoDataSource
-import workshop1024.com.xproject.home.utils.ExecutorUtils
+import workshop1024.com.xproject.base.utils.ExecutorUtils
 
 class SubInfoLocalDataSource private constructor(private val mSubInfoDao: SubInfoDao, private val mExecutorUtils: ExecutorUtils)
     : SubInfoDataSource {
@@ -20,14 +20,12 @@ class SubInfoLocalDataSource private constructor(private val mSubInfoDao: SubInf
                 }
             })
         }
-
         mExecutorUtils.mDiskIOExecutor.execute(getSubInfoesRunnable)
     }
 
     override fun deleteAllSubInfoesByType(infoType: String) {
         Log.i("XProject", "SubInfoLocalDataSource deleteAllSubInfoesByType, infoType = $infoType")
         val deleteRunnable = Runnable { mSubInfoDao.deleteAllSubInfoes(infoType) }
-
         mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
     }
 
@@ -50,14 +48,12 @@ class SubInfoLocalDataSource private constructor(private val mSubInfoDao: SubInf
     override fun unSubInfoById(subInfoId: String) {
         Log.i("XProject", "SubInfoLocalDataSource unSubscribeById, subInfoId =$subInfoId")
         val unSubscribeRunnable = Runnable { mSubInfoDao.unSubInfoById(subInfoId) }
-
         mExecutorUtils.mDiskIOExecutor.execute(unSubscribeRunnable)
     }
 
     override fun reNameSubInfoById(subInfoId: String, newName: String) {
         Log.i("XProject", "SubInfoLocalDataSource reNameSubscribeById, subInfoId=$subInfoId")
         val reNameRunnable = Runnable { mSubInfoDao.reNameSubInfoById(subInfoId, newName) }
-
         mExecutorUtils.mDiskIOExecutor.execute(reNameRunnable)
     }
 

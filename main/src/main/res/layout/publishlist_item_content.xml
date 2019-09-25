@@ -47,7 +47,7 @@
                     android:id="@+id/publisherlist_textview_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{publisher.name}"
+                    android:text="@{publisher.mName}"
                     android:textColor="@color/xproject_daynight_textcolor"
                     android:textSize="18.0sp"
                     tools:text="The Verge" />
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="@{publisher.subscribeNum}"
+                    android:text="@{publisher.mSubscribeNum}"
                     android:textColor="@color/xproject_textcolor_secondary"
                     android:textSize="12.0sp"
                     tools:text="970603 subscribers" />
@@ -71,7 +71,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:button="@drawable/publisherlist_checkbox_selector"
-                android:checked="@{publisher.isSubscribed}"
+                android:checked="@{publisher.mIsSubscribed}"
                 app:onTouchListener="@{(view,event)->publisherHandlers.onTouchSelected(view,event,publisher)}" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

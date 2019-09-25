@@ -21,7 +21,7 @@ class PublisherTypeMockRepository private constructor() : workshop1024.com.xproj
         val handler = Handler()
         handler.postDelayed({
             val publisherTypeList = ArrayList(LANGUAGE_SERVICE_DATA!!.values)
-            loadPublisherTypeCallback.onPublisherTypesLoaded(publisherTypeList, "language")
+            loadPublisherTypeCallback.onPublisherTypesLoaded(publisherTypeList, "mLanguage")
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
     }
 

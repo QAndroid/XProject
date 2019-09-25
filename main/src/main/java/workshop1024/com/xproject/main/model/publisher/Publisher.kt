@@ -1,22 +1,20 @@
 package workshop1024.com.xproject.main.model.publisher
 
 import androidx.databinding.ObservableBoolean
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 /**
  * 发布者数据类
  */
+@Entity(tableName = "publishers")
 class Publisher( //发布者id
-        var publisherId: String, //发布者类型
-        var typeId: String,//发布者语言类型
-        var language: String,//发布者图标URL
-        var iconUrl: String,//发布者名称
-        var name: String,//发布者订阅数量
-        var subscribeNum: String,//发布者是否被订阅
-        isSubscribed: Boolean
-) {
-    var isSubscribed: ObservableBoolean = ObservableBoolean()
-
-    init {
-        this.isSubscribed.set(isSubscribed)
-    }
-}
+        @PrimaryKey @ColumnInfo(name = "publisherId") var mPublisherId: String, //发布者类型
+        @ColumnInfo(name = "typeId") var mTypeId: String,//发布者语言类型
+        @ColumnInfo(name = "language") var mLanguage: String,//发布者图标URL
+        @ColumnInfo(name = "iconUrl") var mIconUrl: String,//发布者名称
+        @ColumnInfo(name = "name") var mName: String,//发布者订阅数量
+        @ColumnInfo(name = "subscribeNum") var mSubscribeNum: String,//发布者是否被订阅
+        @ColumnInfo(name = "isSubscribed") var mIsSubscribed: ObservableBoolean //使用观察者数据对象自动刷新，参考：https://developer.android.com/topic/libraries/data-binding/observability
+)

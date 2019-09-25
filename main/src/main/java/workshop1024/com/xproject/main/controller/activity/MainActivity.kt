@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
             val homePageFragment = ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.HomePageFragment",
                     "newInstance", R.id.leftnavigator_menu_home) as XFragment
 
-            supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).addToBackStack("").commit()
+            supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).commit()
 
             //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
             mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_home)

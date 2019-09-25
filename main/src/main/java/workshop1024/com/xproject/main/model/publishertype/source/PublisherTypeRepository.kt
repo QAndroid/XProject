@@ -21,7 +21,7 @@ class PublisherTypeRepository private constructor() : PublisherTypeDataSource {
         val handler = Handler()
         handler.postDelayed({
             val publisherTypeList = ArrayList(LANGUAGE_SERVICE_DATA!!.values)
-            loadPublisherTypeCallback.onPublisherTypesLoaded(publisherTypeList, "language")
+            loadPublisherTypeCallback.onPublisherTypesLoaded(publisherTypeList, "mLanguage")
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
     }
 

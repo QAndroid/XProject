@@ -1,73 +1,73 @@
-package workshop1024.com.xproject.model.publisher.source
+package workshop1024.com.xproject.main.model.publisher.remote
 
 import android.os.Handler
 import android.util.Log
+import androidx.databinding.ObservableBoolean
 import com.google.gson.Gson
 import workshop1024.com.xproject.main.model.publisher.Publisher
 import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 
-import java.util.ArrayList
-import java.util.LinkedHashMap
-
-class PublisherMockRepository private constructor() : workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource {
-
-    override fun getPublishersByContentType(contentId: String, loadPublishersCallback: workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource.LoadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByContentType =$contentId")
-        val handler = Handler()
-        handler.postDelayed({
-            val typedPublishers = ArrayList<workshop1024.com.xproject.main.model.publisher.Publisher>()
-            val publisherList = ArrayList(PUBLISHERS_SERVICE_DATA!!.values)
-            for (publisher in publisherList) {
-                //获取指定类型的发布者
-                if (publisher.typeId == contentId) {
-                    typedPublishers.add(publisher)
-                }
-            }
-            Log.i("XProject", "PublisherRemoteDataSource  publisherList =" + Gson().toJson(typedPublishers))
-            loadPublishersCallback.onPublishersLoaded(typedPublishers)
+class PublisherRemoteDataSource : PublisherDataSource {
+    override fun getPublishers(loadCallback: PublisherDataSource.LoadCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishers")
+        Handler().postDelayed({
+            val publisherList = ArrayList(PUBLISHERS_SERVICE_DATA.values)
+            (loadCallback as PublisherDataSource.LoadRemotePublisherCallback).onRemotePublishersLoaded(publisherList)
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
     }
 
-    override fun getPublishersByLanguageType(languageId: String, loadPublishersCallback: workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource.LoadPublishersCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishersByLanguageType =$languageId")
-        val handler = Handler()
-        handler.postDelayed({
-            val languagedPublishers = ArrayList<workshop1024.com.xproject.main.model.publisher.Publisher>()
-            val publisherList = ArrayList(PUBLISHERS_SERVICE_DATA!!.values)
-            for (publisher in publisherList) {
-                //获取指定语言的发布者
-                if (publisher.language == languageId) {
-                    languagedPublishers.add(publisher)
-                }
-            }
-            Log.i("XProject", "PublisherRemoteDataSource  languagedPublishers =" + Gson().toJson(languagedPublishers))
-            loadPublishersCallback.onPublishersLoaded(languagedPublishers)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+    override fun getPublishersByContentType(contentId: String, loadCallback: PublisherDataSource.LoadCallback) {
+        //远程接口一次性提供正页面数据，筛选在本地内存中执行
     }
 
-    override fun subscribePublisherById(publisherId: String) {
-        Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById =$publisherId")
-        val subscribedPublisher = PUBLISHERS_SERVICE_DATA!![publisherId]
-        subscribedPublisher?.isSubscribed?.set(true)
+    override fun getPublishersByLanguageType(languageId: String, loadCallback: PublisherDataSource.LoadCallback) {
+        //远程接口一次性提供正页面数据，筛选在本地内存中执行
     }
 
-    override fun unSubscribePublisherById(publisherId: String) {
-        Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById =$publisherId")
-        val subscribedPublisher = PUBLISHERS_SERVICE_DATA!![publisherId]
-        subscribedPublisher?.isSubscribed?.set(false)
+    override fun subscribePublisherById(id: String) {
+        Log.i("XProject", "PublisherRemoteDataSource subscribePublisherById, id =$id")
+        val subscribedPublisher = PUBLISHERS_SERVICE_DATA[id]
+        subscribedPublisher?.mIsSubscribed?.set(true)
+    }
+
+    override fun unSubscribePublisherById(id: String) {
+        Log.i("XProject", "PublisherRemoteDataSource unSubscribePublisherById, id =$id")
+        val subscribedPublisher = PUBLISHERS_SERVICE_DATA[id]
+        subscribedPublisher?.mIsSubscribed?.set(false)
+    }
+
+    override fun deleteAllPublishers() {
+        Log.i("XProject", "PublisherRemoteDataSource deleteAllPublishers")
+        PUBLISHERS_SERVICE_DATA.clear()
+    }
+
+    override fun savePublisher(publisher: Publisher) {
+        Log.i("XProject", "PublisherRemoteDataSource savePublisher, publisher = $publisher")
+        PUBLISHERS_SERVICE_DATA.put(publisher.mPublisherId, publisher)
+    }
+
+
+    override fun refresh(isCacheAndLocalDirty: Boolean) {
+
     }
 
     companion object {
         private const val SERVICE_LATENCY_IN_MILLIS = 1000
 
-        private var PUBLISHERS_SERVICE_DATA: MutableMap<String, workshop1024.com.xproject.main.model.publisher.Publisher>? = null
+        private var PUBLISHERS_SERVICE_DATA: MutableMap<String, Publisher> = LinkedHashMap(2)
 
-        private var INSTANCE: PublisherMockRepository? = null
+        private lateinit var INSTANCE: PublisherRemoteDataSource
+
+        val instance: PublisherRemoteDataSource
+            get() {
+                if (!this::INSTANCE.isInitialized) {
+                    INSTANCE = PublisherRemoteDataSource()
+                }
+
+                return INSTANCE
+            }
 
         init {
-            //TODO 如何本地提供Mock环境
-            PUBLISHERS_SERVICE_DATA = LinkedHashMap(2)
-
             addPublisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", false)
             addPublisher("p002", "t001", "l001", "/imag1", "Engadget", "1348433 subscribers", false)
             addPublisher("p003", "t001", "l001", "/imag1", "Lifehacker", "934273 subscribers", false)
@@ -124,17 +124,8 @@ class PublisherMockRepository private constructor() : workshop1024.com.xproject.
         private fun addPublisher(publisherId: String, type: String, language: String, iconUrl: String,
                                  name: String, subscribeNum: String, isSubscribed: Boolean) {
             val newPublisher = workshop1024.com.xproject.main.model.publisher.Publisher(publisherId, type, language, iconUrl, name,
-                    subscribeNum, isSubscribed)
-            PUBLISHERS_SERVICE_DATA!![newPublisher.publisherId] = newPublisher
+                    subscribeNum, ObservableBoolean(isSubscribed))
+            PUBLISHERS_SERVICE_DATA[newPublisher.mPublisherId] = newPublisher
         }
-
-        val instance: workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
-            get() {
-                if (INSTANCE == null) {
-                    INSTANCE = PublisherMockRepository()
-                }
-
-                return INSTANCE!!
-            }
     }
 }

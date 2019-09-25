@@ -5,6 +5,7 @@ import workshop1024.com.xproject.home.model.subinfo.SubInfo
 import java.util.LinkedHashMap
 
 //FIXME 多线程访问数据问题
+//三个页面的数据，三次请求，故分别进行脏数据存储
 open class SubInfoRepository private constructor(private val mSubInfoRemoteDataSource: SubInfoDataSource,
                                                  private val mSubInfoLocalDataSource: SubInfoDataSource) : SubInfoDataSource {
     private lateinit var mCachedSubInfoMaps: MutableMap<String, SubInfo>

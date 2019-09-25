@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
@@ -28,15 +29,14 @@ import workshop1024.com.xproject.main.view.dialog.TypeChoiceDialog
 class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         PublisherDataSource.LoadPublishersCallback, PublisherTypeDataSource.LoadPublisherTypeCallback,
         TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
-
     private var mTypeChoiceDialog: TypeChoiceDialog? = null
     private var mLanguageChoiceDialog: TypeChoiceDialog? = null
     private var mSelectedDialog: DialogFragment? = null
 
     private var mPublisherListAdapter: PublisherListAdapter? = null
 
-    private var mPublisherDataSource: PublisherDataSource? = null
-    private var mPublisherTypeDataSource: PublisherTypeDataSource? = null
+    private lateinit var mPublisherRepository: PublisherDataSource
+    private lateinit var mPublisherTypeDataSource: PublisherTypeDataSource
 
     //可选择发布者内容类型
     private var mContentTypeList: ArrayList<PublisherType>? = null
@@ -47,31 +47,30 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
     //选择的语言索引
     private val mSelectedLanguageIndex = 0
 
-    private var mPublisherActivityBinding: PublisherActivityBinding? = null
+    private lateinit var mPublisherActivityBinding: PublisherActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPublisherActivityBinding = DataBindingUtil.setContentView(this, R.layout.publisher_activity)
 
-        setSupportActionBar(mPublisherActivityBinding!!.publisherToolbarNavigator)
+        setSupportActionBar(mPublisherActivityBinding.publisherToolbarNavigator)
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        mPublisherActivityBinding?.publisherSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
-        mPublisherActivityBinding?.publisherRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
+        mPublisherActivityBinding.publisherRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
 
         //显示默认选中的发布者
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
-        // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-name-is-shown
+        // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
         actionBar.title = resources.getString(R.string.publisher_title_default)
     }
 
     override fun onStart() {
         super.onStart()
-
         mPublisherTypeDataSource = Injection.providePublisherTypeRepository()
-        mPublisherTypeDataSource?.getPublisherContentTypes(this)
-        mPublisherTypeDataSource?.getPublisherLanguageTypes(this)
+        mPublisherTypeDataSource.getPublisherContentTypes(this)
+        mPublisherTypeDataSource.getPublisherLanguageTypes(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -99,21 +98,37 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onRefresh() {
-        mPublisherActivityBinding?.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mPublisherRepository.refresh(true)
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mPublisherRepository
         if (mSelectedDialog === mTypeChoiceDialog) {
-            mPublisherDataSource?.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
+            mPublisherRepository.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
         } else if (mSelectedDialog === mLanguageChoiceDialog) {
-            mPublisherDataSource?.getPublishersByLanguageType(mLanguageTypeList!![mSelectedLanguageIndex].typeId, this)
+            mPublisherRepository.getPublishersByLanguageType(mLanguageTypeList!![mSelectedLanguageIndex].typeId, this)
         }
     }
 
-    override fun onPublishersLoaded(publisherList: List<Publisher>) {
+    override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
         //FIXME 每次都需要创建适配器吗？
         if (mIsForeground) {
-            mPublisherActivityBinding!!.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
-            mPublisherListAdapter = PublisherListAdapter(publisherList, this)
-            mPublisherActivityBinding!!.publisherRecyclerviewList.adapter = mPublisherListAdapter
+            newAndSetPublisherAdapter(publisherList)
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+            Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
         }
+
+    }
+
+    override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
+        if (mIsForeground) {
+            newAndSetPublisherAdapter(publisherList)
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+            Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun newAndSetPublisherAdapter(publisherList: List<Publisher>) {
+        mPublisherListAdapter = PublisherListAdapter(publisherList, this)
+        mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
     }
 
     override fun onDataNotAvailable() {
@@ -125,9 +140,9 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (type == "content") {
             mContentTypeList = publisherTypeList as ArrayList<PublisherType>
             //使用默认选中的发布者类型请求发布者信息
-            mPublisherDataSource = Injection.providePublisherRepository()
-            mPublisherActivityBinding?.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
-            mPublisherDataSource?.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
+            mPublisherRepository = Injection.providePublisherRepository(this)
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+            mPublisherRepository.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
         } else {
             mLanguageTypeList = publisherTypeList as ArrayList<PublisherType>
         }
@@ -135,24 +150,25 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType) {
         mSelectedDialog = dialog
-        mPublisherActivityBinding?.publisherToolbarNavigator?.title = publisherType?.name
+        mPublisherActivityBinding.publisherToolbarNavigator?.title = publisherType.name
 
-        mPublisherActivityBinding?.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+//        mPublisherRepository.refresh(false, false)
         if (dialog === mTypeChoiceDialog) {
-            mPublisherDataSource?.getPublishersByContentType(publisherType?.typeId!!, this)
+            mPublisherRepository.getPublishersByContentType(publisherType.typeId, this)
         } else if (dialog === mLanguageChoiceDialog) {
-            mPublisherDataSource?.getPublishersByLanguageType(publisherType?.typeId!!, this)
+            mPublisherRepository.getPublishersByLanguageType(publisherType.typeId, this)
         }
     }
 
     override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             //FIXME 订阅网络请求返回后，在提示并且选中
-            mPublisherDataSource?.subscribePublisherById(selectPublisher.publisherId)
-            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher.name + " selected", Snackbar.LENGTH_SHORT).show()
+            mPublisherRepository.subscribePublisherById(selectPublisher.mPublisherId)
+            Snackbar.make(mPublisherActivityBinding.root, selectPublisher.mName + " selected", Snackbar.LENGTH_SHORT).show()
         } else {
-            mPublisherDataSource!!.unSubscribePublisherById(selectPublisher.publisherId)
-            Snackbar.make(mPublisherActivityBinding!!.root, selectPublisher.name + " unselected", Snackbar.LENGTH_SHORT).show()
+            mPublisherRepository.unSubscribePublisherById(selectPublisher.mPublisherId)
+            Snackbar.make(mPublisherActivityBinding.root, selectPublisher.mName + " unselected", Snackbar.LENGTH_SHORT).show()
         }
     }
 
