@@ -45,7 +45,9 @@ interface PublisherDataSource {
 
     fun savePublisher(publisher: Publisher)
 
-    fun refresh(isCacheAndLocalDirty: Boolean)
+    fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean)
+
+    fun getIsRequestRemote(): Boolean
 
     /**
      * 获取发布者信息回调

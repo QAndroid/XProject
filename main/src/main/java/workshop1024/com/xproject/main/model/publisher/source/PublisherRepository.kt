@@ -1,7 +1,6 @@
 package workshop1024.com.xproject.main.model.publisher.source
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
 import workshop1024.com.xproject.main.model.publisher.Publisher
 import java.util.LinkedHashMap
 
@@ -12,13 +11,13 @@ import java.util.LinkedHashMap
 //一个页面的数据，一次性请求回来，本地内存筛选
 class PublisherRepository private constructor(private val mPublisherRemoteDataSource: PublisherDataSource,
                                               private val mPublisherLocalDataSource: PublisherDataSource) : PublisherDataSource {
-
     private lateinit var mCachedPublisherMaps: MutableMap<String, Publisher>
-    private var mIsCacheAndLocalDirty: Boolean = false
+    private var mIsRequestRemote: Boolean = true
+    private var mIsRequestCacheOrLocal: Boolean = true
 
     override fun getPublishers(loadCallback: PublisherDataSource.LoadCallback) {
-        Log.i("XProject", "PublisherRepository getPublishers, mIsCacheAndLocalDirty = $mIsCacheAndLocalDirty")
-        if (!mIsCacheAndLocalDirty) {
+        Log.i("XProject", "PublisherRepository getPublishers, mIsRequestCacheOrLocal = $mIsRequestCacheOrLocal, mIsRequestRemote = $mIsRequestRemote")
+        if (mIsRequestCacheOrLocal) {
             if (this::mCachedPublisherMaps.isInitialized) {
                 val publisherList = getPublishersFromCache()
                 if (!publisherList.isEmpty()) {
@@ -26,10 +25,12 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
                 } else {
                     getPublishersFromLocal(loadCallback)
                 }
-            } else {
+            }else{
                 getPublishersFromLocal(loadCallback)
             }
-        } else {
+        }
+
+        if (mIsRequestRemote) {
             getPublishersFromRemote(loadCallback)
         }
     }
@@ -48,12 +49,13 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
                 refreshCached(publisherList)
                 refreshLocal(publisherList)
                 (loadCallback as PublisherDataSource.LoadRemotePublisherCallback).onRemotePublishersLoaded(publisherList)
+
+                //请求过一次远程之后，不自动请求远程，除非强制刷新请求
+                mIsRequestRemote = false
             }
 
             override fun onDataNotAvailable() {
                 Log.i("XProject", "PublisherRepository getPublishersFromRemote onDataNotAvailable")
-                //如Case，第一次网络请求失败了，尝试从"Local"获取数据兜底
-                getPublishersFromLocal(loadCallback)
             }
         })
     }
@@ -66,7 +68,7 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
             mPublisherLocalDataSource.savePublisher(publisher)
         }
 
-        mIsCacheAndLocalDirty = false
+        mIsRequestCacheOrLocal = true
     }
 
     private fun refreshCached(publisherList: List<Publisher>) {
@@ -81,7 +83,7 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
             mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
         }
 
-        mIsCacheAndLocalDirty = false
+        mIsRequestCacheOrLocal = true
     }
 
     private fun getPublishersFromLocal(loadCallback: PublisherDataSource.LoadCallback) {
@@ -95,7 +97,6 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
 
             override fun onDataNotAvailable() {
                 Log.i("XProject", "PublisherRepository getPublishersFromLocal onDataNotAvailable")
-                getPublishersFromRemote(loadCallback)
             }
         })
     }
@@ -218,9 +219,15 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
         mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
     }
 
-    override fun refresh(isCacheAndLocalDirty: Boolean) {
-        mIsCacheAndLocalDirty = isCacheAndLocalDirty
+    override fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean) {
+        mIsRequestRemote = isRequestRemote
+        mIsRequestCacheOrLocal = isCacheAndLocalDirty
     }
+
+    override fun getIsRequestRemote(): Boolean {
+        return mIsRequestRemote
+    }
+
 
     companion object {
         private lateinit var INSTANCE: PublisherRepository

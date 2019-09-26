@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  * 发布者数据类
  */
 @Entity(tableName = "publishers")
-class Publisher( //发布者id
+data class Publisher( //发布者id
         @PrimaryKey @ColumnInfo(name = "publisherId") var mPublisherId: String, //发布者类型
         @ColumnInfo(name = "typeId") var mTypeId: String,//发布者语言类型
         @ColumnInfo(name = "language") var mLanguage: String,//发布者图标URL

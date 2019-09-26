@@ -62,8 +62,6 @@ class SubInfoRepository private constructor(private val mSubInfoRemoteDataSource
 
             override fun onDataNotAvailable() {
                 Log.i("XProject", "SubInfoRepository getSubInfoesByType from remote onDataNotAvailable")
-                //如Case，第一次网络请求失败了，尝试从"Local"获取数据兜底
-                getSubInfosByInfoTypeFromLocal(infoType, loadCallback)
             }
         })
     }

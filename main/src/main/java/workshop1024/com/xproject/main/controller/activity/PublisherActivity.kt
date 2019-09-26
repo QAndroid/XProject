@@ -67,6 +67,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onStart() {
         super.onStart()
+        //TODO 业务上不应该是先请求类型和数据，应该和和Publisher数据一起回来，然后筛选出Type和Language展示
         mPublisherTypeDataSource = Injection.providePublisherTypeRepository()
         mPublisherTypeDataSource.getPublisherContentTypes(this)
         mPublisherTypeDataSource.getPublisherLanguageTypes(this)
@@ -97,7 +98,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onRefresh() {
-        mPublisherRepository.refresh(true)
+        mPublisherRepository.refresh(true, false)
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
         mPublisherRepository
         if (mSelectedDialog === mTypeChoiceDialog) {
@@ -112,6 +113,9 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (mIsForeground) {
             refreshPublisherList(publisherList)
             Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
+            if(!mPublisherRepository.getIsRequestRemote()){
+                mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+            }
         }
 
     }
@@ -120,14 +124,13 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         if (mIsForeground) {
             refreshPublisherList(publisherList)
             Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
         }
     }
 
     private fun refreshPublisherList(publisherList: List<Publisher>) {
         mPublisherListAdapter = PublisherListAdapter(publisherList, this)
         mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
-
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
     }
 
     override fun onDataNotAvailable() {

@@ -46,9 +46,13 @@ class PublisherRemoteDataSource : PublisherDataSource {
         PUBLISHERS_SERVICE_DATA.put(publisher.mPublisherId, publisher)
     }
 
+    override fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean) {
 
-    override fun refresh(isCacheAndLocalDirty: Boolean) {
+    }
 
+    override fun getIsRequestRemote(): Boolean {
+        //FIXME 不是都需要实现的方法，是不是不放在接口里面
+        return false;
     }
 
     companion object {

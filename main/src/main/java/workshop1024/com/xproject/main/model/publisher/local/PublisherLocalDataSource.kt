@@ -55,8 +55,13 @@ class PublisherLocalDataSource private constructor(private val mPublisherDao: Pu
         mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
     }
 
-    override fun refresh(isCacheAndLocalDirty: Boolean) {
 
+    override fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean) {
+
+    }
+
+    override fun getIsRequestRemote(): Boolean {
+        return false
     }
 
 
