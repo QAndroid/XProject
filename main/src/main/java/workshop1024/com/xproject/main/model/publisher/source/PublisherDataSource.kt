@@ -45,7 +45,7 @@ interface PublisherDataSource {
 
     fun savePublisher(publisher: Publisher)
 
-    fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean)
+    fun refresh(isRequestRemote: Boolean)
 
     fun getIsRequestRemote(): Boolean
 

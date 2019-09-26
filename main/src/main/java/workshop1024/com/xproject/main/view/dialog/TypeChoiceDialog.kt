@@ -8,6 +8,7 @@ import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import workshop1024.com.xproject.main.R
+import workshop1024.com.xproject.main.model.publishertype.PublisherType
 
 import java.util.ArrayList
 
@@ -20,6 +21,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
     private var mTitleString: String? = null
     //对话框选项
     private var mPublisherTypeList: ArrayList<workshop1024.com.xproject.main.model.publishertype.PublisherType>? = null
+    //FIXME 如何实现保存选中Item逻辑？？
     //对话框选项索引
     private var mSelectedIndex: Int = 0
 
@@ -54,7 +56,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
         val bundle = arguments
         if (bundle != null) {
             mTitleString = resources.getString(bundle.getInt(TITLE_STRING_KEY))
-            mPublisherTypeList = bundle.getSerializable(SELECT_TYPE_KEY) as ArrayList<workshop1024.com.xproject.main.model.publishertype.PublisherType>?
+            mPublisherTypeList = bundle.getSerializable(SELECT_TYPE_KEY) as ArrayList<PublisherType>?
             mSelectedIndex = bundle.getInt(SELECTED_INDEX_KEY)
         }
     }
@@ -81,7 +83,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
          * @param dialog     点击的对话框
          * @param publisherType 点击的类型
          */
-        fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: workshop1024.com.xproject.main.model.publishertype.PublisherType)
+        fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType)
     }
 
     companion object {
@@ -98,7 +100,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
          * @param selectedIndex 选择的字符串索引
          * @return 单选对话框实例
          */
-        fun newInstance(titleStringId: Int, publisherTypes: ArrayList<workshop1024.com.xproject.main.model.publishertype.PublisherType>, selectedIndex: Int): TypeChoiceDialog {
+        fun newInstance(titleStringId: Int, publisherTypes: ArrayList<PublisherType>, selectedIndex: Int): TypeChoiceDialog {
             val typeChoiceDialog = TypeChoiceDialog()
             val bundle = Bundle()
             bundle.putInt(TITLE_STRING_KEY, titleStringId)

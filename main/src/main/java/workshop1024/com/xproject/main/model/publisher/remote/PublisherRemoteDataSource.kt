@@ -46,7 +46,7 @@ class PublisherRemoteDataSource : PublisherDataSource {
         PUBLISHERS_SERVICE_DATA.put(publisher.mPublisherId, publisher)
     }
 
-    override fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean) {
+    override fun refresh(isRequestRemote: Boolean) {
 
     }
 

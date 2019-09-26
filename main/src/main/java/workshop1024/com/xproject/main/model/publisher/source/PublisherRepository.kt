@@ -11,23 +11,22 @@ import java.util.LinkedHashMap
 //一个页面的数据，一次性请求回来，本地内存筛选
 class PublisherRepository private constructor(private val mPublisherRemoteDataSource: PublisherDataSource,
                                               private val mPublisherLocalDataSource: PublisherDataSource) : PublisherDataSource {
+
     private lateinit var mCachedPublisherMaps: MutableMap<String, Publisher>
     private var mIsRequestRemote: Boolean = true
-    private var mIsRequestCacheOrLocal: Boolean = true
 
     override fun getPublishers(loadCallback: PublisherDataSource.LoadCallback) {
-        Log.i("XProject", "PublisherRepository getPublishers, mIsRequestCacheOrLocal = $mIsRequestCacheOrLocal, mIsRequestRemote = $mIsRequestRemote")
-        if (mIsRequestCacheOrLocal) {
-            if (this::mCachedPublisherMaps.isInitialized) {
-                val publisherList = getPublishersFromCache()
-                if (!publisherList.isEmpty()) {
-                    (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherCallback).onCacheOrLocalPublishersLoaded(publisherList)
-                } else {
-                    getPublishersFromLocal(loadCallback)
-                }
-            }else{
+        Log.i("XProject", "PublisherRepository getPublishers , mIsRequestRemote = $mIsRequestRemote")
+        //优先取缓存，有缓存数据立即展示
+        if (this::mCachedPublisherMaps.isInitialized) {
+            val publisherList = getPublishersFromCache()
+            if (!publisherList.isEmpty()) {
+                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherCallback).onCacheOrLocalPublishersLoaded(publisherList)
+            } else {
                 getPublishersFromLocal(loadCallback)
             }
+        } else {
+            getPublishersFromLocal(loadCallback)
         }
 
         if (mIsRequestRemote) {
@@ -67,8 +66,6 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
         for (publisher in publisherList) {
             mPublisherLocalDataSource.savePublisher(publisher)
         }
-
-        mIsRequestCacheOrLocal = true
     }
 
     private fun refreshCached(publisherList: List<Publisher>) {
@@ -82,8 +79,6 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
         for (publisher in publisherList) {
             mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
         }
-
-        mIsRequestCacheOrLocal = true
     }
 
     private fun getPublishersFromLocal(loadCallback: PublisherDataSource.LoadCallback) {
@@ -219,9 +214,8 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
         mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
     }
 
-    override fun refresh(isRequestRemote: Boolean, isCacheAndLocalDirty: Boolean) {
+    override fun refresh(isRequestRemote: Boolean) {
         mIsRequestRemote = isRequestRemote
-        mIsRequestCacheOrLocal = isCacheAndLocalDirty
     }
 
     override fun getIsRequestRemote(): Boolean {

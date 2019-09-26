@@ -25,8 +25,7 @@ import workshop1024.com.xproject.main.view.dialog.TypeChoiceDialog
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
-        PublisherDataSource.LoadPublishersCallback, PublisherTypeDataSource.LoadPublisherTypeCallback,
+class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallback, PublisherTypeDataSource.LoadPublisherTypeCallback,
         TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
     private var mTypeChoiceDialog: TypeChoiceDialog? = null
     private var mLanguageChoiceDialog: TypeChoiceDialog? = null
@@ -56,7 +55,7 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.setOnRefreshListener(this)
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isEnabled = false
         mPublisherActivityBinding.publisherRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
 
         //显示默认选中的发布者
@@ -97,23 +96,12 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onRefresh() {
-        mPublisherRepository.refresh(true, false)
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
-        mPublisherRepository
-        if (mSelectedDialog === mTypeChoiceDialog) {
-            mPublisherRepository.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
-        } else if (mSelectedDialog === mLanguageChoiceDialog) {
-            mPublisherRepository.getPublishersByLanguageType(mLanguageTypeList!![mSelectedLanguageIndex].typeId, this)
-        }
-    }
-
     override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
         //FIXME 每次都需要创建适配器吗？
         if (mIsForeground) {
             refreshPublisherList(publisherList)
             Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
-            if(!mPublisherRepository.getIsRequestRemote()){
+            if (!mPublisherRepository.getIsRequestRemote()) {
                 mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
             }
         }
@@ -155,7 +143,6 @@ class PublisherActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener,
         mPublisherActivityBinding.publisherToolbarNavigator?.title = publisherType.name
 
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
-//        mPublisherRepository.refresh(false, false)
         if (dialog === mTypeChoiceDialog) {
             mPublisherRepository.getPublishersByContentType(publisherType.typeId, this)
         } else if (dialog === mLanguageChoiceDialog) {
