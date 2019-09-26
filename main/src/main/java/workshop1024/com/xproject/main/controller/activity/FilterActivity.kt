@@ -91,7 +91,7 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
     }
 
     override fun filterListItemDelete(filter: Filter) {
-        mFilterRepository?.deleteFilterById(filter.filterId!!)
+        mFilterRepository?.deleteFilterById(filter.mFilterId!!)
         refreshFilterList()
     }
 

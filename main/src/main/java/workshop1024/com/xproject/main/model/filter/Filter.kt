@@ -1,5 +1,10 @@
 package workshop1024.com.xproject.main.model.filter
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "filters")
 data class Filter(//过滤器id
-        var filterId: String?, //过滤器名称
-        var filterName: String?)
+        @PrimaryKey @ColumnInfo(name = "mFilterId") var mFilterId: String?, //过滤器名称
+        @ColumnInfo(name = "filterName") var mFilterName: String?)

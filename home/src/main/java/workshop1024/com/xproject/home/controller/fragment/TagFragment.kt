@@ -13,11 +13,6 @@ import workshop1024.com.xproject.home.model.subinfo.SubInfo
  */
 class TagFragment : HomeSubFragment() {
 
-    override fun onPause() {
-        super.onPause()
-        mSubInfoRepository.refreshByType(SubInfo.TAG_TYPE, false, false)
-    }
-
     override fun onRefresh() {
         mSubInfoRepository.refreshByType(SubInfo.TAG_TYPE, true, false)
         super.onRefresh()
@@ -33,6 +28,11 @@ class TagFragment : HomeSubFragment() {
         Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
 
         super.onCacheOrLocalSubInfosLoaded(subInfoList)
+
+        //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
+        if(!mSubInfoRepository.getIsRequestRemote(SubInfo.TAG_TYPE)){
+            mHomeSubFragmentHanlders.isRefreshing.set(false)
+        }
     }
 
     override fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>) {

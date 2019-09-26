@@ -21,7 +21,7 @@ class FilterRepository private constructor() : FilterDataSource {
         val handler = Handler()
         handler.postDelayed({
             val filter = Filter("f101", filterName)
-            FILTERS_SERVICE_DATA!![filter.filterId!!] = filter
+            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
 
     }
@@ -57,7 +57,7 @@ class FilterRepository private constructor() : FilterDataSource {
 
         private fun addFilter(filterId: String, filterName: String) {
             val filter = Filter(filterId, filterName)
-            FILTERS_SERVICE_DATA!![filter.filterId!!] = filter
+            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
         }
 
         val instance: FilterRepository

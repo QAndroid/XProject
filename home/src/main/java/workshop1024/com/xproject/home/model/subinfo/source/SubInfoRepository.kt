@@ -6,34 +6,33 @@ import java.util.LinkedHashMap
 
 //FIXME 多线程访问数据问题
 //三个页面的数据，三次请求，故分别进行脏数据存储
-open class SubInfoRepository private constructor(private val mSubInfoRemoteDataSource: SubInfoDataSource,
-                                                 private val mSubInfoLocalDataSource: SubInfoDataSource) : SubInfoDataSource {
+class SubInfoRepository private constructor(private val mSubInfoRemoteDataSource: SubInfoDataSource,
+                                            private val mSubInfoLocalDataSource: SubInfoDataSource) : SubInfoDataSource {
     private lateinit var mCachedSubInfoMaps: MutableMap<String, SubInfo>
-    //FIXME mIsCacheAndLocalDirtyMaps[infoType]!!强制非空无法保证！
-    private val mIsCacheAndLocalDirtyMaps = mutableMapOf<String, Boolean>(SubInfo.SUBSCRIBE_TYPE to false, SubInfo.TAG_TYPE to false, SubInfo.FILTER_TYPE to false)
-    private val mIsSubInfoShowMaps = mutableMapOf<String, Boolean>(SubInfo.SUBSCRIBE_TYPE to false, SubInfo.TAG_TYPE to false, SubInfo.FILTER_TYPE to false)
+    //FIXME mIsRequestCacheMaps[infoType]!!强制非空无法保证！
+    //默认第一次请求数据，先请求缓存如果有的话快速展示，并且请求远程更新最新的数据
+    private val mIsRequestCacheMaps = mutableMapOf<String, Boolean>(SubInfo.SUBSCRIBE_TYPE to true, SubInfo.TAG_TYPE to true, SubInfo.FILTER_TYPE to true)
+    private val mIsRequestRemoteMaps = mutableMapOf<String, Boolean>(SubInfo.SUBSCRIBE_TYPE to true, SubInfo.TAG_TYPE to true, SubInfo.FILTER_TYPE to true)
 
     override fun getSubInfoesByType(infoType: String, loadCallback: SubInfoDataSource.LoadCallback) {
-        Log.i("XProject", "SubInfoRepository getSubInfoesByType, infoType = $infoType, mIsCacheDirty = ${mIsCacheAndLocalDirtyMaps[infoType]}, mIsSubInfoShow = ${mIsSubInfoShowMaps[infoType]}")
-        //如果还没有数据展示，并且缓存或者本地数据不为"脏数据"，快速获取数据进行展示
-        if (!mIsSubInfoShowMaps[infoType]!!) {
-            if (!mIsCacheAndLocalDirtyMaps[infoType]!!) {
-                if (this::mCachedSubInfoMaps.isInitialized) {
-                    val subInfoList = getSubInfoesByTypeFromCache(infoType)
-                    if (!subInfoList.isEmpty()) {
-                        (loadCallback as SubInfoDataSource.LoadCacheOrLocalSubInfoCallback).onCacheOrLocalSubInfosLoaded(subInfoList)
-                        mIsSubInfoShowMaps[infoType] = true
-                    } else {
-                        getSubInfosByInfoTypeFromLocal(infoType, loadCallback)
-                    }
+        Log.i("XProject", "SubInfoRepository getSubInfoesByType, infoType = $infoType, mIsRequestCache = ${mIsRequestCacheMaps[infoType]}, mIsRequestRemote = ${mIsRequestRemoteMaps[infoType]}")
+        if (mIsRequestCacheMaps[infoType]!!) {
+            if (this::mCachedSubInfoMaps.isInitialized) {
+                val subInfoList = getSubInfoesByTypeFromCache(infoType)
+                if (!subInfoList.isEmpty()) {
+                    (loadCallback as SubInfoDataSource.LoadCacheOrLocalSubInfoCallback).onCacheOrLocalSubInfosLoaded(subInfoList)
                 } else {
                     getSubInfosByInfoTypeFromLocal(infoType, loadCallback)
                 }
+            } else {
+                getSubInfosByInfoTypeFromLocal(infoType, loadCallback)
             }
         }
 
-        //从网络数据最新数据，然后进行数据展示或者刷新
-        getSubInfosByInfoTypeFromRemote(infoType, loadCallback)
+        if (mIsRequestRemoteMaps[infoType]!!) {
+            //从网络数据最新数据，然后进行数据展示或者刷新
+            getSubInfosByInfoTypeFromRemote(infoType, loadCallback)
+        }
     }
 
     private fun getSubInfoesByTypeFromCache(infoType: String): List<SubInfo> {
@@ -57,7 +56,8 @@ open class SubInfoRepository private constructor(private val mSubInfoRemoteDataS
                 refreshLocalByInfoType(infoType, subInfoList)
                 (loadCallback as SubInfoDataSource.LoadRemoteSubInfoCallback).onRemoteSubInfosLoaded(subInfoList)
 
-                mIsSubInfoShowMaps[infoType] = true
+                //获取过远程数据后，默认不在请求，除非下拉刷新强制更新时重新请求
+                mIsRequestRemoteMaps[infoType] = false
             }
 
             override fun onDataNotAvailable() {
@@ -82,7 +82,8 @@ open class SubInfoRepository private constructor(private val mSubInfoRemoteDataS
 
         }
 
-        mIsCacheAndLocalDirtyMaps[infoType] = false
+        //有缓存的，就可以优先请求缓存，除非下拉刷新强制我不请求缓存
+        mIsRequestCacheMaps[infoType] = true
     }
 
     private fun saveCacheSubInfo(subInfo: SubInfo) {
@@ -97,7 +98,8 @@ open class SubInfoRepository private constructor(private val mSubInfoRemoteDataS
             mSubInfoLocalDataSource.saveSubInfo(subInfo)
         }
 
-        mIsCacheAndLocalDirtyMaps[infoType] = false
+        //有缓存的，就可以优先请求缓存，除非下拉刷新强制我不请求缓存
+        mIsRequestCacheMaps[infoType] = true
     }
 
     private fun getSubInfosByInfoTypeFromLocal(infoType: String, loadCallback: SubInfoDataSource.LoadCallback) {
@@ -107,8 +109,6 @@ open class SubInfoRepository private constructor(private val mSubInfoRemoteDataS
                 Log.i("XProject", "SubInfoRepository getSubInfosByInfoTypeFromLocal, onCacheOrLocalSubInfosLoaded =" + subInfoList.toString())
                 refreshCachedByInfoType(infoType, subInfoList)
                 (loadCallback as SubInfoDataSource.LoadCacheOrLocalSubInfoCallback).onCacheOrLocalSubInfosLoaded(subInfoList)
-
-                mIsSubInfoShowMaps[infoType] = true
             }
 
             override fun onDataNotAvailable() {
@@ -197,11 +197,16 @@ open class SubInfoRepository private constructor(private val mSubInfoRemoteDataS
         }
     }
 
-    override fun refreshByType(infoType: String, isSubInfoShowMaps: Boolean, isCacheAndLocalDirty: Boolean) {
+    override fun refreshByType(infoType: String, isRequestRemote: Boolean, isRequestCache: Boolean) {
         Log.i("XProject", "SubInfoRepository refreshByType, infoType =$infoType")
-        mIsSubInfoShowMaps[infoType] = isSubInfoShowMaps
-        mIsCacheAndLocalDirtyMaps[infoType] = isCacheAndLocalDirty
+        mIsRequestRemoteMaps[infoType] = isRequestRemote
+        mIsRequestCacheMaps[infoType] = isRequestCache
     }
+
+    override fun getIsRequestRemote(infoType: String): Boolean {
+        return mIsRequestRemoteMaps[infoType]!!
+    }
+
 
     companion object {
         private lateinit var INSTANCE: SubInfoRepository

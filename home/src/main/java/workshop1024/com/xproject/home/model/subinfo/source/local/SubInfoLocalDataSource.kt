@@ -57,9 +57,15 @@ class SubInfoLocalDataSource private constructor(private val mSubInfoDao: SubInf
         mExecutorUtils.mDiskIOExecutor.execute(reNameRunnable)
     }
 
-    override fun refreshByType(infoType: String, isSubInfoShowMaps: Boolean, isCacheAndLocalDirty: Boolean) {
+    override fun refreshByType(infoType: String, isRequestCache: Boolean, isCacheAndLocalDirty: Boolean) {
         //用于刷新内存数据接口方法，本地数据源不实现
     }
+
+    override fun getIsRequestRemote(infoType: String): Boolean {
+        //不实现
+        return false
+    }
+
 
     companion object {
         private lateinit var INSTANCE: SubInfoLocalDataSource

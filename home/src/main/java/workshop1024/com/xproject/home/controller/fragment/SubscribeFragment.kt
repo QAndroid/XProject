@@ -19,13 +19,8 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
 
     private var mRenameSubInfo: SubInfo? = null
 
-    override fun onPause() {
-        super.onPause()
-        mSubInfoRepository.refreshByType(SubInfo.SUBSCRIBE_TYPE, false, false)
-    }
-
     override fun onRefresh() {
-        mSubInfoRepository.refreshByType(SubInfo.SUBSCRIBE_TYPE, true, true)
+        mSubInfoRepository.refreshByType(SubInfo.SUBSCRIBE_TYPE, true, false)
         super.onRefresh()
     }
 
@@ -39,6 +34,11 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
         //FIXME 当从缓存中直接获取数据的时候，为什么XSnackbar.show()不可见
         Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
         super.onCacheOrLocalSubInfosLoaded(subInfoList)
+
+        //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
+        if(!mSubInfoRepository.getIsRequestRemote(SubInfo.SUBSCRIBE_TYPE)){
+            mHomeSubFragmentHanlders.isRefreshing.set(false)
+        }
     }
 
     private fun newSubscribeListAdapter(subInfoList: List<SubInfo>) {

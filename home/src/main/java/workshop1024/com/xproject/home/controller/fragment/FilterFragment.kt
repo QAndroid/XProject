@@ -12,10 +12,6 @@ import workshop1024.com.xproject.home.model.subinfo.SubInfo
  * 抽屉导航HomeFragment的子Frament HomeFragment的ViewPager的子Fragment，按照过滤关键字分类展示
  */
 class FilterFragment : HomeSubFragment() {
-    override fun onPause() {
-        super.onPause()
-        mSubInfoRepository.refreshByType(SubInfo.FILTER_TYPE, false, false)
-    }
 
     override fun onRefresh() {
         mSubInfoRepository.refreshByType(SubInfo.FILTER_TYPE,true,false)
@@ -32,6 +28,11 @@ class FilterFragment : HomeSubFragment() {
         Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " filters ...", Snackbar.LENGTH_SHORT).show()
 
         super.onCacheOrLocalSubInfosLoaded(subInfoList)
+
+        //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
+        if(!mSubInfoRepository.getIsRequestRemote(SubInfo.FILTER_TYPE)){
+            mHomeSubFragmentHanlders.isRefreshing.set(false)
+        }
     }
 
     override fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>) {

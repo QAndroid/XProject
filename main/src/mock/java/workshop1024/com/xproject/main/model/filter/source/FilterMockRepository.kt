@@ -1,8 +1,6 @@
 package workshop1024.com.xproject.model.filter.source
 
 import android.os.Handler
-import workshop1024.com.xproject.main.model.filter.Filter
-import workshop1024.com.xproject.main.model.filter.source.FilterDataSource
 
 import java.util.ArrayList
 import java.util.LinkedHashMap
@@ -21,7 +19,7 @@ class FilterMockRepository private constructor() : workshop1024.com.xproject.mai
         val handler = Handler()
         handler.postDelayed({
             val filter = workshop1024.com.xproject.main.model.filter.Filter("f101", filterName)
-            FILTERS_SERVICE_DATA!![filter.filterId!!] = filter
+            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
 
     }
@@ -57,7 +55,7 @@ class FilterMockRepository private constructor() : workshop1024.com.xproject.mai
 
         private fun addFilter(filterId: String, filterName: String) {
             val filter = workshop1024.com.xproject.main.model.filter.Filter(filterId, filterName)
-            FILTERS_SERVICE_DATA!![filter.filterId!!] = filter
+            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
         }
 
         val instance: workshop1024.com.xproject.main.model.filter.source.FilterDataSource

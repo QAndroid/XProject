@@ -6,6 +6,7 @@ import workshop1024.com.xproject.home.model.subinfo.SubInfo
 import workshop1024.com.xproject.home.model.subinfo.source.SubInfoDataSource
 
 class SubInfoRemoteDataSource : SubInfoDataSource {
+
     override fun getSubInfoesByType(infoType: String, loadCallback: SubInfoDataSource.LoadCallback) {
         Log.i("XProject", "SubInfoRemoteDataSource getSubInfoesByType, infoType = $infoType")
         Handler().postDelayed({
@@ -64,8 +65,13 @@ class SubInfoRemoteDataSource : SubInfoDataSource {
         subInfo?.mName = newName
     }
 
-    override fun refreshByType(infoType: String, isSubInfoShowMaps: Boolean, isCacheAndLocalDirty: Boolean) {
+    override fun refreshByType(infoType: String, isRequestCache: Boolean, isCacheAndLocalDirty: Boolean) {
         //用于刷新内存缓存数据接口方法，远程数据源不实现
+    }
+
+    override fun getIsRequestRemote(infoType: String): Boolean {
+        //不实现
+        return false
     }
 
     companion object {

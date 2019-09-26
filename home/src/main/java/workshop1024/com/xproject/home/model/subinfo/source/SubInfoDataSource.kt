@@ -11,11 +11,13 @@ interface SubInfoDataSource {
 
     fun markedSubInfoesAsRead(subInfoIdList: List<String>)
 
-    fun refreshByType(infoType: String, isSubInfoShowMaps: Boolean, isCacheAndLocalDirty: Boolean)
+    fun refreshByType(infoType: String, isRequestRemote: Boolean, isRequestCache: Boolean)
 
     fun unSubInfoById(subInfoId: String)
 
     fun reNameSubInfoById(subInfoId: String, newName: String)
+
+    fun getIsRequestRemote(infoType: String): Boolean
 
     interface LoadSubInfoCallback : LoadCacheOrLocalSubInfoCallback, LoadRemoteSubInfoCallback
 
