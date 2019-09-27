@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
@@ -18,15 +17,14 @@ import workshop1024.com.xproject.main.databinding.PublisherActivityBinding
 import workshop1024.com.xproject.main.model.Injection
 import workshop1024.com.xproject.main.model.publisher.Publisher
 import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
-import workshop1024.com.xproject.main.model.publishertype.PublisherType
-import workshop1024.com.xproject.main.model.publishertype.source.PublisherTypeDataSource
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 import workshop1024.com.xproject.main.view.dialog.TypeChoiceDialog
 
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallback, PublisherTypeDataSource.LoadPublisherTypeCallback,
-        TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
+class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPublisherTypeCallback, TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
+
     private var mTypeChoiceDialog: TypeChoiceDialog? = null
     private var mLanguageChoiceDialog: TypeChoiceDialog? = null
     private var mSelectedDialog: DialogFragment? = null
@@ -34,7 +32,6 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallbac
     private var mPublisherListAdapter: PublisherListAdapter? = null
 
     private lateinit var mPublisherRepository: PublisherDataSource
-    private lateinit var mPublisherTypeDataSource: PublisherTypeDataSource
 
     //可选择发布者内容类型
     private var mContentTypeList: ArrayList<PublisherType>? = null
@@ -55,8 +52,8 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallbac
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isEnabled = false
-        mPublisherActivityBinding.publisherRecyclerviewList?.addItemDecoration(RecyclerViewItemDecoration(6))
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isEnabled = false
+        mPublisherActivityBinding.publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
 
         //显示默认选中的发布者
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
@@ -66,10 +63,9 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallbac
 
     override fun onStart() {
         super.onStart()
-        //TODO 业务上不应该是先请求类型和数据，应该和和Publisher数据一起回来，然后筛选出Type和Language展示
-        mPublisherTypeDataSource = Injection.providePublisherTypeRepository()
-        mPublisherTypeDataSource.getPublisherContentTypes(this)
-        mPublisherTypeDataSource.getPublisherLanguageTypes(this)
+        mPublisherRepository = Injection.providePublisherRepository(this)
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
+        mPublisherRepository.getPublishersAndPublisherTypes(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -98,22 +94,31 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallbac
 
     override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
         //FIXME 每次都需要创建适配器吗？
-        if (mIsForeground) {
-            refreshPublisherList(publisherList)
-            Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
-            if (!mPublisherRepository.getIsRequestRemote()) {
-                mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
-            }
+        refreshPublisherList(publisherList)
+        Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
+        if (!mPublisherRepository.getIsRequestRemote()) {
+            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
         }
-
     }
 
     override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-        if (mIsForeground) {
-            refreshPublisherList(publisherList)
-            Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
-            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
-        }
+        refreshPublisherList(publisherList)
+        Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+    }
+
+
+    override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
+        refreshPublisherTypeList(contentTypeList, languageTyleList)
+    }
+
+    override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
+        refreshPublisherTypeList(contentTypeList, languageTyleList)
+    }
+
+    private fun refreshPublisherTypeList(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
+        mContentTypeList = contentTypeList as ArrayList<PublisherType>
+        mLanguageTypeList = languageTyleList as ArrayList<PublisherType>
     }
 
     private fun refreshPublisherList(publisherList: List<Publisher>) {
@@ -125,28 +130,15 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublishersCallbac
 
     }
 
-    override fun onPublisherTypesLoaded(publisherTypeList: List<PublisherType>, type: String) {
-        //TODO type equals很别扭
-        if (type == "content") {
-            mContentTypeList = publisherTypeList as ArrayList<PublisherType>
-            //使用默认选中的发布者类型请求发布者信息
-            mPublisherRepository = Injection.providePublisherRepository(this)
-            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
-            mPublisherRepository.getPublishersByContentType(mContentTypeList!![mSelectedTypeIndex].typeId, this)
-        } else {
-            mLanguageTypeList = publisherTypeList as ArrayList<PublisherType>
-        }
-    }
-
     override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType) {
         mSelectedDialog = dialog
-        mPublisherActivityBinding.publisherToolbarNavigator?.title = publisherType.name
+        mPublisherActivityBinding.publisherToolbarNavigator.title = publisherType.mName
 
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh?.isRefreshing = true
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
         if (dialog === mTypeChoiceDialog) {
-            mPublisherRepository.getPublishersByContentType(publisherType.typeId, this)
+            mPublisherRepository.getPublishersByContentType(publisherType.mTypeId, this)
         } else if (dialog === mLanguageChoiceDialog) {
-            mPublisherRepository.getPublishersByLanguageType(publisherType.typeId, this)
+            mPublisherRepository.getPublishersByLanguageType(publisherType.mTypeId, this)
         }
     }
 

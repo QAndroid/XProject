@@ -23,7 +23,6 @@ interface SubInfoDataSource {
 
     interface LoadCacheOrLocalSubInfoCallback : LoadCallback {
         fun onCacheOrLocalSubInfosLoaded(subInfoList: List<SubInfo>)
-
     }
 
     interface LoadRemoteSubInfoCallback : LoadCallback {

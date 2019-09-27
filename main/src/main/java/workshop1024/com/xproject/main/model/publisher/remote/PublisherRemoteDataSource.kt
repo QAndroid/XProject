@@ -3,16 +3,20 @@ package workshop1024.com.xproject.main.model.publisher.remote
 import android.os.Handler
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import com.google.gson.Gson
 import workshop1024.com.xproject.main.model.publisher.Publisher
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 
 class PublisherRemoteDataSource : PublisherDataSource {
-    override fun getPublishers(loadCallback: PublisherDataSource.LoadCallback) {
-        Log.i("XProject", "PublisherRemoteDataSource getPublishers")
+
+    override fun getPublishersAndPublisherTypes(loadCallback: PublisherDataSource.LoadCallback) {
+        Log.i("XProject", "PublisherRemoteDataSource getPublishersAndPublisherTypes")
         Handler().postDelayed({
             val publisherList = ArrayList(PUBLISHERS_SERVICE_DATA.values)
-            (loadCallback as PublisherDataSource.LoadRemotePublisherCallback).onRemotePublishersLoaded(publisherList)
+            val contentTypeList = ArrayList(CONTENT_SERVICE_DATA.values)
+            val languageTypeList = ArrayList(LANGUAGE_SERVICE_DATA.values)
+            (loadCallback as PublisherDataSource.LoadRemotePubliserAndPublisherTypeCallback).onRemotePublishersLoaded(publisherList)
+            loadCallback.onRemotePublisherTypesLoaded(contentTypeList, languageTypeList)
         }, SERVICE_LATENCY_IN_MILLIS.toLong())
     }
 
@@ -46,6 +50,21 @@ class PublisherRemoteDataSource : PublisherDataSource {
         PUBLISHERS_SERVICE_DATA.put(publisher.mPublisherId, publisher)
     }
 
+    override fun deleteAllPublisherTypes() {
+        Log.i("XProject", "PublisherRemoteDataSource deleteAllPublisherTypes")
+        CONTENT_SERVICE_DATA.clear()
+        LANGUAGE_SERVICE_DATA.clear()
+    }
+
+    override fun savePublisherType(publisherType: PublisherType) {
+        Log.i("XProject", "PublisherRemoteDataSource savePublisherType, publisherType = $publisherType")
+        if (publisherType.mType.equals("content")) {
+            CONTENT_SERVICE_DATA.put(publisherType.mTypeId, publisherType)
+        } else if (publisherType.mType.equals("language")) {
+            LANGUAGE_SERVICE_DATA.put(publisherType.mTypeId, publisherType)
+        }
+    }
+
     override fun refresh(isRequestRemote: Boolean) {
 
     }
@@ -59,6 +78,8 @@ class PublisherRemoteDataSource : PublisherDataSource {
         private const val SERVICE_LATENCY_IN_MILLIS = 1000
 
         private var PUBLISHERS_SERVICE_DATA: MutableMap<String, Publisher> = LinkedHashMap(2)
+        private var CONTENT_SERVICE_DATA: MutableMap<String, PublisherType> = LinkedHashMap(2)
+        private var LANGUAGE_SERVICE_DATA: MutableMap<String, PublisherType> = LinkedHashMap(2)
 
         private lateinit var INSTANCE: PublisherRemoteDataSource
 
@@ -72,6 +93,26 @@ class PublisherRemoteDataSource : PublisherDataSource {
             }
 
         init {
+            addContentType("t001", "content", "Tech")
+            addContentType("t002", "content", "News")
+            addContentType("t003", "content", "Business")
+            addContentType("t004", "content", "Health")
+            addContentType("t005", "content", "Gaming")
+            addContentType("t006", "content", "Design")
+            addContentType("t007", "content", "Fashion")
+            addContentType("t008", "content", "Cooking")
+            addContentType("t009", "content", "Comics")
+            addContentType("t010", "content", "DIY")
+            addContentType("t011", "content", "Sport")
+            addContentType("t012", "content", "Cinema")
+            addContentType("t013", "content", "Youtube")
+            addContentType("t014", "content", "Funny")
+            addContentType("t015", "content", "Esty")
+
+            addLanguageType("l001", "language", "English")
+            addLanguageType("l002", "language", "日语")
+            addLanguageType("l003", "language", "中文")
+
             addPublisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", false)
             addPublisher("p002", "t001", "l001", "/imag1", "Engadget", "1348433 subscribers", false)
             addPublisher("p003", "t001", "l001", "/imag1", "Lifehacker", "934273 subscribers", false)
@@ -127,9 +168,20 @@ class PublisherRemoteDataSource : PublisherDataSource {
 
         private fun addPublisher(publisherId: String, type: String, language: String, iconUrl: String,
                                  name: String, subscribeNum: String, isSubscribed: Boolean) {
-            val newPublisher = workshop1024.com.xproject.main.model.publisher.Publisher(publisherId, type, language, iconUrl, name,
+            val newPublisher = Publisher(publisherId, type, language, iconUrl, name,
                     subscribeNum, ObservableBoolean(isSubscribed))
             PUBLISHERS_SERVICE_DATA[newPublisher.mPublisherId] = newPublisher
         }
+
+        private fun addContentType(typeId: String, type: String, name: String) {
+            val publisherType = PublisherType(typeId, type, name)
+            CONTENT_SERVICE_DATA[publisherType.mTypeId] = publisherType
+        }
+
+        private fun addLanguageType(typeId: String, type: String, name: String) {
+            val publisherType = PublisherType(typeId, type, name)
+            LANGUAGE_SERVICE_DATA[publisherType.mTypeId] = publisherType
+        }
+
     }
 }

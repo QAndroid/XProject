@@ -3,12 +3,13 @@ package workshop1024.com.xproject.main.model.publisher.local
 import android.util.Log
 import workshop1024.com.xproject.base.utils.ExecutorUtils
 import workshop1024.com.xproject.main.model.publisher.Publisher
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 
 class PublisherLocalDataSource private constructor(private val mPublisherDao: PublisherDao, private val mExecutorUtils: ExecutorUtils) : PublisherDataSource {
 
-    override fun getPublishers(loadCallback: PublisherDataSource.LoadCallback) {
-        Log.i("XProject", "PublisherLocalDataSource getPublishers")
+    override fun getPublishersAndPublisherTypes(loadCallback: PublisherDataSource.LoadCallback) {
+        Log.i("XProject", "PublisherLocalDataSource getPublishersAndPublisherTypes")
         val getSubInfoesRunnable = Runnable {
             val subinfoList = mPublisherDao.getPublishers()
             mExecutorUtils.mMainThreadExecutor.execute(Runnable {
@@ -52,6 +53,18 @@ class PublisherLocalDataSource private constructor(private val mPublisherDao: Pu
     override fun deleteAllPublishers() {
         Log.i("XProject", "SubInfoLocalDataSource deleteAllPublishers")
         val deleteRunnable = Runnable { mPublisherDao.deleteAllPublishers() }
+        mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
+    }
+
+    override fun deleteAllPublisherTypes() {
+        Log.i("XProject", "SubInfoLocalDataSource deleteAllPublisherTypes")
+        val deleteRunnable = Runnable { mPublisherDao.deleteAllPublisherTypes() }
+        mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
+    }
+
+    override fun savePublisherType(publisherType: PublisherType) {
+        Log.i("XProject", "SubInfoLocalDataSource savePublisherType")
+        val deleteRunnable = Runnable { mPublisherDao.savePublisherType(publisherType) }
         mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
     }
 

@@ -8,12 +8,8 @@ import workshop1024.com.xproject.main.model.publisher.remote.PublisherRemoteData
 import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 import workshop1024.com.xproject.main.model.publisher.source.PublisherRepository
 import workshop1024.com.xproject.model.filter.source.FilterMockRepository
-import workshop1024.com.xproject.model.publishertype.source.PublisherTypeMockRepository
 
 object Injection {
-    fun providePublisherTypeRepository(): workshop1024.com.xproject.main.model.publishertype.source.PublisherTypeDataSource {
-        return PublisherTypeMockRepository.instance
-    }
 
     fun providePublisherRepository(context: Context): PublisherDataSource {
         return PublisherRepository.getInstance(PublisherRemoteDataSource.instance,

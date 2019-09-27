@@ -43,7 +43,7 @@ class PublisherListAdapter(private val mPublisherList: List<workshop1024.com.xpr
         fun onTouchSelected(v: View, event: MotionEvent, publisher: Publisher): Boolean {
             //CheckBox选中后，先不更改状态，待请求结果后在更改状态，参考 https://blog.csdn.net/qq_37822393/article/details/80195090
             if (event.action == MotionEvent.ACTION_UP) {
-                Log.i("XProject", "public boolean onTouchSelected, publisher = " + publisher.mTypeId)
+                Log.i("XProject", "public boolean onTouchSelected, publisher = " + publisher.mType)
                 mOnPublisherListSelectListener?.onPublisherListItemSelect(publisher, !(v as CheckBox).isChecked)
             }
             return true

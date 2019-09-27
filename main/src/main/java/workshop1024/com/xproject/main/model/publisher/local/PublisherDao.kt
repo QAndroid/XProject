@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import workshop1024.com.xproject.main.model.publisher.Publisher
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 
 @Dao
 interface PublisherDao {
@@ -22,4 +23,13 @@ interface PublisherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPublisher(publisher: Publisher)
+
+    @Query("SELECT * FROM publishertypes WHERE type = :type")
+    fun getPublishersByType(type: String): List<PublisherType>
+
+    @Query("DELETE FROM publishertypes")
+    fun deleteAllPublisherTypes()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun savePublisherType(publisherType: PublisherType)
 }

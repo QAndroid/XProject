@@ -1,14 +1,14 @@
 package workshop1024.com.xproject.main.model.publisher.source
 
 import workshop1024.com.xproject.main.model.publisher.Publisher
-import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource.LoadCallback
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 
 /**
  * 发布者数据源接口，定义了关于发布者数据相关的处理接口
  */
 interface PublisherDataSource {
 
-    fun getPublishers(loadCallback: LoadCallback)
+    fun getPublishersAndPublisherTypes(loadCallback: LoadCallback)
 
     /**
      * 获取指定类型的发布者
@@ -43,20 +43,30 @@ interface PublisherDataSource {
 
     fun deleteAllPublishers()
 
+    fun deleteAllPublisherTypes()
+
     fun savePublisher(publisher: Publisher)
+
+    fun savePublisherType(publisherType: PublisherType)
 
     fun refresh(isRequestRemote: Boolean)
 
     fun getIsRequestRemote(): Boolean
 
-    /**
-     * 获取发布者信息回调
-     */
-    interface LoadPublishersCallback : LoadCacheOrLocalPublisherCallback, LoadRemotePublisherCallback
+    interface LoadPublisherAndPublisherTypeCallback : LoadRemotePubliserAndPublisherTypeCallback, LoadCacheOrLocalPublisherAndPublisherTypeCallback
+
+    interface LoadCacheOrLocalPublisherAndPublisherTypeCallback : LoadCacheOrLocalPublisherCallback {
+        fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>)
+    }
+
+    interface LoadRemotePubliserAndPublisherTypeCallback : LoadRemotePublisherCallback {
+        fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>)
+    }
+
+    interface LoadPublisherCallback : LoadRemotePublisherCallback, LoadCacheOrLocalPublisherCallback
 
     interface LoadCacheOrLocalPublisherCallback : LoadCallback {
         fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>)
-
     }
 
     interface LoadRemotePublisherCallback : LoadCallback {

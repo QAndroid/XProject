@@ -8,7 +8,7 @@ import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import workshop1024.com.xproject.main.R
-import workshop1024.com.xproject.main.model.publishertype.PublisherType
+import workshop1024.com.xproject.main.model.publisher.PublisherType
 
 import java.util.ArrayList
 
@@ -20,7 +20,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
     //对话框标题
     private var mTitleString: String? = null
     //对话框选项
-    private var mPublisherTypeList: ArrayList<workshop1024.com.xproject.main.model.publishertype.PublisherType>? = null
+    private var mPublisherTypeList: ArrayList<PublisherType>? = null
     //FIXME 如何实现保存选中Item逻辑？？
     //对话框选项索引
     private var mSelectedIndex: Int = 0
@@ -36,7 +36,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
         get() {
             val nameStrings: Array<String?> = arrayOfNulls<String>(mPublisherTypeList!!.size)
             for (type_i in mPublisherTypeList!!.indices) {
-                nameStrings[type_i] = mPublisherTypeList!![type_i].name
+                nameStrings[type_i] = mPublisherTypeList!![type_i].mName
             }
             return nameStrings
         }
