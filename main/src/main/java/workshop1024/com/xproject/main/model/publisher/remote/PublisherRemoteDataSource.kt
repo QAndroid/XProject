@@ -65,10 +65,6 @@ class PublisherRemoteDataSource : PublisherDataSource {
         }
     }
 
-    override fun refresh(isRequestRemote: Boolean) {
-
-    }
-
     override fun getIsRequestRemote(): Boolean {
         //FIXME 不是都需要实现的方法，是不是不放在接口里面
         return false;

@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "filters")
 data class Filter(//过滤器id
-        @PrimaryKey @ColumnInfo(name = "mFilterId") var mFilterId: String?, //过滤器名称
-        @ColumnInfo(name = "filterName") var mFilterName: String?)
+        @PrimaryKey @ColumnInfo(name = "filterId") var mFilterId: String, //过滤器名称
+        @ColumnInfo(name = "filterName") var mFilterName: String)

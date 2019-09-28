@@ -313,10 +313,6 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
         mCachedPublisherTypeMaps.put(publisherType.mTypeId, publisherType)
     }
 
-    override fun refresh(isRequestRemote: Boolean) {
-        mIsRequestRemote = isRequestRemote
-    }
-
     override fun getIsRequestRemote(): Boolean {
         return mIsRequestRemote
     }

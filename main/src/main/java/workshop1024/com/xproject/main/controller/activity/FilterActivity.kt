@@ -8,20 +8,22 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.dialog.InputStringDialog
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.controller.adapter.FilterListAdapter
 import workshop1024.com.xproject.main.databinding.FilterActivityBinding
+import workshop1024.com.xproject.main.model.Injection
 import workshop1024.com.xproject.main.model.filter.Filter
 import workshop1024.com.xproject.main.model.filter.source.FilterDataSource
-import workshop1024.com.xproject.main.model.filter.source.FilterRepository
+import java.util.*
 
-class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputStringDialog.InputStringDialogListener,
+class FilterActivity : XActivity(), InputStringDialog.InputStringDialogListener,
         FilterDataSource.LoadFiltersCallback, FilterListAdapter.OnFilterListDeleteListener {
-    private var mFilterRepository: FilterRepository? = null
+
+    private lateinit var mFilterRepository: FilterDataSource
     private var mFilterListAdapter: FilterListAdapter? = null
 
     private lateinit var mFilterActivityBinding: FilterActivityBinding
@@ -35,20 +37,20 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.title = "Manage Filter"
 
-        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.setOnRefreshListener(this)
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isEnabled = false
         mFilterActivityBinding.filterRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
+
+        mFilterRepository = Injection.provideFilterRepository(this)
     }
 
     override fun onStart() {
         super.onStart()
-        refreshFilterList()
+        refreshFilter()
     }
 
-    private fun refreshFilterList() {
-        mFilterRepository = FilterRepository.instance
+    private fun refreshFilter() {
         mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isRefreshing = true
-        mFilterRepository!!.getFilters(this)
-
+        mFilterRepository.getFilters(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,21 +71,30 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onRefresh() {
-        refreshFilterList()
-    }
-
     override fun onInputStringDialogClick(dialog: DialogFragment, inputString: String) {
-        mFilterRepository?.addFilterByName(inputString)
-        refreshFilterList()
+        //TODO 在构造函数中自己生成唯一id
+        val filter = Filter(UUID.randomUUID().toString(), inputString)
+        mFilterRepository.addFilter(filter)
+        refreshFilter()
     }
 
-    override fun onPublishersLoaded(filterList: List<Filter>) {
-        if (mIsForeground) {
+    override fun onRemoteFiltersLoaded(filterList: List<Filter>) {
+        refreshFilterList(filterList)
+        Snackbar.make(mFilterActivityBinding.root, "Fetch remote " + filterList.size + " filters ...", Snackbar.LENGTH_SHORT).show()
+        mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isRefreshing = false;
+    }
+
+    override fun onCacheOrLocalFiltersLoaded(filterList: List<Filter>) {
+        refreshFilterList(filterList)
+        Snackbar.make(mFilterActivityBinding.root, "Fetch cacheorlocal " + filterList.size + " filters ...", Snackbar.LENGTH_SHORT).show()
+        if (!mFilterRepository.getIsRequestRemote()) {
             mFilterActivityBinding.filterSwiperefreshlayoutPullrefresh.isRefreshing = false;
-            mFilterListAdapter = FilterListAdapter(filterList, this)
-            mFilterActivityBinding.filterRecyclerviewList.adapter = mFilterListAdapter
         }
+    }
+
+    private fun refreshFilterList(filterList: List<Filter>) {
+        mFilterListAdapter = FilterListAdapter(filterList, this)
+        mFilterActivityBinding.filterRecyclerviewList.adapter = mFilterListAdapter
     }
 
     override fun onDataNotAvailable() {
@@ -91,8 +102,8 @@ class FilterActivity : XActivity(), SwipeRefreshLayout.OnRefreshListener, InputS
     }
 
     override fun filterListItemDelete(filter: Filter) {
-        mFilterRepository?.deleteFilterById(filter.mFilterId!!)
-        refreshFilterList()
+        mFilterRepository.deleteFilterById(filter.mFilterId)
+        refreshFilter()
     }
 
     companion object {

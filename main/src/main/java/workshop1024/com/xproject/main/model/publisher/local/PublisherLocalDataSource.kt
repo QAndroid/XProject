@@ -34,42 +34,38 @@ class PublisherLocalDataSource private constructor(private val mPublisherDao: Pu
 
     override fun subscribePublisherById(publisherId: String) {
         Log.i("XProject", "PublisherLocalDataSource subscribePublisherById, publisherId = $publisherId")
-        val unSubscribeRunnable = Runnable { mPublisherDao.subscribePublisherById(publisherId) }
-        mExecutorUtils.mDiskIOExecutor.execute(unSubscribeRunnable)
+        val subscribePublisherByIdRunnable = Runnable { mPublisherDao.subscribePublisherById(publisherId) }
+        mExecutorUtils.mDiskIOExecutor.execute(subscribePublisherByIdRunnable)
     }
 
     override fun unSubscribePublisherById(publisherId: String) {
         Log.i("XProject", "PublisherLocalDataSource unSubscribePublisherById, publisherId = $publisherId")
-        val unSubscribeRunnable = Runnable { mPublisherDao.unSubscribePublisherById(publisherId) }
-        mExecutorUtils.mDiskIOExecutor.execute(unSubscribeRunnable)
+        val unSubscribePublisherByIdRunnable = Runnable { mPublisherDao.unSubscribePublisherById(publisherId) }
+        mExecutorUtils.mDiskIOExecutor.execute(unSubscribePublisherByIdRunnable)
     }
 
     override fun savePublisher(publisher: Publisher) {
         Log.i("XProject", "SubInfoLocalDataSource savePublisher, publisher = $publisher")
-        val saveRunnable = Runnable { mPublisherDao.insertPublisher(publisher) }
-        mExecutorUtils.mDiskIOExecutor.execute(saveRunnable)
+        val savePublisherRunnable = Runnable { mPublisherDao.insertPublisher(publisher) }
+        mExecutorUtils.mDiskIOExecutor.execute(savePublisherRunnable)
     }
 
     override fun deleteAllPublishers() {
         Log.i("XProject", "SubInfoLocalDataSource deleteAllPublishers")
-        val deleteRunnable = Runnable { mPublisherDao.deleteAllPublishers() }
-        mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
+        val deleteAllPublishersRunnable = Runnable { mPublisherDao.deleteAllPublishers() }
+        mExecutorUtils.mDiskIOExecutor.execute(deleteAllPublishersRunnable)
     }
 
     override fun deleteAllPublisherTypes() {
         Log.i("XProject", "SubInfoLocalDataSource deleteAllPublisherTypes")
-        val deleteRunnable = Runnable { mPublisherDao.deleteAllPublisherTypes() }
-        mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
+        val deleteAllPublisherTypesRunnable = Runnable { mPublisherDao.deleteAllPublisherTypes() }
+        mExecutorUtils.mDiskIOExecutor.execute(deleteAllPublisherTypesRunnable)
     }
 
     override fun savePublisherType(publisherType: PublisherType) {
         Log.i("XProject", "SubInfoLocalDataSource savePublisherType")
-        val deleteRunnable = Runnable { mPublisherDao.savePublisherType(publisherType) }
-        mExecutorUtils.mDiskIOExecutor.execute(deleteRunnable)
-    }
-
-    override fun refresh(isRequestRemote: Boolean) {
-
+        val savePublisherTypeRunnable = Runnable { mPublisherDao.savePublisherType(publisherType) }
+        mExecutorUtils.mDiskIOExecutor.execute(savePublisherTypeRunnable)
     }
 
     override fun getIsRequestRemote(): Boolean {

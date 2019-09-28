@@ -49,8 +49,6 @@ interface PublisherDataSource {
 
     fun savePublisherType(publisherType: PublisherType)
 
-    fun refresh(isRequestRemote: Boolean)
-
     fun getIsRequestRemote(): Boolean
 
     interface LoadPublisherAndPublisherTypeCallback : LoadRemotePubliserAndPublisherTypeCallback, LoadCacheOrLocalPublisherAndPublisherTypeCallback

@@ -3,15 +3,27 @@ package workshop1024.com.xproject.main.model.filter.source
 import workshop1024.com.xproject.main.model.filter.Filter
 
 interface FilterDataSource {
-    fun getFilters(loadFiltersCallback: LoadFiltersCallback)
+    fun getFilters(loadCallback: LoadCallback)
 
-    fun addFilterByName(filterName: String)
+    fun addFilter(filter: Filter)
 
     fun deleteFilterById(filterId: String)
 
-    interface LoadFiltersCallback {
-        fun onPublishersLoaded(filterList: List<Filter>)
+    fun deleteAllFilters()
 
+    fun getIsRequestRemote(): Boolean
+
+    interface LoadFiltersCallback : LoadRemoteFiltersCallback, LoadCacheOrLocalFiltersCallback
+
+    interface LoadCacheOrLocalFiltersCallback : LoadCallback {
+        fun onCacheOrLocalFiltersLoaded(filterList: List<Filter>)
+    }
+
+    interface LoadRemoteFiltersCallback : LoadCallback {
+        fun onRemoteFiltersLoaded(filterList: List<Filter>)
+    }
+
+    interface LoadCallback {
         fun onDataNotAvailable()
     }
 }

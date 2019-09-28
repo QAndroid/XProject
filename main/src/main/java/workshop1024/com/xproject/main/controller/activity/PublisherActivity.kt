@@ -59,11 +59,12 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
         actionBar.title = resources.getString(R.string.publisher_title_default)
+
+        mPublisherRepository = Injection.providePublisherRepository(this)
     }
 
     override fun onStart() {
         super.onStart()
-        mPublisherRepository = Injection.providePublisherRepository(this)
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
         mPublisherRepository.getPublishersAndPublisherTypes(this)
     }

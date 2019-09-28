@@ -1,72 +1,148 @@
 package workshop1024.com.xproject.main.model.filter.source
 
 import android.os.Handler
-
-import java.util.ArrayList
-import java.util.LinkedHashMap
+import android.util.Log
 
 import workshop1024.com.xproject.main.model.filter.Filter
+import workshop1024.com.xproject.main.model.filter.source.local.FilterLocalDataSource
+import workshop1024.com.xproject.main.model.filter.source.remote.FilterRemoteDataSource
+import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
+import workshop1024.com.xproject.main.model.publisher.source.PublisherRepository
 
-class FilterRepository private constructor() : FilterDataSource {
+class FilterRepository private constructor(private val mFilterRemoteDataSource: FilterDataSource,
+                                           private val mFilterLocalDataSource: FilterDataSource) : FilterDataSource {
+    private lateinit var mCacheFilterMaps: MutableMap<String, Filter>
+    private var mIsRequestRemote: Boolean = true
 
-    override fun getFilters(loadFiltersCallback: FilterDataSource.LoadFiltersCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val filterList = ArrayList(FILTERS_SERVICE_DATA!!.values)
-            loadFiltersCallback.onPublishersLoaded(filterList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+    override fun getFilters(loadCallback: FilterDataSource.LoadCallback) {
+        Log.i("XProject", "FilterRepository getFilters, mIsRequestRemote = $mIsRequestRemote")
+        if (this::mCacheFilterMaps.isInitialized) {
+            val filterList = getFiltersFromCache()
+            if (!filterList.isEmpty()) {
+                (loadCallback as FilterDataSource.LoadCacheOrLocalFiltersCallback).onCacheOrLocalFiltersLoaded(filterList)
+            } else {
+                getFiltersFromLocal(loadCallback)
+            }
+        } else {
+            getFiltersFromLocal(loadCallback)
+        }
+
+        if (mIsRequestRemote) {
+            getFiltersFromRemote(loadCallback)
+        }
     }
 
-    override fun addFilterByName(filterName: String) {
-        val handler = Handler()
-        handler.postDelayed({
-            val filter = Filter("f101", filterName)
-            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+    private fun getFiltersFromLocal(loadCallback: FilterDataSource.LoadCallback) {
+        Log.i("XProject", "FilterRepository getFiltersFromLocal")
+        mFilterLocalDataSource.getFilters(object : FilterDataSource.LoadCacheOrLocalFiltersCallback {
+            override fun onCacheOrLocalFiltersLoaded(filterList: List<Filter>) {
+                Log.i("XProject", "FilterRepository getFiltersFromLocal onCacheOrLocalFiltersLoaded, filterList = ${filterList}")
+                refreshCached(filterList)
+                (loadCallback as FilterDataSource.LoadCacheOrLocalFiltersCallback).onCacheOrLocalFiltersLoaded(filterList)
+            }
 
+            override fun onDataNotAvailable() {
+                Log.i("XProject", "FilterRepository getFiltersFromLocal onDataNotAvailable")
+            }
+        })
+    }
+
+    private fun refreshCached(filterList: List<Filter>) {
+        Log.i("XProject", "FilterRepository refreshCached, filterList = ${filterList.toString()}")
+        if (!this::mCacheFilterMaps.isInitialized) {
+            mCacheFilterMaps = LinkedHashMap()
+        }
+
+        mCacheFilterMaps.clear()
+
+        for (filter in filterList) {
+            mCacheFilterMaps.put(filter.mFilterId, filter)
+        }
+    }
+
+    private fun getFiltersFromRemote(loadCallback: FilterDataSource.LoadCallback) {
+        Log.i("XProject", "FilterRepository getFiltersFromRemote")
+        mFilterRemoteDataSource.getFilters(object : FilterDataSource.LoadRemoteFiltersCallback {
+            override fun onRemoteFiltersLoaded(filterList: List<Filter>) {
+                Log.i("XProject", "FilterRepository getFiltersFromRemote onRemoteFiltersLoaded")
+                refreshCached(filterList)
+                refreshLocal(filterList)
+
+                (loadCallback as FilterDataSource.LoadRemoteFiltersCallback).onRemoteFiltersLoaded(filterList)
+
+                //请求过一次远程之后，不自动请求远程，除非强制刷新请求
+                mIsRequestRemote = false
+            }
+
+            override fun onDataNotAvailable() {
+                Log.i("XProject", "FilterRepository getFiltersFromRemote onDataNotAvailable")
+
+            }
+        })
+    }
+
+    private fun refreshLocal(filterList: List<Filter>) {
+        Log.i("XProject", "FilterRepository refreshLocal, filterList = ${filterList.toString()}")
+        mFilterLocalDataSource.deleteAllFilters()
+
+        for (filter in filterList) {
+            mFilterLocalDataSource.addFilter(filter)
+        }
+    }
+
+    private fun getFiltersFromCache(): List<Filter> {
+        Log.i("XProject", "FilterRepository getFiltersFromCache")
+        return ArrayList(mCacheFilterMaps.values)
+    }
+
+    override fun addFilter(filter: Filter) {
+        Log.i("XProject", "FilterRepository addFilter, filter = ${filter.toString()}")
+        mFilterRemoteDataSource.addFilter(filter)
+        mFilterLocalDataSource.addFilter(filter)
+
+        if (!this::mCacheFilterMaps.isInitialized) {
+            mCacheFilterMaps = LinkedHashMap()
+        }
+
+        mCacheFilterMaps[filter.mFilterId] = filter
     }
 
     override fun deleteFilterById(filterId: String) {
+        Log.i("XProject", "FilterRepository deleteFilterById, filterId = $filterId")
+        mFilterRemoteDataSource.deleteFilterById(filterId)
+        mFilterLocalDataSource.deleteFilterById(filterId)
 
-        val handler = Handler()
-        handler.postDelayed({ FILTERS_SERVICE_DATA!!.remove(filterId) }, SERVICE_LATENCY_IN_MILLIS.toLong())
+        if (!this::mCacheFilterMaps.isInitialized) {
+            mCacheFilterMaps = LinkedHashMap()
+        }
 
+        mCacheFilterMaps.remove(filterId)
+    }
+
+    override fun deleteAllFilters() {
+        Log.i("XProject", "FilterRepository deleteAllFilters")
+        mFilterRemoteDataSource.deleteAllFilters()
+        mFilterLocalDataSource.deleteAllFilters()
+
+        if (!this::mCacheFilterMaps.isInitialized) {
+            mCacheFilterMaps = LinkedHashMap()
+        }
+
+        mCacheFilterMaps.clear()
+    }
+
+    override fun getIsRequestRemote(): Boolean {
+        return mIsRequestRemote
     }
 
     companion object {
-        private const val SERVICE_LATENCY_IN_MILLIS = 1000
+        private lateinit var INSTANCE: FilterRepository
 
-        private var FILTERS_SERVICE_DATA: MutableMap<String, Filter>? = null
-
-        private var INSTANCE: FilterRepository? = null
-
-        init {
-            //TODO 如何本地提供Mock环境
-            FILTERS_SERVICE_DATA = LinkedHashMap(2)
-
-            addFilter("f001", "china")
-            addFilter("f002", "android")
-            addFilter("f003", "usa")
-            addFilter("f004", "news")
-            addFilter("f005", "rusia")
-            addFilter("f006", "fight")
-            addFilter("f007", "boate")
-            addFilter("f008", "car")
-            addFilter("f009", "bycycle")
-        }
-
-        private fun addFilter(filterId: String, filterName: String) {
-            val filter = Filter(filterId, filterName)
-            FILTERS_SERVICE_DATA!![filter.mFilterId!!] = filter
-        }
-
-        val instance: FilterRepository
-            get() {
-                if (INSTANCE == null) {
-                    INSTANCE = FilterRepository()
-                }
-
-                return INSTANCE!!
+        fun getInstance(filterRemoteDataSource: FilterDataSource, filterLocalDataSource: FilterDataSource): FilterRepository {
+            if (!this::INSTANCE.isInitialized) {
+                INSTANCE = FilterRepository(filterRemoteDataSource, filterLocalDataSource)
             }
+            return INSTANCE
+        }
     }
 }
