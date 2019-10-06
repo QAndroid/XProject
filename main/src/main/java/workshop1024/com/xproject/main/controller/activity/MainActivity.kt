@@ -23,6 +23,7 @@ import workshop1024.com.xproject.base.arouter.provider.SaveProvider
 import workshop1024.com.xproject.base.controller.event.*
 import workshop1024.com.xproject.base.controller.fragment.TopFragment
 import workshop1024.com.xproject.base.controller.fragment.XFragment
+import workshop1024.com.xproject.base.eventbus.controller.event.NewsListRefreshEvent
 import workshop1024.com.xproject.base.exception.IntentNotFoundException
 import workshop1024.com.xproject.base.service.ServiceFactory
 import workshop1024.com.xproject.base.utils.IntentUtils
@@ -135,6 +136,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 }
             }
             R.id.homepage_menu_about -> AboutActivity.startActivity(this)
+            R.id.newslist_menu_refresh->EventBus.getDefault().post(NewsListRefreshEvent())
             R.id.newslist_menu_cards -> EventBus.getDefault().post(NewsListShowBigCardsEvent())
             R.id.newslist_menu_compact -> EventBus.getDefault().post(NewsListShowCompactEvent())
             R.id.newslist_menu_minimal -> EventBus.getDefault().post(NewsListShowMinimalEvent())
@@ -148,7 +150,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
         mActionBarDrawerToggle.syncState()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         mActionBarDrawerToggle.onConfigurationChanged(newConfig)
     }
@@ -178,7 +180,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
     override fun onQueryTextSubmit(query: String?): Boolean {
         //FIXME 智能通过类型转换吗？？
         val searchNewsFragment = query?.let {
-            ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.news.SearchNewsFragment",
+            ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.news.SearchNewsesFragment",
                     "newInstance", it, R.id.leftnavigator_menu_home)
         } as XFragment
         supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, searchNewsFragment).addToBackStack("").commit()

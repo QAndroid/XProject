@@ -67,7 +67,7 @@ class HomePageFragment : XFragment(), TopFragment {
         var mCurrentSubFragmet: HomeSubFragment? = null
             private set
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): Fragment {
             var fragment: Fragment? = null
 
             when (position) {
@@ -77,7 +77,7 @@ class HomePageFragment : XFragment(), TopFragment {
                 2 -> fragment = FilterFragment.newInstance()
             }
 
-            return fragment
+            return fragment!!
         }
 
         override fun getCount(): Int {

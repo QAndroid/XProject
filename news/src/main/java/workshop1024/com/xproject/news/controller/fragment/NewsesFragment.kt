@@ -16,6 +16,7 @@ import workshop1024.com.xproject.base.controller.event.NewsListShowBigCardsEvent
 import workshop1024.com.xproject.base.controller.event.NewsListShowCompactEvent
 import workshop1024.com.xproject.base.controller.event.NewsListShowMinimalEvent
 import workshop1024.com.xproject.base.controller.fragment.XFragment
+import workshop1024.com.xproject.base.eventbus.controller.event.NewsListRefreshEvent
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.news.R
 import workshop1024.com.xproject.news.controller.adapter.BigCardsAdapter
@@ -30,18 +31,17 @@ import workshop1024.com.xproject.news.model.news.source.NewsDataSource
  * //FIXME NewsListFragment和业务耦合严重，不太适合放在BaseModule中！！！！
  * 新闻列表Fragmnet，用于展示新闻列表
  */
-abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListener,
-        NewsDataSource.LoadNewsListCallback, NewsDataSource.MarkNewsesReadedCallback {
+abstract class NewsesFragment : XFragment(), SwipeRefreshLayout.OnRefreshListener, NewsDataSource.LoadNewsesCallback {
     private var mListAdapter: RecyclerView.Adapter<*>? = null
 
-    protected var mNewsRepository: NewsDataSource? = null
-    private var mNewsList: List<News>? = null
+    protected lateinit var mNewsRepository: NewsDataSource
+    protected var mNewsList: List<News>? = null
 
-    private lateinit var mNewsListFragmentBinding: NewslistFragmentBinding
+    protected lateinit var mNewsListFragmentBinding: NewslistFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mNewsRepository = Injection.provideNewsRepository()
+        mNewsRepository = Injection.provideNewsRepository(context!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -65,30 +65,37 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
         super.onStop()
     }
 
-
-    override fun onRefresh() {
-        refreshNewsList()
+    @Subscribe
+    fun onRefreshEvent(event: NewsListRefreshEvent) {
+        onRefresh()
     }
 
-    override fun onNewsLoaded(newsList: List<News>) {
-        if (mIsForeground) {
-            mNewsList = newsList
-            mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = false
-            showBigCardsList()
-            Snackbar.make(mNewsListFragmentBinding.root, "Fetch " + newsList.size + " newses ...", Snackbar.LENGTH_SHORT).show()
-        }
+    override fun onCachedOrLocalNewsLoaded(newsList: List<News>) {
+        mNewsList = newsList
+        showBigCardsList()
+        Snackbar.make(mNewsListFragmentBinding.root, "Fetch cacheorlocal " + newsList.size + " newses ...", Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onRemoteNewsLoaded(newsList: List<News>) {
+        mNewsList = newsList
+        showBigCardsList()
+        Snackbar.make(mNewsListFragmentBinding.root, "Fetch remote " + newsList.size + " newses ...", Snackbar.LENGTH_SHORT).show()
+
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = false
     }
 
     override fun onDataNotAvaiable() {
-        Snackbar.make(mNewsListFragmentBinding.root, "No newses refresh...", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mNewsListFragmentBinding.root, "No newses refreshBySearchTypeAndKey...", Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun refreshNewsList() {
+    protected fun refreshNewsList() {
         mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = true
         getNewsList()
     }
 
     abstract fun getNewsList()
+
+    abstract fun onMarkAsReadEvent(event: NewsListAsReadEvent)
 
     @Subscribe
     fun onShowBigCardsListEvent(event: NewsListShowBigCardsEvent) {
@@ -110,27 +117,16 @@ abstract class NewsListFragment : XFragment(), SwipeRefreshLayout.OnRefreshListe
         mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
     }
 
-    @Subscribe
-    fun onMarkAsReadEvent(event: NewsListAsReadEvent) {
-        //将现有文章置为可读
-        val newsIdList = ArrayList<String>()
-        for (news in mNewsList!!) {
-            newsIdList.add(news.newId!!)
-        }
-        mNewsRepository?.markNewsesReadedByNewsId(newsIdList, this)
-    }
-
-    override fun onMarkNewsesReadedSuccess() {
-        //刷新列表
-        refreshNewsList()
-    }
-
-    override fun onMarkNewsesReadedFaild() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     fun showBigCardsList() {
         mListAdapter = BigCardsAdapter(context!!, mNewsList!!)
         mNewsListFragmentBinding.newslistRecyclerviewList.adapter = mListAdapter
+    }
+
+    fun getNewsIdList(): List<String> {
+        val newsIdList = ArrayList<String>()
+        for (news in mNewsList!!) {
+            newsIdList.add(news.mNewsId)
+        }
+        return newsIdList
     }
 }

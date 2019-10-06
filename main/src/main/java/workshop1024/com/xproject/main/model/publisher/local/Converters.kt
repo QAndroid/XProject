@@ -10,12 +10,12 @@ import workshop1024.com.xproject.main.model.publisher.PublisherType
 //FIXME 怎么区分应用在哪个类型
 class Converters {
     @TypeConverter
-    fun dateToIsSubscribed(value: Boolean?): ObservableBoolean? {
+    fun dateToObservableBoolean(value: Boolean?): ObservableBoolean? {
         return value?.let { ObservableBoolean(value) }
     }
 
     @TypeConverter
-    fun fromIsSubscribed(date: ObservableBoolean?): Boolean? {
+    fun fromIsObservableBoolean(date: ObservableBoolean?): Boolean? {
         return date?.get()
     }
 

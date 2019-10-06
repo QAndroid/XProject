@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import workshop1024.com.xproject.base.utils.IntentUtils
 import workshop1024.com.xproject.news.R
 import workshop1024.com.xproject.news.controller.activity.NewsDetailActivity
 import workshop1024.com.xproject.news.databinding.NewslistItemBigcardsBinding
@@ -32,7 +31,7 @@ class BigCardsAdapter(private val mContext: Context, private val mNewsList: List
         holder.mNewslistItemBigcardsBinding.news = showNews
 
         //FIXME 如何使用Databinding来处理这块逻辑？
-        if (showNews.isIsReaded) {
+        if (showNews.mIsReaded) {
             //FIXME 有必要每次都创造对象吗？
             val colorMatrix = ColorMatrix()
             colorMatrix.setSaturation(0.0f)
@@ -47,7 +46,7 @@ class BigCardsAdapter(private val mContext: Context, private val mNewsList: List
 
     inner class BigCardsHandlers {
         fun onClickItem(view: View, news: News) {
-            NewsDetailActivity.startActivity(mContext, news.newId!!)
+            NewsDetailActivity.startActivity(mContext, news.mNewsId)
         }
     }
 }

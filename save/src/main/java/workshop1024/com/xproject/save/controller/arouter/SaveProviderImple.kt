@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import workshop1024.com.xproject.base.arouter.provider.SaveProvider
-import workshop1024.com.xproject.save.controller.fragment.SavedFragment
+import workshop1024.com.xproject.save.controller.fragment.SavedNewsesFragment
 
 @Route(path = "/save/SaveProvider")
 class SaveProviderImple : SaveProvider {
@@ -13,6 +13,6 @@ class SaveProviderImple : SaveProvider {
     }
 
     override fun newSavedFragmentInstance(navigationItemId: Int): Fragment {
-        return SavedFragment.newInstance(navigationItemId)
+        return SavedNewsesFragment.newInstance(navigationItemId)
     }
 }

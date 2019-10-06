@@ -14,7 +14,7 @@ abstract class LazyFragment : Fragment() {
     //视图是否初始化
     private var mIsViewInitiated: Boolean = false
     //视图是否对用户可见
-    private var mIsVisibleToUser: Boolean = false
+    protected var mIsVisibleToUser: Boolean = false
     //数据是否初始化
     private var mIsDataInitiated: Boolean = false
 

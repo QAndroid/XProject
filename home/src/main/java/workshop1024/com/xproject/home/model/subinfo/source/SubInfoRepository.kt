@@ -8,6 +8,7 @@ import java.util.LinkedHashMap
 //三个页面的数据，三次请求，故分别进行脏数据存储
 class SubInfoRepository private constructor(private val mSubInfoRemoteDataSource: SubInfoDataSource,
                                             private val mSubInfoLocalDataSource: SubInfoDataSource) : SubInfoDataSource {
+    //FIXME 是否以类型为id进行<type,List<SubInfo>>进行存储更合理？？
     private lateinit var mCachedSubInfoMaps: MutableMap<String, SubInfo>
     //FIXME mIsRequestCacheMaps[infoType]!!强制非空无法保证！
     //默认第一次请求数据，先请求缓存如果有的话快速展示，并且请求远程更新最新的数据

@@ -16,7 +16,7 @@ class SubmitMessageDialog : DialogFragment() {
     private var mSubmitMessageDialogListener: SubmitMessageDialogListener? = null
     private lateinit var mSubmitmessageDialogBinding: SubmitmessageDialogBinding
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mSubmitMessageDialog = this
         try {

@@ -36,7 +36,7 @@ class MinimalAdapter(private val mContext: Context, private val mNewsList: List<
 
     inner class MinimalHandlers {
         fun onClickItem(view: View, news: News) {
-            NewsDetailActivity.startActivity(mContext, news.newId!!)
+            NewsDetailActivity.startActivity(mContext, news.mNewsId)
         }
     }
 }

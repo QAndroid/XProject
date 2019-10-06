@@ -23,4 +23,5 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.core:core-ktx:$rootProject.core_ktx_version"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
 }

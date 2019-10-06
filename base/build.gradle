@@ -28,6 +28,7 @@ dependencies {
     api project(':eventbus')
     api project(':service')
     api project(':arouter')
+    api project(':room')
 
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
@@ -41,4 +42,8 @@ dependencies {
     api "org.greenrobot:eventbus:$rootProject.eventbus_version"
 
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    //添加Room
+    api "androidx.room:room-runtime:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version"
 }

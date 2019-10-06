@@ -30,14 +30,16 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
     }
 
     override fun onCacheOrLocalSubInfosLoaded(subInfoList: List<SubInfo>) {
-        newSubscribeListAdapter(subInfoList)
-        //FIXME 当从缓存中直接获取数据的时候，为什么XSnackbar.show()不可见
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
-        super.onCacheOrLocalSubInfosLoaded(subInfoList)
+        if (mIsVisibleToUser) {
+            newSubscribeListAdapter(subInfoList)
+            //FIXME 当从缓存中直接获取数据的时候，为什么XSnackbar.show()不可见
+            Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
+            super.onCacheOrLocalSubInfosLoaded(subInfoList)
 
-        //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
-        if(!mSubInfoRepository.getIsRequestRemote(SubInfo.SUBSCRIBE_TYPE)){
-            mHomeSubFragmentHanlders.isRefreshing.set(false)
+            //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
+            if (!mSubInfoRepository.getIsRequestRemote(SubInfo.SUBSCRIBE_TYPE)) {
+                mHomeSubFragmentHanlders.isRefreshing.set(false)
+            }
         }
     }
 
@@ -47,9 +49,11 @@ class SubscribeFragment : HomeSubFragment(), SubscribeListAdapter.SubInfoListMen
     }
 
     override fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>) {
-        newSubscribeListAdapter(subInfoList)
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch remote " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
-        super.onRemoteSubInfosLoaded(subInfoList)
+        if (mIsVisibleToUser) {
+            newSubscribeListAdapter(subInfoList)
+            Snackbar.make(mHomesubFragmentBinding.root, "Fetch remote " + subInfoList.size + " subscribes ...", Snackbar.LENGTH_SHORT).show()
+            super.onRemoteSubInfosLoaded(subInfoList)
+        }
     }
 
     override fun onDataNotAvailable() {

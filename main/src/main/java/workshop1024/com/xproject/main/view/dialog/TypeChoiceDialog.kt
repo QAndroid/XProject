@@ -41,12 +41,12 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
             return nameStrings
         }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             mTypeChoiceDialogListener = context as TypeChoiceDialogListener?
         } catch (e: ClassCastException) {
-            throw ClassCastException(context!!.toString() + " must implement TypeChoiceDialogListener")
+            throw ClassCastException(context.toString() + " must implement TypeChoiceDialogListener")
         }
 
     }

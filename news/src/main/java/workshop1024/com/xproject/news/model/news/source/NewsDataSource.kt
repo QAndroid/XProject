@@ -1,44 +1,35 @@
 package workshop1024.com.xproject.news.model.news.source
 
 import workshop1024.com.xproject.news.model.news.News
-import workshop1024.com.xproject.news.model.news.NewsDetail
+import workshop1024.com.xproject.news.model.newsdetail.NewsDetail
 
 /**
  * 新闻数据源接口，定义了关于新闻数据的接口
  */
 interface NewsDataSource {
+    fun getNewsesByTypeAndKey(searchType: String, searchKey: String, loadCallback: LoadCallback)
 
-    fun getNewsListBySubscribe(publishId: String, loadNewsListCallback: LoadNewsListCallback)
+    fun deleteAllNewsesByTypeAndKey(searchType: String, searchKey: String)
 
-    fun getNewsListByTag(tagId: String, loadNewsListCallback: LoadNewsListCallback)
+    fun addNews(news: News)
 
-    fun getNewsListByFilter(filterId: String, loadNewsListCallback: LoadNewsListCallback)
+    fun markNewsesReadedByNewsId(searchType: String, searchKey: String, newsIdList: List<String>)
 
-    fun getNewsListBySearch(searchString: String, loadNewsListCallback: LoadNewsListCallback)
+    fun getIsRequestRemoteBySearchTypeAndKey(searchType: String, searchKey: String): Boolean
 
-    fun markNewsesReadedByNewsId(newsIdList: List<String>, markNewsesReadedCallback: MarkNewsesReadedCallback)
+    fun refreshBySearchTypeAndKey(searchType: String, searchKey: String, isRequestRemote: Boolean, isRequestCache: Boolean)
 
-    fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: LoadNewsDetailCallBack)
+    interface LoadNewsesCallback : LoadCacheOrLocalNewsesCallback, LoadRemoteNewsesCallback
 
-    fun getSavedNewsList(loadNewsListCallback: LoadNewsListCallback)
-
-    fun saveNewsById(newsId: String)
-
-    interface LoadNewsListCallback {
-        fun onNewsLoaded(newsList: List<News>)
-
-        fun onDataNotAvaiable()
+    interface LoadCacheOrLocalNewsesCallback : LoadCallback {
+        fun onCachedOrLocalNewsLoaded(newsList: List<News>)
     }
 
-    interface LoadNewsDetailCallBack {
-        fun onNewsDetailLoaded(newsDetail: NewsDetail)
-
-        fun onDataNotAvaiable()
+    interface LoadRemoteNewsesCallback : LoadCallback {
+        fun onRemoteNewsLoaded(newsList: List<News>)
     }
 
-    interface MarkNewsesReadedCallback {
-        fun onMarkNewsesReadedSuccess()
-
-        fun onMarkNewsesReadedFaild()
+    interface LoadCallback {
+        fun onDataNotAvaiable()
     }
 }

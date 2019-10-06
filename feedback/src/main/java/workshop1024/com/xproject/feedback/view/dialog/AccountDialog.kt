@@ -15,7 +15,7 @@ class AccountDialog : DialogFragment(), DialogInterface.OnClickListener {
     private var mAccountDialogBinding: AccountDialogBinding? = null
     private var mAccountDialogListener: AccountDialogListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             mAccountDialogListener = context as AccountDialogListener

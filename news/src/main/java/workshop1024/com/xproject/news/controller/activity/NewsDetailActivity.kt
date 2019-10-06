@@ -28,17 +28,17 @@ import workshop1024.com.xproject.news.R
 import workshop1024.com.xproject.news.controller.adapter.TagListAdapter
 import workshop1024.com.xproject.news.databinding.NewsdetailActivityBinding
 import workshop1024.com.xproject.news.model.Injection
-import workshop1024.com.xproject.news.model.news.NewsDetail
-import workshop1024.com.xproject.news.model.news.source.NewsDataSource
+import workshop1024.com.xproject.news.model.newsdetail.NewsDetail
+import workshop1024.com.xproject.news.model.newsdetail.sources.NewsDetailDataSource
 import workshop1024.com.xproject.news.view.dialog.DisplaySettingsDialog
 import kotlin.math.hypot
 
-class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
+class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallBack, DisplaySettingsDialog.DisplaySettingsDialogListener {
     private var mDisplaySettingsDialog: DisplaySettingsDialog? = null
 
     private var mNewsId: String? = null
     private var mSelectedFontSize: Float = 0.0f
-    private var mNewsRepository: NewsDataSource? = null
+    private lateinit var mNewsRepository: NewsDetailDataSource
     private lateinit var mSharedPreferences: SharedPreferences
 
     private lateinit var mNewsdetailActivityBinding: NewsdetailActivityBinding
@@ -70,8 +70,8 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
         super.onStart()
 
         mNewsId = intent.getStringExtra(NEWS_ID_KEY)
-        mNewsRepository = Injection.provideNewsRepository()
-        mNewsRepository?.getNewsDetailByNewsId(mNewsId!!, this)
+        mNewsRepository = Injection.provideNewsDetailRepository(this)
+        mNewsRepository.getNewsDetailByNewsId(mNewsId!!, this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -88,11 +88,11 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
 
     override fun onNewsDetailLoaded(newsDetail: NewsDetail) {
         if (mIsForeground) {
-            mNewsdetailActivityBinding.newsdetailTextviewPublisher.text = newsDetail.publisher
-            mNewsdetailActivityBinding.newsdetailTextviewPubdata.text = newsDetail.pubDate
-            mNewsdetailActivityBinding.newsdetailTextviewContent.text = newsDetail.content
+            mNewsdetailActivityBinding.newsdetailTextviewPublisher.text = newsDetail.mPublisher
+            mNewsdetailActivityBinding.newsdetailTextviewPubdata.text = newsDetail.mPubDate
+            mNewsdetailActivityBinding.newsdetailTextviewContent.text = newsDetail.mContent
 
-            val tagListAdapter = TagListAdapter(this, newsDetail.tagList!!)
+            val tagListAdapter = TagListAdapter(this, newsDetail.mTagList!!)
             mNewsdetailActivityBinding.newsdetailRecyclerViewTags.adapter = tagListAdapter
         }
     }
@@ -229,7 +229,7 @@ class NewsDetailActivity : XActivity(), NewsDataSource.LoadNewsDetailCallBack, D
         }
 
         fun onClickSheetitem3(view: View) {
-            val newsRepository = Injection.provideNewsRepository()
+            val newsRepository = Injection.provideNewsDetailRepository(this@NewsDetailActivity)
             newsRepository.saveNewsById(mNewsId!!)
             Toast.makeText(this@NewsDetailActivity, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show()
             sheetViewOut()

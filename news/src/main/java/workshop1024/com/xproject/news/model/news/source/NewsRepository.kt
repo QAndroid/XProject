@@ -1,138 +1,178 @@
 package workshop1024.com.xproject.news.model.news.source
 
-import android.os.Handler
+import android.util.Log
 
-import java.util.ArrayList
-import java.util.Arrays
 import java.util.LinkedHashMap
 
 import workshop1024.com.xproject.news.model.news.News
-import workshop1024.com.xproject.news.model.news.NewsDetail
+import workshop1024.com.xproject.news.model.news.local.NewsLocalDataSource
+import workshop1024.com.xproject.news.model.news.remote.NewsRemoteDataSource
 
 /**
  * 新闻远程数据源
  */
-class NewsRepository private constructor() : NewsDataSource {
+class NewsRepository private constructor(private val mNewsRemoteDataSource: NewsRemoteDataSource,
+                                         private val mNewsLocalDataSource: NewsLocalDataSource) : NewsDataSource {
 
-    override fun getNewsListBySubscribe(publishId: String, loadNewsListCallback: NewsDataSource.LoadNewsListCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            loadNewsListCallback.onNewsLoaded(newsList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
-    }
+    private lateinit var mCacheNewsMaps: MutableMap<String, News>
 
-    override fun getNewsListByTag(tagId: String, loadNewsListCallback: NewsDataSource.LoadNewsListCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            loadNewsListCallback.onNewsLoaded(newsList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
-    }
+    private val mIsRequestCacheMaps = mutableMapOf<String, Boolean>()
+    private val mIsRequestRemoteMaps = mutableMapOf<String, Boolean>()
 
-    override fun getNewsListByFilter(filterId: String, loadNewsListCallback: NewsDataSource.LoadNewsListCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            loadNewsListCallback.onNewsLoaded(newsList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
-    }
+    override fun getNewsesByTypeAndKey(searchType: String, searchKey: String, loadCallback: NewsDataSource.LoadCallback) {
+        Log.i("XProject", "NewsRepository getNewsesByTypeAndKey")
+        //如果该typeId还没有请求过数据，则初始化请求控制变量
+        if (mIsRequestCacheMaps["$searchType//_$searchKey"] == null && mIsRequestRemoteMaps["$searchType//_$searchKey"] == null) {
+            mIsRequestCacheMaps.put("$searchType//_$searchKey", true)
+            mIsRequestRemoteMaps.put("$searchType//_$searchKey", true)
+        }
 
-    override fun getNewsListBySearch(searchString: String, loadNewsListCallback: NewsDataSource.LoadNewsListCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            loadNewsListCallback.onNewsLoaded(newsList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
-    }
-
-    override fun markNewsesReadedByNewsId(newsIdList: List<String>, markNewsesReadedCallback: NewsDataSource.MarkNewsesReadedCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            for (news in newsList) {
-                if (newsIdList.contains(news.newId)) {
-                    news.isIsReaded = true
-                    markNewsesReadedCallback.onMarkNewsesReadedSuccess()
+        Log.i("XProject", "NewsRepository getNewsesByTypeAndKey, mIsRequestRemote = ${mIsRequestRemoteMaps.get("$searchType//_$searchKey")}, mIsRequestCache = ${mIsRequestCacheMaps.get("$searchType//_$searchKey")}")
+        if (mIsRequestCacheMaps["$searchType//_$searchKey"]!!) {
+            if (this::mCacheNewsMaps.isInitialized) {
+                val newsList = getNewsesByTypeAndKeyFromCache(searchType, searchKey)
+                if (!newsList.isEmpty()) {
+                    (loadCallback as NewsDataSource.LoadCacheOrLocalNewsesCallback).onCachedOrLocalNewsLoaded(newsList)
+                } else {
+                    getNewsesByTypeAndKeyFromLocal(searchType, searchKey, loadCallback)
                 }
+            } else {
+                getNewsesByTypeAndKeyFromLocal(searchType, searchKey, loadCallback)
             }
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+        }
+
+        if (mIsRequestRemoteMaps["$searchType//_$searchKey"]!!) {
+            getNewsesByTypeAndIdFromRemote(searchType, searchKey, loadCallback)
+        }
     }
 
-    override fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: NewsDataSource.LoadNewsDetailCallBack) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsDetailList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            for (newsDetail in newsDetailList) {
-                if (newsId == newsDetail.newId) {
-                    loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
-                }
+    private fun getNewsesByTypeAndKeyFromLocal(searchType: String, searchKey: String, loadCallback: NewsDataSource.LoadCallback) {
+        Log.i("XProject", "NewsRepository getNewsesByTypeAndKeyFromLocal, searchType = $searchType searchKey = $searchKey")
+        mNewsLocalDataSource.getNewsesByTypeAndKey(searchType, searchKey, object : NewsDataSource.LoadCacheOrLocalNewsesCallback {
+            override fun onCachedOrLocalNewsLoaded(newsList: List<News>) {
+                Log.i("XProject", "NewsRepository getNewsesByTypeAndKeyFromLocal onCachedOrLocalNewsLoaded, newsList = ${newsList.toString()}")
+                refreshCachedBySearchTypeAndKey(searchType, searchKey, newsList)
+                (loadCallback as NewsDataSource.LoadCacheOrLocalNewsesCallback).onCachedOrLocalNewsLoaded(newsList)
             }
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+
+            override fun onDataNotAvaiable() {
+                Log.i("XProject", "NewsRepository getNewsesByTypeAndKeyFromLocal onDataNotAvaiable")
+            }
+        })
     }
 
-    override fun getSavedNewsList(loadNewsListCallback: NewsDataSource.LoadNewsListCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val resultNewsList = ArrayList<News>()
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            for (news in newsList) {
-                if (news.isIsSaved) {
+    private fun refreshCachedBySearchTypeAndKey(searchType: String, searchKey: String, newsList: List<News>) {
+        Log.i("XProject", "NewsRepository refreshCachedBySearchTypeAndKey, searchKey = $searchKey, newsList = ${newsList.toString()}")
+        if (!this::mCacheNewsMaps.isInitialized) {
+            mCacheNewsMaps = LinkedHashMap()
+        }
+
+        val iterator = mCacheNewsMaps.values.iterator()
+        while (iterator.hasNext()) {
+            val news = iterator.next()
+            if (news.mSearchType.equals(searchType) && news.mSearchKey.equals(searchKey)) {
+                iterator.remove()
+            }
+        }
+
+        for (news in newsList) {
+            mCacheNewsMaps.put(news.mSaveId, news)
+        }
+
+        mIsRequestCacheMaps["$searchType//_$searchKey"] = true
+    }
+
+
+    private fun getNewsesByTypeAndIdFromRemote(searchType: String, searchKey: String, loadCallback: NewsDataSource.LoadCallback) {
+        Log.i("XProject", "NewsRepository getNewsesByTypeAndIdFromRemote, searchType = $searchType searchKey = $searchKey")
+        mNewsRemoteDataSource.getNewsesByTypeAndKey(searchType, searchKey, object : NewsDataSource.LoadRemoteNewsesCallback {
+            override fun onRemoteNewsLoaded(newsList: List<News>) {
+                Log.i("XProject", "NewsRepository getNewsesByTypeAndIdFromRemote onRemoteNewsLoaded, newsList = ${newsList.toString()}")
+                refreshCachedBySearchTypeAndKey(searchType, searchKey, newsList)
+                refreshLocalBySearchTypeAndKey(searchType, searchKey, newsList)
+                (loadCallback as NewsDataSource.LoadRemoteNewsesCallback).onRemoteNewsLoaded(newsList)
+
+                mIsRequestRemoteMaps["$searchType//_$searchKey"] = false
+            }
+
+            override fun onDataNotAvaiable() {
+                Log.i("XProject", "NewsRepository getNewsesByTypeAndIdFromRemote onDataNotAvaiable")
+            }
+        })
+    }
+
+    private fun refreshLocalBySearchTypeAndKey(searchType: String, searchKey: String, newsList: List<News>) {
+        Log.i("XProject", "NewsRepository refreshLocalBySearchTypeAndKey, searchKey = $searchKey,newsList = ${newsList.toString()}")
+        mNewsLocalDataSource.deleteAllNewsesByTypeAndKey(searchType, searchKey)
+
+        for (news in newsList) {
+            mNewsLocalDataSource.addNews(news)
+        }
+
+        mIsRequestCacheMaps["$searchType//_$searchKey"] = true
+    }
+
+    private fun getNewsesByTypeAndKeyFromCache(searchType: String, searchKey: String): List<News> {
+        Log.i("XProject", "NewsRepository getNewsesByTypeAndKeyFromCache, searchType = $searchType searchKey = $searchKey")
+        val resultNewsList = mutableListOf<News>()
+        for (news in mCacheNewsMaps.values) {
+            if (news.mSearchType.equals(searchType) && news.mSearchKey.equals(searchKey)) {
+                if ((News.SUBSCRIBE_TYPE.equals(searchType) && news.mSubscribeId.equals(searchKey))
+                        || (News.TAG_TYPE.equals(searchType) && news.mTagIdList.contains(searchKey))
+                        || (News.FILTER_TYPE.equals(searchType) && news.mFilterIdList.contains(searchKey))
+                        || (News.SAVED_TYPE.equals(searchType) && news.mTitle.contains(searchKey))) {
                     resultNewsList.add(news)
                 }
             }
-            loadNewsListCallback.onNewsLoaded(resultNewsList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+        }
+        return resultNewsList
     }
 
-    override fun saveNewsById(newsId: String) {
-        val handler = Handler()
-        handler.postDelayed({
-            val newsList = ArrayList(NEWSDETAILS_SERVICE_DATA!!.values)
-            for (news in newsList) {
-                if (news.newId == newsId) {
-                    news.isIsSaved = true
+    override fun deleteAllNewsesByTypeAndKey(searchType: String, searchKey: String) {
+        //FIXME 没有外部调用，不实现
+    }
+
+    override fun markNewsesReadedByNewsId(searchType: String, searchKey: String, newsIdList: List<String>) {
+        Log.i("XProject", "NewsRepository markNewsesReadedByNewsId, searchType = $searchType searchKey = $searchKey")
+        mNewsRemoteDataSource.markNewsesReadedByNewsId(searchType, searchKey, newsIdList)
+        mNewsLocalDataSource.markNewsesReadedByNewsId(searchType, searchKey, newsIdList)
+
+        if (!this::mCacheNewsMaps.isInitialized) {
+            mCacheNewsMaps = LinkedHashMap()
+        }
+
+        for (newsId in newsIdList) {
+            for (news in mCacheNewsMaps.values) {
+                if (news.mNewsId.equals(newsId) && news.mSearchType.equals(searchType) && news.mSearchKey.equals(searchKey)) {
+                    news.mIsReaded = true
                 }
             }
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+        }
+    }
+
+    override fun addNews(news: News) {
+        //FIXME 没有外部调用，不实现
+    }
+
+    override fun getIsRequestRemoteBySearchTypeAndKey(searchType: String, searchKey: String): Boolean {
+        return mIsRequestRemoteMaps["$searchType//_$searchKey"]!!
+    }
+
+    override fun refreshBySearchTypeAndKey(searchType: String, searchKey: String, isRequestRemote: Boolean, isRequestCache: Boolean) {
+        mIsRequestRemoteMaps["$searchType//_$searchKey"] = isRequestRemote
+        mIsRequestCacheMaps["$searchType//_$searchKey"] = isRequestCache
     }
 
     companion object {
-        private const val SERVICE_LATENCY_IN_MILLIS = 1000
+        private lateinit var INSTANCE: NewsRepository
 
-        private var NEWSES_SERVICE_DATA: MutableMap<String, News>? = null
-        private var NEWSDETAILS_SERVICE_DATA: MutableMap<String, NewsDetail>? = null
 
-        private var INSTANCE: NewsRepository? = null
-
-        init {
-            NEWSDETAILS_SERVICE_DATA = LinkedHashMap(2)
-            addNewsDetail("n001", "/image1", "news 001 title", "The Tech", "20180406", "tom", "news 001 Contentnews 001 Content news 001 Content news 001 Content news 001 Content ", Arrays.asList("android", "ph", "rus", "american", "english", "american", "english", "e", "english"), false, false)
-            addNewsDetail("n002", "/image1", "news 002 title", "Engadget", "20180405", "mike", "news 002 Contentnews news 002 Contentnews news 002 Contentnews news 002 Contentnews ", Arrays.asList("ios", "phone"), false, false)
-
-            addNewsDetail("n003", "/image1", "news 003 title", "Lifehacker", "20180306", "lilei", "news 003 Contentnews news 003 Contentnews news 003 Contentnews news 003 Contentnews ", Arrays.asList("china"), false, false)
-            addNewsDetail("n004", "/image1", "news 104 title", "ReadWrite", "20180206", "hanmeimei", "news 004 Contentnews news 004 Contentnews news 004 Contentnews news 004 Contentnews ", Arrays.asList("usa"), false, false)
-
-            addNewsDetail("n005", "/image1", "news 005 title", "ReadWrite", "20180206", "sunny", "news 005 Contentnews news 005 Contentnews news 005 Contentnews news 005 Contentnews ", Arrays.asList("usa"), false, true)
-            addNewsDetail("n006", "/image1", "news 006 title", "ReadWrite", "20180206", "tom", "news 006 Contentnews news 006 Contentnews news 006 Contentnews news 006 Contentnews ", Arrays.asList("usa"), false, false)
-            addNewsDetail("n007", "/image1", "news 007 title", "ReadWrite", "20180206", "hanmeimei", "news 007 Contentnews news 007 Contentnews news 007 Contentnews news 007 Contentnews ", Arrays.asList("usa"), false, false)
-            addNewsDetail("n008", "/image1", "news 008 title", "ReadWrite", "20180206", "sunny", "news 008 Contentnews news 008 Contentnews news 008 Contentnews news 008 Contentnews ", Arrays.asList("usa"), false, false)
-            addNewsDetail("n009", "/image1", "news 009 title", "ReadWrite", "20180206", "lilei", "news 009 Contentnews news 009 Contentnews news 009 Contentnews news 009 Contentnews ", Arrays.asList("usa"), false, false)
-            addNewsDetail("n010", "/image1", "news 010 title", "ReadWrite", "20180206", "mike", "news 010 Contentnews news 010 Contentnews news 010 Contentnews news 010 Contentnews ", Arrays.asList("usa"), false, false)
-        }
-
-        private fun addNewsDetail(newId: String, bannerUrl: String, title: String, publisher: String, pubDate: String,
-                                  author: String, content: String, tagList: List<String>, isReaded: Boolean, isSaved: Boolean) {
-            val newsDetail = NewsDetail(newId, bannerUrl, title, publisher, author, pubDate, content, tagList, isReaded, isSaved)
-            NEWSDETAILS_SERVICE_DATA!![newsDetail.newId!!] = newsDetail
-        }
-
-        val instance: NewsRepository
-            get() {
-                if (INSTANCE == null) {
-                    INSTANCE = NewsRepository()
-                }
-                return INSTANCE!!
+        fun getInstance(newsRemoteDataSource: NewsRemoteDataSource, newsLocalDataSource: NewsLocalDataSource): NewsRepository {
+            if (!this::INSTANCE.isInitialized) {
+                INSTANCE = NewsRepository(newsRemoteDataSource, newsLocalDataSource)
             }
+            return INSTANCE
+        }
     }
 }
+

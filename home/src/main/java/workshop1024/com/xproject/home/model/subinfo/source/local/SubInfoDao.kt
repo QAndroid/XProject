@@ -28,3 +28,4 @@ interface SubInfoDao {
     @Query("UPDATE subinfoes SET unreadCount = '0' WHERE infoId = :subinfoId")
     fun markedSubInfoAsReadById(subinfoId: String)
 }
+

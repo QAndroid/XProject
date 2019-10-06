@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import workshop1024.com.xproject.base.arouter.provider.HomeProvider
-import workshop1024.com.xproject.home.controller.fragment.news.FilterNewsFragment
+import workshop1024.com.xproject.home.controller.fragment.news.FilterNewsesFragment
 
 @Route(path = "/home/HomeProvider")
 class HomeProviderImpl : HomeProvider {
@@ -13,6 +13,6 @@ class HomeProviderImpl : HomeProvider {
     }
 
     override fun newFilterNewsFragmentInstance(subscribeId: String, navigationItemId: Int): Fragment {
-        return FilterNewsFragment.newInstance(subscribeId, navigationItemId)
+        return FilterNewsesFragment.newInstance(subscribeId, navigationItemId)
     }
 }

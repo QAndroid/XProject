@@ -24,21 +24,25 @@ class TagFragment : HomeSubFragment() {
     }
 
     override fun onCacheOrLocalSubInfosLoaded(subInfoList: List<SubInfo>) {
-        newHomeSubListAdapter(subInfoList)
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
+        if (mIsVisibleToUser) {
+            newHomeSubListAdapter(subInfoList)
+            Snackbar.make(mHomesubFragmentBinding.root, "Fetch cacheorlocal " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
 
-        super.onCacheOrLocalSubInfosLoaded(subInfoList)
+            super.onCacheOrLocalSubInfosLoaded(subInfoList)
 
-        //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
-        if(!mSubInfoRepository.getIsRequestRemote(SubInfo.TAG_TYPE)){
-            mHomeSubFragmentHanlders.isRefreshing.set(false)
+            //如果没有请求远程，就立即关闭Loading，如果有则等待远程请求关闭
+            if (!mSubInfoRepository.getIsRequestRemote(SubInfo.TAG_TYPE)) {
+                mHomeSubFragmentHanlders.isRefreshing.set(false)
+            }
         }
     }
 
     override fun onRemoteSubInfosLoaded(subInfoList: List<SubInfo>) {
-        newHomeSubListAdapter(subInfoList)
-        Snackbar.make(mHomesubFragmentBinding.root, "Fetch remote " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
-        super.onRemoteSubInfosLoaded(subInfoList)
+        if (mIsVisibleToUser) {
+            newHomeSubListAdapter(subInfoList)
+            Snackbar.make(mHomesubFragmentBinding.root, "Fetch remote " + subInfoList.size + " tags ...", Snackbar.LENGTH_SHORT).show()
+            super.onRemoteSubInfosLoaded(subInfoList)
+        }
     }
 
     private fun newHomeSubListAdapter(subInfoList: List<SubInfo>) {

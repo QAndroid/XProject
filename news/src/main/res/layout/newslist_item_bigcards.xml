@@ -43,7 +43,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:maxLines="1"
-                android:text="@{news.publisher}"
+                android:text="@{news.mPublisher}"
                 android:textColor="@color/xproject_daynight_textcolor"
                 android:textSize="16.0sp"
                 tools:text="id1" />
@@ -66,7 +66,7 @@
                 android:layout_below="@id/compact_imageview_banner"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@id/bigcards_textview_line"
-                android:text="@{news.pubDate}"
+                android:text="@{news.mPubDate}"
                 android:textColor="#ff01a3ae"
                 tools:text="content1" />
 
@@ -82,7 +82,7 @@
                 android:paddingBottom="6dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@{news.title}"
+                android:text="@{news.mTitle}"
                 android:textColor="@color/xproject_daynight_textcolor"
                 android:textSize="24sp"
                 tools:text="title1title1title1title1title1title1title1title1titleitle1title1" />

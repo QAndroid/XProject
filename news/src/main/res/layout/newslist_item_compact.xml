@@ -46,7 +46,7 @@
                 android:ellipsize="end"
                 android:lineSpacingMultiplier="1.1"
                 android:maxLines="3"
-                android:text="@{news.title}"
+                android:text="@{news.mTitle}"
                 android:textColor="@color/xproject_daynight_textcolor"
                 tools:text="AppStories, Episode 39 - The Mac App Store's Problems" />
             <!--作者-->
@@ -60,7 +60,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/compact_imageview_banner"
                 android:maxLines="1"
-                android:text="@{news.publisher}"
+                android:text="@{news.mPublisher}"
                 android:textColor="@color/xproject_daynight_textcolor"
                 tools:text="MacStories" />
             <!--分割线-->
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@id/compact_textview_line"
                 android:maxLines="1"
-                android:text="@{news.pubDate}"
+                android:text="@{news.mPubDate}"
                 android:textColor="#ff01a3ae"
                 tools:text="1小时前" />
         </RelativeLayout>

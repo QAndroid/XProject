@@ -17,13 +17,13 @@ class DisplaySettingsDialog : DialogFragment() {
     private var mDisplaySettingsDialogListener: DisplaySettingsDialogListener? = null
     private lateinit var mDisplaysettingsDialogBinding: DisplaysettingsDialogBinding
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mDialogFragment = this
         try {
             mDisplaySettingsDialogListener = context as DisplaySettingsDialogListener?
         } catch (e: ClassCastException) {
-            throw ClassCastException(context!!.toString() + " must implement DisplaySettingsDialogListener")
+            throw ClassCastException(context.toString() + " must implement DisplaySettingsDialogListener")
         }
     }
 
