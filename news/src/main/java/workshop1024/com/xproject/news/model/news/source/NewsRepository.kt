@@ -120,7 +120,8 @@ class NewsRepository private constructor(private val mNewsRemoteDataSource: News
                 if ((News.SUBSCRIBE_TYPE.equals(searchType) && news.mSubscribeId.equals(searchKey))
                         || (News.TAG_TYPE.equals(searchType) && news.mTagIdList.contains(searchKey))
                         || (News.FILTER_TYPE.equals(searchType) && news.mFilterIdList.contains(searchKey))
-                        || (News.SAVED_TYPE.equals(searchType) && news.mTitle.contains(searchKey))) {
+                        || (News.SEARCH_TYPE.equals(searchType) && news.mTitle.contains(searchKey))
+                        || (News.SAVED_TYPE.equals(searchType) && news.mIsSaved)) {
                     resultNewsList.add(news)
                 }
             }

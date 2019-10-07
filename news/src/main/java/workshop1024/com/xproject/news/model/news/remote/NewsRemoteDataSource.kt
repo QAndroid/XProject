@@ -10,12 +10,14 @@ class NewsRemoteDataSource : NewsDataSource {
     override fun getNewsesByTypeAndKey(searchType: String, searchKey: String, loadCallback: NewsDataSource.LoadCallback) {
         Log.i("XProject", "NewsRemoteDataSource getNewsesByTypeAndKey, searchType = $searchType searchKey = $searchKey")
         Handler().postDelayed({
+            //FIXME 该部分逻辑如何和内存中的统一处理
             val resultNews = mutableListOf<News>()
             for (news in NEWSES_SERVICE_DATA.values) {
                 if ((News.SUBSCRIBE_TYPE.equals(searchType) && news.mSubscribeId.equals(searchKey))
                         || (News.TAG_TYPE.equals(searchType) && news.mTagIdList.contains(searchKey))
                         || (News.FILTER_TYPE.equals(searchType) && news.mFilterIdList.contains(searchKey))
-                        || (News.SEARCH_TYPE.equals(searchType) && news.mTitle.contains(searchKey))) {
+                        || (News.SEARCH_TYPE.equals(searchType) && news.mTitle.contains(searchKey))
+                        || (News.SAVED_TYPE.equals(searchType) && news.mIsSaved)) {
                     news.mSaveId = "$searchType//_$searchKey//_${news.mNewsId}"
                     news.mSearchType = searchType
                     news.mSearchKey = searchKey
