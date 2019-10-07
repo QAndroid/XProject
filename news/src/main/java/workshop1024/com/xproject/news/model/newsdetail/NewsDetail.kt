@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "newsdetails")
 class NewsDetail(
-        @PrimaryKey @ColumnInfo(name = "newId") var mNewId: String,//新闻id
+        @PrimaryKey @ColumnInfo(name = "newsId") var mNewsId: String,//新闻id
         @ColumnInfo(name = "bannerUrl") var mBannerUrl: String,//头图url
         @ColumnInfo(name = "title") var mTitle: String,//新闻标题
         @ColumnInfo(name = "publisher") var mPublisher: String,//发布者

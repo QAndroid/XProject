@@ -8,19 +8,20 @@ import java.util.*
 import kotlin.collections.LinkedHashMap
 
 class NewsDetailRemoteDataSource : NewsDetailDataSource {
+
     override fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: NewsDetailDataSource.LoadNewsDetailCallBack) {
         Log.i("XProject", "NewsDetailRemoteDataSource getNewsDetailByNewsId, newsId = $newsId")
         Handler().postDelayed({
             for (newsDetail in NEWSDETAILS_SERVICE_DATA.values) {
-                if (newsDetail.mNewId.equals(newsId)) {
+                if (newsDetail.mNewsId.equals(newsId)) {
                     loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
                 }
             }
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
-    override fun deleteAllNewsDetails() {
-        Log.i("XProject", "NewsDetailRemoteDataSource deleteAllNewsDetails")
+    override fun deleteNewsDetailsById(newsId: String) {
+        Log.i("XProject", "NewsDetailRemoteDataSource deleteNewsDetailsById, ")
         Handler().postDelayed({
             NEWSDETAILS_SERVICE_DATA.clear()
         }, SERVICE_LATENCY_IN_MILLIS)
@@ -29,7 +30,7 @@ class NewsDetailRemoteDataSource : NewsDetailDataSource {
     override fun addNewsDetail(newsDetail: NewsDetail) {
         Log.i("XProject", "NewsDetailRemoteDataSource addNewsDetail, newsDetail = ${newsDetail.toString()}")
         Handler().postDelayed({
-            NEWSDETAILS_SERVICE_DATA.put(newsDetail.mNewId, newsDetail)
+            NEWSDETAILS_SERVICE_DATA.put(newsDetail.mNewsId, newsDetail)
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
@@ -64,7 +65,7 @@ class NewsDetailRemoteDataSource : NewsDetailDataSource {
         private fun addNewsDetail(newId: String, bannerUrl: String, title: String, publisher: String, pubDate: String,
                                   author: String, content: String, tagList: List<String>, isReaded: Boolean, isSaved: Boolean) {
             val newsDetail = NewsDetail(newId, bannerUrl, title, publisher, author, pubDate, content, tagList, isReaded, isSaved)
-            NEWSDETAILS_SERVICE_DATA[newsDetail.mNewId] = newsDetail
+            NEWSDETAILS_SERVICE_DATA[newsDetail.mNewsId] = newsDetail
         }
 
         val instance: NewsDetailRemoteDataSource

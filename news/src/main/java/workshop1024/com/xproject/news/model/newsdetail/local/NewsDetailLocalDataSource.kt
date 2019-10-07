@@ -2,7 +2,6 @@ package workshop1024.com.xproject.news.model.newsdetail.local
 
 import android.util.Log
 import workshop1024.com.xproject.base.utils.ExecutorUtils
-import workshop1024.com.xproject.news.model.news.local.NewsDatabase
 import workshop1024.com.xproject.news.model.newsdetail.NewsDetail
 import workshop1024.com.xproject.news.model.newsdetail.sources.NewsDetailDataSource
 
@@ -13,16 +12,20 @@ class NewsDetailLocalDataSource private constructor(private val mNewsDetailDao: 
         Log.i("XProject", "NewsDetailLocalDataSource getNewsDetailByNewsId, newsId = $newsId")
         val getNewsDetailByNewsIdRunnable = Runnable {
             val newsDetail = mNewsDetailDao.getNewsDetailByNewsId(newsId)
-            loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
+            if (newsDetail != null) {
+                loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
+            } else {
+                loadNewsDetailCallBack.onDataNotAvaiable()
+            }
         }
 
         mExecutorUtils.mDiskIOExecutor.execute(getNewsDetailByNewsIdRunnable)
     }
 
-    override fun deleteAllNewsDetails() {
-        Log.i("XProject", "NewsDetailLocalDataSource deleteAllNewsDetails")
+    override fun deleteNewsDetailsById(newsId: String) {
+        Log.i("XProject", "NewsDetailLocalDataSource deleteNewsDetailsById, ")
         val deleteAllNewsDetailsRunnable = Runnable {
-            mNewsDetailDao.deleteAllNewsDetails()
+            mNewsDetailDao.deleteNewsDetailsById(newsId)
         }
 
         mExecutorUtils.mDiskIOExecutor.execute(deleteAllNewsDetailsRunnable)

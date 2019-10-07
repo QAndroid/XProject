@@ -5,7 +5,7 @@ import workshop1024.com.xproject.news.model.newsdetail.NewsDetail
 interface NewsDetailDataSource {
     fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: LoadNewsDetailCallBack)
 
-    fun deleteAllNewsDetails()
+    fun deleteNewsDetailsById(newsId: String)
 
     fun addNewsDetail(newsDetail: NewsDetail)
 

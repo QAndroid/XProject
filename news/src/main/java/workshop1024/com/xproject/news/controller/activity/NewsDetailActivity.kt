@@ -87,14 +87,12 @@ class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallB
     }
 
     override fun onNewsDetailLoaded(newsDetail: NewsDetail) {
-        if (mIsForeground) {
-            mNewsdetailActivityBinding.newsdetailTextviewPublisher.text = newsDetail.mPublisher
-            mNewsdetailActivityBinding.newsdetailTextviewPubdata.text = newsDetail.mPubDate
-            mNewsdetailActivityBinding.newsdetailTextviewContent.text = newsDetail.mContent
+        mNewsdetailActivityBinding.newsdetailTextviewPublisher.text = newsDetail.mPublisher
+        mNewsdetailActivityBinding.newsdetailTextviewPubdata.text = newsDetail.mPubDate
+        mNewsdetailActivityBinding.newsdetailTextviewContent.text = newsDetail.mContent
 
-            val tagListAdapter = TagListAdapter(this, newsDetail.mTagList!!)
-            mNewsdetailActivityBinding.newsdetailRecyclerViewTags.adapter = tagListAdapter
-        }
+        val tagListAdapter = TagListAdapter(this, newsDetail.mTagList!!)
+        mNewsdetailActivityBinding.newsdetailRecyclerViewTags.adapter = tagListAdapter
     }
 
     override fun onDataNotAvaiable() {

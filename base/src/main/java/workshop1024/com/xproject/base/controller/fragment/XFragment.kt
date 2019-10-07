@@ -8,18 +8,4 @@ import androidx.fragment.app.Fragment
 open class XFragment : Fragment() {
     //该Fragment对应的导航列表的选项的id
     var mNavigationItemId: Int = 0
-
-    //Fragment是否在前台展示
-    protected var mIsForeground:Boolean = false
-
-    override fun onResume() {
-        super.onResume()
-        mIsForeground = true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mIsForeground = false
-    }
-
 }

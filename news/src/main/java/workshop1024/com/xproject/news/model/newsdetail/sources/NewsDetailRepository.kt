@@ -11,12 +11,14 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
     private var mIsRequestCache: Boolean = true
 
     override fun getNewsDetailByNewsId(newsId: String, loadNewsDetailCallBack: NewsDetailDataSource.LoadNewsDetailCallBack) {
-        Log.i("XProject", "NewsDetailRepository getNewsDetailByNewsId, newsId = $newsId")
+        Log.i("XProject", "NewsDetailRepository getNewsDetailByNewsId, newsId = $newsId mIsRequestCache = $mIsRequestCache mIsRequestRemote = $mIsRequestRemote")
         if (mIsRequestCache) {
             if (this::mCacheNewsDetailMaps.isInitialized) {
                 val newsDetail = getNewsDetailByNewsIdFromCache(newsId)
                 if (newsDetail != null) {
                     loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
+                } else {
+                    loadNewsDetailCallBack.onDataNotAvaiable()
                 }
             } else {
                 getNewsDetailByNewsIdFromLocal(newsId, loadNewsDetailCallBack)
@@ -31,12 +33,12 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
     }
 
     private fun getNewsDetailByNewsIdFromRemote(newsId: String, loadNewsDetailCallBack: NewsDetailDataSource.LoadNewsDetailCallBack) {
-        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromRemote")
+        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromRemote, newsId = $newsId")
         mNewsDetailRemoteDataSource.getNewsDetailByNewsId(newsId, object : NewsDetailDataSource.LoadNewsDetailCallBack {
             override fun onNewsDetailLoaded(newsDetail: NewsDetail) {
                 Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromRemote onNewsDetailLoaded")
                 refreshCached(newsDetail)
-                refreshLoacal(newsDetail)
+                refreshLocal(newsDetail)
                 loadNewsDetailCallBack.onNewsDetailLoaded(newsDetail)
             }
 
@@ -46,9 +48,9 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
         })
     }
 
-    private fun refreshLoacal(newsDetail: NewsDetail) {
-        Log.i("XProject", "NewsRepository  refreshLoacal, newsDetail = ${newsDetail.toString()}")
-        mNewsDetailLocalDataSource.deleteAllNewsDetails()
+    private fun refreshLocal(newsDetail: NewsDetail) {
+        Log.i("XProject", "NewsRepository  refreshLocal, newsDetail = ${newsDetail.toString()}")
+        mNewsDetailLocalDataSource.deleteNewsDetailsById(newsDetail.mNewsId)
 
         mNewsDetailLocalDataSource.addNewsDetail(newsDetail)
 
@@ -56,7 +58,7 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
     }
 
     private fun getNewsDetailByNewsIdFromLocal(newsId: String, loadNewsDetailCallBack: NewsDetailDataSource.LoadNewsDetailCallBack) {
-        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromLocal")
+        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromLocal, newsId = $newsId")
         mNewsDetailLocalDataSource.getNewsDetailByNewsId(newsId, object : NewsDetailDataSource.LoadNewsDetailCallBack {
             override fun onNewsDetailLoaded(newsDetail: NewsDetail) {
                 Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromLocal onNewsDetailLoaded")
@@ -70,31 +72,31 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
         })
     }
 
-    private fun refreshCached(newsDetail: NewsDetail) {
+    private fun  refreshCached(newsDetail: NewsDetail) {
         Log.i("XProject", "NewsRepository refreshCached, newsDetail = ${newsDetail.toString()}")
         if (!this::mCacheNewsDetailMaps.isInitialized) {
             mCacheNewsDetailMaps = LinkedHashMap()
         }
 
-        mCacheNewsDetailMaps.clear()
+        mCacheNewsDetailMaps.remove(newsDetail.mNewsId)
 
-        mCacheNewsDetailMaps.put(newsDetail.mNewId, newsDetail)
+        mCacheNewsDetailMaps.put(newsDetail.mNewsId, newsDetail)
 
         mIsRequestCache = true
     }
 
     private fun getNewsDetailByNewsIdFromCache(newsId: String): NewsDetail? {
-        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromCache")
+        Log.i("XProject", "NewsRepository getNewsDetailByNewsIdFromCache, newsId = $newsId")
         var resultNewsDetail: NewsDetail? = null
         for (newsDetail in mCacheNewsDetailMaps.values) {
-            if (newsDetail.mNewId.equals(newsId)) {
+            if (newsDetail.mNewsId.equals(newsId)) {
                 resultNewsDetail = newsDetail
             }
         }
         return resultNewsDetail
     }
 
-    override fun deleteAllNewsDetails() {
+    override fun deleteNewsDetailsById(newsId: String) {
 
     }
 
