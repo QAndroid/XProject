@@ -15,4 +15,7 @@ interface NewsDetailDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addNewsDetail(newsDetail: NewsDetail)
+
+    @Query("UPDATE newsdetails SET isSaved = '1' WHERE newsId = :newsId")
+    fun saveNewsById(newsId: String)
 }

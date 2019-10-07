@@ -41,7 +41,12 @@ class NewsDetailLocalDataSource private constructor(private val mNewsDetailDao: 
     }
 
     override fun saveNewsById(newsId: String) {
+        Log.i("XProject", "NewsDetailLocalDataSource saveNewsById, newsId = $newsId")
+        val saveNewsByIdRunnable = Runnable {
+            mNewsDetailDao.saveNewsById(newsId)
+        }
 
+        mExecutorUtils.mDiskIOExecutor.execute(saveNewsByIdRunnable)
     }
 
     companion object {

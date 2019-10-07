@@ -35,7 +35,13 @@ class NewsDetailRemoteDataSource : NewsDetailDataSource {
     }
 
     override fun saveNewsById(newsId: String) {
-
+        Log.i("XProject", "NewsDetailRemoteDataSource saveNewsById, newsId = $newsId")
+        Handler().postDelayed({
+            val newsDetail = NEWSDETAILS_SERVICE_DATA.get(newsId)
+            if (newsDetail != null) {
+                newsDetail.mIsSaved = true
+            }
+        }, SERVICE_LATENCY_IN_MILLIS)
     }
 
 

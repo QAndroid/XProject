@@ -72,7 +72,7 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
         })
     }
 
-    private fun  refreshCached(newsDetail: NewsDetail) {
+    private fun refreshCached(newsDetail: NewsDetail) {
         Log.i("XProject", "NewsRepository refreshCached, newsDetail = ${newsDetail.toString()}")
         if (!this::mCacheNewsDetailMaps.isInitialized) {
             mCacheNewsDetailMaps = LinkedHashMap()
@@ -105,7 +105,18 @@ class NewsDetailRepository private constructor(private val mNewsDetailRemoteData
     }
 
     override fun saveNewsById(newsId: String) {
+        Log.i("XProject", "NewsRepository saveNewsById, newsId = $newsId")
+        mNewsDetailRemoteDataSource.saveNewsById(newsId)
+        mNewsDetailLocalDataSource.saveNewsById(newsId)
 
+        if (!this::mCacheNewsDetailMaps.isInitialized) {
+            mCacheNewsDetailMaps = LinkedHashMap()
+        }
+
+        val newsDetail = mCacheNewsDetailMaps[newsId]
+        if (newsDetail != null) {
+            newsDetail.mIsSaved = true
+        }
     }
 
     companion object {

@@ -38,7 +38,7 @@ class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallB
 
     private var mNewsId: String? = null
     private var mSelectedFontSize: Float = 0.0f
-    private lateinit var mNewsRepository: NewsDetailDataSource
+    private lateinit var mNewsDetailRepository: NewsDetailDataSource
     private lateinit var mSharedPreferences: SharedPreferences
 
     private lateinit var mNewsdetailActivityBinding: NewsdetailActivityBinding
@@ -70,8 +70,8 @@ class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallB
         super.onStart()
 
         mNewsId = intent.getStringExtra(NEWS_ID_KEY)
-        mNewsRepository = Injection.provideNewsDetailRepository(this)
-        mNewsRepository.getNewsDetailByNewsId(mNewsId!!, this)
+        mNewsDetailRepository = Injection.provideNewsDetailRepository(this)
+        mNewsDetailRepository.getNewsDetailByNewsId(mNewsId!!, this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -227,14 +227,14 @@ class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallB
         }
 
         fun onClickSheetitem3(view: View) {
-            val newsRepository = Injection.provideNewsDetailRepository(this@NewsDetailActivity)
-            newsRepository.saveNewsById(mNewsId!!)
+            mNewsDetailRepository.saveNewsById(mNewsId!!)
             Toast.makeText(this@NewsDetailActivity, "mSheetItem3TextView Click", Toast.LENGTH_SHORT).show()
             sheetViewOut()
         }
 
         fun onClickSheetitem4(view: View) {
             Toast.makeText(this@NewsDetailActivity, "mSheetItem4TextView Click", Toast.LENGTH_SHORT).show()
+            sheetViewOut()
         }
     }
 
