@@ -10,16 +10,6 @@ import workshop1024.com.xproject.main.model.publisher.PublisherType
 //FIXME 怎么区分应用在哪个类型
 class Converters {
     @TypeConverter
-    fun dateToObservableBoolean(value: Boolean?): ObservableBoolean? {
-        return value?.let { ObservableBoolean(value) }
-    }
-
-    @TypeConverter
-    fun fromIsObservableBoolean(date: ObservableBoolean?): Boolean? {
-        return date?.get()
-    }
-
-    @TypeConverter
     fun dataToPublisherType(value: String): PublisherType {
         return Gson().fromJson(value, PublisherType::class.java)
     }

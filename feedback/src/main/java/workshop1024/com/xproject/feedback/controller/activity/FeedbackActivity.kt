@@ -27,7 +27,7 @@ import workshop1024.com.xproject.feedback.view.dialog.SubmitMessageDialog
 class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.AccountDialogListener, SubmitMessageDialog.SubmitMessageDialogListener,
         MessageDataSource.LoadMessagesCallback, SwipeRefreshLayout.OnRefreshListener {
 
-    private var mMessageRepository: MessageDataSource? = null
+    private lateinit var mMessageRepository: MessageDataSource
     private lateinit var mFeedbackActivityBinding: FeedbackActivityBinding
     private lateinit var mMessagelistHeaderBinding: MessagelistHeaderBinding
     private lateinit var mMessagelistFooterBinding: MessagelistFooterBinding
@@ -57,9 +57,9 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
     }
 
     private fun refreshMessageGroupList() {
-        mMessageRepository = Injection.provideMessageRepository()
+        mMessageRepository = Injection.provideMessageRepository(this)
         mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.isRefreshing = true
-        mMessageRepository?.getMessages(this)
+        mMessageRepository.getMessages(this)
     }
 
 
@@ -102,27 +102,37 @@ class FeedbackActivity : XActivity(), View.OnClickListener, AccountDialog.Accoun
         mFeedbackActivityBinding.feedbackFloatingactionbuttonSubmit.visibility = View.VISIBLE
 
         val message = Message("m99", messageConent)
-        mMessageRepository?.submitMessage(message)
+        mMessageRepository.submitMessage(message)
 
         refreshMessageGroupList()
     }
 
-    override fun onMessagesLoaded(messageGroupList: List<MessageGroup>) {
-        if (mIsForeground) {
+    override fun onCacheOrLocalMessagesLoaded(messageGroupList: List<MessageGroup>) {
+        refreshMessageList(messageGroupList)
+        if (!mMessageRepository.getIsRequestRemote()) {
             mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.isRefreshing = false
-
-            val messageListAdapter = MessageListAdapter(messageGroupList)
-            mFeedbackActivityBinding.feedbackRecyclerviewMessages.adapter = messageListAdapter
-            messageListAdapter.setHeaderView(mMessagelistHeaderBinding.root)
-            messageListAdapter.setFooterView(mMessagelistFooterBinding.root)
         }
     }
+
+    override fun onRemoteMessagesLoaded(messageGroupList: List<MessageGroup>) {
+        refreshMessageList(messageGroupList)
+        mFeedbackActivityBinding.feedbackSwiperefreshlayoutPullrefresh.isRefreshing = false
+    }
+
+    private fun refreshMessageList(messageGroupList: List<MessageGroup>) {
+        val messageListAdapter = MessageListAdapter(messageGroupList)
+        mFeedbackActivityBinding.feedbackRecyclerviewMessages.adapter = messageListAdapter
+        messageListAdapter.setHeaderView(mMessagelistHeaderBinding.root)
+        messageListAdapter.setFooterView(mMessagelistFooterBinding.root)
+    }
+
 
     override fun onDataNotAvailable() {
 
     }
 
     override fun onRefresh() {
+        mMessageRepository.refresh()
         refreshMessageGroupList()
     }
 

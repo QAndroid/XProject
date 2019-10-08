@@ -1,92 +1,132 @@
 package workshop1024.com.xproject.feedback.model.message.source
 
-import android.os.Handler
-
-import java.util.ArrayList
-import java.util.LinkedHashMap
+import android.util.Log
 
 import workshop1024.com.xproject.feedback.model.message.Message
 import workshop1024.com.xproject.feedback.model.message.MessageGroup
 
-class MessageRepository private constructor() : MessageDataSource {
+class MessageRepository private constructor(private val mMessageRemoteDataSource: MessageDataSource,
+                                            private val mMessageLocalDataSource: MessageDataSource) : MessageDataSource {
 
-    override fun getMessages(loadMessagesCallback: MessageDataSource.LoadMessagesCallback) {
-        val handler = Handler()
-        handler.postDelayed({
-            val messageGroupList = ArrayList(MESSAGEGROUP_SERVICE_DATA!!.values)
-            loadMessagesCallback.onMessagesLoaded(messageGroupList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+    private lateinit var mCachedMessagesMaps: MutableMap<String, MessageGroup>
+    private var mIsRequestCacheOrLocal: Boolean = true
+    private var mIsRequestRemote: Boolean = true
+
+    override fun getMessages(loadCallback: MessageDataSource.LoadCallback) {
+        Log.i("XProject", "MessageRepository getMessages , mIsRequestRemote = $mIsRequestRemote mIsRequestCacheOrLocal = $mIsRequestCacheOrLocal")
+
+        //优先取缓存，有缓存数据立即展示
+        if (mIsRequestCacheOrLocal) {
+            if (this::mCachedMessagesMaps.isInitialized) {
+                getMessagesFromCache(loadCallback)
+            } else {
+                getMessagesFromLocal(loadCallback)
+            }
+        }
+
+        if (mIsRequestRemote) {
+            getMessagesFromRemote(loadCallback)
+        }
+    }
+
+
+    private fun getMessagesFromRemote(loadCallback: MessageDataSource.LoadCallback) {
+        Log.i("XProject", "MessageRepository getMessagesFromRemote")
+        mMessageRemoteDataSource.getMessages(object : MessageDataSource.LoadRemoteMessagesCallback {
+            override fun onRemoteMessagesLoaded(messageGroupList: List<MessageGroup>) {
+                Log.i("XProject", "MessageRepository getMessagesFromRemote onRemoteMessagesLoaded, messageGroupList = ${messageGroupList.toString()}")
+                refreshCached(messageGroupList)
+                refreshLocal(messageGroupList)
+                (loadCallback as MessageDataSource.LoadRemoteMessagesCallback).onRemoteMessagesLoaded(messageGroupList)
+
+                mIsRequestRemote = false
+            }
+
+            override fun onDataNotAvailable() {
+                Log.i("XProject", "MessageRepository getMessagesFromRemote onDataNotAvailable")
+            }
+        })
+    }
+
+    private fun refreshLocal(messageGroupList: List<MessageGroup>) {
+        mMessageLocalDataSource.deleteAllMessageGroup()
+
+        for (messageGroup in messageGroupList) {
+            mMessageLocalDataSource.addMessageGroup(messageGroup)
+        }
+
+        mIsRequestCacheOrLocal = true
+    }
+
+    private fun getMessagesFromLocal(loadCallback: MessageDataSource.LoadCallback) {
+        Log.i("XProject", "MessageRepository getMessagesFromLocal")
+        mMessageLocalDataSource.getMessages(object : MessageDataSource.LoadCacheOrLocalMessagesCallback {
+            override fun onCacheOrLocalMessagesLoaded(messageGroupList: List<MessageGroup>) {
+                Log.i("XProject", "MessageRepository getMessagesFromLocal onCacheOrLocalMessagesLoaded, messageGroupList = ${messageGroupList.toString()}")
+                refreshCached(messageGroupList)
+                (loadCallback as MessageDataSource.LoadCacheOrLocalMessagesCallback).onCacheOrLocalMessagesLoaded(messageGroupList)
+            }
+
+            override fun onDataNotAvailable() {
+                Log.i("XProject", "FilterRepository getFiltersFromLocal onDataNotAvailable")
+            }
+        })
+    }
+
+    private fun refreshCached(messageGroupList: List<MessageGroup>) {
+        Log.i("XProject", "MessageRepository refreshCached, messageGroupList = ${messageGroupList.toString()}")
+        if (!this::mCachedMessagesMaps.isInitialized) {
+            mCachedMessagesMaps = LinkedHashMap()
+        }
+
+        mCachedMessagesMaps.clear()
+
+        for (messageGroup in messageGroupList) {
+            mCachedMessagesMaps.put(messageGroup.mGroupId, messageGroup)
+        }
+
+        mIsRequestCacheOrLocal = true
+    }
+
+    private fun getMessagesFromCache(loadCallback: MessageDataSource.LoadCallback) {
+        Log.i("XProject", "MessageRepository getMessagesFromCache")
+        val messageGroupList = ArrayList(mCachedMessagesMaps.values)
+        if (!messageGroupList.isEmpty()) {
+            (loadCallback as MessageDataSource.LoadCacheOrLocalMessagesCallback).onCacheOrLocalMessagesLoaded(messageGroupList)
+        } else {
+            getMessagesFromLocal(loadCallback)
+        }
+    }
+
+    override fun deleteAllMessageGroup() {
+
+    }
+
+    override fun addMessageGroup(messageGroup: MessageGroup) {
+
     }
 
     override fun submitMessage(message: Message) {
-        val handler = Handler()
-        handler.postDelayed({
-            val messageList = ArrayList<Message>()
-            messageList.add(message)
-            val messageGroup = MessageGroup("g999", "2018-06-06", messageList)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup.groupId!!] = messageGroup
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+
+    }
+
+    override fun getIsRequestRemote(): Boolean {
+        return mIsRequestRemote
+    }
+
+    override fun refresh() {
+        mIsRequestCacheOrLocal = false
+        mIsRequestRemote = true
     }
 
     companion object {
-        private const val SERVICE_LATENCY_IN_MILLIS = 1000
+        private lateinit var INSTANCE: MessageRepository
 
-        private var MESSAGEGROUP_SERVICE_DATA: MutableMap<String, MessageGroup>? = null
-
-        private var INSTANCE: MessageRepository? = null
-
-        init {
-            MESSAGEGROUP_SERVICE_DATA = LinkedHashMap(2)
-
-            val messageList = ArrayList<Message>()
-            messageList.add(Message("001", "0101"))
-            messageList.add(Message("002", "0102"))
-            messageList.add(Message("003", "0103"))
-            messageList.add(Message("004", "0104"))
-            messageList.add(Message("005", "0105"))
-            val messageGroup = MessageGroup("g001", "2018-01-01", messageList)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup.groupId!!] = messageGroup
-            val messageList1 = ArrayList<Message>()
-            messageList1.add(Message("001", "0201"))
-            messageList1.add(Message("002", "0202"))
-            messageList1.add(Message("003", "0203"))
-            messageList1.add(Message("004", "0204"))
-            messageList1.add(Message("005", "0205"))
-            val messageGroup1 = MessageGroup("g002", "2018-02-02", messageList1)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup1.groupId!!] = messageGroup1
-            val messageList2 = ArrayList<Message>()
-            messageList2.add(Message("001", "0301"))
-            messageList2.add(Message("002", "0302"))
-            messageList2.add(Message("003", "0303"))
-            messageList2.add(Message("004", "0304"))
-            messageList2.add(Message("005", "0305"))
-            val messageGroup2 = MessageGroup("g003", "2018-03-03", messageList2)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup2.groupId!!] = messageGroup2
-            val messageList3 = ArrayList<Message>()
-            messageList3.add(Message("001", "0401"))
-            messageList3.add(Message("002", "0402"))
-            messageList3.add(Message("003", "0403"))
-            messageList3.add(Message("004", "0404"))
-            messageList3.add(Message("005", "0405"))
-            val messageGroup3 = MessageGroup("g004", "2018-04-04", messageList3)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup3.groupId!!] = messageGroup3
-            val messageList4 = ArrayList<Message>()
-            messageList4.add(Message("001", "0501"))
-            messageList4.add(Message("002", "0502"))
-            messageList4.add(Message("003", "0503"))
-            messageList4.add(Message("004", "0504"))
-            messageList4.add(Message("005", "0505"))
-            val messageGroup4 = MessageGroup("g005", "2018-05-05", messageList4)
-            MESSAGEGROUP_SERVICE_DATA!![messageGroup4.groupId!!] = messageGroup4
-        }
-
-        val instance: MessageRepository
-            get() {
-                if (INSTANCE == null) {
-                    INSTANCE = MessageRepository()
-                }
-
-                return INSTANCE!!
+        fun getInstance(messageRemoteDataSource: MessageDataSource, messageLocalDataSource: MessageDataSource): MessageRepository {
+            if (!this::INSTANCE.isInitialized) {
+                INSTANCE = MessageRepository(messageRemoteDataSource, messageLocalDataSource)
             }
+            return INSTANCE
+        }
     }
 }
