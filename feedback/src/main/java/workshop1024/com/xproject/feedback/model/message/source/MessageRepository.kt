@@ -107,7 +107,21 @@ class MessageRepository private constructor(private val mMessageRemoteDataSource
     }
 
     override fun submitMessage(message: Message) {
+        Log.i("XProject", "MessageRepository submitMessage, message = ${message.toString()}")
+        mMessageRemoteDataSource.submitMessage(message)
+        mMessageLocalDataSource.submitMessage(message)
 
+        if (!this::mCachedMessagesMaps.isInitialized) {
+            mCachedMessagesMaps = LinkedHashMap()
+        }
+
+        saveCacheMessage(message)
+    }
+
+    private fun saveCacheMessage(message: Message) {
+        Log.i("XProject", "MessageRepository saveCacheMessage, message = ${message.toString()}")
+        val messageGroup = MessageGroup("g999", "2018-06-06", mutableListOf(message))
+        mCachedMessagesMaps.put(messageGroup.mGroupId,messageGroup)
     }
 
     override fun getIsRequestRemote(): Boolean {

@@ -37,7 +37,9 @@ class MessageLocalDataSource private constructor(private val mMessageDao: Messag
     }
 
     override fun submitMessage(message: Message) {
-
+        Log.i("XProject", "MessageLocalDataSource submitMessage, message = ${message.toString()}")
+        val messageGroup = MessageGroup("g999", "2018-06-06", mutableListOf(message))
+        addMessageGroup(messageGroup)
     }
 
     override fun getIsRequestRemote(): Boolean {

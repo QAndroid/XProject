@@ -28,7 +28,11 @@ class MessageRemoteDataSource : MessageDataSource {
     }
 
     override fun submitMessage(message: Message) {
-
+        Log.i("XProject", "MessageRemoteDataSource submitMessage, message = ${message.toString()}")
+        Handler().postDelayed({
+            val messageGroup = MessageGroup("g999", "2018-06-06", mutableListOf(message))
+            MESSAGEGROUP_SERVICE_DATA.put(messageGroup.mGroupId, messageGroup)
+        }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     override fun getIsRequestRemote(): Boolean {
