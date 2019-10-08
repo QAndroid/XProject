@@ -56,6 +56,7 @@ class NewsRepository private constructor(private val mNewsRemoteDataSource: News
             }
 
             override fun onDataNotAvaiable() {
+                loadCallback.onDataNotAvaiable()
                 Log.i("XProject", "NewsRepository getNewsesByTypeAndKeyFromLocal onDataNotAvaiable")
             }
         })
@@ -96,6 +97,7 @@ class NewsRepository private constructor(private val mNewsRemoteDataSource: News
             }
 
             override fun onDataNotAvaiable() {
+                loadCallback.onDataNotAvaiable()
                 Log.i("XProject", "NewsRepository getNewsesByTypeAndIdFromRemote onDataNotAvaiable")
             }
         })

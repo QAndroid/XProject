@@ -86,6 +86,7 @@ abstract class NewsesFragment : XFragment(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onDataNotAvaiable() {
         Snackbar.make(mNewsListFragmentBinding.root, "No newses refreshBySearchTypeAndKey...", Snackbar.LENGTH_SHORT).show()
+        mNewsListFragmentBinding.newslistSwiperefreshlayoutPullrefresh.isRefreshing = false
     }
 
     protected fun refreshNewsList() {
