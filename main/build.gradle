@@ -73,8 +73,4 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout_version"
     implementation "com.google.android.material:material:$rootProject.material_version"
-
-    //添加Room
-    implementation "androidx.room:room-runtime:$rootProject.room_version"
-    kapt "androidx.room:room-compiler:$rootProject.room_version"
 }

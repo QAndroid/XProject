@@ -38,9 +38,4 @@ dependencies {
     //添加Retrofit
     api "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson_version"
-    //添加EventBus
-    api "org.greenrobot:eventbus:$rootProject.eventbus_version"
-    //添加Room
-    api "androidx.room:room-runtime:$rootProject.room_version"
-    kapt "androidx.room:room-compiler:$rootProject.room_version"
 }

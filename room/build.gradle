@@ -33,8 +33,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
 
     //添加Room
-    implementation "androidx.room:room-runtime:$rootProject.room_version"
+    api "androidx.room:room-runtime:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"
 
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.code.gson:gson:$rootProject.gson_version"
 }
