@@ -45,6 +45,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -57,6 +58,7 @@ subprojects {
     //如果放在module的build.gradle中，会报错:Extension with name 'android' does not exist. Currently registered extension names: [ext, kotlin]
     if (project.name == 'app') {
         apply plugin: 'com.android.application'
+        apply plugin: 'AndResGuard'
     } else {
         apply plugin: 'com.android.library'
     }
