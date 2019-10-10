@@ -74,6 +74,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+    resourcePrefix "home_"
 }
 
 dependencies {

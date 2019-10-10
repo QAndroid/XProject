@@ -16,6 +16,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+    resourcePrefix "settings_"
 }
 
 dependencies {

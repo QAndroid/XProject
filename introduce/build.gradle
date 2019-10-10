@@ -18,6 +18,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+    resourcePrefix "introduce_"
 }
 
 dependencies {

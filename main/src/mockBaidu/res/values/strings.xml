@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">home</string>
+    <string name="app_name">main</string>
 
     <!--主页面开始-->
     <string name="main_leftnavigator_header_login">Click to login-MockBaidu</string>

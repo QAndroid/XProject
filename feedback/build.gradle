@@ -62,6 +62,7 @@ android {
     dataBinding {
         enabled = true
     }
+    resourcePrefix "feedback_"
 }
 
 dependencies {

@@ -9,4 +9,7 @@
     <string name="introduce3_title">Reading pattern learner</string>
     <string name="introduce3_description">The home screen tiles will automatically reaarrange based on reading patterns for better user experence.All data is stored locally kepping in mind user privacy.</string>
     <!--介绍页面结束-->
+
+    <!--该资源在login组件中存在同名的资源，可能存在资源冲突，可以使用资源前缀来避免-->
+    <string name="login_try">TRY THINGS OUT_INTRODUCE</string>
 </resources>

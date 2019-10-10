@@ -15,6 +15,7 @@ android {
             shrinkResources false
         }
     }
+    resourcePrefix "save_"
 }
 
 dependencies {

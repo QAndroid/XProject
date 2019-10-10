@@ -23,6 +23,11 @@ android {
     dataBinding {
         enabled = true
     }
+    //无法保证不同模块资源名不相同
+    //如果相同，后编译模块的资源会覆盖前面的资源
+    //使用resourcePrefix检测XML资源前缀，避免资源名称相同，从而避免资源冲突（但只提示XML资源，不包含图片）
+    //FIXME 为什么没有错误提示？？？
+    resourcePrefix "login_"
 }
 
 dependencies {
