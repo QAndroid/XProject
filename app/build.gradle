@@ -10,6 +10,7 @@ android {
 
         //动态设置versionCode和versionName任意两个值，将会触发全量的APK构建和安装，
         //因为AndroidManifest.xml必须更新(它不支持Instant Run)
+        //版本号、版本名称
         versionCode 1
         versionName "1.0"
 
@@ -190,5 +191,5 @@ dependencies {
     //Debug构建类型依赖
     debugImplementation project(':base')
 
-    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
+    implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 }

@@ -33,5 +33,5 @@ android {
 dependencies {
     implementation project(':base')
 
-    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
+    implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 }

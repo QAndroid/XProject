@@ -30,7 +30,7 @@ android {
 
             //启用pre-dexing构建功能，缩短Dalvik可执行文件分包输出构建时间
             //参考：https://developer.android.com/studio/build/multidex
-            minSdkVersion rootProject.dalvik_minsdk_version
+            minSdkVersion project.ext.dalvik_minsdk_version
 
             resConfigs "en", "xxhdpi"
         }
@@ -41,7 +41,7 @@ android {
 
             //在从命令行构建时避免使用传统的multidex，设置minSdkVersion为21或更高。当我们使用Andoid 2.3或者更高
             //在面向运行API level 21或则更高的设备开发时，构建自动避免了传统的multidex，无论是设置什么minSdkVersion
-            minSdkVersion rootProject.dalvik_minsdk_version
+            minSdkVersion project.ext.dalvik_minsdk_version
 
             //下面的配置限制"dev" flavor使用英语字符资源和xxhdpi屏幕密度资源
             resConfigs "en", "xxhdpi"
@@ -69,10 +69,10 @@ android {
 dependencies {
     implementation project(':base')
 
-    implementation "androidx.core:core-ktx:$rootProject.core_ktx_version"
+    implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
 
-    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview_version"
-    implementation "androidx.appcompat:appcompat:$rootProject.appcompat_version"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout_version"
-    implementation "com.google.android.material:material:$rootProject.material_version"
+    implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
+    implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
+    implementation "androidx.constraintlayout:constraintlayout:$project.ext.constraintlayout_version"
+    implementation "com.google.android.material:material:$project.ext.material_version"
 }
