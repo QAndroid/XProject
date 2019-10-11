@@ -1,0 +1,130 @@
+project.ext {
+    setAndroidConfig = {
+        extension ->
+            //编译的sdk版本
+            extension.compileSdkVersion project.ext.compilesdk_version
+            //构建工具的版本
+            extension.buildToolsVersion project.ext.build_tools_version
+
+            //签名配置，参考：https://developer.android.com/studio/publish/app-signing
+            extension.signingConfigs {
+                //发布构建签名配置
+                release {
+                    //密钥库文件，一个包含一组私钥的二进制文件，变量保存在gradle.properties中
+                    storeFile file(STOREFILE)
+                    //密钥库密码，变量保存在.bash_profile环境变量中，参考：
+                    //隐藏密码-https://www.jianshu.com/p/714ea34f739a
+                    //配置签名设置-https://developer.android.com/studio/build/build-variants
+                    storePassword System.getenv("KSTOREPWD")
+                    keyAlias = 'xproject'
+                    keyPassword System.getenv("KKEYPWD")
+
+                    //FIXME 为什么System.console()没有提示输入？？
+                    //if (System.console() != null)
+                    //  keyPassword System.console().readLine("\nKey password: ")
+                }
+            }
+
+            //默认配置
+            extension.defaultConfig {
+                //最低支持版本、支持目标版本
+                minSdkVersion project.ext.minsdk_version
+                targetSdkVersion project.ext.targetsdk_version
+
+                //测试脚本
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+                //ARouter：annotationProcesser会使用javaCompileOptions配置类获取当前module的名字
+                //Kotlin有自己独有的kapt框架做apt相关操作，的报错-There is no route match the path [/xxx/xxx], in group [xxx][ ]"
+                //参考：https://juejin.im/post/593e5084128fe1006af179ad
+                kapt {
+                    arguments {
+                        arg("AROUTER_MODULE_NAME", project.getName())
+                    }
+                }
+            }
+
+            //构建类型
+            extension.buildTypes {
+                //发布构建类型:代码压缩（混淆），清单文件占位（App名称）
+                release {
+                    //签名配置：使用发布构建签名
+                    signingConfig extension.signingConfigs.release
+                }
+
+                //调试构建类型，仅包含需要的配置，不包含压缩、签名等，加快开发构建速度
+                debug {
+                    //关闭代码压缩——代码压缩会拖慢构建速度，尽可能在调试构建中避免使用
+                    minifyEnabled false
+                    shrinkResources false
+
+                    debuggable true
+
+                    ext.enableCrashlytics = false
+                }
+            }
+
+    }
+
+    setDependencies = {
+        extension ->
+            //主源集依赖项
+            extension.implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+            //FIXME 这个具体的作用？？
+            extension.implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+            //ARoter:替换成最新版本,需要注意的是api。要与compiler匹配使用，均使用最新版可以保证兼容
+            //每个模块需要ARouter apt引用，不然无法在apt中生成索引文件，无法成功跳转
+            //每个模块需要ARouter api引用，不然构建报错：ARouter::Compiler The user has configuration the module name, it was [eventbus]
+            extension.implementation "com.alibaba:arouter-api:$project.ext.arouter_api_version"
+            extension.kapt "com.alibaba:arouter-compiler:$project.ext.arouter_compiler_version"
+            //Room:基于编译时注解，每个模块都需要依赖kapt，无法通过api引用传递
+            //添加Room
+            extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
+            extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
+
+            //本地测试源集依赖
+            extension.testImplementation "junit:junit:$project.ext.junit_version"
+            //设备化测试源集依赖
+            extension.androidTestImplementation "androidx.test:runner:$project.ext.runner_version"
+            extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_core_version"
+    }
+
+    setRepositories = {
+        extension ->
+            extension.mavenCentral()
+    }
+
+    setDefaultConfig = {
+        extension ->
+            extension.apply plugin: 'kotlin-android'
+            extension.apply plugin: 'kotlin-android-extensions'
+            extension.apply plugin: 'kotlin-kapt'
+
+            //引入额外Gradle配置文件
+            extension.apply from: "${rootProject.rootDir}/versions_build.gradle"
+
+            setAndroidConfig extension.android
+            setDependencies extension.dependencies
+            setRepositories extension.repositories
+    }
+
+    //App模块默认的配置
+    setAppDefaultConfig = {
+        extension ->
+            //引入编译构建Gradle插件
+            extension.apply plugin: 'com.android.application'
+            //引入资源混淆插件
+            extension.apply plugin: 'AndResGuard'
+            setDefaultConfig extension
+    }
+
+
+    //Library模块默认的配置
+    setLibDefaultConfig = {
+        extension ->
+            extension.apply plugin: 'com.android.library'
+            setDefaultConfig extension
+    }
+}

@@ -1,3 +1,7 @@
+apply from: "${rootProject.rootDir}/common_build.gradle"
+//Application module配置
+project.ext.setLibDefaultConfig project
+
 android {
     defaultConfig {
         versionCode 1
@@ -24,5 +28,4 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
     implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
-    implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
 }

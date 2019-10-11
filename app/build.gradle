@@ -1,5 +1,9 @@
 import com.android.build.OutputFile
 
+apply from: "${rootProject.rootDir}/common_build.gradle"
+//Application module配置
+project.ext.setAppDefaultConfig project
+
 int MILLIS_IN_MINUTE = 1000 * 60
 int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
 

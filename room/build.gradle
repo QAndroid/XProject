@@ -1,3 +1,7 @@
+apply from: "${rootProject.rootDir}/common_build.gradle"
+//Application module配置
+project.ext.setLibDefaultConfig project
+
 android {
     defaultConfig {
         versionCode 1
@@ -22,10 +26,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
-
-    //添加Room
-    api "androidx.room:room-runtime:$project.ext.room_version"
-    kapt "androidx.room:room-compiler:$project.ext.room_version"
-
     implementation "com.google.code.gson:gson:$project.ext.gson_version"
 }
