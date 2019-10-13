@@ -19,14 +19,22 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#抛出异常时保留代码行号
+-keepattributes SourceFile,LineNumberTable
 
-#ARouter
--keep public class com.alibaba.android.arouter.routes.**{*;}
--keep public class com.alibaba.android.arouter.facade.**{*;}
--keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+#未混淆的类和成员
+-printseeds seeds.txt
+#列出从 apk 中删除的代码
+-printusage unused.txt
+#混淆前后的映射
+-printmapping mapping.txt
 
-# If you use the byType method to obtain Service, add the following rules to protect the interface:
--keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
-
-# If single-type injection is used, that is, no interface is defined to implement IProvider, the following rules need to be added to protect the implementation
-# -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+#四大组件，自定义的Application等等不建议混淆，这些子类都有可能被外部调用。四大组件必须在AndroidManifest中注册声明，而混淆后类名会发生更改，不符合四大组件注册机制
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.view.View
