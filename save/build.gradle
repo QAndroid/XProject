@@ -7,18 +7,10 @@ android {
         versionCode 1
         versionName "1.0"
 
-        consumerProguardFiles 'proguard-rules.pro'
-
         missingDimensionStrategy 'develop', 'mock', 'dev', 'prod'
         missingDimensionStrategy 'channel', 'baidu', 'xiaomi'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-        }
-    }
     resourcePrefix "save_"
 }
 

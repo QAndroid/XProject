@@ -6,22 +6,7 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
-
-        //指定一个proguard配置，这个配置会打入aar
-        //和proguardFiles属性指定的proguard不同，proguardFiles是用于构建aar的混淆规则，consumerProguardFiles是接入方在构建时使用的混淆规则
-        //在构建的时候会合并到app module的混淆文件，其中的规则也会影响接入方的混淆
-        //参考：https://www.jianshu.com/p/14af4a474d55
-        consumerProguardFiles 'proguard-rules.pro'
     }
-
-    buildTypes {
-        release {
-            //在组件化中，如果每个module都使用自身混淆，则会出现重复混淆的现象，造成查询不到资源文件的问题
-            minifyEnabled false
-            shrinkResources false
-        }
-    }
-
     dataBinding {
         enabled = true
     }

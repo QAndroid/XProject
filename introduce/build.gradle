@@ -8,15 +8,6 @@ android {
         versionName "1.0"
 
         testApplicationId "workshop1024.com.xproject.introduce.test"
-
-        consumerProguardFiles 'proguard-rules.pro'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-        }
     }
 
     dataBinding {

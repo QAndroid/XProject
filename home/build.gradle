@@ -8,16 +8,8 @@ android {
         versionName "1.0"
 
         testApplicationId "workshop1024.com.xproject.home.test"
-
-        consumerProguardFiles 'proguard-rules.pro'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-        }
-    }
     //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
     //参考：https://blog.csdn.net/user11223344abc/article/details/78784373
     flavorDimensions "develop", "channel"

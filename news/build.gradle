@@ -6,15 +6,6 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
-
-        consumerProguardFiles 'proguard-rules.pro'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-        }
     }
 
     //产品维度，可将productFlavors分不同维度组合，即devBaiduDebug等
