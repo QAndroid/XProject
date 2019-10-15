@@ -1,6 +1,12 @@
 apply from: "${rootProject.rootDir}/common_build.gradle"
-//Application module配置
-project.ext.setLibDefaultConfig project
+
+if (project.ext.isIntroduceApp) {
+    //Application module配置
+    project.ext.setAppDefaultConfig project
+} else {
+    //Lib module配置
+    project.ext.setLibDefaultConfig project
+}
 
 android {
     defaultConfig {
@@ -8,6 +14,15 @@ android {
         versionName "1.0"
 
         testApplicationId "workshop1024.com.xproject.introduce.test"
+    }
+
+    sourceSets {
+        main {
+            if (project.ext.isIntroduceApp) {
+                manifest.srcFile 'src/app/AndroidManifest.xml'
+                res.srcDirs = ['src/app/res','src/main/res']
+            }
+        }
     }
 
     dataBinding {

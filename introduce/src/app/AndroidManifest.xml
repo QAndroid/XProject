@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="workshop1024.com.xproject.introduce">
+
+    <application
+        android:name=".IntroduceApplication"
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
+        <!-- 介绍页面 -->
+        <!-- android:exported="false"，intent-filter不向外暴露-->
+        <activity
+            android:name=".controller.activity.IntroduceActivity"
+            android:exported="true">
+            <!--在app构建类型下，IntroduceActivity作为introduce组件的启动类-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!--配置隐式意图过滤器-->
+            <intent-filter>
+                <action android:name="workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

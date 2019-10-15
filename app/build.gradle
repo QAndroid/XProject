@@ -185,7 +185,9 @@ dependencies {
     //调整依赖顺序，构建顺序改变，当AndroidManifest.xml中Module中Application冲突时，解决后谁后编译使用谁
     implementation project(':base')
     implementation project(':login')
-    implementation project(':introduce')
+    if (!project.ext.isIntroduceApp) {
+        implementation project(':introduce')
+    }
     implementation project(':main')
     implementation project(':home')
     implementation project(':save')

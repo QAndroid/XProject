@@ -1,4 +1,6 @@
 project.ext {
+    isIntroduceApp = false;
+
     setAndroidConfig = {
         extension ->
             //编译的sdk版本
@@ -96,7 +98,7 @@ project.ext {
             extension.mavenCentral()
     }
 
-    setDefaultConfig = {
+    setCommonConfig = {
         extension ->
             extension.apply plugin: 'kotlin-android'
             extension.apply plugin: 'kotlin-android-extensions'
@@ -117,7 +119,12 @@ project.ext {
             extension.apply plugin: 'com.android.application'
             //引入资源混淆插件
             extension.apply plugin: 'AndResGuard'
-            setDefaultConfig extension
+            setCommonConfig extension
+
+            extension.android.defaultConfig {
+                //应用id
+                applicationId applicationId + "." + extension.getName()
+            }
     }
 
 
@@ -125,7 +132,7 @@ project.ext {
     setLibDefaultConfig = {
         extension ->
             extension.apply plugin: 'com.android.library'
-            setDefaultConfig extension
+            setCommonConfig extension
 
             //指定一个proguard配置，这个配置会打入aar
             //和proguardFiles属性指定的proguard不同，proguardFiles是用于构建aar的混淆规则，consumerProguardFiles是接入方在构建时使用的混淆规则
