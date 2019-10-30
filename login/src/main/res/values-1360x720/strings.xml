@@ -1,0 +1,6 @@
+<resources>
+    <!--写分辨率的时候，注意去除虚拟导航栏，否则无法生效。参考：https://blog.csdn.net/adzcsx2/article/details/51034225-->
+    <!--登陆选择页面开始-->
+    <string name="login_try">TRY THINGS OUT CUSTOM</string>
+    <!--登陆选择页面结束-->
+</resources>

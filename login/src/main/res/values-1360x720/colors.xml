@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--登陆选择页面开始-->
+    <color name="login_try_background">#2bd323</color>
+    <!--登陆选择页面结束-->
+</resources>
