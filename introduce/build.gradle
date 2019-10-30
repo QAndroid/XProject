@@ -19,7 +19,9 @@ android {
     sourceSets {
         main {
             if (project.ext.isIntroduceApp) {
+                //AndroidManifest文件路径
                 manifest.srcFile 'src/app/AndroidManifest.xml'
+                //全部资源文件资源
                 res.srcDirs = ['src/app/res','src/main/res']
             }
         }
