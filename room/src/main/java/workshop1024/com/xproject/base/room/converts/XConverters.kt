@@ -5,7 +5,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 class XConverters {
     @TypeConverter
     fun dateToList(value: String): List<String> {
@@ -14,17 +13,14 @@ class XConverters {
     }
 
     @TypeConverter
-    fun fromIsList(date: List<String>): String {
-        return Gson().toJson(date)
-    }
+    fun fromIsList(date: List<String>): String =
+            Gson().toJson(date)
 
     @TypeConverter
-    fun dateToObservableBoolean(value: Boolean?): ObservableBoolean? {
-        return value?.let { ObservableBoolean(value) }
-    }
+    fun dateToObservableBoolean(value: Boolean?): ObservableBoolean? =
+            value?.let { ObservableBoolean(value) }
 
     @TypeConverter
-    fun fromIsObservableBoolean(date: ObservableBoolean?): Boolean? {
-        return date?.get()
-    }
+    fun fromIsObservableBoolean(date: ObservableBoolean?): Boolean? =
+            date?.get()
 }
