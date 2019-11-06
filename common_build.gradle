@@ -86,10 +86,10 @@ project.ext {
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
 
-            //本地测试源集依赖
-            extension.testImplementation "junit:junit:$project.ext.junit_version"
             //设备化测试源集依赖
+            extension.androidTestImplementation "androidx.test:rules:$project.ext.rules_version"
             extension.androidTestImplementation "androidx.test:runner:$project.ext.runner_version"
+            extension.androidTestImplementation "androidx.test.ext:junit:$project.ext.junit_version"
             extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_core_version"
     }
 

@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="workshop1024.com.xproject.login">
+
+    <!--java.lang.IllegalStateException: You need to use a Theme.AppCompat theme (or descendant) with this activity.-->
+    <!--在androidTest目录下，专门设置androidTest用的清单文件，并设置AppTheme-->
+    <application android:theme="@style/AppTheme">
+        <activity android:name=".controller.activity.LoginActivity" />
+    </application>
+</manifest>
