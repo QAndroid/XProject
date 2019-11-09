@@ -37,7 +37,7 @@
                 android:drawableTop="@drawable/bottommenu_addpublisher"
                 android:gravity="center_horizontal"
                 android:onClick="@{bottomMenuHandlers::onClickAddPublisher}"
-                android:text="@string/homepage_bottommenu_addpublisher"
+                android:text="@string/main_bottommenu_addpublisher"
                 android:textColor="@color/xproject_daynight_textcolor" />
             <!--添加主题-->
             <TextView
@@ -49,7 +49,7 @@
                 android:drawableTop="@drawable/bottommenu_addtopic"
                 android:gravity="center_horizontal"
                 android:onClick="@{bottomMenuHandlers::onClickAddTopic}"
-                android:text="@string/homepage_bottommenu_addtopic"
+                android:text="@string/main_bottommenu_addtopic"
                 android:textColor="@color/xproject_daynight_textcolor" />
         </LinearLayout>
     </LinearLayout>

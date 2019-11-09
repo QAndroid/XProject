@@ -70,4 +70,11 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$project.ext.constraintlayout_version"
     implementation "com.google.android.material:material:$project.ext.material_version"
+
+    //Kotlin相关
+    //协程
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$project.ext.coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$project.ext.coroutines_version"
+
+    androidTestImplementation "androidx.arch.core:core-testing:$project.ext.coretest_version"
 }

@@ -2,31 +2,6 @@
     <string name="app_name">home</string>
 
     <!--主页面开始-->
-    <string name="toolbar_title_saved">Saved</string>
-
-    <string name="toolbar_menu_search">Search</string>
-    <string name="toolbar_menu_add">Add</string>
-
-    <string name="toolbar_menu_refresh">Refresh</string>
-    <string name="toolbar_menu_marked">Marked as read</string>
-    <string name="toolbar_menu_rate">Rate app</string>
-    <string name="toolbar_menu_product">Product Tour</string>
-    <string name="toolbar_menu_about">About Paperboy</string>
-    <string name="toolbar_menu_help">Help</string>
-
-    <string name="toolbar_menu_refresh1">Refresh1</string>
-
-    <string name="toolbar_menu_magazine">Magazine</string>
-    <string name="main_menu_cards">Big cards</string>
-    <string name="main_menu_compact">Compact</string>
-    <string name="main_menu_minimal">Minimal</string>
-    <string name="toolbar_menu_picture">Picture</string>
-
-    <string name="toolbar_menu_language">Language</string>
-    <string name="toolbar_menu_filter">Filter</string>
-
-    <string name="homepage_bottommenu_addpublisher">Add Publisher</string>
-    <string name="homepage_bottommenu_addtopic">Add Topic</string>
     <string name="homepage_bottommenu_addfilter">Add Filter</string>
 
     <string-array name="homepage_tabs_strings">
