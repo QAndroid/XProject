@@ -28,7 +28,6 @@ class DrawableMatcher(@param:DrawableRes private val expectedId: Int) : TypeSafe
         }
     }
 
-
     override fun describeTo(description: Description) {
         description.appendText("with drawable from resource id: ")
         description.appendValue(expectedId)

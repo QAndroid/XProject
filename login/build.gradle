@@ -29,4 +29,7 @@ dependencies {
     implementation project(':base')
 
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
+
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0-alpha02'
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0-alpha02'
 }
