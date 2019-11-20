@@ -10,12 +10,12 @@ import org.hamcrest.TypeSafeMatcher
 import androidx.annotation.DrawableRes
 
 /**
- * 为Espresso自定义Matcher
+ * View（ViewGroup）自定义匹配器
  */
-class CustomMatchers {
+class ViewMatchers {
 
     companion object {
-        //自定义视图背景颜色匹配器
+        //自定义View/ViewGroup背景颜色匹配器
         //参考：创建一个自定义 Espresso matcher，https://juejin.im/entry/5794c121128fe10056b84781
         fun hasBackgroundColor(colorRes: Int): Matcher<View> {
             Checks.checkNotNull(colorRes)
@@ -42,8 +42,8 @@ class CustomMatchers {
             }
         }
 
-        fun withDrawableId(@DrawableRes id: Int): Matcher<View> {
-            return DrawableMatcher(id)
+        fun hasBackgroundDrawable(@DrawableRes id: Int): Matcher<View> {
+            return BackgroundMatcher(id)
         }
     }
 }

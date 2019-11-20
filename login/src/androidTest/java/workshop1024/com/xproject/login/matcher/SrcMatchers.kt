@@ -1,14 +1,12 @@
 package workshop1024.com.xproject.login.matcher
 
-import android.widget.ImageView
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
-//自定义ImageView src匹配器
-//参考：https://stackoverflow.com/questions/33763425/using-espresso-to-test-drawable-changes
-class DrawableMatcher(@param:DrawableRes private val expectedId: Int) : TypeSafeMatcher<View>(View::class.java) {
+class SrcMatchers(@param:DrawableRes private val expectedId: Int) : TypeSafeMatcher<View>(View::class.java) {
     private var resourceName: String? = null
 
     override protected fun matchesSafely(target: View): Boolean {
@@ -27,6 +25,7 @@ class DrawableMatcher(@param:DrawableRes private val expectedId: Int) : TypeSafe
             false
         }
     }
+
 
     override fun describeTo(description: Description) {
         description.appendText("with drawable from resource id: ")
