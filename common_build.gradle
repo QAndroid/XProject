@@ -66,6 +66,12 @@ project.ext {
                 }
             }
 
+            //启动databinding
+            extension.dataBinding {
+                enabled = true
+            }
+
+
     }
 
     setDependencies = {
@@ -86,11 +92,19 @@ project.ext {
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
 
+            //databinding相关
+            //运行Espresso，报错：java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
+            //at androidx.databinding.DataBindingUtil.<clinit>(DataBindingUtil.java:32)
+            //参考：http://www.ojit.com/article/49133
+            extension.kaptAndroidTest "androidx.databinding:databinding-compiler:$project.ext.databinding_compiler_version"
+
             //设备化测试源集依赖
             extension.androidTestImplementation "androidx.test:rules:$project.ext.rules_version"
             extension.androidTestImplementation "androidx.test:runner:$project.ext.runner_version"
             extension.androidTestImplementation "androidx.test.ext:junit:$project.ext.junit_version"
-            extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_core_version"
+            extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_version"
+            extension.androidTestImplementation "androidx.test.espresso:espresso-intents:$project.ext.espresso_version"
+            extension.androidTestImplementation "androidx.test.ext:truth:$project.ext.truth_version"
     }
 
     setRepositories = {

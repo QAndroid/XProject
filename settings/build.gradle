@@ -8,10 +8,6 @@ android {
         versionName "1.0"
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     resourcePrefix "settings_"
 }
 

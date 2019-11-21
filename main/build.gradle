@@ -54,10 +54,6 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     resourcePrefix "main_"
 }
 

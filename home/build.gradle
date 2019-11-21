@@ -67,10 +67,6 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     resourcePrefix "home_"
 }
 

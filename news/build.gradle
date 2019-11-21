@@ -53,10 +53,6 @@ android {
             dimension "channel"
         }
     }
-
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {

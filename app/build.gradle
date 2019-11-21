@@ -108,11 +108,6 @@ android {
             universalApk true
         }
     }
-
-    //FIXME 为什么app模块必须配置，否则报错java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
-    dataBinding {
-        enabled = true
-    }
 }
 
 andResGuard {

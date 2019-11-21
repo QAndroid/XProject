@@ -54,9 +54,6 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
     resourcePrefix "feedback_"
 }
 
