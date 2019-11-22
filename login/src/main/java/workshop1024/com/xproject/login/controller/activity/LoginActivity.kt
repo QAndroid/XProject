@@ -45,6 +45,12 @@ class LoginActivity : AppCompatActivity() {
 
     //伴生对象类的唯一对象，声明的方法和成员都是类的唯一值
     companion object {
+
+        //使用在应用启动时加载的'native-lib'库
+        init {
+            System.loadLibrary("native-lib")
+        }
+
         fun startActivity(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
