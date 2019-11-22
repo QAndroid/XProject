@@ -12,7 +12,8 @@ class NativeLibTest {
         //no suitable image found.  Did find: libnative-lib.dylib: file too short
         //System.load，参数必须是绝对路劲
         //参考：System.load 和 System.loadLibrary区别，https://blog.csdn.net/wwlwwy89/article/details/41147413
-        System.load("/Users/qitmac0000562/XCodeProjects/Xs/XProject/login/build/dylibs/libnative-lib.dylib")
+        val nativeFile = File("build/dylibs/libnative-lib.dylib")
+        System.load(nativeFile.absolutePath)
         val nativeLib = NativeLib()
         assertEquals("Hello from C++", nativeLib.stringFromJNI())
     }
