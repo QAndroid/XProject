@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.login
+package workshop1024.com.xproject.login.controller.activity
 
 import android.widget.ImageView
 import androidx.test.espresso.Espresso.onView
@@ -11,9 +11,9 @@ import org.hamcrest.core.StringContains.containsString
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import workshop1024.com.xproject.login.controller.activity.LoginActivity
-import workshop1024.com.xproject.login.matcher.ImageViewMatchers
-import workshop1024.com.xproject.login.matcher.ViewMatchers
+import workshop1024.com.xproject.login.R
+import workshop1024.com.xproject.login.controller.matcher.ImageViewMatchers
+import workshop1024.com.xproject.login.controller.matcher.ViewMatchers
 
 //java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
 //@RunWith(AndroidJUnit4::class)解决，FIXME 目前不知道原因？

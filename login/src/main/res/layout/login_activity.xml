@@ -16,7 +16,7 @@
         android:background="@drawable/login_background"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".controller.activity.LoginActivity">
+        tools:context=".login.controller.activity.LoginActivity">
         <!--图标-->
         <ImageView
             android:layout_width="wrap_content"

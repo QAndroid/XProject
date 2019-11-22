@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.login;
+package workshop1024.com.xproject.login.controller.activity;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
@@ -9,8 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import workshop1024.com.xproject.login.controller.activity.LoginActivity;
-import workshop1024.com.xproject.login.matcher.ViewMatchers;
+import workshop1024.com.xproject.login.R;
+import workshop1024.com.xproject.login.controller.matcher.ViewMatchers;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
