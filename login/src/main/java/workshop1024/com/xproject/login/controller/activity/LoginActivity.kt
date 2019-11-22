@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import workshop1024.com.xproject.base.utils.IntentUtils
 import workshop1024.com.xproject.login.R
+import workshop1024.com.xproject.login.controller.native.NativeLib
 import workshop1024.com.xproject.login.databinding.LoginActivityBinding
 
 //ARouter：在支持路由的页面上添加注解(必选) ，这里的路径需要注意的是至少需要有两级，/xx/xx
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity)
         binding.loginHandlers = LoginHandlers()
 
-        binding.loginButtonLogin.text = stringFromJNI()
+        binding.loginButtonLogin.text = NativeLib().stringFromJNI()
     }
 
     //内部类，使用inner关键字声明
@@ -43,19 +44,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    //一个由'native-lib'Native库实现的Native方法，它和这个应用一起打包
-    external fun stringFromJNI(): String
-
     //伴生对象类的唯一对象，声明的方法和成员都是类的唯一值
     companion object {
         fun startActivity(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
-        }
-
-        //使用在应用启动时加载的'native-lib'库
-        init {
-            System.loadLibrary("native-lib")
         }
     }
 }

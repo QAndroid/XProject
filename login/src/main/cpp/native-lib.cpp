@@ -5,7 +5,7 @@
 #include <string>
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_workshop1024_com_xproject_login_controller_activity_LoginActivity_stringFromJNI(
+Java_workshop1024_com_xproject_login_controller_native_NativeLib_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
