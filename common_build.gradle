@@ -92,7 +92,7 @@ project.ext {
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
 
-            extension.testCompile "junit:junit:$project.ext.junit_version"
+            extension.testImplementation "junit:junit:$project.ext.junit_version"
 
             //设备化测试源集依赖
             //databinding相关
