@@ -22,7 +22,7 @@ android {
                 //AndroidManifest文件路径
                 manifest.srcFile 'src/app/AndroidManifest.xml'
                 //全部资源文件资源
-                res.srcDirs = ['src/app/res','src/main/res']
+                res.srcDirs = ['src/app/res', 'src/main/res']
             }
         }
     }
@@ -34,4 +34,16 @@ dependencies {
     implementation project(':base')
 
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
+}
+
+//问题：Cannot find a version of 'androidx.lifecycle:lifecycle-runtime' that satisfies the version constraints:
+//解决办法，确制定冲突版本
+//参考：https://blog.csdn.net/Weiye__Lee/article/details/79472501
+configurations.all {
+    resolutionStrategy {
+        force "androidx.lifecycle:lifecycle-runtime:2.1.0"
+        force "androidx.collection:collection:1.1.0"
+        force "androidx.core:core:1.0.2"
+        force "androidx.fragment:fragment:1.1.0"
+    }
 }

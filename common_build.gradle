@@ -70,8 +70,6 @@ project.ext {
             extension.dataBinding {
                 enabled = true
             }
-
-
     }
 
     setDependencies = {
@@ -106,6 +104,8 @@ project.ext {
             extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_version"
             extension.androidTestImplementation "androidx.test.espresso:espresso-intents:$project.ext.espresso_version"
             extension.androidTestImplementation "androidx.test.ext:truth:$project.ext.truth_version"
+            //> Cannot find a version of 'androidx.lifecycle:lifecycle-runtime' that satisfies the version constraints:
+            extension.androidTestImplementation "androidx.fragment:fragment-testing:1.1.0"
     }
 
     setRepositories = {
