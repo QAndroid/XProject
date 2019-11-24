@@ -24,6 +24,4 @@ dependencies {
     //添加Retrofit
     api "com.squareup.retrofit2:retrofit:$project.ext.retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$project.ext.converter_gson_version"
-
-    api "com.alibaba:arouter-api:$project.ext.arouter_api_version"
 }

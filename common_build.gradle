@@ -80,11 +80,13 @@ project.ext {
             //FIXME 这个具体的作用？？
             extension.implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+            //FIXME arouter和room未什么不可以和eventbus一样放在event组件中，间接有base提供依赖？？难道是kapt原因？？
             //ARoter:替换成最新版本,需要注意的是api。要与compiler匹配使用，均使用最新版可以保证兼容
             //每个模块需要ARouter apt引用，不然无法在apt中生成索引文件，无法成功跳转
             //每个模块需要ARouter api引用，不然构建报错：ARouter::Compiler The user has configuration the module name, it was [eventbus]
             extension.implementation "com.alibaba:arouter-api:$project.ext.arouter_api_version"
             extension.kapt "com.alibaba:arouter-compiler:$project.ext.arouter_compiler_version"
+
             //Room:基于编译时注解，每个模块都需要依赖kapt，无法通过api引用传递
             //添加Room
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
@@ -102,15 +104,31 @@ project.ext {
             extension.androidTestImplementation "androidx.test:runner:$project.ext.runner_version"
             extension.androidTestImplementation "androidx.test.ext:junit:$project.ext.ext_junit_version"
             extension.androidTestImplementation "androidx.test.espresso:espresso-core:$project.ext.espresso_version"
+            //intent测试
             extension.androidTestImplementation "androidx.test.espresso:espresso-intents:$project.ext.espresso_version"
             extension.androidTestImplementation "androidx.test.ext:truth:$project.ext.truth_version"
-            //> Cannot find a version of 'androidx.lifecycle:lifecycle-runtime' that satisfies the version constraints:
-            extension.androidTestImplementation "androidx.fragment:fragment-testing:1.1.0"
+            //fragment测试
+            extension.androidTestImplementation "androidx.fragment:fragment-testing:$project.ext.fragment_testing_version"
     }
 
     setRepositories = {
         extension ->
             extension.mavenCentral()
+    }
+
+    setConfigurations = {
+        extension ->
+            extension.all {
+                //问题：Cannot find a version of 'androidx.lifecycle:lifecycle-runtime' that satisfies the version constraints:
+                //解决办法，明确制定冲突版本
+                //参考：https://blog.csdn.net/Weiye__Lee/article/details/79472501
+                resolutionStrategy {
+                    force "androidx.lifecycle:lifecycle-runtime:$project.ext.lifecycle_runtime_version"
+                    force "androidx.collection:collection:$project.ext.collection_version"
+                    force "androidx.core:core:$project.ext.core_version"
+                    force "androidx.fragment:fragment:$project.ext.fragment_version"
+                }
+            }
     }
 
     setCommonConfig = {
@@ -125,6 +143,7 @@ project.ext {
             setAndroidConfig extension.android
             setDependencies extension.dependencies
             setRepositories extension.repositories
+            setConfigurations extension.configurations
     }
 
     //App模块默认的配置

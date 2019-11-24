@@ -11,8 +11,8 @@ import org.hamcrest.core.StringContains.containsString
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import workshop1024.com.xproject.base.test.matcher.ImageViewMatchers
 import workshop1024.com.xproject.login.R
-import workshop1024.com.xproject.login.controller.matcher.ImageViewMatchers
 import workshop1024.com.xproject.login.controller.matcher.ViewMatchers
 
 //java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;

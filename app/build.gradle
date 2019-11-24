@@ -178,6 +178,7 @@ android.applicationVariants.all { variant ->
 //参考：https://developer.android.com/studio/build/dependencies
 dependencies {
     //调整依赖顺序，构建顺序改变，当AndroidManifest.xml中Module中Application冲突时，解决后谁后编译使用谁
+    //TODO 将所有的项目依赖 ，改成aar依赖。自动生成aar 主工程指定目录
     implementation project(':base')
     implementation project(':login')
     if (!project.ext.isIntroduceApp) {
@@ -188,9 +189,5 @@ dependencies {
     implementation project(':save')
     implementation project(':settings')
     implementation project(':feedback')
-
-    //Debug构建类型依赖
-    debugImplementation project(':base')
-
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 }

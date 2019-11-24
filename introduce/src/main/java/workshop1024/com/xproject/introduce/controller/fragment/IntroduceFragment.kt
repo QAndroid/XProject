@@ -25,7 +25,7 @@ class IntroduceFragment : Fragment() {
     }
 
     companion object {
-        private const val LAYOUT_ID = "layoutId"
+        const val LAYOUT_ID = "layoutId"
 
         fun newInstance(layoutId: Int): IntroduceFragment {
             val fragment = IntroduceFragment()

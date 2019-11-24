@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation project(':base')
-
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
+
+    androidTestImplementation project(':test')
 }
