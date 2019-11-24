@@ -17,6 +17,7 @@ import workshop1024.com.xproject.introduce.R
 
 //Fragment测试：参考：https://developer.android.com/training/basics/fragments/testing
 @RunWith(AndroidJUnit4::class)
+//@MediumTest，该测试Case只测试Fragmnet内不的业务逻辑，IntroduceActivity是@LargeTest，测试Fragment和Bar继承的Case
 @MediumTest
 class IntroduceFragmentTest {
 
@@ -29,9 +30,9 @@ class IntroduceFragmentTest {
         launchFragmentInContainer<IntroduceFragment>(fragmentArs)
 
         //验证标题，图标和说明是否展示
-        onView(withText(R.string.introduce1_title)).check(matches(isDisplayed()))
+        onView(withText("Welcome")).check(matches(isDisplayed()))
         onView(ImageViewMatchers.hasSrcDrawable(R.drawable.introduce_icon1)).check(matches(isDisplayed()))
-        onView(withText(R.string.introduce1_description)).check(matches(isDisplayed()))
+        onView(withText("Thank you for installing Paperboy.What makes Paperboy different form other news reader apps is its simplicity and elegant design.")).check(matches(isDisplayed()))
     }
 
     @Test
@@ -41,9 +42,9 @@ class IntroduceFragmentTest {
         }
         launchFragmentInContainer<IntroduceFragment>(fragmentArs)
 
-        onView(withText(R.string.introduce2_title)).check(matches(isDisplayed()))
+        onView(withText("Customizations")).check(matches(isDisplayed()))
         onView(ImageViewMatchers.hasSrcDrawable(R.drawable.introduce_icon2)).check(matches(isDisplayed()))
-        onView(withText(R.string.introduce2_description)).check(matches(isDisplayed()))
+        onView(withText("We believe tha each user is unique and hence several customization options are provided to suit different reading styles.To customize please visit the settings page.")).check(matches(isDisplayed()))
     }
 
     @Test
@@ -53,8 +54,8 @@ class IntroduceFragmentTest {
         }
         launchFragmentInContainer<IntroduceFragment>(fragmentArs)
 
-        onView(withText(R.string.introduce3_title)).check(matches(isDisplayed()))
+        onView(withText("Reading pattern learner")).check(matches(isDisplayed()))
         onView(ImageViewMatchers.hasSrcDrawable(R.drawable.introduce_icon3)).check(matches(isDisplayed()))
-        onView(withText(R.string.introduce3_description)).check(matches(isDisplayed()))
+        onView(withText("The home screen tiles will automatically reaarrange based on reading patterns for better user experence.All data is stored locally kepping in mind user privacy.")).check(matches(isDisplayed()))
     }
 }

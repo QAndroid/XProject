@@ -36,7 +36,8 @@ public class LoginActivtyTestJava {
     public void tryButton_Show2() {
         ViewInteraction tryButton = onView(withId(R.id.login_button_try));
         tryButton.check(matches(isDisplayed()));
-        tryButton.check(matches(withText(R.string.login_try)));
+        tryButton.check(matches(withText("TRY THINGS OUT")));
+        //FIXME check的资源引用主功能的资源，在主工程只改资源内容，不改资源名称情况下无法check错误？
         tryButton.check(matches(hasTextColor(R.color.white)));
         tryButton.check(matches(ViewMatchers.Companion.hasBackgroundColor(R.color.login_try_background)));
     }

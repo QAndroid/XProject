@@ -52,7 +52,7 @@ class LoginActivityTest {
     fun tryButton_Show() {
         onView(withId(R.id.login_button_try)).apply {
             check(matches(isDisplayed()))
-            check(matches(withText(R.string.login_try)))
+            check(matches(withText("TRY THINGS OUT")))
             check(matches(hasTextColor(R.color.white)))
             check(matches(ViewMatchers.hasBackgroundColor(R.color.login_try_background)))
         }
