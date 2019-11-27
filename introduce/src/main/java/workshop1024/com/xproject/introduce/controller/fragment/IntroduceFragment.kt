@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 
 //TODO Nullable注解的作用？
@@ -25,6 +26,8 @@ class IntroduceFragment : Fragment() {
     }
 
     companion object {
+        //@VisibleForTesting：只有提醒作用，次成员的公开是为了测试使用，其它地方别访问
+        @VisibleForTesting
         const val LAYOUT_ID = "layoutId"
 
         fun newInstance(layoutId: Int): IntroduceFragment {
