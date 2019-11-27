@@ -20,6 +20,12 @@ android {
     //使用resourcePrefix检测XML资源前缀，避免资源名称相同，从而避免资源冲突（但只提示XML资源，不包含图片）
     //TODO 为什么没有错误提示？？？
     resourcePrefix "login_"
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -27,4 +33,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 
     androidTestImplementation project(':test')
+
+    //java.lang.NoClassDefFoundError: androidx/databinding/DataBinderMapperImpl
+    //at workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity.onCreate(IntroduceActivity.kt:42)
+    testImplementation 'org.robolectric:robolectric:4.0'
 }
