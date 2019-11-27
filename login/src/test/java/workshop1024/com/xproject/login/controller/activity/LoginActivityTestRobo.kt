@@ -10,7 +10,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import workshop1024.com.xproject.login.R
 import kotlin.math.log
-
+//FIXME 临时使用回退LoginActivit运行，不支持Databinding和NDK
 @RunWith(RobolectricTestRunner::class)
 class LoginActivityTestRobo {
     @Test
