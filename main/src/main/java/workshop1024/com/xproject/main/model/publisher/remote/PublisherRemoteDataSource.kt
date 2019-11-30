@@ -111,7 +111,7 @@ class PublisherRemoteDataSource : PublisherDataSource {
 
             addPublisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", false)
             addPublisher("p002", "t001", "l001", "/imag1", "Engadget", "1348433 subscribers", false)
-            addPublisher("p003", "t001", "l001", "/imag1", "Lifehacker", "934273 subscribers", false)
+            addPublisher("p003", "t001", "l001", "/imag1", "Lifehacker", "934275 subscribers", false)
             addPublisher("p004", "t001", "l001", "/imag1", "ReadWrite-mock", "254332 subscribers", false)
             addPublisher("p005", "t001", "l001", "/imag1", "Digital Trends", "145694 subscribers", false)
             addPublisher("p006", "t001", "l001", "/imag1", "Business Insider", "331892 subscribers", false)
@@ -122,7 +122,7 @@ class PublisherRemoteDataSource : PublisherDataSource {
 
             addPublisher("p101", "t002", "l001", "/imag1", "The News", "970601 subscribers", false)
             addPublisher("p102", "t002", "l001", "/imag1", "Engadget", "1348433 subscribers", false)
-            addPublisher("p103", "t002", "l001", "/imag1", "Lifehacker-mock", "934273 subscribers", false)
+            addPublisher("p103", "t002", "l001", "/imag1", "Lifehacker-mock", "934274 subscribers", false)
             addPublisher("p104", "t002", "l001", "/imag1", "ReadWrite", "254332 subscribers", false)
             addPublisher("p105", "t002", "l001", "/imag1", "Digital Trends", "145694 subscribers", false)
             addPublisher("p106", "t002", "l001", "/imag1", "Business Insider", "331892 subscribers", false)

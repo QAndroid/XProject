@@ -27,6 +27,13 @@ class PublisherListAdapter(private val mPublisherList: List<workshop1024.com.xpr
 
     override fun onBindViewHolder(holder: PublisherViewHolder, position: Int) {
         holder.mPublishlistItemContentBinding.publisher = mPublisherList[position]
+
+        //判断发布列表是否滑动到底部
+        if (position == mPublisherList.size / 2) {
+            holder.mIsInTheMiddle = true
+        } else {
+            holder.mIsInTheMiddle = false
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,7 +44,10 @@ class PublisherListAdapter(private val mPublisherList: List<workshop1024.com.xpr
         fun onPublisherListItemSelect(selectPublisher: workshop1024.com.xproject.main.model.publisher.Publisher, isSelected: Boolean)
     }
 
-    inner class PublisherViewHolder(internal val mPublishlistItemContentBinding: PublishlistItemContentBinding) : RecyclerView.ViewHolder(mPublishlistItemContentBinding.root)
+    inner class PublisherViewHolder(internal val mPublishlistItemContentBinding: PublishlistItemContentBinding) : RecyclerView.ViewHolder(mPublishlistItemContentBinding.root) {
+        //是否在列表的尾部
+        internal var mIsInTheMiddle = false
+    }
 
     inner class PublisherHandlers {
         fun onTouchSelected(v: View, event: MotionEvent, publisher: Publisher): Boolean {

@@ -1,0 +1,18 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="workshop1024.com.xproject.main.test">
+
+    <application android:theme="@style/AppTheme">
+        <!-- 主页面 -->
+        <activity android:name=".controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.PublisherActivity"
+            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.FilterActivity"
+            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+        <activity
+            android:name=".controller.activity.AboutActivity"
+            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+    </application>
+
+</manifest>

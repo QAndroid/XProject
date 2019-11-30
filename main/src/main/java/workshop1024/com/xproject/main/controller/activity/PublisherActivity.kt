@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -13,11 +14,12 @@ import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.controller.adapter.PublisherListAdapter
+import workshop1024.com.xproject.main.controller.idlingResource.PublisherIdlingResouce
 import workshop1024.com.xproject.main.databinding.PublisherActivityBinding
 import workshop1024.com.xproject.main.model.Injection
 import workshop1024.com.xproject.main.model.publisher.Publisher
-import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 import workshop1024.com.xproject.main.model.publisher.PublisherType
+import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
 import workshop1024.com.xproject.main.view.dialog.TypeChoiceDialog
 
 /**
@@ -44,6 +46,16 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
 
     private lateinit var mPublisherActivityBinding: PublisherActivityBinding
 
+    //发布者dlingResouce，检测请求发布者列表异步任务
+    @VisibleForTesting
+    var mPublisherIdlingResouce: PublisherIdlingResouce? = null
+        get() {
+            if (field == null) {
+                field = PublisherIdlingResouce()
+            }
+            return field
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPublisherActivityBinding = DataBindingUtil.setContentView(this, R.layout.publisher_activity)
@@ -66,6 +78,8 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
     override fun onStart() {
         super.onStart()
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
+        //开始请求发布者列表，IdlingResouce设置为false，等待异步执行完毕
+        mPublisherIdlingResouce?.setIdleState(false)
         mPublisherRepository.getPublishersAndPublisherTypes(this)
     }
 
@@ -100,12 +114,15 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
         if (!mPublisherRepository.getIsRequestRemote()) {
             mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
         }
+        mPublisherIdlingResouce?.setIdleState(true)
     }
 
     override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
         refreshPublisherList(publisherList)
         Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
+        //请求发布者类表完毕，IdlingResouce设置为true，执行后面异步指令
+        mPublisherIdlingResouce?.setIdleState(true)
     }
 
 

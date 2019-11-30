@@ -79,18 +79,18 @@ project.ext {
 
             //FIXME 这个具体的作用？？
             extension.implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
             //FIXME arouter和room未什么不可以和eventbus一样放在event组件中，间接有base提供依赖？？难道是kapt原因？？
             //ARoter:替换成最新版本,需要注意的是api。要与compiler匹配使用，均使用最新版可以保证兼容
             //每个模块需要ARouter apt引用，不然无法在apt中生成索引文件，无法成功跳转
             //每个模块需要ARouter api引用，不然构建报错：ARouter::Compiler The user has configuration the module name, it was [eventbus]
             extension.implementation "com.alibaba:arouter-api:$project.ext.arouter_api_version"
             extension.kapt "com.alibaba:arouter-compiler:$project.ext.arouter_compiler_version"
-
             //Room:基于编译时注解，每个模块都需要依赖kapt，无法通过api引用传递
             //添加Room
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
+            //Espresso Idling Resource相关
+            extension.implementation "androidx.test.espresso:espresso-idling-resource:$project.ext.espresso_version"
 
             extension.testImplementation "junit:junit:$project.ext.junit_version"
 
@@ -109,6 +109,8 @@ project.ext {
             extension.androidTestImplementation "androidx.test.ext:truth:$project.ext.truth_version"
             //fragment测试
             extension.androidTestImplementation "androidx.fragment:fragment-testing:$project.ext.fragment_testing_version"
+            //RecyclerView测试
+            extension.androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.ext.espresso_version"
     }
 
     setRepositories = {
