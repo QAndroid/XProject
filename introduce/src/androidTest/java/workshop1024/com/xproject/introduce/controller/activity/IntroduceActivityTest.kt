@@ -9,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.hamcrest.core.IsNot.not
@@ -23,7 +24,7 @@ import workshop1024.com.xproject.introduce.R
 @LargeTest
 class IntroduceActivityTest {
     @get:Rule
-    val intentsTestRule = IntentsTestRule(IntroduceActivity::class.java)
+    val scenarioRule = ActivityScenarioRule(IntroduceActivity::class.java)
 
     @Test
     fun page1_Show() {

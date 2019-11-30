@@ -26,6 +26,7 @@ class LoginActivityTest {
     }
 
     //org.junit.internal.runners.rules.ValidationError: The @Rule 'activityTestRule' must be public
+    //JUnit允许通过一个测试类或者一个getter方法提供rule。如果你在Kotlin中使用属性，JUnit无法识别
     //参考：https://stackoverflow.com/questions/29945087/kotlin-and-new-activitytestrule-the-rule-must-be-public
     @get:Rule
     val intentsTestRule = IntentsTestRule(LoginActivity::class.java)
