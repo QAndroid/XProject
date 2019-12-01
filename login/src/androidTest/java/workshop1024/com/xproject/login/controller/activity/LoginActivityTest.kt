@@ -32,35 +32,23 @@ class LoginActivityTest {
     val intentsTestRule = IntentsTestRule(LoginActivity::class.java)
 
     @Test
-    fun loginPage_show() {
+    fun checkPageShow() {
         //检测页面的背景颜色
         onView(withId(R.id.login_linearlayout_root)).apply {
             check(matches(isDisplayed()))
             check(matches(ViewMatchers.hasBackgroundDrawable(R.drawable.login_background)))
         }
-    }
-
-    @Test
-    fun iconImageView_Show() {
         //这里因为页面上只有icon一个ImageView，所以才采用withClassName
         onView(withClassName(containsString(ImageView::class.simpleName))).apply {
             check(matches(isDisplayed()))
             check(matches(ImageViewMatchers.hasSrcDrawable(R.drawable.login_icon)))
         }
-    }
-
-    @Test
-    fun tryButton_Show() {
         onView(withId(R.id.login_button_try)).apply {
             check(matches(isDisplayed()))
             check(matches(withText("TRY THINGS OUT")))
             check(matches(hasTextColor(R.color.white)))
             check(matches(ViewMatchers.hasBackgroundColor(R.color.login_try_background)))
         }
-    }
-
-    @Test
-    fun loginButton_Show() {
         onView(withId(R.id.login_button_login)).apply {
             check(matches(isDisplayed()))
             check(matches(withText("Hello from C++")))
