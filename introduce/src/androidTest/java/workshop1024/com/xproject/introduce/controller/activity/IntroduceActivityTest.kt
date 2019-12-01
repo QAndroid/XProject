@@ -24,7 +24,7 @@ import workshop1024.com.xproject.introduce.R
 @LargeTest
 class IntroduceActivityTest {
     @get:Rule
-    val scenarioRule = ActivityScenarioRule(IntroduceActivity::class.java)
+    val activityScenarioRule = ActivityScenarioRule(IntroduceActivity::class.java)
 
     @Test
     fun page1_Show() {

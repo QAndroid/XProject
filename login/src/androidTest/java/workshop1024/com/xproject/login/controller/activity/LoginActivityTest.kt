@@ -2,12 +2,15 @@ package workshop1024.com.xproject.login.controller.activity
 
 import android.widget.ImageView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.hamcrest.core.StringContains.containsString
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,10 +23,6 @@ import workshop1024.com.xproject.login.controller.matcher.ViewMatchers
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class LoginActivityTest {
-
-    companion object {
-        const val ACTION_INTRODUCE_ACTIVITY = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"
-    }
 
     //org.junit.internal.runners.rules.ValidationError: The @Rule 'activityTestRule' must be public
     //JUnit允许通过一个测试类或者一个getter方法提供rule。如果你在Kotlin中使用属性，JUnit无法识别
@@ -59,8 +58,9 @@ class LoginActivityTest {
 
     @Test
     fun tryButton_Click() {
-        //FIXME 该Case发送Intent之前做了是否有匹配校验，所以跨组件Intent无法发出后校验
-//        onView(withId(R.id.login_button_try)).perform(click())
-//        intended(allOf(hasAction(ACTION_INTRODUCE_ACTIVITY)))
+        onView(withId(R.id.login_button_try)).perform(click())
+        //FIXME 点击以后起来的base IntentUtils无法验证通过，无法发出Intent验证？？
+        //此种情况应该如何验证？？
+        assertFalse(intentsTestRule.activity.isFinishing)
     }
 }

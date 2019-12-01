@@ -1,8 +1,7 @@
-package workshop1024.com.xproject.home.view.floatbutton
+package workshop1024.com.xproject.main.view.floatbutton
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout

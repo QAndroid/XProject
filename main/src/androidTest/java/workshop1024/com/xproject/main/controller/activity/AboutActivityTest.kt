@@ -2,14 +2,11 @@ package workshop1024.com.xproject.main.controller.activity
 
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.Lifecycle
-import androidx.test.runner.lifecycle.Stage
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.Matchers.*
 import org.junit.Assert.assertTrue
@@ -21,7 +18,7 @@ import workshop1024.com.xproject.main.R
 @RunWith(AndroidJUnit4::class)
 class AboutActivityTest {
     @get:Rule
-    val scenarioRule = IntentsTestRule(AboutActivity::class.java)
+    val intentsTestRule = IntentsTestRule(AboutActivity::class.java)
 
     @Test
     fun checkPageShow() {
@@ -60,6 +57,6 @@ class AboutActivityTest {
         onView(allOf(instanceOf(ImageButton::class.java), withParent(withId(R.id.about_toolbar_navigator)))).perform(click())
         //检测当前Activity是否关闭
         //参考：https://stackoverflow.com/questions/35863134/espresso-how-to-test-if-activity-is-finished
-        assertTrue(scenarioRule.activity.isFinishing)
+        assertTrue(intentsTestRule.activity.isFinishing)
     }
 }
