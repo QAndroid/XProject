@@ -13,3 +13,4 @@
 | kotlin-gradle| 该分支基于kotlin-mvc开发，完成基本的Gradle构建配置优化，包含模块化等 |
 | kotlin-componential| 该分支基于kotlin-gradle开发，完成基本的组件化架构的实现，如引入EventBus,迁移AndroidX |
 | kotlin-autotest| 该分支基于kotlin-componential开发，使用JUnit、Espresso、UIAnimator等完成自动化测试 |
+| kotlin-mvp| 该分支基于kotlin-autotest开发，使用MVP功能实现相关功能 |
