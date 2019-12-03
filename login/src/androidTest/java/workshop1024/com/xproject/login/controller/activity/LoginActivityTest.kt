@@ -10,11 +10,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.hamcrest.core.StringContains.containsString
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import workshop1024.com.xproject.base.test.matcher.ImageViewMatchers
+import workshop1024.com.xproject.login.LoginActivity
 import workshop1024.com.xproject.login.R
 import workshop1024.com.xproject.login.controller.matcher.ViewMatchers
 
@@ -44,7 +44,7 @@ class LoginActivityTest {
         }
         onView(withId(R.id.login_button_try)).apply {
             check(matches(isDisplayed()))
-            check(matches(withText("TRY THINGS OUT")))
+            check(matches(withText("TRY THINGS OUT CUSTOM")))
             check(matches(hasTextColor(R.color.white)))
             check(matches(ViewMatchers.hasBackgroundColor(R.color.login_try_background)))
         }

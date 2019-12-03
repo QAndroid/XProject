@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.login.native
+package workshop1024.com.xproject.native
 
 import org.junit.Test
 import org.junit.Assert.assertEquals

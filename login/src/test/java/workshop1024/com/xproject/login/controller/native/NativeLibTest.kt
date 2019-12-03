@@ -2,7 +2,7 @@ package workshop1024.com.xproject.login.controller.native
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import workshop1024.com.xproject.login.native.NativeLib
+import workshop1024.com.xproject.native.NativeLib
 import java.io.File
 
 class NativeLibTest {

@@ -6,7 +6,7 @@
 
         <variable
             name="loginHandlers"
-            type="workshop1024.com.xproject.login.controller.activity.LoginActivity.LoginHandlers" />
+            type="workshop1024.com.xproject.login.LoginActivity.LoginHandlers" />
     </data>
 
     <LinearLayout

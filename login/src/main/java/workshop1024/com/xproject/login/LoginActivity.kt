@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.login.controller.activity
+package workshop1024.com.xproject.login
 
 import android.content.Context
 import android.content.Intent
@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.alibaba.android.arouter.facade.annotation.Route
 import workshop1024.com.xproject.base.utils.IntentUtils
-import workshop1024.com.xproject.login.R
 import workshop1024.com.xproject.login.databinding.LoginActivityBinding
-import workshop1024.com.xproject.login.native.NativeLib
+import workshop1024.com.xproject.native.NativeLib
 
 //ARouter：在支持路由的页面上添加注解(必选) ，这里的路径需要注意的是至少需要有两级，/xx/xx
 @Route(path = "/login/LoginActivity")
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginContract.View {
+    private lateinit var mLoginPresenter: LoginContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,20 +26,31 @@ class LoginActivity : AppCompatActivity() {
         binding.loginHandlers = LoginHandlers()
 
         binding.loginButtonLogin.text = NativeLib().stringFromJNI()
+
+        //创建登录页面Presenter
+        mLoginPresenter = LoginPresenter(this)
     }
 
     //内部类，使用inner关键字声明
     inner class LoginHandlers {
         fun onClickLogin(view: View) {
-            Toast.makeText(this@LoginActivity, "login Click", Toast.LENGTH_SHORT).show()
+            mLoginPresenter.loginButtonClick()
         }
 
         fun onClickTry(view: View) {
-            //使用隐式意图实现（在AndroidManifest.xml中声明的intent-filter），组件之间的跳转，避免组件间的依赖
-            Intent().apply {
-                action = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"
-                IntentUtils.startActivityByIntent(this@LoginActivity, this)
-            }
+            mLoginPresenter.tryButtonClick()
+        }
+    }
+
+    override fun showLoginToast() {
+        Toast.makeText(this@LoginActivity, "login Click", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showIntroduce() {
+        //使用隐式意图实现（在AndroidManifest.xml中声明的intent-filter），组件之间的跳转，避免组件间的依赖
+        Intent().apply {
+            action = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"
+            IntentUtils.startActivityByIntent(this@LoginActivity, this)
         }
     }
 
@@ -56,4 +67,6 @@ class LoginActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
+
+
 }
