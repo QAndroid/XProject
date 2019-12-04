@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
 
         <variable
             name="introduceHandlers"
-            type="workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity.IntroduceHandlers" />
+            type="workshop1024.com.xproject.introduce.IntroduceActivity.IntroduceHandlers" />
     </data>
 
     <RelativeLayout
@@ -42,7 +41,7 @@
                 tools:visibility="visible" />
 
             <!--介绍指示器-->
-            <workshop1024.com.xproject.introduce.controller.view.group.CircleDotIndicator
+            <workshop1024.com.xproject.view.group.CircleDotIndicator
                 android:id="@+id/introduce_cricledotindicator_index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

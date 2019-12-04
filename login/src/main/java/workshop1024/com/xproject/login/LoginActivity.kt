@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         Toast.makeText(this@LoginActivity, "login Click", Toast.LENGTH_SHORT).show()
     }
 
-    override fun showIntroduce() {
+    override fun showIntroduceActivity() {
         //使用隐式意图实现（在AndroidManifest.xml中声明的intent-filter），组件之间的跳转，避免组件间的依赖
         Intent().apply {
             action = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"

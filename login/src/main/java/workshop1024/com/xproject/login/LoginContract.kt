@@ -11,7 +11,7 @@ interface LoginContract {
         /**
          * 显示Introduce页面
          */
-        fun showIntroduce()
+        fun showIntroduceActivity()
 
         /**
          * 显示登录Toast提示

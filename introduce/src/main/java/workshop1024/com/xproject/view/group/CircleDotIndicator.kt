@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.introduce.controller.view.group
+package workshop1024.com.xproject.view.group
 
 import android.animation.Animator
 import android.animation.AnimatorInflater

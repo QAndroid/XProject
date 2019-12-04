@@ -1,17 +1,16 @@
 package workshop1024.com.xproject.introduce.controller.fragment
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import workshop1024.com.xproject.base.test.matcher.ImageViewMatchers
+import workshop1024.com.xproject.introduce.IntroduceFragment
 import workshop1024.com.xproject.introduce.R
 
 

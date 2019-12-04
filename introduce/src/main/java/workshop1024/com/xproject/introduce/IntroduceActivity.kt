@@ -1,9 +1,8 @@
-package workshop1024.com.xproject.introduce.controller.activity
+package workshop1024.com.xproject.introduce
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
@@ -17,10 +16,6 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import workshop1024.com.xproject.base.exception.IntentNotFoundException
-import workshop1024.com.xproject.base.utils.IntentUtils
-import workshop1024.com.xproject.introduce.R
-import workshop1024.com.xproject.introduce.controller.fragment.IntroduceFragment
 import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
 
 /**
@@ -28,7 +23,7 @@ import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
  */
 @BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
 @Route(path = "/introduce/IntroduceActivity")
-class IntroduceActivity : FragmentActivity() {
+class IntroduceActivity : FragmentActivity(), IntroduceContract.View {
     //介绍布局id
     private val mLayoutIdList = listOf(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment)
@@ -36,6 +31,8 @@ class IntroduceActivity : FragmentActivity() {
     private lateinit var mPagerAdapter: PagerAdapter
 
     private lateinit var mIntroduceActivityBinding: IntroduceActivityBinding
+
+    private lateinit var mIntroducePresenter: IntroducePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,19 +43,15 @@ class IntroduceActivity : FragmentActivity() {
         mIntroduceActivityBinding.introduceViewpagerContent.adapter = mPagerAdapter
 
         mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.introduceViewpagerContent)
+
+        mIntroducePresenter = IntroducePresenter(this)
     }
 
-    /**
-     * 跳转下一个ViewPager的页面
-     */
-    private fun toNextViewPageItem() {
+    override fun showNextViewPage() {
         mIntroduceActivityBinding.introduceViewpagerContent.currentItem = mIntroduceActivityBinding.introduceViewpagerContent.currentItem + 1
     }
 
-    /**
-     * 跳转MainActivity页面
-     */
-    private fun toMainActivity() {
+    override fun showMainActivity() {
         //使用ARouter实现简单跳转，build()路由url，navigation()执行调整转，从而解耦组件间的依赖
         ARouter.getInstance().build("/main/MainActivity").navigation();
     }
@@ -82,15 +75,15 @@ class IntroduceActivity : FragmentActivity() {
         var currentPagePosition = ObservableInt()
 
         fun onClickSkip(view: View) {
-            toMainActivity()
+            mIntroducePresenter.skipButtonClick()
         }
 
         fun onClickNext(view: View) {
-            toNextViewPageItem()
+            mIntroducePresenter.nextButtonClick()
         }
 
         fun onClickDone(view: View) {
-            toMainActivity()
+            mIntroducePresenter.doneButtonClick()
         }
 
 
@@ -119,5 +112,4 @@ class IntroduceActivity : FragmentActivity() {
             context.startActivity(intent)
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package workshop1024.com.xproject.introduce.controller.fragment
+package workshop1024.com.xproject.introduce
 
 import android.os.Bundle
 import android.view.LayoutInflater

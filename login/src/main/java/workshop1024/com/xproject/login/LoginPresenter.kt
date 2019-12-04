@@ -6,7 +6,7 @@ package workshop1024.com.xproject.login
 class LoginPresenter(private val mLoginView: LoginContract.View) : LoginContract.Presenter {
     override fun tryButtonClick() {
         //此处可以网络请求等相关业务逻辑，然后调用View更新页面
-        mLoginView.showIntroduce()
+        mLoginView.showIntroduceActivity()
     }
 
     override fun loginButtonClick() {
