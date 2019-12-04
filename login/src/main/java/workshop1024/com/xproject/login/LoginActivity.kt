@@ -14,8 +14,7 @@ import workshop1024.com.xproject.native.NativeLib
 
 //ARouter：在支持路由的页面上添加注解(必选) ，这里的路径需要注意的是至少需要有两级，/xx/xx
 @Route(path = "/login/LoginActivity")
-class LoginActivity : AppCompatActivity(), LoginContract.View {
-    private lateinit var mLoginPresenter: LoginContract.Presenter
+class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,33 +25,23 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         binding.loginHandlers = LoginHandlers()
 
         binding.loginButtonLogin.text = NativeLib().stringFromJNI()
-
-        //创建登录页面Presenter
-        mLoginPresenter = LoginPresenter(this)
     }
 
     //内部类，使用inner关键字声明
     inner class LoginHandlers {
         fun onClickLogin(view: View) {
-            mLoginPresenter.loginButtonClick()
+            Toast.makeText(this@LoginActivity, "login Click", Toast.LENGTH_SHORT).show()
         }
 
         fun onClickTry(view: View) {
-            mLoginPresenter.tryButtonClick()
+            //使用隐式意图实现（在AndroidManifest.xml中声明的intent-filter），组件之间的跳转，避免组件间的依赖
+            Intent().apply {
+                action = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"
+                IntentUtils.startActivityByIntent(this@LoginActivity, this)
+            }
         }
     }
 
-    override fun showLoginToast() {
-        Toast.makeText(this@LoginActivity, "login Click", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showIntroduceActivity() {
-        //使用隐式意图实现（在AndroidManifest.xml中声明的intent-filter），组件之间的跳转，避免组件间的依赖
-        Intent().apply {
-            action = "workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity"
-            IntentUtils.startActivityByIntent(this@LoginActivity, this)
-        }
-    }
 
     //伴生对象类的唯一对象，声明的方法和成员都是类的唯一值
     companion object {
