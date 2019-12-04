@@ -24,7 +24,8 @@ import workshop1024.com.xproject.main.other.view.dialog.TypeChoiceDialog
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPublisherTypeCallback, TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
+class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener,
+        PublisherListAdapter.OnPublisherListSelectListener, PublisherContract.View {
 
     private var mTypeChoiceDialog: TypeChoiceDialog? = null
     private var mLanguageChoiceDialog: TypeChoiceDialog? = null
@@ -44,6 +45,8 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
     private val mSelectedLanguageIndex = 0
 
     private lateinit var mPublisherActivityBinding: PublisherActivityBinding
+
+    private lateinit var mPublisherPresenter: PublisherPresenter
 
     //发布者dlingResouce，检测请求发布者列表异步任务
     @VisibleForTesting
@@ -71,15 +74,12 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
         actionBar.title = resources.getString(R.string.publisher_title_default)
 
-        mPublisherRepository = Injection.providePublisherRepository(this)
+        mPublisherPresenter = PublisherPresenter(Injection.providePublisherRepository(this), this)
     }
 
     override fun onStart() {
         super.onStart()
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
-        //开始请求发布者列表，IdlingResouce设置为false，等待异步执行完毕
-        mPublisherIdlingResouce?.setIdleState(false)
-        mPublisherRepository.getPublishersAndPublisherTypes(this)
+        mPublisherPresenter.start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -106,68 +106,47 @@ class PublisherActivity : XActivity(), PublisherDataSource.LoadPublisherAndPubli
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
-        //FIXME 每次都需要创建适配器吗？
-        refreshPublisherList(publisherList)
-        Snackbar.make(mPublisherActivityBinding.root, "Fetch cacheorlocal " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
-        if (!mPublisherRepository.getIsRequestRemote()) {
-            mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
-        }
-        mPublisherIdlingResouce?.setIdleState(true)
-    }
-
-    override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-        refreshPublisherList(publisherList)
-        Snackbar.make(mPublisherActivityBinding.root, "Fetch remote " + publisherList.size + " publishers ...", Snackbar.LENGTH_SHORT).show()
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = false
-        //请求发布者类表完毕，IdlingResouce设置为true，执行后面异步指令
-        mPublisherIdlingResouce?.setIdleState(true)
-    }
-
-
-    override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        refreshPublisherTypeList(contentTypeList, languageTyleList)
-    }
-
-    override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        refreshPublisherTypeList(contentTypeList, languageTyleList)
-    }
-
-    private fun refreshPublisherTypeList(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        mContentTypeList = contentTypeList as ArrayList<PublisherType>
-        mLanguageTypeList = languageTyleList as ArrayList<PublisherType>
-    }
-
-    private fun refreshPublisherList(publisherList: List<Publisher>) {
-        mPublisherListAdapter = PublisherListAdapter(publisherList, this)
-        mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
-    }
-
-    override fun onDataNotAvailable() {
-
-    }
-
     override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType) {
         mSelectedDialog = dialog
         mPublisherActivityBinding.publisherToolbarNavigator.title = publisherType.mName
 
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
         if (dialog === mTypeChoiceDialog) {
-            mPublisherRepository.getPublishersByContentType(publisherType.mTypeId, this)
+            mPublisherPresenter.getPublishersByContentType(publisherType.mTypeId)
         } else if (dialog === mLanguageChoiceDialog) {
-            mPublisherRepository.getPublishersByLanguageType(publisherType.mTypeId, this)
+            mPublisherPresenter.getPublishersByLanguageType(publisherType.mTypeId)
         }
     }
 
     override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             //FIXME 订阅网络请求返回后，在提示并且选中
-            mPublisherRepository.subscribePublisherById(selectPublisher.mPublisherId)
-            Snackbar.make(mPublisherActivityBinding.root, selectPublisher.mName + " selected", Snackbar.LENGTH_SHORT).show()
+            mPublisherPresenter.subscribePublisherBy(selectPublisher)
         } else {
-            mPublisherRepository.unSubscribePublisherById(selectPublisher.mPublisherId)
-            Snackbar.make(mPublisherActivityBinding.root, selectPublisher.mName + " unselected", Snackbar.LENGTH_SHORT).show()
+            mPublisherPresenter.unSubscribePublisher(selectPublisher)
         }
+    }
+
+    override fun setLoadingIndicator(isLoaing: Boolean) {
+        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = isLoaing
+    }
+
+    override fun refreshPublisherList(publisherList: List<Publisher>) {
+        mPublisherListAdapter = PublisherListAdapter(publisherList, this)
+        mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
+    }
+
+    override fun showSnackBar(mMessage: String) {
+        Snackbar.make(mPublisherActivityBinding.root, mMessage, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun setPublisherIdlingResouce(isIdling: Boolean) {
+        mPublisherIdlingResouce?.setIdleState(isIdling)
+    }
+
+    override fun refreshPublisherTypeList(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
+        mContentTypeList = contentTypeList as ArrayList<PublisherType>
+        mLanguageTypeList = languageTyleList as ArrayList<PublisherType>
     }
 
     companion object {
