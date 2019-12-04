@@ -4,6 +4,6 @@
     <application>
         <activity
             android:name=".controller.activity.FeedbackActivity"
-            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+            android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity" />
     </application>
 </manifest>

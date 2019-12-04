@@ -132,7 +132,7 @@
             android:onClick="@{newsDetailHandlers::onClickFloatingActionButton}"
             android:src="@drawable/floatingactionbutton_newsdetail"
             android:tint="@color/newsdetail_floatingactionbutton_tintcolor"
-            app:layout_behavior="workshop1024.com.xproject.main.view.floatbutton.FloatingActionButtonBehavior" />
+            app:layout_behavior="workshop1024.com.xproject.base.view.floatbutton.FloatingActionButtonBehavior" />
 
         <!--FloatingActionButton 菜单-->
         <!--FIXME 为什么要包装一层才有动画效果???-->

@@ -5,7 +5,7 @@
 
         <variable
             name="bottomMenuHandlers"
-            type="workshop1024.com.xproject.main.view.popupwindow.BottomMenu.BottomMenuHandlers" />
+            type="workshop1024.com.xproject.main.other.view.popupwindow.BottomMenu.BottomMenuHandlers" />
     </data>
 
     <LinearLayout

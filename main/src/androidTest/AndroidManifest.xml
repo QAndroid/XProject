@@ -6,13 +6,13 @@
         <activity android:name=".controller.activity.MainActivity" />
         <activity
             android:name=".controller.activity.PublisherActivity"
-            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+            android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity" />
         <activity
             android:name=".controller.activity.FilterActivity"
-            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+            android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity" />
         <activity
             android:name=".controller.activity.AboutActivity"
-            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity" />
+            android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity" />
     </application>
 
 </manifest>

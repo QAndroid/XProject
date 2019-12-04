@@ -7,7 +7,7 @@
 
         <variable
             name="mainHandlers"
-            type="workshop1024.com.xproject.main.controller.activity.MainActivity.MainHandlers" />
+            type="workshop1024.com.xproject.main.main.MainActivity.MainHandlers" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -47,7 +47,7 @@
             android:src="@drawable/floatingactionbutton_newslist"
             android:tint="@color/main_floatingactionbutton_tintcolor"
             android:visibility="gone"
-            app:layout_behavior="workshop1024.com.xproject.main.view.floatbutton.FloatingActionButtonBehavior"
+            app:layout_behavior="workshop1024.com.xproject.base.view.floatbutton.FloatingActionButtonBehavior"
             tools:visibility="visible" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

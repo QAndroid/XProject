@@ -7,7 +7,7 @@
 
         <variable
             name="mainHandlers"
-            type="workshop1024.com.xproject.main.controller.activity.MainActivity.MainHandlers" />
+            type="workshop1024.com.xproject.main.main.MainActivity.MainHandlers" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="@color/xproject_daynight_background"
         android:fitsSystemWindows="true"
-        tools:context=".controller.activity.MainActivity"
+        tools:context=".main.MainActivity"
         tools:openDrawer="start">
 
         <!--右侧内容布局-->

@@ -5,7 +5,7 @@
         <activity
             android:name=".controller.activity.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName="workshop1024.com.xproject.main.controller.activity.MainActivity"
+            android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity"
             android:theme="@style/SettingsTheme" />
     </application>
 </manifest>

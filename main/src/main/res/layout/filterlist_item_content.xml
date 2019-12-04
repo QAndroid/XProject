@@ -7,11 +7,11 @@
 
         <variable
             name="filter"
-            type="workshop1024.com.xproject.main.model.filter.Filter" />
+            type="workshop1024.com.xproject.main.filter.data.Filter" />
 
         <variable
             name="filterHandlers"
-            type="workshop1024.com.xproject.main.controller.adapter.FilterListAdapter.FilterHandlers" />
+            type="workshop1024.com.xproject.main.filter.FilterListAdapter.FilterHandlers" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -5,7 +5,7 @@
 
         <variable
             name="headerHandlers"
-            type="workshop1024.com.xproject.main.controller.activity.MainActivity.HeaderHandlers" />
+            type="workshop1024.com.xproject.main.main.MainActivity.HeaderHandlers" />
     </data>
 
     <RelativeLayout

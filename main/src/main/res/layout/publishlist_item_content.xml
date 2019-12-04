@@ -7,11 +7,11 @@
 
         <variable
             name="publisher"
-            type="workshop1024.com.xproject.main.model.publisher.Publisher" />
+            type="workshop1024.com.xproject.main.publisher.data.Publisher" />
 
         <variable
             name="publisherHandlers"
-            type="workshop1024.com.xproject.main.controller.adapter.PublisherListAdapter.PublisherHandlers" />
+            type="workshop1024.com.xproject.main.publisher.PublisherListAdapter.PublisherHandlers" />
     </data>
 
     <androidx.cardview.widget.CardView

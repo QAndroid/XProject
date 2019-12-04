@@ -2,7 +2,6 @@ package workshop1024.com.xproject.main.filter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
@@ -11,9 +10,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import workshop1024.com.xproject.main.model.filter.Filter
-import workshop1024.com.xproject.main.model.filter.source.local.FilterDao
-import workshop1024.com.xproject.main.model.filter.source.local.FilterDatabase
+import workshop1024.com.xproject.main.filter.data.Filter
+import workshop1024.com.xproject.main.filter.data.source.local.FilterDao
+import workshop1024.com.xproject.main.filter.data.source.local.FilterDatabase
 
 class FilterDaoTest {
     private lateinit var filterDatabase: FilterDatabase

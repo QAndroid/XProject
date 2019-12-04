@@ -22,11 +22,12 @@ import org.junit.runner.RunWith
 import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.controller.action.RecyclerViewItemActions.Companion.actionByChildId
 import workshop1024.com.xproject.main.controller.action.RecyclerViewItemActions.Companion.childViewByPositionWithMatcher
-import workshop1024.com.xproject.main.controller.adapter.PublisherListAdapter.PublisherViewHolder
+import workshop1024.com.xproject.main.publisher.PublisherListAdapter.PublisherViewHolder
 import workshop1024.com.xproject.main.model.Injection
-import workshop1024.com.xproject.main.model.publisher.Publisher
-import workshop1024.com.xproject.main.model.publisher.PublisherType
-import workshop1024.com.xproject.main.model.publisher.source.PublisherDataSource
+import workshop1024.com.xproject.main.publisher.data.Publisher
+import workshop1024.com.xproject.main.publisher.data.PublisherType
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import workshop1024.com.xproject.main.publisher.PublisherActivity
 
 //Espresso RecyclerView操作操作相关API，参考：https://developer.android.com/training/testing/espresso/lists
 //Espresso Iding Resourdde，用于异步测试，参考：https://developer.android.com/training/testing/espresso/idling-resource

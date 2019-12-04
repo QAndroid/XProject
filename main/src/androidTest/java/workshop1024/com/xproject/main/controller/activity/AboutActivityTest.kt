@@ -14,6 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import workshop1024.com.xproject.main.R
+import workshop1024.com.xproject.main.about.AboutActivity
 
 @RunWith(AndroidJUnit4::class)
 class AboutActivityTest {
