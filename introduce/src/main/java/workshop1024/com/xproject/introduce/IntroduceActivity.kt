@@ -23,7 +23,7 @@ import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
  */
 @BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
 @Route(path = "/introduce/IntroduceActivity")
-class IntroduceActivity : FragmentActivity(), IntroduceContract.View {
+class IntroduceActivity : FragmentActivity(){
     //介绍布局id
     private val mLayoutIdList = listOf(R.layout.introduce1_fragment, R.layout
             .introduce2_fragment, R.layout.introduce3_fragment)
@@ -32,7 +32,6 @@ class IntroduceActivity : FragmentActivity(), IntroduceContract.View {
 
     private lateinit var mIntroduceActivityBinding: IntroduceActivityBinding
 
-    private lateinit var mIntroducePresenter: IntroducePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +42,9 @@ class IntroduceActivity : FragmentActivity(), IntroduceContract.View {
         mIntroduceActivityBinding.introduceViewpagerContent.adapter = mPagerAdapter
 
         mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.introduceViewpagerContent)
-
-        mIntroducePresenter = IntroducePresenter(this)
     }
 
-    override fun showNextViewPage() {
-        mIntroduceActivityBinding.introduceViewpagerContent.currentItem = mIntroduceActivityBinding.introduceViewpagerContent.currentItem + 1
-    }
-
-    override fun showMainActivity() {
+    fun showMainActivity() {
         //使用ARouter实现简单跳转，build()路由url，navigation()执行调整转，从而解耦组件间的依赖
         ARouter.getInstance().build("/main/MainActivity").navigation();
     }
@@ -75,15 +68,15 @@ class IntroduceActivity : FragmentActivity(), IntroduceContract.View {
         var currentPagePosition = ObservableInt()
 
         fun onClickSkip(view: View) {
-            mIntroducePresenter.skipButtonClick()
+            showMainActivity()
         }
 
         fun onClickNext(view: View) {
-            mIntroducePresenter.nextButtonClick()
+            mIntroduceActivityBinding.introduceViewpagerContent.currentItem = mIntroduceActivityBinding.introduceViewpagerContent.currentItem + 1
         }
 
         fun onClickDone(view: View) {
-            mIntroducePresenter.doneButtonClick()
+            showMainActivity()
         }
 
 

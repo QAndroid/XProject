@@ -1,6 +1,5 @@
 package workshop1024.com.xproject.main.publisher
 
-import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
