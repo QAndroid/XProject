@@ -7,7 +7,7 @@
         <!-- 介绍页面 -->
         <!-- android:exported="false"，intent-filter不向外暴露-->
         <activity
-            android:name=".IntroduceActivity"
+            android:name=".introduce.IntroduceActivity"
             android:exported="true">
             <!--配置隐式意图过滤器-->
             <intent-filter>

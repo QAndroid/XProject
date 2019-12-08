@@ -32,9 +32,5 @@ dependencies {
     implementation project(':base')
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 
-    androidTestImplementation project(':test')
-
-    //java.lang.NoClassDefFoundError: androidx/databinding/DataBinderMapperImpl
-    //at workshop1024.com.xproject.introduce.controller.activity.IntroduceActivity.onCreate(IntroduceActivity.kt:42)
-    testImplementation 'org.robolectric:robolectric:4.0'
+    androidTestImplementation project(':androidTest')
 }

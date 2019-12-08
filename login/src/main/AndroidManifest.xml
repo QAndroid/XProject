@@ -3,6 +3,6 @@
 
     <application>
         <!-- 选择登录页面 -->
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".login.LoginActivity" />
     </application>
 </manifest>

@@ -16,14 +16,12 @@ dependencies {
     api project(':arouter')
     api project(':room')
 
-    implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
-    implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
-    implementation "com.google.android.material:material:$project.ext.material_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-
     //添加Retrofit
     api "com.squareup.retrofit2:retrofit:$project.ext.retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$project.ext.converter_gson_version"
 
-    testImplementation "org.mockito:mockito-core:1.10.19"
+    implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
+    implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
+    implementation "com.google.android.material:material:$project.ext.material_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }

@@ -14,7 +14,7 @@
         tools:replace="android:name">
         <!--Login Activity页面在login Module中，根据组件化原则：app module只负责编译和初始化相关工作，但Launchr Activity还必须在app Module中声明-->
         <!--选择登录页面，启动页面 -->
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

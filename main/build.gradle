@@ -61,16 +61,19 @@ dependencies {
     implementation project(':base')
 
     implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
-
     implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$project.ext.constraintlayout_version"
     implementation "com.google.android.material:material:$project.ext.material_version"
-
     //Kotlin相关
     //协程
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$project.ext.coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$project.ext.coroutines_version"
+    //Espresso Idling Resource相关
+    implementation "androidx.test.espresso:espresso-idling-resource:$project.ext.espresso_version"
 
+    androidTestImplementation project(':androidTest')
+    //RecyclerView测试
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.ext.espresso_version"
     androidTestImplementation "androidx.arch.core:core-testing:$project.ext.coretest_version"
 }

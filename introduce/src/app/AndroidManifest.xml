@@ -9,7 +9,7 @@
         <!-- 介绍页面 -->
         <!-- android:exported="false"，intent-filter不向外暴露-->
         <activity
-            android:name=".IntroduceActivity"
+            android:name=".introduce.IntroduceActivity"
             android:exported="true">
             <!--在app构建类型下，IntroduceActivity作为introduce组件的启动类-->
             <intent-filter>
