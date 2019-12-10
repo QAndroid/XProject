@@ -58,7 +58,10 @@ android {
 }
 
 dependencies {
-    implementation project(':base')
+    //错误: 找不到符号，@androidx.room.TypeConverters(value = {XConverters.class})
+    //原因：本地aar文件没有包含间接（传递依赖），打包是无法解析room的。参考：https://stackoverflow.com/questions/36916991/transitive-dependencies-for-local-aar-library
+    //解决：使用Maven Plugin打包到本地库，参考：https://docs.gradle.org/current/userguide/maven_plugin.html
+    implementation (name:'base-debug', ext:'aar')
 
     implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
     implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"

@@ -11,10 +11,10 @@ android {
 
 dependencies {
     //使用api依赖eventbus库，传递依赖给所有业务库使用，implementation无法传递依赖
-    api project(':eventbus')
-    api project(':service')
-    api project(':arouter')
-    api project(':room')
+    api (name:'eventbus-debug', ext:'aar')
+    api (name:'service-debug', ext:'aar')
+    api (name:'arouter-debug', ext:'aar')
+    api (name:'room-debug', ext:'aar')
 
     //添加Retrofit
     api "com.squareup.retrofit2:retrofit:$project.ext.retrofit_version"

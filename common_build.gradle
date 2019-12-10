@@ -161,5 +161,17 @@ project.ext {
                     shrinkResources false
                 }
             }
+
+            //在打包完成后，将aar统一复制到本地库libs下，由其他依赖项引用
+            //避免项目的直接依赖
+            //参考：https://stackoverflow.com/questions/32878383/gradle-how-to-run-custom-task-after-an-android-library-is-built
+            assemble.doLast {
+                copy {
+                    from('build/outputs/aar') {
+                        include project.name + '-debug.aar'
+                    }
+                    into '../libs'
+                }
+            }
     }
 }

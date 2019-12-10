@@ -32,5 +32,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        //本地aar仓库目录，组件构建完成后，将aar都copy在该目录
+        //参考：https://stackoverflow.com/questions/16682847/how-to-manually-include-external-aar-package-using-new-gradle-android-build-syst
+        flatDir {
+            dirs '../libs'
+        }
     }
 }
