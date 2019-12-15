@@ -141,11 +141,13 @@ project.ext {
             }
     }
 
-
     //Library模块默认的配置
     setLibDefaultConfig = {
         extension ->
             extension.apply plugin: 'com.android.library'
+            //maven插件，用于library发布aar到本地repo
+            //参考：https://www.jianshu.com/p/0629548ab5a4
+            extension.apply plugin: 'maven'
             setCommonConfig extension
 
             //指定一个proguard配置，这个配置会打入aar
@@ -162,15 +164,12 @@ project.ext {
                 }
             }
 
-            //在打包完成后，将aar统一复制到本地库libs下，由其他依赖项引用
-            //避免项目的直接依赖
-            //参考：https://stackoverflow.com/questions/32878383/gradle-how-to-run-custom-task-after-an-android-library-is-built
-            assemble.doLast {
-                copy {
-                    from('build/outputs/aar') {
-                        include project.name + '-debug.aar'
+            //将打包好的aar，发布到../repo目录的本地库
+            uploadArchives {
+                repositories {
+                    mavenDeployer {
+                        repository(url: uri("../repo"))
                     }
-                    into '../libs'
                 }
             }
     }

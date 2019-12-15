@@ -2,6 +2,9 @@ apply from: "${rootProject.rootDir}/common_build.gradle"
 //Application module配置
 project.ext.setLibDefaultConfig project
 
+group = 'workshop1024.com.xproject.base'
+version = '1.0'
+
 android {
     defaultConfig {
         versionCode 1

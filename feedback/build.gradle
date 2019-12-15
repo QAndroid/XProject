@@ -2,6 +2,9 @@ apply from: "${rootProject.rootDir}/common_build.gradle"
 //Application module配置
 project.ext.setLibDefaultConfig project
 
+group = 'workshop1024.com.xproject'
+version = '1.0'
+
 android {
     defaultConfig {
         versionCode 1
@@ -55,10 +58,12 @@ android {
     }
 
     resourcePrefix "feedback_"
+
+    defaultPublishConfig 'prodBaiduRelease'
 }
 
 dependencies {
-    implementation project(':base')
+    implementation 'workshop1024.com.xproject:base:1.0'
 
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
     implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"

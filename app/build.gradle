@@ -179,15 +179,16 @@ android.applicationVariants.all { variant ->
 dependencies {
     //调整依赖顺序，构建顺序改变，当AndroidManifest.xml中Module中Application冲突时，解决后谁后编译使用谁
     //TODO 将所有的项目依赖 ，改成aar依赖。自动生成aar 主工程指定目录
-    implementation project(':base')
-    implementation project(':login')
+    implementation 'workshop1024.com.xproject:base:1.0'
+    implementation 'workshop1024.com.xproject:login:1.0'
     if (!project.ext.isIntroduceApp) {
-        implementation project(':introduce')
+        implementation 'workshop1024.com.xproject:introduce:1.0'
     }
-    implementation project(':main')
-    implementation project(':home')
-    implementation project(':save')
-    implementation project(':settings')
-    implementation project(':feedback')
+    implementation 'workshop1024.com.xproject:main:1.0'
+    implementation 'workshop1024.com.xproject:home:1.0'
+    implementation 'workshop1024.com.xproject:save:1.0'
+    implementation 'workshop1024.com.xproject:settings:1.0'
+    implementation 'workshop1024.com.xproject:feedback:1.0'
+
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
 }

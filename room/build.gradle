@@ -2,6 +2,10 @@ apply from: "${rootProject.rootDir}/common_build.gradle"
 //Application module配置
 project.ext.setLibDefaultConfig project
 
+//FIXME 这里的version和defaultConfig是什么关系？
+group = 'workshop1024.com.xproject.base'
+version = '1.0'
+
 android {
     defaultConfig {
         versionCode 1

@@ -2,6 +2,9 @@ apply from: "${rootProject.rootDir}/common_build.gradle"
 //Application module配置
 project.ext.setLibDefaultConfig project
 
+group = 'workshop1024.com.xproject'
+version = '1.0'
+
 android {
     defaultConfig {
         versionCode 1
@@ -11,10 +14,10 @@ android {
 
 dependencies {
     //使用api依赖eventbus库，传递依赖给所有业务库使用，implementation无法传递依赖
-    api (name:'eventbus-debug', ext:'aar')
-    api (name:'service-debug', ext:'aar')
-    api (name:'arouter-debug', ext:'aar')
-    api (name:'room-debug', ext:'aar')
+    api 'workshop1024.com.xproject.base:eventbus:1.0'
+    api 'workshop1024.com.xproject.base:service:1.0'
+    api 'workshop1024.com.xproject.base:arouter:1.0'
+    api 'workshop1024.com.xproject.base:room:1.0'
 
     //添加Retrofit
     api "com.squareup.retrofit2:retrofit:$project.ext.retrofit_version"
