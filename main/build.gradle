@@ -83,5 +83,9 @@ dependencies {
     androidTestImplementation project(':androidTest')
     //RecyclerView测试
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.ext.espresso_version"
-    androidTestImplementation "androidx.arch.core:core-testing:$project.ext.coretest_version"
+    androidTestImplementation("androidx.arch.core:core-testing:$project.ext.coretest_version") {
+        //Mock注解在common_build.gradle中mockito-all中也包含，exclude解决依赖冲突
+        //参考：https://juejin.im/post/5acd6daaf265da238a30ca73
+        exclude group: 'org.mockito', module: 'mockito-core'
+    }
 }

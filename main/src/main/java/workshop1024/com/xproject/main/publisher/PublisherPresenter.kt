@@ -25,7 +25,7 @@ class PublisherPresenter(private val mPublisherRepository: PublisherDataSource, 
         mPublisherRepository.getPublishersByLanguageType(languageId, this)
     }
 
-    override fun subscribePublisherBy(publisher: Publisher) {
+    override fun subscribePublisher(publisher: Publisher) {
         mPublisherRepository.subscribePublisherById(publisher.mPublisherId)
         mView.showSnackBar(publisher.mName + " selected")
     }

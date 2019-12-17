@@ -18,7 +18,6 @@ import workshop1024.com.xproject.main.databinding.PublisherActivityBinding
 import workshop1024.com.xproject.main.model.Injection
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
-import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
 import workshop1024.com.xproject.main.other.view.dialog.TypeChoiceDialog
 
 /**
@@ -32,8 +31,6 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
     private var mSelectedDialog: DialogFragment? = null
 
     private var mPublisherListAdapter: PublisherListAdapter? = null
-
-    private lateinit var mPublisherRepository: PublisherDataSource
 
     //可选择发布者内容类型
     private var mContentTypeList: ArrayList<PublisherType>? = null
@@ -121,7 +118,7 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
     override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             //FIXME 订阅网络请求返回后，在提示并且选中
-            mPublisherPresenter.subscribePublisherBy(selectPublisher)
+            mPublisherPresenter.subscribePublisher(selectPublisher)
         } else {
             mPublisherPresenter.unSubscribePublisher(selectPublisher)
         }

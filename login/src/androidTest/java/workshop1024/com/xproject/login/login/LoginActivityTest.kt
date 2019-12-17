@@ -13,7 +13,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import workshop1024.com.xproject.base.test.matcher.ImageViewMatchers
+import workshop1024.com.xproject.androidtest.matcher.ImageViewMatchers
 import workshop1024.com.xproject.login.R
 import workshop1024.com.xproject.login.login.matcher.ViewMatchers
 

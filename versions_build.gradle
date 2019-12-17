@@ -45,7 +45,7 @@ project.ext {
     coretest_version = '2.0.0'
     truth_version = '1.3.0-alpha02'
     fragment_testing_version = '1.1.0'
-
+    mockito_version = '3.2.4'
     //FIXE 是因为fragment测试明确制定版本引入的，待明确放在什么组？
     lifecycle_runtime_version = '2.1.0'
     collection_version = '1.1.0'

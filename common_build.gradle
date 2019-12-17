@@ -89,6 +89,10 @@ project.ext {
             //添加Room
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
+
+            extension.testImplementation "junit:junit:$project.ext.junit_version"
+            extension.testImplementation "org.mockito:mockito-core:$project.ext.mockito_version"
+            extension.testImplementation "org.mockito:mockito-inline:$project.ext.mockito_version"
     }
 
     setRepositories = {

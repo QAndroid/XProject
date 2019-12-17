@@ -23,7 +23,7 @@ interface PublisherContract {
 
         fun getPublishersByLanguageType(languageId: String)
 
-        fun subscribePublisherBy(publisher: Publisher)
+        fun subscribePublisher(publisher: Publisher)
 
         fun unSubscribePublisher(publisher: Publisher)
     }

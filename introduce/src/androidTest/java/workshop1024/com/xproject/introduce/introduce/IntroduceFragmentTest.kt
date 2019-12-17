@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.junit.Test
 import org.junit.runner.RunWith
-import workshop1024.com.xproject.base.test.matcher.ImageViewMatchers
+import workshop1024.com.xproject.androidtest.matcher.ImageViewMatchers
 import workshop1024.com.xproject.introduce.R
 
 
