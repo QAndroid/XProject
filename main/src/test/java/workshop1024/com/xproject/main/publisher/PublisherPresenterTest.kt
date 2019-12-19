@@ -18,7 +18,7 @@ import workshop1024.com.xproject.main.publisher.data.source.PublisherRepository
 //参考Mockito入门：https://waylau.com/mockito-quick-start/
 class PublisherPresenterTest {
     private lateinit var PUBLISHERS: List<Publisher>
-
+    private lateinit var mPublisher: Publisher
     @Mock
     private lateinit var mPublisherRepository: PublisherRepository
     @Mock
@@ -40,6 +40,7 @@ class PublisherPresenterTest {
         MockitoAnnotations.initMocks(this)
 
         mPublisherPresenter = PublisherPresenter(mPublisherRepository, mPublisherView)
+        mPublisher = Publisher("p401", "t005", "l001", "/imag1", "The Gaming", "970601 subscribers", ObservableBoolean(false))
 
         PUBLISHERS = listOf<Publisher>(
                 Publisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", ObservableBoolean(false)),
@@ -50,17 +51,19 @@ class PublisherPresenterTest {
 
     @Test
     fun getPublishersByContentTypeAndRefreshList() {
-        val contentType = "t001"
-        mPublisherPresenter.getPublishersByContentType(contentType)
+        mPublisherPresenter.getPublishersByContentType(mPublisher.mType)
 
         argumentCaptor<PublisherDataSource.LoadPublisherAndPublisherTypeCallback>().apply {
             //异常：java.lang.IllegalStateException: mLoadPublisherAndPublish…eCallbackCaptor.capture() must not be null
             //方案：引用com.nhaarman.mockitokotlin2:mockito-kotlin库，处理了不兼容问题
             //参考：https://stackoverflow.com/questions/34773958/kotlin-and-argumentcaptor-illegalstateexception
+            //FIXME 但是为什么会不兼容，可以后续多研究
+            //异常：org.mockito.exceptions.misusing.InvalidUseOfMatchersException:
+            //Invalid use of argument matchers!
+            //2 matchers expected, 1 recorded:
+            //-> at com.nhaarman.mockitokotlin2.KArgumentCaptor.capture(ArgumentCaptor.kt:198)
+            //方案：参数不是传递contentType，而是传递anyString()
             verify(mPublisherRepository).getPublishersByContentType(ArgumentMatchers.anyString(), capture())
-            PUBLISHERS = listOf<Publisher>(
-                    Publisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", ObservableBoolean(false))
-            )
             firstValue.onRemotePublishersLoaded(PUBLISHERS)
         }
 
@@ -74,11 +77,36 @@ class PublisherPresenterTest {
     }
 
     @Test
-    fun subscribePublisherShowSnackBar() {
-        val publisher = Publisher("p401", "t005", "l001", "/imag1", "The Gaming", "970601 subscribers", ObservableBoolean(false))
-        mPublisherPresenter.subscribePublisher(publisher)
+    fun getPublishersByLanguageTypeRefreshList() {
+        `when`(mPublisherRepository.getIsRequestRemote()).thenReturn(false)
 
-        verify(mPublisherRepository).subscribePublisherById(publisher.mPublisherId)
-        verify(mPublisherView).showSnackBar(publisher.mName + " selected")
+        mPublisherPresenter.getPublishersByLanguageType(mPublisher.mLanguage)
+        argumentCaptor<PublisherDataSource.LoadPublisherAndPublisherTypeCallback>().apply {
+            verify(mPublisherRepository).getPublishersByLanguageType(ArgumentMatchers.anyString(), capture())
+            firstValue.onCacheOrLocalPublishersLoaded(PUBLISHERS)
+        }
+
+        val inOrder = inOrder(mPublisherView)
+        inOrder.verify(mPublisherView).setLoadingIndicator(true)
+        inOrder.verify(mPublisherView).setPublisherIdlingResouce(false)
+        inOrder.verify(mPublisherView).refreshPublisherList(PUBLISHERS)
+        inOrder.verify(mPublisherView).showSnackBar("Fetch cacheorlocal " + PUBLISHERS.size + " publishers ...")
+        inOrder.verify(mPublisherView).setLoadingIndicator(false)
+        inOrder.verify(mPublisherView).setPublisherIdlingResouce(true)
+    }
+
+    @Test
+    fun subscribePublisherShowSnackBar() {
+        mPublisherPresenter.subscribePublisher(mPublisher)
+
+        verify(mPublisherRepository).subscribePublisherById(mPublisher.mPublisherId)
+        verify(mPublisherView).showSnackBar(mPublisher.mName + " selected")
+    }
+
+    @Test
+    fun unSubscribePublisherShowSackBar() {
+        mPublisherPresenter.unSubscribePublisher(mPublisher)
+        verify(mPublisherRepository).unSubscribePublisherById(mPublisher.mPublisherId)
+        verify(mPublisherView).showSnackBar(mPublisher.mName + " unselected")
     }
 }
