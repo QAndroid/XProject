@@ -18,10 +18,14 @@ class PublisherPresenter(private val mPublisherRepository: PublisherDataSource, 
     }
 
     override fun getPublishersByContentType(contentId: String) {
+        mView.setLoadingIndicator(true)
+        mView.setPublisherIdlingResouce(false)
         mPublisherRepository.getPublishersByContentType(contentId, this)
     }
 
     override fun getPublishersByLanguageType(languageId: String) {
+        mView.setLoadingIndicator(true)
+        mView.setPublisherIdlingResouce(false)
         mPublisherRepository.getPublishersByLanguageType(languageId, this)
     }
 

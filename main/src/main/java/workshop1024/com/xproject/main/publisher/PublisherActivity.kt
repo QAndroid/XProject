@@ -107,7 +107,6 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
         mSelectedDialog = dialog
         mPublisherActivityBinding.publisherToolbarNavigator.title = publisherType.mName
 
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = true
         if (dialog === mTypeChoiceDialog) {
             mPublisherPresenter.getPublishersByContentType(publisherType.mTypeId)
         } else if (dialog === mLanguageChoiceDialog) {

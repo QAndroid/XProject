@@ -1,12 +1,15 @@
 package workshop1024.com.xproject.main.publisher
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
+import org.mockito.*
+import org.mockito.Mockito.*
 import workshop1024.com.xproject.main.publisher.data.Publisher
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
 import workshop1024.com.xproject.main.publisher.data.source.PublisherRepository
 
 /**
@@ -14,6 +17,8 @@ import workshop1024.com.xproject.main.publisher.data.source.PublisherRepository
  */
 //参考Mockito入门：https://waylau.com/mockito-quick-start/
 class PublisherPresenterTest {
+    private lateinit var PUBLISHERS: List<Publisher>
+
     @Mock
     private lateinit var mPublisherRepository: PublisherRepository
     @Mock
@@ -35,10 +40,41 @@ class PublisherPresenterTest {
         MockitoAnnotations.initMocks(this)
 
         mPublisherPresenter = PublisherPresenter(mPublisherRepository, mPublisherView)
+
+        PUBLISHERS = listOf<Publisher>(
+                Publisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", ObservableBoolean(false)),
+                Publisher("p101", "t002", "l001", "/imag1", "The News", "970601 subscribers", ObservableBoolean(false)),
+                Publisher("p401", "t005", "l001", "/imag1", "The Gaming", "970601 subscribers", ObservableBoolean(false))
+        )
     }
 
     @Test
-    fun subscribePublisherShowSnackBar(){
+    fun getPublishersByContentTypeAndRefreshList() {
+        val contentType = "t001"
+        mPublisherPresenter.getPublishersByContentType(contentType)
+
+        argumentCaptor<PublisherDataSource.LoadPublisherAndPublisherTypeCallback>().apply {
+            //异常：java.lang.IllegalStateException: mLoadPublisherAndPublish…eCallbackCaptor.capture() must not be null
+            //方案：引用com.nhaarman.mockitokotlin2:mockito-kotlin库，处理了不兼容问题
+            //参考：https://stackoverflow.com/questions/34773958/kotlin-and-argumentcaptor-illegalstateexception
+            verify(mPublisherRepository).getPublishersByContentType(ArgumentMatchers.anyString(), capture())
+            PUBLISHERS = listOf<Publisher>(
+                    Publisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", ObservableBoolean(false))
+            )
+            firstValue.onRemotePublishersLoaded(PUBLISHERS)
+        }
+
+        val inOrder = inOrder(mPublisherView)
+        inOrder.verify(mPublisherView).setLoadingIndicator(true)
+        inOrder.verify(mPublisherView).setPublisherIdlingResouce(false)
+        inOrder.verify(mPublisherView).refreshPublisherList(PUBLISHERS)
+        inOrder.verify(mPublisherView).showSnackBar("Fetch remote " + PUBLISHERS.size + " publishers ...")
+        inOrder.verify(mPublisherView).setLoadingIndicator(false)
+        inOrder.verify(mPublisherView).setPublisherIdlingResouce(true)
+    }
+
+    @Test
+    fun subscribePublisherShowSnackBar() {
         val publisher = Publisher("p401", "t005", "l001", "/imag1", "The Gaming", "970601 subscribers", ObservableBoolean(false))
         mPublisherPresenter.subscribePublisher(publisher)
 
