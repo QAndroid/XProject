@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
             ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.news.SearchNewsesFragment",
                     "newInstance", it, R.id.leftnavigator_menu_home)
         } as XFragment
-        supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, searchNewsFragment).addToBackStack("").commit()
+        supportFragmentManager.commit { replace(R.id.mainright_framelayout_fragments, searchNewsFragment) }
         title = query
 
         return false
@@ -210,7 +210,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                     //使用依赖查找发现线服务，通过SaveProvider::class.java类型查找到saveProvider如无
                     val saveProvider = ARouter.getInstance().navigation(SaveProvider::class.java)
                     val savedFragment = saveProvider.newSavedFragmentInstance(R.id.leftnavigator_menu_saved)
-                    supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, savedFragment).commit()
+                    supportFragmentManager.commit {
+                        replace(R.id.mainright_framelayout_fragments, savedFragment)
+                    }
 
                     //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
                     mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_saved)
