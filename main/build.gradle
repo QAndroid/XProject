@@ -1,6 +1,5 @@
 apply from: "${rootProject.rootDir}/gradle/config/common_build.gradle"
-//Application module配置
-project.ext.setLibDefaultConfig project
+apply from: "${rootProject.rootDir}/gradle/config/debug_build.gradle"
 
 group = 'workshop1024.com.xproject'
 version = '1.0'

@@ -183,8 +183,9 @@ dependencies {
     if (!project.ext.isDebug) {
         implementation 'workshop1024.com.xproject:login:1.0'
         implementation 'workshop1024.com.xproject:introduce:1.0'
+        implementation 'workshop1024.com.xproject:main:1.0'
     }
-    implementation 'workshop1024.com.xproject:main:1.0'
+
     implementation 'workshop1024.com.xproject:home:1.0'
     implementation 'workshop1024.com.xproject:save:1.0'
     implementation 'workshop1024.com.xproject:settings:1.0'

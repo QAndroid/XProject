@@ -1,9 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="workshop1024.com.xproject.main">
 
-    <application>
+    <application android:theme="@style/AppTheme">
         <!-- 主页面 -->
-        <activity android:name=".main.MainActivity" />
+        <activity
+            android:name=".main.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".publisher.PublisherActivity"
             android:parentActivityName="workshop1024.com.xproject.main.main.MainActivity" />
