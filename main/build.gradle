@@ -67,7 +67,6 @@ android {
 dependencies {
     implementation 'workshop1024.com.xproject:base:1.0'
 
-    implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
     implementation "androidx.recyclerview:recyclerview:$project.ext.recyclerview_version"
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$project.ext.constraintlayout_version"

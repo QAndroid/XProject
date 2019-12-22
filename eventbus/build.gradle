@@ -14,7 +14,6 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$project.ext.appcompat_version"
-    implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
 
     //添加EventBus
     api "org.greenrobot:eventbus:$project.ext.eventbus_version"
