@@ -1,6 +1,6 @@
 apply from: "${rootProject.rootDir}/common_build.gradle"
 
-if (project.ext.isIntroduceApp) {
+if (project.ext.isIntroduceDebug) {
     //Application module配置
     project.ext.setAppDefaultConfig project
 } else {
@@ -21,11 +21,18 @@ android {
 
     sourceSets {
         main {
-            if (project.ext.isIntroduceApp) {
+            //编译时，构建会选组debug内的资源
+            if (project.ext.isIntroduceDebug) {
                 //AndroidManifest文件路径
-                manifest.srcFile 'src/app/AndroidManifest.xml'
+                manifest.srcFile 'src/debug/AndroidManifest.xml'
                 //全部资源文件资源
-                res.srcDirs = ['src/app/res', 'src/main/res']
+                res.srcDirs = ['src/debug/res', 'src/main/res']
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                resources {
+                    //排除Java/Debug文件夹下的所有文件
+                    exclude 'src/debug/*'
+                }
             }
         }
     }

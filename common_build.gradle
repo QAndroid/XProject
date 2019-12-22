@@ -1,5 +1,6 @@
 project.ext {
-    isIntroduceApp = false;
+    isLoginDebug = true;
+    isIntroduceDebug = true;
 
     setAndroidConfig = {
         extension ->
@@ -147,7 +148,7 @@ project.ext {
             setCommonConfig extension
 
             extension.android.defaultConfig {
-                //应用id
+                //应用id，extension.getName相当于project.getName()，默认applicationId后添加module名字，用于区分不同module产生的单独App
                 applicationId applicationId + "." + extension.getName()
             }
     }
