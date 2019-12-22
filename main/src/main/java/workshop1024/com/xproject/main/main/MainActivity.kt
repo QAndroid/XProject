@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.navigation.NavigationView
@@ -90,7 +91,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
             val homePageFragment = ReflectUtils.invokeCompanionMethod("workshop1024.com.xproject.home.controller.fragment.HomePageFragment",
                     "newInstance", R.id.leftnavigator_menu_home) as XFragment
 
-            supportFragmentManager.beginTransaction().replace(R.id.mainright_framelayout_fragments, homePageFragment).commit()
+            //使用ktx-fragment库
+            //参考：Fragment KTX:https://developer.android.com/kotlin/ktx
+            supportFragmentManager.commit {
+                replace(R.id.mainright_framelayout_fragments, homePageFragment)
+            }
 
             //没有添加到Fragment堆栈管理，则需要单独处理当前显示的Fragment，导航列表选项逻辑
             mMainActivityBinding.mainleftNavigationview.setCheckedItem(R.id.leftnavigator_menu_home)
@@ -134,7 +139,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Fragme
                 }
             }
             R.id.homepage_menu_about -> AboutActivity.startActivity(this)
-            R.id.newslist_menu_refresh->EventBus.getDefault().post(NewsListRefreshEvent())
+            R.id.newslist_menu_refresh -> EventBus.getDefault().post(NewsListRefreshEvent())
             R.id.newslist_menu_cards -> EventBus.getDefault().post(NewsListShowBigCardsEvent())
             R.id.newslist_menu_compact -> EventBus.getDefault().post(NewsListShowCompactEvent())
             R.id.newslist_menu_minimal -> EventBus.getDefault().post(NewsListShowMinimalEvent())

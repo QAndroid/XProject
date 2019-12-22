@@ -80,7 +80,9 @@ project.ext {
 
             //FIXME 这个具体的作用？？
             extension.implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+            //KTX相关
             extension.implementation "androidx.core:core-ktx:$project.ext.core_ktx_version"
+            extension.implementation "androidx.fragment:fragment-ktx:$project.ext.fragment_ktx_version"
             //FIXME arouter和room未什么不可以和eventbus一样放在event组件中，间接有base提供依赖？？难道是kapt原因？？
             //ARoter:替换成最新版本,需要注意的是api。要与compiler匹配使用，均使用最新版可以保证兼容
             //每个模块需要ARouter apt引用，不然无法在apt中生成索引文件，无法成功跳转
