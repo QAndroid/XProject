@@ -1,13 +1,6 @@
-apply from: "${rootProject.rootDir}/common_build.gradle"
+apply from: "${rootProject.rootDir}/gradle/config/common_build.gradle"
+apply from: "${rootProject.rootDir}/gradle/config/debug_build.gradle"
 
-//如果是Login模块独立调试，则使用AppDefaultConfig
-if (project.ext.isLoginDebug) {
-    //Application module配置
-    project.ext.setAppDefaultConfig project
-} else {
-    //Lib module配置
-    project.ext.setLibDefaultConfig project
-}
 group = 'workshop1024.com.xproject'
 version = '1.0'
 
@@ -15,24 +8,6 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
-    }
-
-    sourceSets {
-        main {
-            //编译时，构建会选组debug内的资源
-            if (project.ext.isIntroduceDebug) {
-                //AndroidManifest文件路径
-                manifest.srcFile 'src/debug/AndroidManifest.xml'
-                //全部资源文件资源
-                res.srcDirs = ['src/debug/res', 'src/main/res']
-            } else {
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-                resources {
-                    //排除Java/Debug文件夹下的所有文件
-                    exclude 'src/debug/*'
-                }
-            }
-        }
     }
 
     externalNativeBuild {

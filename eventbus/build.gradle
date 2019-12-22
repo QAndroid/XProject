@@ -1,4 +1,4 @@
-apply from: "${rootProject.rootDir}/common_build.gradle"
+apply from: "${rootProject.rootDir}/gradle/config/common_build.gradle"
 //Application module配置
 project.ext.setLibDefaultConfig project
 

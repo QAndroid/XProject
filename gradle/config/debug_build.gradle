@@ -1,0 +1,27 @@
+if (project.ext.isDebug) {
+    //Application module配置
+    project.ext.setAppDefaultConfig project
+} else {
+    //Lib module配置
+    project.ext.setLibDefaultConfig project
+}
+
+android {
+    sourceSets {
+        main {
+            //编译时，构建会选组debug内的资源
+            if (project.ext.isDebug) {
+                //AndroidManifest文件路径
+                manifest.srcFile 'src/debug/AndroidManifest.xml'
+                //全部资源文件资源
+                res.srcDirs = ['src/debug/res', 'src/main/res']
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                resources {
+                    //排除Java/Debug文件夹下的所有文件
+                    exclude 'src/debug/*'
+                }
+            }
+        }
+    }
+}
