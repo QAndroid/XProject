@@ -1,6 +1,6 @@
 project.ext {
     //是否是独立调试，如果是login、introduce组件可以独立运行调试
-    isDebug = true;
+    isDebug = false;
 
     setAndroidConfig = {
         extension ->

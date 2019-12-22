@@ -14,6 +14,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.edit
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.google.android.flexbox.FlexDirection
@@ -103,9 +104,11 @@ class NewsDetailActivity : XActivity(), NewsDetailDataSource.LoadNewsDetailCallB
         mSelectedFontSize = textSize
         mNewsdetailActivityBinding.newsdetailTextviewContent.textSize = UnitUtils.spToPx(this, mSelectedFontSize).toFloat()
 
-        val editor = mSharedPreferences.edit()
-        editor?.putString(getString(R.string.settings_preference_fontsizes_key), textSize.toString())
-        editor?.commit()
+        //KTX Preference相关扩展API
+        //参考：https://developer.android.com/kotlin/ktx
+        mSharedPreferences.edit(commit = true) {
+            putString(getString(R.string.settings_preference_fontsizes_key), textSize.toString())
+        }
     }
 
     private fun sheetViewIn() {
