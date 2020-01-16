@@ -10,8 +10,6 @@ import androidx.fragment.app.DialogFragment
 import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 
-import java.util.ArrayList
-
 /**
  * 单选对话框
  */
@@ -64,13 +62,14 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(ContextThemeWrapper(activity,
                 R.style.xproject_alertdialog))
-        builder.setTitle(mTitleString).setItems(typeNameStrings, this)
+        builder.setTitle(mTitleString).setSingleChoiceItems(typeNameStrings, mSelectedIndex, this)
         return builder.create()
     }
 
     override fun onClick(dialogInterface: DialogInterface, i: Int) {
         mSelectedIndex = i
-        mTypeChoiceDialogListener!!.onTypeChoiceDialogItemClick(this, mPublisherTypeList!![mSelectedIndex])
+        mTypeChoiceDialogListener!!.onTypeChoiceDialogItemClick(this, i, mPublisherTypeList!![mSelectedIndex])
+        dismiss()
     }
 
     /**
@@ -83,7 +82,7 @@ class TypeChoiceDialog : DialogFragment(), DialogInterface.OnClickListener {
          * @param dialog     点击的对话框
          * @param publisherType 点击的类型
          */
-        fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType)
+        fun onTypeChoiceDialogItemClick(dialog: DialogFragment, slectedIndex: Int, publisherType: PublisherType)
     }
 
     companion object {

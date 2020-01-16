@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.databinding.PublishlistItemContentBinding
 import workshop1024.com.xproject.main.publisher.data.Publisher
+import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModel
 
 /**
  * 发布者列表选择适配器
  */
-class PublisherListAdapter(private val mPublisherList: List<Publisher>, private val mOnPublisherListSelectListener: OnPublisherListSelectListener?)
+class PublisherListAdapter(private var mPublisherList: List<Publisher>, private val mPublisherViewModel: PublisherViewModel)
     : RecyclerView.Adapter<PublisherListAdapter.PublisherViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublisherViewHolder {
@@ -40,6 +41,11 @@ class PublisherListAdapter(private val mPublisherList: List<Publisher>, private 
         return mPublisherList.size
     }
 
+    fun refreshPublisherList(publisherList: List<Publisher>) {
+        mPublisherList = publisherList
+        notifyDataSetChanged()
+    }
+
     interface OnPublisherListSelectListener {
         fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean)
     }
@@ -54,7 +60,7 @@ class PublisherListAdapter(private val mPublisherList: List<Publisher>, private 
             //CheckBox选中后，先不更改状态，待请求结果后在更改状态，参考 https://blog.csdn.net/qq_37822393/article/details/80195090
             if (event.action == MotionEvent.ACTION_UP) {
                 Log.i("XProject", "public boolean onTouchSelected, publisher = " + publisher.mType)
-                mOnPublisherListSelectListener?.onPublisherListItemSelect(publisher, !(v as CheckBox).isChecked)
+                mPublisherViewModel.onPublisherListItemSelect(publisher, !(v as CheckBox).isChecked)
             }
             return true
         }

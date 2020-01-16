@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="publisherviewmodel"
+            type="workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/publisher_coordinatorlayout_rootview"
         android:layout_width="match_parent"
@@ -22,17 +29,23 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <!--下拉刷新-->
+        <!--
+            app:refreshing，使用Binding adpters自动匹配调用SwipeRefreshLayout的setRefreshing()方法
+            参考：https://developer.android.com/topic/libraries/data-binding/binding-adapters
+        -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/publisher_swiperefreshlayout_pullrefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:refreshing="@{publisherviewmodel.mIsLoading}">
             <!--发布者列表-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/publisher_recyclerview_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:publisherList="@{publisherviewmodel.mPublisherList}"
                 tools:listItem="@layout/publishlist_item_content" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

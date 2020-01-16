@@ -5,78 +5,62 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.annotation.VisibleForTesting
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import workshop1024.com.xproject.base.controller.activity.XActivity
 import workshop1024.com.xproject.base.view.recyclerview.RecyclerViewItemDecoration
 import workshop1024.com.xproject.main.R
-import workshop1024.com.xproject.main.other.idlingResource.PublisherIdlingResouce
 import workshop1024.com.xproject.main.databinding.PublisherActivityBinding
-import workshop1024.com.xproject.main.model.Injection
-import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.other.view.dialog.TypeChoiceDialog
+import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModel
+import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModelFactory
 
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener,
-        PublisherListAdapter.OnPublisherListSelectListener, PublisherContract.View {
-
-    private var mTypeChoiceDialog: TypeChoiceDialog? = null
-    private var mLanguageChoiceDialog: TypeChoiceDialog? = null
-    private var mSelectedDialog: DialogFragment? = null
-
-    private var mPublisherListAdapter: PublisherListAdapter? = null
-
-    //可选择发布者内容类型
-    private var mContentTypeList: ArrayList<PublisherType>? = null
-    //可选择发布者语言类型
-    private var mLanguageTypeList: ArrayList<PublisherType>? = null
-    //选择的发布者索引
-    private val mSelectedTypeIndex = 0
-    //选择的语言索引
-    private val mSelectedLanguageIndex = 0
+class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener {
+    private lateinit var mTypeChoiceDialog: TypeChoiceDialog
+    private lateinit var mLanguageChoiceDialog: TypeChoiceDialog
 
     private lateinit var mPublisherActivityBinding: PublisherActivityBinding
-
-    private lateinit var mPublisherPresenter: PublisherPresenter
-
-    //发布者dlingResouce，检测请求发布者列表异步任务
-    @VisibleForTesting
-    var mPublisherIdlingResouce: PublisherIdlingResouce? = null
-        get() {
-            if (field == null) {
-                field = PublisherIdlingResouce()
-            }
-            return field
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPublisherActivityBinding = DataBindingUtil.setContentView(this, R.layout.publisher_activity)
 
         setSupportActionBar(mPublisherActivityBinding.publisherToolbarNavigator)
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //显示默认选中的发布者
+        //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
+        // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
+        supportActionBar?.title = resources.getString(R.string.publisher_title_default)
 
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isEnabled = false
         mPublisherActivityBinding.publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
 
-        //显示默认选中的发布者
-        //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
-        // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
-        actionBar.title = resources.getString(R.string.publisher_title_default)
+        mPublisherActivityBinding.lifecycleOwner = this
 
-        mPublisherPresenter = PublisherPresenter(Injection.providePublisherRepository(this), this)
+        //Smart cast to 'PublisherViewModel' is impossible, because 'mPublisherActivityBinding.publisherviewmodel' is a complex expression
+        mPublisherActivityBinding.publisherviewmodel = ViewModelProviders.of(this, PublisherViewModelFactory.
+                getInstance(application)).get(PublisherViewModel::class.java).apply {
+            //匿名内部类：在JVM平台，如果对象时函数式Java接口（即具有单个抽象方法的Java接口）的实例，可以使用带接口类型前缀的lambda表达式创建它
+            //参考：https://www.kotlincn.net/docs/reference/nested-classes.html
+            mSnackMessage.observe(this@PublisherActivity, Observer<String> {
+                Snackbar.make(mPublisherActivityBinding.root, it, Snackbar.LENGTH_SHORT).show()
+            })
+
+            //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
+            mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(ArrayList(0), this)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        mPublisherPresenter.start()
+        mPublisherActivityBinding.publisherviewmodel?.start();
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -85,68 +69,40 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
         when (item?.itemId) {
-            R.id.publisher_menu_search -> Toast.makeText(this, "publisher_menu_search", Toast.LENGTH_SHORT).show()
+            R.id.publisher_menu_search ->
+                mPublisherActivityBinding.publisherviewmodel?.searchMenuSelected()
             R.id.publisher_menu_filter -> {
-                //FIXME 每次都要创建一个对象吗？
                 mTypeChoiceDialog = TypeChoiceDialog.newInstance(R.string.publisher_dialog_title,
-                        mContentTypeList!!, mSelectedTypeIndex)
-                mTypeChoiceDialog!!.show(supportFragmentManager, "ChoiceTypeDialog")
+                        publisherViewModel!!.mContentTypeList, publisherViewModel.mSelectedTypeIndex)
+                mTypeChoiceDialog.show(supportFragmentManager, "ChoiceTypeDialog")
             }
             R.id.publisher_menu_language -> {
                 mLanguageChoiceDialog = TypeChoiceDialog.newInstance(R.string.language_dialog_title,
-                        mLanguageTypeList!!, mSelectedLanguageIndex)
-                mLanguageChoiceDialog!!.show(supportFragmentManager, "ChoiceLanguageDialog")
+                        publisherViewModel!!.mLanguageTypeList, publisherViewModel.mSelectedLanguageIndex)
+                mLanguageChoiceDialog.show(supportFragmentManager, "ChoiceLanguageDialog")
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, publisherType: PublisherType) {
-        mSelectedDialog = dialog
+    override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, selectedIndex: Int, publisherType: PublisherType) {
+        //Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type PublisherViewModel?
+        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
         mPublisherActivityBinding.publisherToolbarNavigator.title = publisherType.mName
 
         if (dialog === mTypeChoiceDialog) {
-            mPublisherPresenter.getPublishersByContentType(publisherType.mTypeId)
+            publisherViewModel!!.getPublishersByContentType(publisherType.mTypeId)
+            publisherViewModel.mSelectedTypeIndex = selectedIndex
         } else if (dialog === mLanguageChoiceDialog) {
-            mPublisherPresenter.getPublishersByLanguageType(publisherType.mTypeId)
+            publisherViewModel!!.getPublishersByLanguageType(publisherType.mTypeId)
+            publisherViewModel.mSelectedLanguageIndex = selectedIndex
         }
-    }
-
-    override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
-        if (isSelected) {
-            //FIXME 订阅网络请求返回后，在提示并且选中
-            mPublisherPresenter.subscribePublisher(selectPublisher)
-        } else {
-            mPublisherPresenter.unSubscribePublisher(selectPublisher)
-        }
-    }
-
-    override fun setLoadingIndicator(isLoaing: Boolean) {
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isRefreshing = isLoaing
-    }
-
-    override fun refreshPublisherList(publisherList: List<Publisher>) {
-        mPublisherListAdapter = PublisherListAdapter(publisherList, this)
-        mPublisherActivityBinding.publisherRecyclerviewList.adapter = mPublisherListAdapter
-    }
-
-    override fun showSnackBar(mMessage: String) {
-        Snackbar.make(mPublisherActivityBinding.root, mMessage, Snackbar.LENGTH_SHORT).show()
-    }
-
-    override fun setPublisherIdlingResouce(isIdling: Boolean) {
-        mPublisherIdlingResouce?.setIdleState(isIdling)
-    }
-
-    override fun refreshPublisherTypeList(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        mContentTypeList = contentTypeList as ArrayList<PublisherType>
-        mLanguageTypeList = languageTyleList as ArrayList<PublisherType>
     }
 
     companion object {
-
         fun startActivity(context: Context) {
             val intent = Intent(context, PublisherActivity::class.java)
             context.startActivity(intent)
