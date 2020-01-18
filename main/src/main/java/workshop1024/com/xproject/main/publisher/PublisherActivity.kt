@@ -26,7 +26,7 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
     private lateinit var mTypeChoiceDialog: TypeChoiceDialog
     private lateinit var mLanguageChoiceDialog: TypeChoiceDialog
 
-    private lateinit var mPublisherActivityBinding: PublisherActivityBinding
+    lateinit var mPublisherActivityBinding: PublisherActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -27,6 +27,7 @@ import workshop1024.com.xproject.main.model.Injection
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModel
 
 //Espresso RecyclerView操作操作相关API，参考：https://developer.android.com/training/testing/espresso/lists
 //Espresso Iding Resourdde，用于异步测试，参考：https://developer.android.com/training/testing/espresso/idling-resource
@@ -196,7 +197,10 @@ class PublisherActivityTest {
         scenario.onActivity(object : ActivityScenario.ActivityAction<PublisherActivity> {
             override fun perform(activity: PublisherActivity?) {
                 //开始运行每个case之前，获取并注册PublisherIdlingResouce
-                mPublisherIdlingResource = activity?.mPublisherIdlingResouce
+                // mPublisherIdlingResource =  activity?.mPublisherActivityBinding?.publisherviewmodel?.mPublisherIdlingResouce
+                // 直接访问是访问不到mPublisherIdlingResouce，需要做一下类型转换
+                val publisherViewModel: PublisherViewModel? = activity?.mPublisherActivityBinding?.publisherviewmodel;
+                mPublisherIdlingResource = publisherViewModel?.mPublisherIdlingResouce
                 //为了证明测试失败，省略这个调用
                 IdlingRegistry.getInstance().register(mPublisherIdlingResource)
             }
