@@ -12,36 +12,45 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import workshop1024.com.xproject.introduce.R
 import workshop1024.com.xproject.introduce.databinding.IntroduceActivityBinding
+import workshop1024.com.xproject.introduce.introduce.viewmodel.IntroduceViewModel
 
 /**
  * 介绍页面
  */
 @BindingMethods(value = [BindingMethod(type = ViewPager::class, attribute = "onPageChangeListener", method = "addOnPageChangeListener")])
 @Route(path = "/introduce/IntroduceActivity")
-class IntroduceActivity : FragmentActivity(){
-    //介绍布局id
-    private val mLayoutIdList = listOf(R.layout.introduce1_fragment, R.layout.introduce2_fragment, R.layout.introduce3_fragment)
+class IntroduceActivity : FragmentActivity() {
     //介绍ViewPager适配器
     private lateinit var mPagerAdapter: PagerAdapter
 
     private lateinit var mIntroduceActivityBinding: IntroduceActivityBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mIntroduceActivityBinding = DataBindingUtil.setContentView(this, R.layout.introduce_activity)
-        mIntroduceActivityBinding.introduceHandlers = IntroduceHandlers()
 
-        mPagerAdapter = IntroducePagerAdapter(supportFragmentManager, mLayoutIdList)
-        mIntroduceActivityBinding.introduceViewpagerContent.adapter = mPagerAdapter
+        mIntroduceActivityBinding.apply {
+            introduceHandlers = IntroduceHandlers()
+            introduceviewmodel = ViewModelProviders.of(this@IntroduceActivity).get(IntroduceViewModel::class.java)
+            lifecycleOwner = this@IntroduceActivity
 
-        mIntroduceActivityBinding.introduceCricledotindicatorIndex.setViewPager(mIntroduceActivityBinding.introduceViewpagerContent)
+            //Smart cast to 'IntroduceViewModel' is impossible, because 'introduceviewmodel' is a mutable property that could have been changed by this time
+            //参考：https://stackoverflow.com/questions/44595529/smart-cast-to-type-is-impossible-because-variable-is-a-mutable-property-tha
+            introduceviewmodel?.let {
+                introduceViewpagerContent.adapter = IntroducePagerAdapter(supportFragmentManager, it.mLayoutIdList)
+                introduceViewpagerContent.currentItem = it.mpagePostion.value!!
+            }
+
+            introduceCricledotindicatorIndex.setViewPager(introduceViewpagerContent)
+        }
     }
 
     fun showMainActivity() {
@@ -52,7 +61,8 @@ class IntroduceActivity : FragmentActivity(){
     /**
      * 介绍ViewPager适配器
      */
-    private inner class IntroducePagerAdapter(fragmentManager: FragmentManager, private val mLayoutIdList: List<Int>) : FragmentStatePagerAdapter(fragmentManager) {
+    private inner class IntroducePagerAdapter(fragmentManager: FragmentManager, private val mLayoutIdList: List<Int>)
+        : FragmentStatePagerAdapter(fragmentManager) {
 
         override fun getItem(position: Int): Fragment {
             return IntroduceFragment.newInstance(mLayoutIdList[position])
@@ -64,8 +74,6 @@ class IntroduceActivity : FragmentActivity(){
     }
 
     inner class IntroduceHandlers : ViewPager.OnPageChangeListener {
-        //可观察的ViewPager当前页面索引，用于布局中按钮和指示器的更新
-        var currentPagePosition = ObservableInt()
 
         fun onClickSkip(view: View) {
             showMainActivity()
@@ -81,7 +89,7 @@ class IntroduceActivity : FragmentActivity(){
 
 
         override fun onPageSelected(position: Int) {
-            currentPagePosition.set(position)
+            mIntroduceActivityBinding.introduceviewmodel?.onPageSelected(position)
         }
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

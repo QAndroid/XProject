@@ -93,6 +93,7 @@ project.ext {
             //添加Room
             extension.implementation "androidx.room:room-runtime:$project.ext.room_version"
             extension.kapt "androidx.room:room-compiler:$project.ext.room_version"
+            extension.implementation "androidx.lifecycle:lifecycle-extensions:$project.ext.lifecycle_runtime_version"
 
             //设备化测试源集依赖
             //databinding相关

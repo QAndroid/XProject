@@ -23,12 +23,12 @@
         <menu>
             <!--设置-->
             <item
-                android:icon="@drawable/leftnavigator_icon_settings"
+                android:icon="@drawable/icon_settings"
                 android:id="@+id/leftnavigator_menu_settings"
                 android:title="@string/leftnavigator_menu_settings"/>
             <!--反馈-->
             <item
-                android:icon="@drawable/leftnavigator_icon_feedback"
+                android:icon="@drawable/icon_feedback"
                 android:id="@+id/leftnavigator_menu_feedback"
                 android:title="@string/leftnavigator_menu_feedback"/>
         </menu>
