@@ -49,18 +49,15 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
                 getInstance(application)).get(PublisherViewModel::class.java).apply {
             //匿名内部类：在JVM平台，如果对象时函数式Java接口（即具有单个抽象方法的Java接口）的实例，可以使用带接口类型前缀的lambda表达式创建它
             //参考：https://www.kotlincn.net/docs/reference/nested-classes.html
-            mSnackMessage.observe(this@PublisherActivity, Observer<String> {
-                Snackbar.make(mPublisherActivityBinding.root, it, Snackbar.LENGTH_SHORT).show()
+            mSnackMessage.observe(this@PublisherActivity, Observer<Event<String>> {
+                it.getContentIfNotHandled().let {
+                    it?.let { Snackbar.make(mPublisherActivityBinding.root, it, Snackbar.LENGTH_SHORT).show() }
+                }
             })
 
             //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
-            mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(ArrayList(0), this)
+            mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mPublisherActivityBinding.publisherviewmodel?.start();
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

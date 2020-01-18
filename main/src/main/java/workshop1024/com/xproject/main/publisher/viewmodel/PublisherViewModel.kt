@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import workshop1024.com.xproject.main.other.idlingResource.PublisherIdlingResouce
+import workshop1024.com.xproject.main.publisher.Event
 import workshop1024.com.xproject.main.publisher.PublisherListAdapter
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
@@ -24,8 +25,8 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
         get() = _IsLoading
 
     //SnackBar展示的消息文案
-    private val _SnackMessage = MutableLiveData<String>()
-    internal val mSnackMessage: LiveData<String>
+    private val _SnackMessage = MutableLiveData<Event<String>>()
+    internal val mSnackMessage: LiveData<Event<String>>
         get() = _SnackMessage
 
     //被动获取的数据，不需要实时更新的，不使用LiveData
@@ -48,6 +49,10 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
             return field
         }
 
+    init {
+        start()
+    }
+
     fun start() {
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
@@ -56,7 +61,7 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
 
     override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
         _PublisherList.value = publisherList
-        _SnackMessage.value = "Fetch remote " + publisherList.size + " publishers ..."
+        _SnackMessage.value = Event("Fetch remote " + publisherList.size + " publishers ...")
         _IsLoading.value = false
         //请求发布者类表完毕，IdlingResouce设置为true，执行后面异步指令
         mPublisherIdlingResouce?.setIdleState(true)
@@ -64,7 +69,7 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
 
     override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
         _PublisherList.value = publisherList
-        _SnackMessage.value = "Fetch cacheorlocal " + publisherList.size + " publishers ..."
+        _SnackMessage.value = Event("Fetch cacheorlocal " + publisherList.size + " publishers ...")
         if (!mPublisherDataSource.getIsRequestRemote()) {
             _IsLoading.value = false
         }
@@ -91,15 +96,15 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
     override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
         if (isSelected) {
             mPublisherDataSource.subscribePublisherById(selectPublisher.mPublisherId)
-            _SnackMessage.value = selectPublisher.mName + "selected"
+            _SnackMessage.value = Event(selectPublisher.mName + "selected")
         } else {
             mPublisherDataSource.unSubscribePublisherById(selectPublisher.mPublisherId)
-            _SnackMessage.value = selectPublisher.mName + "unselected"
+            _SnackMessage.value = Event(selectPublisher.mName + "unselected")
         }
     }
 
     fun searchMenuSelected() {
-        _SnackMessage.value = "publisher_menu_search"
+        _SnackMessage.value = Event("publisher_menu_search")
     }
 
     fun getPublishersByContentType(contentId: String) {
