@@ -105,6 +105,7 @@ project.ext {
             extension.testImplementation "org.mockito:mockito-core:$project.ext.mockito_version"
             extension.testImplementation "org.mockito:mockito-inline:$project.ext.mockito_version"
             extension.testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+            extension.testImplementation "android.arch.core:core-testing:1.1.1"
     }
 
     setRepositories = {
