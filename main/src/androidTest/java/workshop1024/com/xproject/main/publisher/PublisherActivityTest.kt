@@ -42,10 +42,15 @@ class PublisherActivityTest {
         mPublisherRepository = Injection.providePublisherRepository(getApplicationContext())
     }
 
+    @After
+    fun cleanupRepository() {
+        //测试前构造数据：删除所有Item数据，Mock一个Item数据
+        mPublisherRepository.deleteAllPublishers()
+        mPublisherRepository.deleteAllPublisherTypes()
+    }
+
     @Test
     fun mockOnePublisher_CheckItemShow() {
-        //测试前构造数据：删除所有Item数据，Mock一个Item数据
-        mPublisherRepository.deleteAllPublishers();
         mPublisherRepository.savePublisher(Publisher("p001", "t001", "l001", "/imag1", "The Tech-mock", "970601 subscribers", ObservableBoolean(true)))
 
         //启动PublisherList页面
@@ -59,8 +64,6 @@ class PublisherActivityTest {
 
     @Test
     fun mockMutilPublisher_scrollPosition_CheckItemShow() {
-        //测试前构造数据：删除所有Item数据，Mock多个Item数据
-        mPublisherRepository.deleteAllPublishers();
         mockMutilPublisher()
 
         //启动PublisherList页面
@@ -78,8 +81,6 @@ class PublisherActivityTest {
 
     @Test
     fun mockMutilPublisher_scrollToMiddle_CheckMiddleItem() {
-        //测试前构造数据：删除所有Item数据，Mock多个Item数据
-        mPublisherRepository.deleteAllPublishers();
         mockMutilPublisher()
 
         //启动PublisherList页面
@@ -97,8 +98,6 @@ class PublisherActivityTest {
 
     @Test
     fun mockMutilPublisher_ScrollToMiddle_Click_CheckItem() {
-        //测试前构造数据：删除所有Item数据，Mock多个Item数据
-        mPublisherRepository.deleteAllPublishers();
         mockMutilPublisher()
 
         //启动PublisherList页面
@@ -112,9 +111,6 @@ class PublisherActivityTest {
 
     @Test
     fun mockMutilPublisher_ClickPublisherType_CheckDialog() {
-        //测试前构造数据：删除所有Item数据，Mock多个Item数据
-        mPublisherRepository.deleteAllPublishers();
-        mPublisherRepository.deleteAllPublisherTypes();
         mockMutilPublisher()
         mockMutilPublisherType()
 
@@ -132,9 +128,6 @@ class PublisherActivityTest {
 
     @Test
     fun mockPublisherAndType_SelectPublisherType_CheckItems() {
-        //测试前构造数据：删除所有Item数据，Mock多个Item数据
-        mPublisherRepository.deleteAllPublishers();
-        mPublisherRepository.deleteAllPublisherTypes();
         mockMutilPublisher()
         mockMutilPublisherType()
 
