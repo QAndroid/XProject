@@ -9,6 +9,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import workshop1024.com.xproject.main.LiveDataTestUtil
@@ -16,6 +17,9 @@ import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
 import workshop1024.com.xproject.main.publisher.data.source.PublisherRepository
 
+/**
+ * ViewModel的测试和Presenter的区别是，ViewModel是断言保存的值，而Preserent断言调用顺序等
+ */
 class PublisherViewModelTest {
     private lateinit var PUBLISHERS: List<Publisher>
     private lateinit var mPublisher: Publisher
@@ -67,5 +71,42 @@ class PublisherViewModelTest {
         assertEquals("Fetch remote " + LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size + " publishers ...", mPublisherViewModel.mSnackMessage.value?.peekContent())
         assertFalse(LiveDataTestUtil.getValue(mPublisherViewModel.mIsLoading))
         assertTrue(mPublisherViewModel.mPublisherIdlingResouce!!.isIdleNow)
+    }
+
+    @Test
+    fun getPublishersByLanguageTypeRefreshList() {
+        `when`(mPublisherRepository.getIsRequestRemote()).thenReturn(false)
+
+        mPublisherViewModel.getPublishersByLanguageType(mPublisher.mLanguage)
+
+        assertTrue(LiveDataTestUtil.getValue(mPublisherViewModel.mIsLoading))
+        assertFalse(mPublisherViewModel.mPublisherIdlingResouce!!.isIdleNow)
+
+        argumentCaptor<PublisherDataSource.LoadPublisherAndPublisherTypeCallback>().apply {
+            verify(mPublisherRepository).getPublishersByLanguageType(ArgumentMatchers.anyString(), capture())
+            firstValue.onCacheOrLocalPublishersLoaded(PUBLISHERS)
+        }
+
+        assertFalse(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size == 3)
+        assertEquals("Fetch cacheorlocal " + LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size + " publishers ...", mPublisherViewModel.mSnackMessage.value?.peekContent())
+        assertFalse(LiveDataTestUtil.getValue(mPublisherViewModel.mIsLoading))
+        assertTrue(mPublisherViewModel.mPublisherIdlingResouce!!.isIdleNow)
+    }
+
+    @Test
+    fun subscribePublisherShowSnackBar() {
+        mPublisherViewModel.subscribePublisher(mPublisher)
+
+        verify(mPublisherRepository).subscribePublisherById(mPublisher.mPublisherId)
+        assertEquals(mPublisher.mName + " selected", mPublisherViewModel.mSnackMessage.value?.peekContent())
+    }
+
+    @Test
+    fun unSubscribePublisherShowSackBar() {
+        mPublisherViewModel.unSubscribePublisher(mPublisher)
+
+        verify(mPublisherRepository).unSubscribePublisherById(mPublisher.mPublisherId)
+        assertEquals(mPublisher.mName + " unselected", mPublisherViewModel.mSnackMessage.value?.peekContent())
     }
 }
