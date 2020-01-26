@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 public class LiveDataTestUtil {
 
     /**
-     * Get the value from a LiveData object. We're waiting for LiveData to emit, for 2 seconds.
-     * Once we got a notification via onChanged, we stop observing.
+     * 从LiveData对象获取值，我们在等待LiveData更新2秒，一旦通过onChange获取通知，我们停止观察
+     * FIXME 这样做的用意在
      */
     public static <T> T getValue(final LiveData<T> liveData) throws InterruptedException {
         final Object[] data = new Object[1];
