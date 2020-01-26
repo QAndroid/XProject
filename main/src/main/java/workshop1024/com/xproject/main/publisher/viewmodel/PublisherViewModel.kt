@@ -12,7 +12,7 @@ import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
 
 class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) : ViewModel(),
-        PublisherDataSource.LoadPublisherAndPublisherTypeCallback, PublisherListAdapter.OnPublisherListSelectListener {
+        PublisherDataSource.LoadPublisherAndPublisherTypeCallback {
     //Publisher列表
     private val _PublisherList = MutableLiveData<List<Publisher>>().apply { value = emptyList() }
     //对外公开LiveData，在非VM中修改数据的值
@@ -93,14 +93,14 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
 
     }
 
-    override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
-        if (isSelected) {
-            mPublisherDataSource.subscribePublisherById(selectPublisher.mPublisherId)
-            _SnackMessage.value = Event(selectPublisher.mName + "selected")
-        } else {
-            mPublisherDataSource.unSubscribePublisherById(selectPublisher.mPublisherId)
-            _SnackMessage.value = Event(selectPublisher.mName + "unselected")
-        }
+    fun subscribePublisher(publisher: Publisher) {
+        mPublisherDataSource.subscribePublisherById(publisher.mPublisherId)
+        _SnackMessage.value = Event(publisher.mName + " selected")
+    }
+
+    fun unSubscribePublisher(publisher: Publisher) {
+        mPublisherDataSource.unSubscribePublisherById(publisher.mPublisherId)
+        _SnackMessage.value = Event(publisher.mName + " unselected")
     }
 
     fun searchMenuSelected() {

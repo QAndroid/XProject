@@ -16,13 +16,14 @@ import workshop1024.com.xproject.main.R
 import workshop1024.com.xproject.main.databinding.PublisherActivityBinding
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.other.view.dialog.TypeChoiceDialog
+import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModel
 import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModelFactory
 
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener {
+class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
     private lateinit var mTypeChoiceDialog: TypeChoiceDialog
     private lateinit var mLanguageChoiceDialog: TypeChoiceDialog
 
@@ -41,6 +42,8 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
 
         mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isEnabled = false
         mPublisherActivityBinding.publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
+        //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
+        mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this)
 
         mPublisherActivityBinding.lifecycleOwner = this
 
@@ -54,9 +57,6 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
                     it?.let { Snackbar.make(mPublisherActivityBinding.root, it, Snackbar.LENGTH_SHORT).show() }
                 }
             })
-
-            //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
-            mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this)
         }
     }
 
@@ -96,6 +96,15 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
         } else if (dialog === mLanguageChoiceDialog) {
             publisherViewModel!!.getPublishersByLanguageType(publisherType.mTypeId)
             publisherViewModel.mSelectedLanguageIndex = selectedIndex
+        }
+    }
+
+    override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
+        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
+        if (isSelected) {
+            publisherViewModel?.subscribePublisher(selectPublisher)
+        } else {
+            publisherViewModel?.unSubscribePublisher(selectPublisher)
         }
     }
 
