@@ -33,30 +33,33 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
         super.onCreate(savedInstanceState)
         mPublisherActivityBinding = DataBindingUtil.setContentView(this, R.layout.publisher_activity)
 
-        setSupportActionBar(mPublisherActivityBinding.publisherToolbarNavigator)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //显示默认选中的发布者
         //mToolbar.setTitle()在此处不生效，参考：https://stackoverflow
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
         supportActionBar?.title = resources.getString(R.string.publisher_title_default)
 
-        mPublisherActivityBinding.publisherSwiperefreshlayoutPullrefresh.isEnabled = false
-        mPublisherActivityBinding.publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
-        //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
-        mPublisherActivityBinding.publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this)
+        mPublisherActivityBinding.apply {
+            setSupportActionBar(publisherToolbarNavigator)
 
-        mPublisherActivityBinding.lifecycleOwner = this
+            publisherSwiperefreshlayoutPullrefresh.isEnabled = false
+            publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
+            //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
+            publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this@PublisherActivity)
 
-        //Smart cast to 'PublisherViewModel' is impossible, because 'mPublisherActivityBinding.publisherviewmodel' is a complex expression
-        mPublisherActivityBinding.publisherviewmodel = ViewModelProviders.of(this, PublisherViewModelFactory.
-                getInstance(application)).get(PublisherViewModel::class.java).apply {
-            //匿名内部类：在JVM平台，如果对象时函数式Java接口（即具有单个抽象方法的Java接口）的实例，可以使用带接口类型前缀的lambda表达式创建它
-            //参考：https://www.kotlincn.net/docs/reference/nested-classes.html
-            mSnackMessage.observe(this@PublisherActivity, Observer<Event<String>> {
-                it.getContentIfNotHandled().let {
-                    it?.let { Snackbar.make(mPublisherActivityBinding.root, it, Snackbar.LENGTH_SHORT).show() }
-                }
-            })
+            lifecycleOwner = this@PublisherActivity
+
+            //Smart cast to 'PublisherViewModel' is impossible, because 'mPublisherActivityBinding.publisherviewmodel' is a complex expression
+            publisherviewmodel = ViewModelProviders.of(this@PublisherActivity, PublisherViewModelFactory.
+                    getInstance(application)).get(PublisherViewModel::class.java).apply {
+                //匿名内部类：在JVM平台，如果对象时函数式Java接口（即具有单个抽象方法的Java接口）的实例，可以使用带接口类型前缀的lambda表达式创建它
+                //参考：https://www.kotlincn.net/docs/reference/nested-classes.html
+                mSnackMessage.observe(this@PublisherActivity, Observer<Event<String>> {
+                    it.getContentIfNotHandled().let {
+                        it?.let { Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show() }
+                    }
+                })
+            }
         }
     }
 
