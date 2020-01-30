@@ -39,7 +39,9 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
         // .com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-mName-is-shown
         supportActionBar?.title = resources.getString(R.string.publisher_title_default)
 
-        mPublisherActivityBinding.apply {
+        //使用范围函数run，传入对象this，返回参数lambda表达式结果
+        //参考：https://www.kotlincn.net/docs/reference/scope-functions.html
+        mPublisherActivityBinding.run {
             setSupportActionBar(publisherToolbarNavigator)
 
             publisherSwiperefreshlayoutPullrefresh.isEnabled = false
@@ -47,6 +49,8 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
             //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
             publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this@PublisherActivity)
 
+            //访问外部作用域的this，使用@label指代来源标签
+            //参考：限定的this，https://www.kotlincn.net/docs/reference/this-expressions.html
             lifecycleOwner = this@PublisherActivity
 
             //Smart cast to 'PublisherViewModel' is impossible, because 'mPublisherActivityBinding.publisherviewmodel' is a complex expression
@@ -69,19 +73,21 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
+        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel!!
         when (item?.itemId) {
             R.id.publisher_menu_search ->
-                mPublisherActivityBinding.publisherviewmodel?.searchMenuSelected()
+                publisherViewModel.searchMenuSelected()
             R.id.publisher_menu_filter -> {
                 mTypeChoiceDialog = TypeChoiceDialog.newInstance(R.string.publisher_dialog_title,
-                        publisherViewModel!!.mContentTypeList, publisherViewModel.mSelectedTypeIndex)
-                mTypeChoiceDialog.show(supportFragmentManager, "ChoiceTypeDialog")
+                        publisherViewModel.mContentTypeList, publisherViewModel.mSelectedTypeIndex).apply {
+                    show(supportFragmentManager, "ChoiceTypeDialog")
+                }
             }
             R.id.publisher_menu_language -> {
                 mLanguageChoiceDialog = TypeChoiceDialog.newInstance(R.string.language_dialog_title,
-                        publisherViewModel!!.mLanguageTypeList, publisherViewModel.mSelectedLanguageIndex)
-                mLanguageChoiceDialog.show(supportFragmentManager, "ChoiceLanguageDialog")
+                        publisherViewModel.mLanguageTypeList, publisherViewModel.mSelectedLanguageIndex).apply {
+                    show(supportFragmentManager, "ChoiceLanguageDialog")
+                }
             }
         }
 
@@ -90,14 +96,13 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
 
     override fun onTypeChoiceDialogItemClick(dialog: DialogFragment, selectedIndex: Int, publisherType: PublisherType) {
         //Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type PublisherViewModel?
-        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
-        mPublisherActivityBinding.publisherToolbarNavigator.title = publisherType.mName
-
+        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel!!
+        publisherViewModel.updateTitleText(publisherType.mName)
         if (dialog === mTypeChoiceDialog) {
-            publisherViewModel!!.getPublishersByContentType(publisherType.mTypeId)
+            publisherViewModel.getPublishersByContentType(publisherType.mTypeId)
             publisherViewModel.mSelectedTypeIndex = selectedIndex
         } else if (dialog === mLanguageChoiceDialog) {
-            publisherViewModel!!.getPublishersByLanguageType(publisherType.mTypeId)
+            publisherViewModel.getPublishersByLanguageType(publisherType.mTypeId)
             publisherViewModel.mSelectedLanguageIndex = selectedIndex
         }
     }

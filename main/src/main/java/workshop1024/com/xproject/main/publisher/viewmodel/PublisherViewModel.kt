@@ -29,6 +29,11 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
     internal val mSnackMessage: LiveData<Event<String>>
         get() = _SnackMessage
 
+    //ToolBar标题文案
+    private val _TitleText = MutableLiveData<String>()
+    val mTitleText: LiveData<String>
+        get() = _TitleText
+
     //被动获取的数据，不需要实时更新的，不使用LiveData
     //可选择发布者内容类型
     lateinit var mContentTypeList: ArrayList<PublisherType>
@@ -105,6 +110,10 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
 
     fun searchMenuSelected() {
         _SnackMessage.value = Event("publisher_menu_search")
+    }
+
+    fun updateTitleText(titleText:String){
+        _TitleText.value = titleText
     }
 
     fun getPublishersByContentType(contentId: String) {

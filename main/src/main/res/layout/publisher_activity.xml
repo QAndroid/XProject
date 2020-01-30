@@ -24,7 +24,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/publisher_toolbar_navigator"
                 style="@style/xproject_toolbar"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:title="@{publisherviewmodel.mTitleText}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
