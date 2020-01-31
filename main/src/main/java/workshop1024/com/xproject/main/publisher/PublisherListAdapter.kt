@@ -14,6 +14,7 @@ import workshop1024.com.xproject.main.publisher.data.Publisher
 
 /**
  * 发布者列表选择适配器
+ * //TODO RecyclerView的局部更新，Diff更新机制
  */
 class PublisherListAdapter(private var mPublisherList: List<Publisher>, private val mOnPublisherListSelectListener: OnPublisherListSelectListener?)
     : RecyclerView.Adapter<PublisherListAdapter.PublisherViewHolder>() {
