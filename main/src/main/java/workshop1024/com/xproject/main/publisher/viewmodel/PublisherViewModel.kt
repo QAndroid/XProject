@@ -39,10 +39,10 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
     lateinit var mContentTypeList: ArrayList<PublisherType>
     //可选择发布者语言类型
     lateinit var mLanguageTypeList: ArrayList<PublisherType>
-    //选择的发布者索引
-    var mSelectedTypeIndex = 0
+    //选择的发布者索引，默认值-1，没有选中
+    var mSelectedTypeIndex = -1
     //选择的语言索引
-    var mSelectedLanguageIndex = 0
+    var mSelectedLanguageIndex = -1
 
     //发布者dlingResouce，检测请求发布者列表异步任务
     @VisibleForTesting
@@ -120,11 +120,13 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
         mPublisherDataSource.getPublishersByContentType(contentId, this)
+        mSelectedLanguageIndex = -1
     }
 
     fun getPublishersByLanguageType(languageId: String) {
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
         mPublisherDataSource.getPublishersByLanguageType(languageId, this)
+        mSelectedTypeIndex = -1
     }
 }

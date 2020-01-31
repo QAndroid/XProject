@@ -66,6 +66,7 @@ class PublisherViewModelTest {
             firstValue.onRemotePublishersLoaded(PUBLISHERS)
         }
 
+        assertTrue(mPublisherViewModel.mSelectedLanguageIndex == -1)
         assertFalse(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).isEmpty())
         assertTrue(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size == 3)
         assertEquals("Fetch remote " + LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size + " publishers ...", mPublisherViewModel.mSnackMessage.value?.peekContent())
@@ -74,7 +75,7 @@ class PublisherViewModelTest {
     }
 
     @Test
-    fun getPublishersByLanguageTypeRefreshList() {
+    fun getPublishersByLanguageTypeAndRefreshList() {
         `when`(mPublisherRepository.getIsRequestRemote()).thenReturn(false)
 
         mPublisherViewModel.getPublishersByLanguageType(mPublisher.mLanguage)
@@ -87,6 +88,7 @@ class PublisherViewModelTest {
             firstValue.onCacheOrLocalPublishersLoaded(PUBLISHERS)
         }
 
+        assertTrue(mPublisherViewModel.mSelectedTypeIndex == -1)
         assertFalse(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).isEmpty())
         assertTrue(LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size == 3)
         assertEquals("Fetch cacheorlocal " + LiveDataTestUtil.getValue(mPublisherViewModel.mPublisherList).size + " publishers ...", mPublisherViewModel.mSnackMessage.value?.peekContent())

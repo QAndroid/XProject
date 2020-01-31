@@ -23,9 +23,9 @@ import workshop1024.com.xproject.main.publisher.viewmodel.PublisherViewModelFact
 /**
  * 发布者列表页面
  */
-class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener, PublisherListAdapter.OnPublisherListSelectListener {
-    private lateinit var mTypeChoiceDialog: TypeChoiceDialog
-    private lateinit var mLanguageChoiceDialog: TypeChoiceDialog
+class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener {
+    private var mTypeChoiceDialog: TypeChoiceDialog? = null
+    private var mLanguageChoiceDialog: TypeChoiceDialog? = null
 
     lateinit var mPublisherActivityBinding: PublisherActivityBinding
 
@@ -46,8 +46,6 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
 
             publisherSwiperefreshlayoutPullrefresh.isEnabled = false
             publisherRecyclerviewList.addItemDecoration(RecyclerViewItemDecoration(6))
-            //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
-            publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this@PublisherActivity)
 
             //访问外部作用域的this，使用@label指代来源标签
             //参考：限定的this，https://www.kotlincn.net/docs/reference/this-expressions.html
@@ -63,6 +61,9 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
                         it?.let { Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show() }
                     }
                 })
+
+                //先临时创建"空数据的adapter"传入publisherviewmodel，数据返回了在更新
+                publisherRecyclerviewList.adapter = PublisherListAdapter(emptyList(), this)
             }
         }
     }
@@ -98,21 +99,12 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
         //Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type PublisherViewModel?
         val publisherViewModel = mPublisherActivityBinding.publisherviewmodel!!
         publisherViewModel.updateTitleText(publisherType.mName)
-        if (dialog === mTypeChoiceDialog) {
+        if (mTypeChoiceDialog != null && dialog === mTypeChoiceDialog) {
             publisherViewModel.getPublishersByContentType(publisherType.mTypeId)
             publisherViewModel.mSelectedTypeIndex = selectedIndex
-        } else if (dialog === mLanguageChoiceDialog) {
+        } else if (mLanguageChoiceDialog != null && dialog === mLanguageChoiceDialog) {
             publisherViewModel.getPublishersByLanguageType(publisherType.mTypeId)
             publisherViewModel.mSelectedLanguageIndex = selectedIndex
-        }
-    }
-
-    override fun onPublisherListItemSelect(selectPublisher: Publisher, isSelected: Boolean) {
-        val publisherViewModel = mPublisherActivityBinding.publisherviewmodel
-        if (isSelected) {
-            publisherViewModel?.subscribePublisher(selectPublisher)
-        } else {
-            publisherViewModel?.unSubscribePublisher(selectPublisher)
         }
     }
 
