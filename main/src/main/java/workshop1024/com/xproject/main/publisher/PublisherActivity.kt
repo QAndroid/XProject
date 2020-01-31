@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -79,15 +80,20 @@ class PublisherActivity : XActivity(), TypeChoiceDialog.TypeChoiceDialogListener
             R.id.publisher_menu_search ->
                 publisherViewModel.searchMenuSelected()
             R.id.publisher_menu_filter -> {
-                mTypeChoiceDialog = TypeChoiceDialog.newInstance(R.string.publisher_dialog_title,
-                        publisherViewModel.mContentTypeList, publisherViewModel.mSelectedTypeIndex).apply {
-                    show(supportFragmentManager, "ChoiceTypeDialog")
+                publisherViewModel.mContentTypeList?.let {
+                    mTypeChoiceDialog = TypeChoiceDialog.newInstance(R.string.publisher_dialog_title,
+                            it, publisherViewModel.mSelectedTypeIndex).apply {
+                        show(supportFragmentManager, "ChoiceTypeDialog")
+                    }
                 }
+
             }
             R.id.publisher_menu_language -> {
-                mLanguageChoiceDialog = TypeChoiceDialog.newInstance(R.string.language_dialog_title,
-                        publisherViewModel.mLanguageTypeList, publisherViewModel.mSelectedLanguageIndex).apply {
-                    show(supportFragmentManager, "ChoiceLanguageDialog")
+                publisherViewModel.mLanguageTypeList?.let {
+                    mLanguageChoiceDialog = TypeChoiceDialog.newInstance(R.string.language_dialog_title,
+                            it, publisherViewModel.mSelectedLanguageIndex).apply {
+                        show(supportFragmentManager, "ChoiceLanguageDialog")
+                    }
                 }
             }
         }

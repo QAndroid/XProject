@@ -36,9 +36,9 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
 
     //被动获取的数据，不需要实时更新的，不使用LiveData
     //可选择发布者内容类型
-    lateinit var mContentTypeList: ArrayList<PublisherType>
+    var mContentTypeList: ArrayList<PublisherType>? = null
     //可选择发布者语言类型
-    lateinit var mLanguageTypeList: ArrayList<PublisherType>
+    var mLanguageTypeList: ArrayList<PublisherType>? = null
     //选择的发布者索引，默认值-1，没有选中
     var mSelectedTypeIndex = -1
     //选择的语言索引
