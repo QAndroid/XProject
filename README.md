@@ -15,3 +15,4 @@
 | kotlin-autotest| 该分支基于kotlin-componential开发，使用JUnit、Espresso、UIAnimator等完成自动化测试 |
 | kotlin-mvp| 该分支基于kotlin-autotest开发，使用MVP功能实现相关功能 |
 | kotlin-mvvm-jetpack| 该分支基于kotlin-mvp开发，使用Jectpack套件实现相关功能(Navigation适用单Activity或Fragment App，Paging目前无引入分页，WorkManager...) |
+| kotlin-mvvm-rxjava/android| 该分支基于kotlin-mvvm-jetpack开发，适用响应式编程通过rxjava/android实现相关异步操作|
