@@ -1,31 +1,56 @@
 package workshop1024.com.xproject.main.publisher.data.source.remote
 
-import android.os.Handler
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import rx.Observable
+import rx.Subscriber
+import rx.functions.Func3
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 class PublisherRemoteDataSource : PublisherDataSource {
 
-    override fun getPublishersAndPublisherTypes(loadCallback: PublisherDataSource.LoadCallback) {
+    override fun getPublishersAndPublisherTypes(): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherRemoteDataSource getPublishersAndPublisherTypes")
-        Handler().postDelayed({
-            val publisherList = ArrayList(PUBLISHERS_SERVICE_DATA.values)
-            val contentTypeList = ArrayList(CONTENT_SERVICE_DATA.values)
-            val languageTypeList = ArrayList(LANGUAGE_SERVICE_DATA.values)
-            (loadCallback as PublisherDataSource.LoadRemotePubliserAndPublisherTypeCallback).onRemotePublishersLoaded(publisherList)
-            loadCallback.onRemotePublisherTypesLoaded(contentTypeList, languageTypeList)
-        }, SERVICE_LATENCY_IN_MILLIS.toLong())
+        val publisherInfoMap = EnumMap<PublisherDataSource.PublisherInfoType, Any>(PublisherDataSource
+                .PublisherInfoType::class.java)
+        publisherInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE, Observable.create(object
+            : Observable.OnSubscribe<List<Publisher>> {
+            override fun call(subscriber: Subscriber<in List<Publisher>>) {
+                //Todo 异步执行网络请求
+                subscriber.onNext(ArrayList(PUBLISHERS_SERVICE_DATA.values))
+            }
+        }))
+        publisherInfoMap.put(PublisherDataSource.PublisherInfoType.CONTENT_TYPES_REMOTE, Observable.create(object
+            : Observable.OnSubscribe<List<PublisherType>> {
+            override fun call(subscriber: Subscriber<in List<PublisherType>>) {
+                //Todo 异步执行网络请求
+                subscriber.onNext(ArrayList(CONTENT_SERVICE_DATA.values))
+            }
+        }))
+        publisherInfoMap.put(PublisherDataSource.PublisherInfoType.LANGUAGE_TYPES_REMOTE, Observable.create(object
+            : Observable.OnSubscribe<List<PublisherType>> {
+            override fun call(subscriber: Subscriber<in List<PublisherType>>) {
+                //Todo 异步执行网络请求
+                subscriber.onNext(ArrayList(LANGUAGE_SERVICE_DATA.values))
+            }
+        }))
+
+        //just操作符，将一个或者多个对象转换成发射这个或这些对象的一个Obxervable
+        return Observable.just(publisherInfoMap).delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS)
     }
 
-    override fun getPublishersByContentType(contentId: String, loadCallback: PublisherDataSource.LoadCallback) {
-        //远程接口一次性提供正页面数据，筛选在本地内存中执行
+    override fun getPublishersByContentType(contentId: String): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+        TODO("远程接口一次性提供正页面数据，筛选在本地内存中执行")
     }
 
-    override fun getPublishersByLanguageType(languageId: String, loadCallback: PublisherDataSource.LoadCallback) {
-        //远程接口一次性提供正页面数据，筛选在本地内存中执行
+    override fun getPublishersByLanguageType(languageId: String): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+        TODO("远程接口一次性提供正页面数据，筛选在本地内存中执行")
     }
 
     override fun subscribePublisherById(id: String) {
@@ -71,7 +96,7 @@ class PublisherRemoteDataSource : PublisherDataSource {
     }
 
     companion object {
-        private const val SERVICE_LATENCY_IN_MILLIS = 1000
+        private const val SERVICE_LATENCY_IN_MILLIS = 1000L
 
         private var PUBLISHERS_SERVICE_DATA: MutableMap<String, Publisher> = LinkedHashMap(2)
         private var CONTENT_SERVICE_DATA: MutableMap<String, PublisherType> = LinkedHashMap(2)

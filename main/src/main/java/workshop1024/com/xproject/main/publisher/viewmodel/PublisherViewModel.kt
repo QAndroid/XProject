@@ -1,18 +1,27 @@
 package workshop1024.com.xproject.main.publisher.viewmodel
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import rx.Observable
+import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Action1
+import rx.functions.Func2
+import rx.schedulers.Schedulers
 import workshop1024.com.xproject.main.other.idlingResource.PublisherIdlingResouce
 import workshop1024.com.xproject.main.publisher.Event
 import workshop1024.com.xproject.main.publisher.PublisherListAdapter
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) : ViewModel(),
-        PublisherDataSource.LoadPublisherAndPublisherTypeCallback {
+        Observer<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
     //Publisher列表
     private val _PublisherList = MutableLiveData<List<Publisher>>().apply { value = emptyList() }
     //对外公开LiveData，在非VM中修改数据的值
@@ -61,32 +70,7 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
     fun start() {
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
-        mPublisherDataSource.getPublishersAndPublisherTypes(this)
-    }
-
-    override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-        _PublisherList.value = publisherList
-        _SnackMessage.value = Event("Fetch remote " + publisherList.size + " publishers ...")
-        _IsLoading.value = false
-        //请求发布者类表完毕，IdlingResouce设置为true，执行后面异步指令
-        mPublisherIdlingResouce?.setIdleState(true)
-    }
-
-    override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
-        _PublisherList.value = publisherList
-        _SnackMessage.value = Event("Fetch cacheorlocal " + publisherList.size + " publishers ...")
-        if (!mPublisherDataSource.getIsRequestRemote()) {
-            _IsLoading.value = false
-        }
-        mPublisherIdlingResouce?.setIdleState(true)
-    }
-
-    override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        refreshPubliserTypeList(contentTypeList, languageTyleList)
-    }
-
-    override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        refreshPubliserTypeList(contentTypeList, languageTyleList)
+        mPublisherDataSource.getPublishersAndPublisherTypes().subscribe(this)
     }
 
     private fun refreshPubliserTypeList(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
@@ -94,9 +78,6 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
         mLanguageTypeList = languageTyleList as ArrayList<PublisherType>
     }
 
-    override fun onDataNotAvailable() {
-
-    }
 
     fun subscribePublisher(publisher: Publisher) {
         mPublisherDataSource.subscribePublisherById(publisher.mPublisherId)
@@ -119,14 +100,74 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
     fun getPublishersByContentType(contentId: String) {
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
-        mPublisherDataSource.getPublishersByContentType(contentId, this)
+        mPublisherDataSource.getPublishersByContentType(contentId).subscribe(this)
         mSelectedLanguageIndex = -1
     }
 
     fun getPublishersByLanguageType(languageId: String) {
         _IsLoading.value = true
         mPublisherIdlingResouce?.setIdleState(false)
-        mPublisherDataSource.getPublishersByLanguageType(languageId, this)
+        mPublisherDataSource.getPublishersByLanguageType(languageId).subscribe(this)
         mSelectedTypeIndex = -1
+    }
+
+    override fun onError(e: Throwable?) {
+        Log.i("XProject","onError")
+    }
+
+    override fun onNext(publisherInfoMap: EnumMap<PublisherDataSource.PublisherInfoType, Any>) {
+        Log.i("XProject", "PublisherViewModel onNext, publisherInfoMap = ${publisherInfoMap.size}")
+        //as? “安全的”（可空）转换操作符，参考：https://www.kotlincn.net/docs/reference/typecasts.html
+        (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE) as? Observable<List<Publisher>>)
+                ?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Action1<List<Publisher>> {
+                    override fun call(publisherListRemote: List<Publisher>) {
+                        _PublisherList.value = publisherListRemote
+                        _SnackMessage.value = Event("Fetch remote " + publisherListRemote.size + " publishers ...")
+                        _IsLoading.value = false
+                        //请求发布者类表完毕，IdlingResouce设置为true，执行后面异步指令
+                        mPublisherIdlingResouce?.setIdleState(true)
+                    }
+                })
+
+        (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE) as? Observable<List<Publisher>>)
+                ?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Action1<List<Publisher>> {
+                    override fun call(publisherListLocalCache: List<Publisher>) {
+                        Log.i("XProject", "PublisherViewModel onNext, publisherListLocalCache = ${publisherListLocalCache.size}")
+                        _PublisherList.value = publisherListLocalCache
+                        _SnackMessage.value = Event("Fetch cacheorlocal " + publisherListLocalCache.size + " publishers ...")
+                        if (!mPublisherDataSource.getIsRequestRemote()) {
+                            _IsLoading.value = false
+                        }
+                        mPublisherIdlingResouce?.setIdleState(true)
+                    }
+                })
+
+//        val contentTypeListRemoteObservable = publisherInfoMap.get(PublisherDataSource
+//                .PublisherInfoType.CONTENT_TYPES_REMOTE) as? Observable<List<PublisherType>>
+//        val languageTypeListRemoteObservable = publisherInfoMap.get(PublisherDataSource
+//                .PublisherInfoType.LANGUAGE_TYPES_REMOTE) as? Observable<List<PublisherType>>
+//        Observable.zip(contentTypeListRemoteObservable, languageTypeListRemoteObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
+//            override fun call(contentTyleListRemote: List<PublisherType>, languageTyleListRemote: List<PublisherType>): Any {
+//                refreshPubliserTypeList(contentTyleListRemote, languageTyleListRemote)
+//                return Any()
+//            }
+//        })?.subscribe()
+//
+//        val contentTypeListLocalCacheObservable = publisherInfoMap.get(PublisherDataSource
+//                .PublisherInfoType.CONTENT_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
+//        val languageTypeListLocalCacheObservable = publisherInfoMap.get(PublisherDataSource
+//                .PublisherInfoType.LANGUAGE_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
+//        Observable.zip(contentTypeListLocalCacheObservable, languageTypeListLocalCacheObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
+//            override fun call(contentTyleListRemote: List<PublisherType>, languageTyleListRemote: List<PublisherType>): Any {
+//                refreshPubliserTypeList(contentTyleListRemote, languageTyleListRemote)
+//                return Any()
+//            }
+//        })?.subscribe()
+    }
+
+    override fun onCompleted() {
+        Log.i("XProject","onCompleted")
     }
 }

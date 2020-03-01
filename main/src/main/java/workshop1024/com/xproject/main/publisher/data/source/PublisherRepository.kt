@@ -1,9 +1,18 @@
 package workshop1024.com.xproject.main.publisher.data.source
 
 import android.util.Log
+import androidx.core.util.Consumer
+import rx.Observable
+import rx.Observer
+import rx.functions.*
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
-import java.util.LinkedHashMap
+import java.util.*
+import java.util.function.Predicate
+import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.MutableMap
+import kotlin.collections.mutableListOf
 
 //FIXME 这些通用的逻辑，是否可以使用泛型类进行优化和简化
 /**
@@ -17,215 +26,263 @@ class PublisherRepository private constructor(private val mPublisherRemoteDataSo
 
     private var mIsRequestRemote: Boolean = true
 
-    override fun getPublishersAndPublisherTypes(loadCallback: PublisherDataSource.LoadCallback) {
+    override fun getPublishersAndPublisherTypes(): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypes , mIsRequestRemote = $mIsRequestRemote")
+        var publisherInfoLocalCacheMapObservabl: Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>>
+        var publisherInfoRemoteMapObservabl: Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> = Observable.empty()
+
         //优先取缓存，有缓存数据立即展示
         if (this::mCachedPublisherMaps.isInitialized && this::mCachedPublisherTypeMaps.isInitialized) {
-            val publisherList = getPublishersFromCache()
-            val publisherTypeList = getPublisherTypesFromCache()
+            val publisherListObservable = getPublishersFromCache()
+            val publisherTypeListObservable = getPublisherTypesFromCache()
 
-            if (!publisherList.isEmpty() && !publisherTypeList.isEmpty()) {
-                val contentTypeList = ArrayList<PublisherType>()
-                val languageTyleList = ArrayList<PublisherType>()
+            //zip操作符：使用一个函数组合做个Observable发射的数据集合，然后再发射这个结果
+            publisherInfoLocalCacheMapObservabl = Observable.zip(publisherListObservable, publisherTypeListObservable, object : Func2<List<Publisher>,
+                    List<PublisherType>, EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+                override fun call(publisherList: List<Publisher>, publisherTypeList: List<PublisherType>):
+                        EnumMap<PublisherDataSource.PublisherInfoType, Any> {
+                    var publiserInfoMap = EnumMap<PublisherDataSource.PublisherInfoType, Any>(PublisherDataSource
+                            .PublisherInfoType::class.java)
 
-                for (publisherType in publisherTypeList) {
-                    if (publisherType.mType.equals("content")) {
-                        contentTypeList.add(publisherType)
+                    if (!publisherList.isEmpty() && !publisherTypeList.isEmpty()) {
+                        //filter操作符：过滤数据，将满足条件的数据，单独发射出去
+                        //toList操作符：?????
+                        publiserInfoMap.put(PublisherDataSource.PublisherInfoType.CONTENT_TYPES_LOCAL_CACHE, Observable.from(publisherTypeList).filter(
+                                object : Func1<PublisherType, Boolean> {
+                                    override fun call(publisherType: PublisherType): Boolean {
+                                        return publisherType.mType.equals("content")
+                                    }
+                                }).toList())
+                        publiserInfoMap.put(PublisherDataSource.PublisherInfoType.LANGUAGE_TYPES_LOCAL_CACHE, Observable.from(publisherTypeList).filter(
+                                object : Func1<PublisherType, Boolean> {
+                                    override fun call(publisherType: PublisherType): Boolean {
+                                        return publisherType.mType.equals("language")
+                                    }
+                                }).toList())
+                        publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE, Observable.from(publisherList).toList())
+                    } else {
+                        getPublishersAndPublisherTypesFromLocal().map {
+                            publiserInfoMap = it;
+                        };
                     }
-                    if (publisherType.mType.equals("language")) {
-                        languageTyleList.add(publisherType)
-                    }
+
+                    return publiserInfoMap
                 }
-                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherAndPublisherTypeCallback).onCacheOrLocalPublishersLoaded(publisherList)
-                loadCallback.onCacheOrLocalPublisherTypesLoaded(contentTypeList, languageTyleList)
-            } else {
-                getPublishersAndPublisherTypesFromLocal(loadCallback)
-            }
+            });
         } else {
-            getPublishersAndPublisherTypesFromLocal(loadCallback)
+            publisherInfoLocalCacheMapObservabl = getPublishersAndPublisherTypesFromLocal()
         }
 
         if (mIsRequestRemote) {
-            getPublishersAndPublisherTypesFromRemote(loadCallback)
+            publisherInfoRemoteMapObservabl = getPublishersAndPublisherTypesFromRemote()
         }
+
+        return Observable.merge(publisherInfoLocalCacheMapObservabl,publisherInfoRemoteMapObservabl)
     }
 
-    private fun getPublishersFromCache(): List<Publisher> {
+    private fun getPublishersFromCache(): Observable<List<Publisher>> {
         Log.i("XProject", "PublisherRepository getPublishersFromCache")
-        return ArrayList(mCachedPublisherMaps.values)
+        return Observable.from(mCachedPublisherMaps.values).toList()
     }
 
-    private fun getPublisherTypesFromCache(): List<PublisherType> {
+    private fun getPublisherTypesFromCache(): Observable<List<PublisherType>> {
         Log.i("XProject", "PublisherRepository getPublisherTypesFromCache")
-        return ArrayList(mCachedPublisherTypeMaps.values)
+        return Observable.from(mCachedPublisherTypeMaps.values).toList()
     }
 
-    private fun getPublishersAndPublisherTypesFromLocal(loadCallback: PublisherDataSource.LoadCallback) {
+    private fun getPublishersAndPublisherTypesFromLocal(): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal")
-        mPublisherLocalDataSource.getPublishersAndPublisherTypes(object : PublisherDataSource.LoadCacheOrLocalPublisherAndPublisherTypeCallback {
-            override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal, onCacheOrLocalPublishersLoaded =" + publisherList.toString())
-                refreshPublisherCached(publisherList)
-                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherAndPublisherTypeCallback).onCacheOrLocalPublishersLoaded(publisherList)
-            }
+        return mPublisherLocalDataSource.getPublishersAndPublisherTypes().map(object : Func1<EnumMap<PublisherDataSource
+        .PublisherInfoType, Any>, EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+            override fun call(publiserInfoMap: EnumMap<PublisherDataSource.PublisherInfoType, Any>):
+                    EnumMap<PublisherDataSource.PublisherInfoType, Any> {
+                //执行完doOnNext之后，将其返回值重新赋值，否则doOnNext不会被执行
+                publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE,
+                        (publiserInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE) as? Observable<List<Publisher>>)
+                                ?.doOnNext(object : Action1<List<Publisher>> {
+                                    override fun call(publisherList: List<Publisher>) {
+                                        Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal, onCacheOrLocalPublishersLoaded = ${publisherList.toString()}")
+                                        refreshPublisherCached(publisherList)
+                                    }
+                                }))
 
-            override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal onCacheOrLocalPublisherTypesLoaded")
-                refreshPublisherTypeCached(contentTypeList, languageTyleList)
-                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherAndPublisherTypeCallback).onCacheOrLocalPublisherTypesLoaded(contentTypeList, languageTyleList)
-            }
+//                val contentTypeListObservable = publiserInfoMap.get(PublisherDataSource.PublisherInfoType.CONTENT_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
+//                val languageTypeListObservable = publiserInfoMap.get(PublisherDataSource.PublisherInfoType.LANGUAGE_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
+//                //zip操作符：使用一个函数组合多个Observable发射的数据集合，然后在发射这个结果
+//                Observable.zip(contentTypeListObservable, languageTypeListObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
+//                    override fun call(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>): Any {
+//                        Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal, onCacheOrLocalPublisherTypesLoaded")
+//                        refreshPublisherTypeCached(contentTypeList, languageTyleList)
+//                        return Any()
+//                    }
+//                })
 
-            override fun onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromLocal onDataNotAvailable")
+                return publiserInfoMap
             }
         })
     }
 
     private fun refreshPublisherCached(publisherList: List<Publisher>) {
-        Log.i("XProject", "PublisherRepository refreshPublisherCached, publisherList = $publisherList")
+        Log.i("XProject", "PublisherRepository refreshPublisherCached, publisherList = ${publisherList.size}")
         if (!this::mCachedPublisherMaps.isInitialized) {
             mCachedPublisherMaps = LinkedHashMap()
         }
 
         mCachedPublisherMaps.clear()
 
-        for (publisher in publisherList) {
-            mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
-        }
+        Observable.from(publisherList).subscribe(object : Action1<Publisher> {
+            override fun call(publisher: Publisher) {
+                mCachedPublisherMaps.put(publisher.mPublisherId, publisher)
+            }
+        })
     }
 
 
     private fun refreshPublisherTypeCached(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        Log.i("XProject", "PublisherRepository refreshPublisherTypeCached, contentTypeList = $contentTypeList, languageTyleList = $languageTyleList")
+        Log.i("XProject", "PublisherRepository refreshPublisherTypeCached, contentTypeList = ${contentTypeList.size}, languageTyleList = ${languageTyleList.size}")
         if (!this::mCachedPublisherTypeMaps.isInitialized) {
             mCachedPublisherTypeMaps = LinkedHashMap()
         }
 
         mCachedPublisherTypeMaps.clear()
 
-        for (contentType in contentTypeList) {
-            mCachedPublisherTypeMaps.put(contentType.mTypeId, contentType)
-        }
-        for (languageType in languageTyleList) {
-            mCachedPublisherTypeMaps.put(languageType.mTypeId, languageType)
-        }
+        Observable.merge(Observable.from(contentTypeList), Observable.from(languageTyleList)).subscribe(object : Action1<PublisherType> {
+            override fun call(publisherType: PublisherType) {
+                mCachedPublisherTypeMaps.put(publisherType.mTypeId, publisherType)
+            }
+        })
     }
 
-    private fun getPublishersAndPublisherTypesFromRemote(loadCallback: PublisherDataSource.LoadCallback) {
+    private fun getPublishersAndPublisherTypesFromRemote(): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote")
-        mPublisherRemoteDataSource.getPublishersAndPublisherTypes(object : PublisherDataSource.LoadRemotePubliserAndPublisherTypeCallback {
-            override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote onRemotePublishersLoaded, publisherList = ${publisherList.toString()}")
-                refreshPublisherCached(publisherList)
-                refreshPublisherLocal(publisherList)
-                (loadCallback as PublisherDataSource.LoadRemotePubliserAndPublisherTypeCallback).onRemotePublishersLoaded(publisherList)
+        return mPublisherRemoteDataSource.getPublishersAndPublisherTypes().map(object : Func1<EnumMap<PublisherDataSource.PublisherInfoType, Any>,
+                EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+            override fun call(publisherInfoMap: EnumMap<PublisherDataSource.PublisherInfoType, Any>)
+                    : EnumMap<PublisherDataSource.PublisherInfoType, Any> {
+                publisherInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE,
+                        (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE) as Observable<List<Publisher>>)
+                                .doOnNext(object : Action1<List<Publisher>> {
+                                    override fun call(publisherList: List<Publisher>) {
+                                        Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote onRemotePublishersLoaded, publisherList = ${publisherList.size}")
+                                        refreshPublisherCached(publisherList)
+                                        refreshPublisherLocal(publisherList)
+                                        //请求过一次远程之后，不自动请求远程，除非强制刷新请求
+                                        mIsRequestRemote = false
+                                    }
+                                }))
 
-                //请求过一次远程之后，不自动请求远程，除非强制刷新请求
-                mIsRequestRemote = false
-            }
-
-            override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote onRemotePublisherTypesLoaded, contentTypeList = ${contentTypeList.toString()}, languageTypeList = ${languageTyleList.toString()}")
-                refreshPublisherTypeCached(contentTypeList, languageTyleList)
-                refreshPublisherTypeLocal(contentTypeList, languageTyleList)
-                (loadCallback as PublisherDataSource.LoadRemotePubliserAndPublisherTypeCallback).onRemotePublisherTypesLoaded(contentTypeList, languageTyleList)
-            }
-
-            override fun onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote onDataNotAvailable")
+//                val contentTypeListObservable = publisherInfoMap.get(PublisherDataSource.PublisherInfoType.CONTENT_TYPES_REMOTE) as Observable<List<PublisherType>>
+//                val languageTypeListObservable = publisherInfoMap.get(PublisherDataSource.PublisherInfoType.LANGUAGE_TYPES_REMOTE) as Observable<List<PublisherType>>
+//                Observable.zip(contentTypeListObservable, languageTypeListObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
+//                    override fun call(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>): Any {
+//                        Log.i("XProject", "PublisherRepository getPublishersAndPublisherTypesFromRemote onRemotePublisherTypesLoaded, contentTypeList = ${contentTypeList.toString()}, languageTypeList = ${languageTyleList.toString()}")
+//                        refreshPublisherTypeCached(contentTypeList, languageTyleList)
+//                        refreshPublisherTypeLocal(contentTypeList, languageTyleList)
+//
+//                        //FIXME 这样处理是否合理？？
+//                        return Any()
+//                    }
+//                })
+                return publisherInfoMap
             }
         })
     }
 
     private fun refreshPublisherLocal(publisherList: List<Publisher>) {
-        Log.i("XProject", "PublisherRepository refreshPublisherLocal, publisherList = $publisherList")
+        Log.i("XProject", "PublisherRepository refreshPublisherLocal, publisherList = ${publisherList.size}")
         mPublisherLocalDataSource.deleteAllPublishers()
 
-        for (publisher in publisherList) {
-            mPublisherLocalDataSource.savePublisher(publisher)
-        }
-    }
-
-    private fun refreshPublisherTypeLocal(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-        Log.i("XProject", "PublisherRepository refreshPublisherTypeLocal, contentTypeList = $contentTypeList, languageTyleList = $languageTyleList")
-        mPublisherLocalDataSource.deleteAllPublisherTypes()
-
-        for (contentType in contentTypeList) {
-            mPublisherLocalDataSource.savePublisherType(contentType)
-        }
-        for (languageType in languageTyleList) {
-            mPublisherLocalDataSource.savePublisherType(languageType)
-        }
-    }
-
-    override fun getPublishersByContentType(typeId: String, loadCallback: PublisherDataSource.LoadCallback) {
-        Log.i("XProject", "PublisherRepository getPublishersByContentType, mTypeId = $typeId")
-        getPublishersAndPublisherTypes(object : PublisherDataSource.LoadPublisherAndPublisherTypeCallback {
-            override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersByContentType onCacheOrLocalPublishersLoaded, publisherList = $publisherList")
-                //FIXME 是否可以使用Kotlin高阶函数简化？
-                //FIXME Kotlin的集合具体如何分类和区分？
-                val typePublisherList = filterPublisherByType(publisherList, typeId)
-                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherCallback).onCacheOrLocalPublishersLoaded(typePublisherList)
-            }
-
-            override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersByContentType onRemotePublishersLoaded, publisherList = $publisherList")
-                val typePublisherList = filterPublisherByType(publisherList, typeId)
-                (loadCallback as PublisherDataSource.LoadRemotePublisherCallback).onRemotePublishersLoaded(typePublisherList)
-            }
-
-            override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-
-            }
-
-            override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-
-            }
-
-            override fun onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersByContentType onDataNotAvailable")
+        Observable.from(publisherList).subscribe(object : Action1<Publisher> {
+            override fun call(publisher: Publisher) {
+                mPublisherLocalDataSource.savePublisher(publisher)
             }
         })
     }
 
-    private fun filterPublisherByType(publisherList: List<Publisher>, typeId: String): List<Publisher> {
-        val typePublisherList = mutableListOf<Publisher>()
-        for (publisher in publisherList) {
-            if (publisher.mType.equals(typeId)) {
-                typePublisherList.add(publisher)
-            }
-        }
+    private fun refreshPublisherTypeLocal(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
+        Log.i("XProject", "PublisherRepository refreshPublisherTypeLocal, contentTypeList = $contentTypeList, languageTyleList = ${languageTyleList.size}")
+        mPublisherLocalDataSource.deleteAllPublisherTypes()
 
-        return typePublisherList
+        Observable.merge(Observable.from(contentTypeList), Observable.from(languageTyleList)).doOnNext(object : Action1<PublisherType> {
+            override fun call(publisherType: PublisherType) {
+                mPublisherLocalDataSource.savePublisherType(publisherType)
+            }
+        })
     }
 
-    override fun getPublishersByLanguageType(languageId: String, loadCallback: PublisherDataSource.LoadCallback) {
+    override fun getPublishersByContentType(typeId: String): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+        Log.i("XProject", "PublisherRepository getPublishersByContentType, mTypeId = $typeId")
+        return getPublishersAndPublisherTypes().map(object : Func1<EnumMap<PublisherDataSource.PublisherInfoType, Any>
+                , EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+            override fun call(publisherInfoMap: EnumMap<PublisherDataSource.PublisherInfoType, Any>)
+                    : EnumMap<PublisherDataSource.PublisherInfoType, Any> {
+                var publiserInfoMap = EnumMap<PublisherDataSource.PublisherInfoType, Any>(PublisherDataSource
+                        .PublisherInfoType::class.java)
+
+                (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE) as? Observable<List<Publisher>>)
+                        ?.doOnNext(object : Action1<List<Publisher>> {
+                            override fun call(publisherListRemote: List<Publisher>) {
+                                Log.i("XProject", "PublisherRepository getPublishersByContentType onRemotePublishersLoaded, " +
+                                        "publisherList = ${publisherListRemote.size}")
+                                publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE, filterPublisherByType(publisherListRemote, typeId))
+                            }
+                        })
+
+                (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE) as? Observable<List<Publisher>>)
+                        ?.doOnNext(object : Action1<List<Publisher>> {
+                            override fun call(publisherListLocalCache: List<Publisher>) {
+                                Log.i("XProject", "PublisherRepository getPublishersByContentType onCacheOrLocalPublishersLoaded, " +
+                                        "publisherList = ${publisherListLocalCache.size}")
+                                publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE, filterPublisherByType(publisherListLocalCache, typeId))
+                            }
+                        })
+
+                return publiserInfoMap
+            }
+        }).doOnError({
+            Log.i("XProject", "PublisherRepository getPublishersByContentType onDataNotAvailable")
+        })
+    }
+
+    private fun filterPublisherByType(publisherList: List<Publisher>, typeId: String): Observable<List<Publisher>> {
+        return Observable.from(publisherList).filter(object : Func1<Publisher, Boolean> {
+            override fun call(publisher: Publisher): Boolean {
+                return publisher.mType.equals(typeId)
+            }
+        }).toList()
+    }
+
+    override fun getPublishersByLanguageType(languageId: String): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherRepository getPublishersByLanguageType, languageId = $languageId")
-        getPublishersAndPublisherTypes(object : PublisherDataSource.LoadPublisherAndPublisherTypeCallback {
-            override fun onCacheOrLocalPublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguageType onCacheOrLocalPublishersLoaded, publisherList = $publisherList")
-                val languagePublisherList = filterPublisherByLanguage(languageId, publisherList)
-                (loadCallback as PublisherDataSource.LoadCacheOrLocalPublisherCallback).onCacheOrLocalPublishersLoaded(languagePublisherList)
+        return getPublishersAndPublisherTypes().map(object : Func1<EnumMap<PublisherDataSource.PublisherInfoType, Any>
+                , EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+            override fun call(publisherInfoMap: EnumMap<PublisherDataSource.PublisherInfoType, Any>)
+                    : EnumMap<PublisherDataSource.PublisherInfoType, Any> {
+                var publiserInfoMap = EnumMap<PublisherDataSource.PublisherInfoType, Any>(PublisherDataSource
+                        .PublisherInfoType::class.java)
+
+                (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE) as? Observable<List<Publisher>>)
+                        ?.doOnNext(object : Action1<List<Publisher>> {
+                            override fun call(publisherListRemote: List<Publisher>) {
+                                Log.i("XProject", "PublisherRepository getPublishersByLanguageType onRemotePublishersLoaded, " +
+                                        "publisherList = ${publisherListRemote.size}")
+                                publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_REMOTE, filterPublisherByType(publisherListRemote, languageId))
+                            }
+                        })
+
+                (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE) as? Observable<List<Publisher>>)
+                        ?.doOnNext(object : Action1<List<Publisher>> {
+                            override fun call(publisherListLocalCache: List<Publisher>) {
+                                Log.i("XProject", "PublisherRepository getPublishersByLanguageType onCacheOrLocalPublishersLoaded, " +
+                                        "publisherList = ${publisherListLocalCache.size}")
+                                publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE, filterPublisherByType(publisherListLocalCache, languageId))
+                            }
+                        })
+
+                return publiserInfoMap
             }
-
-            override fun onRemotePublishersLoaded(publisherList: List<Publisher>) {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguageType onRemotePublishersLoaded, publisherList = $publisherList")
-                val languagePublisherList = filterPublisherByLanguage(languageId, publisherList)
-                (loadCallback as PublisherDataSource.LoadRemotePublisherCallback).onRemotePublishersLoaded(languagePublisherList)
-            }
-
-            override fun onCacheOrLocalPublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-
-            }
-
-            override fun onRemotePublisherTypesLoaded(contentTypeList: List<PublisherType>, languageTyleList: List<PublisherType>) {
-
-            }
-
-            override fun onDataNotAvailable() {
-                Log.i("XProject", "PublisherRepository getPublishersByLanguageType onDataNotAvailable")
-            }
+        }).doOnError({
+            Log.i("XProject", "PublisherRepository getPublishersByLanguageType onDataNotAvailable")
         })
     }
 

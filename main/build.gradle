@@ -77,6 +77,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$project.ext.coroutines_version"
     //Espresso Idling Resource相关
     implementation "androidx.test.espresso:espresso-idling-resource:$project.ext.espresso_version"
+    //rxJava相关
+    implementation "io.reactivex:rxjava:$project.rxjava_version"
+    implementation "io.reactivex:rxandroid:$project.rxandroid_version"
 
     androidTestImplementation project(':androidTest')
     //RecyclerView测试
