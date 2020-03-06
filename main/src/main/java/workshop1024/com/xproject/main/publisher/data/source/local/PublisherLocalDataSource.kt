@@ -13,31 +13,67 @@ import workshop1024.com.xproject.base.utils.ExecutorUtils
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource.PublisherInfoType
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource.PublisherTypeInfoType
 import workshop1024.com.xproject.main.publisher.data.source.remote.PublisherRemoteDataSource
 import java.util.*
+import java.util.function.Consumer
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 class PublisherLocalDataSource private constructor(private val mPublisherDao: PublisherDao,
                                                    private val mExecutorUtils: ExecutorUtils) : PublisherDataSource {
 
-    override fun getPublishersAndPublisherTypes(): Observable<EnumMap<PublisherDataSource.PublisherInfoType, Any>> {
+    override fun getPublishersAndPublisherTypes(): Observable<EnumMap<PublisherInfoType, Any>> {
         Log.i("XProject", "PublisherLocalDataSource getPublishersAndPublisherTypes")
-        val publiserInfoMap = EnumMap<PublisherDataSource.PublisherInfoType, Any>(PublisherDataSource
-                .PublisherInfoType::class.java)
+        val publiserInfoMap = EnumMap<PublisherInfoType, Any>(PublisherInfoType::class.java)
 
         val publisherListObservable = Observable.create(object : Observable.OnSubscribe<List<Publisher>> {
             override fun call(subscriber: Subscriber<in List<Publisher>>) {
+                //异步执行数据库的io
                 val publisherList = mPublisherDao.getPublishers()
                 if (!publisherList.isEmpty()) {
-                    //异步执行数据库的io
                     subscriber.onNext(publisherList)
-                }else{
-                    //TODO 抛出什么异常？？
-//                    subscriber.onError();
                 }
             }
         })
+
+        val publisherTypeObservable = Observable.create(object
+            : Observable.OnSubscribe<EnumMap<PublisherTypeInfoType, List<PublisherType>>> {
+            override fun call(subscriber: Subscriber<in EnumMap<PublisherTypeInfoType, List<PublisherType>>>) {
+                val publiserTypeInfoMap = EnumMap<PublisherTypeInfoType, List<PublisherType>>(PublisherTypeInfoType::class.java)
+                //异步执行数据库的io
+                val publisherTypeList = mPublisherDao.getPublisherTypes()
+                if (!publisherTypeList.isEmpty()) {
+                    val contentTypeList = mutableListOf<PublisherType>()
+                    Observable.from(publisherTypeList).filter(object : Func1<PublisherType, Boolean> {
+                        override fun call(publisherType: PublisherType): Boolean {
+                            return publisherType.mType.equals("content")
+                        }
+                    }).subscribe(object : Action1<PublisherType> {
+                        override fun call(publisherType: PublisherType) {
+                            contentTypeList.add(publisherType)
+                        }
+                    })
+                    val languageTypeList = mutableListOf<PublisherType>()
+                    Observable.from(publisherTypeList).filter(object : Func1<PublisherType, Boolean> {
+                        override fun call(publisherType: PublisherType): Boolean {
+                            return publisherType.mType.equals("language")
+                        }
+                    }).subscribe(object : Action1<PublisherType> {
+                        override fun call(publisherType: PublisherType) {
+                            languageTypeList.add(publisherType)
+                        }
+                    })
+                    publiserTypeInfoMap.put(PublisherTypeInfoType.CONTENT_TYPES_LOCAL_CACHE, contentTypeList)
+                    publiserTypeInfoMap.put(PublisherTypeInfoType.LANGUAGE_TYPES_LOCAL_CACHE, languageTypeList)
+
+                    subscriber.onNext(publiserTypeInfoMap)
+                }
+            }
+        })
+
         publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERS_LOCAL_CACHE, publisherListObservable)
+        publiserInfoMap.put(PublisherDataSource.PublisherInfoType.PUBLISHERTYPES_LOCAL_CACHE, publisherTypeObservable)
 
         return Observable.just(publiserInfoMap)
     }

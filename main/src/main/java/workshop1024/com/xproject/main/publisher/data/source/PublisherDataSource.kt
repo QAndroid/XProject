@@ -14,6 +14,10 @@ interface PublisherDataSource {
      */
     enum class PublisherInfoType {
         PUBLISHERS_REMOTE, PUBLISHERS_LOCAL_CACHE,
+        PUBLISHERTYPES_REMOTE, PUBLISHERTYPES_LOCAL_CACHE,
+    }
+
+    enum class PublisherTypeInfoType {
         CONTENT_TYPES_REMOTE, CONTENT_TYPES_LOCAL_CACHE,
         LANGUAGE_TYPES_REMOTE, LANGUAGE_TYPES_LOCAL_CACHE,
     }

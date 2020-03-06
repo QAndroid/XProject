@@ -32,4 +32,7 @@ interface PublisherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun savePublisherType(publisherType: PublisherType)
+
+    @Query("SELECT * FROM publishertypes")
+    fun getPublisherTypes(): List<PublisherType>
 }

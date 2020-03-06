@@ -13,7 +13,6 @@ import rx.functions.Func2
 import rx.schedulers.Schedulers
 import workshop1024.com.xproject.main.other.idlingResource.PublisherIdlingResouce
 import workshop1024.com.xproject.main.publisher.Event
-import workshop1024.com.xproject.main.publisher.PublisherListAdapter
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
@@ -144,30 +143,28 @@ class PublisherViewModel(private val mPublisherDataSource: PublisherDataSource) 
                     }
                 })
 
-//        val contentTypeListRemoteObservable = publisherInfoMap.get(PublisherDataSource
-//                .PublisherInfoType.CONTENT_TYPES_REMOTE) as? Observable<List<PublisherType>>
-//        val languageTypeListRemoteObservable = publisherInfoMap.get(PublisherDataSource
-//                .PublisherInfoType.LANGUAGE_TYPES_REMOTE) as? Observable<List<PublisherType>>
-//        Observable.zip(contentTypeListRemoteObservable, languageTypeListRemoteObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
-//            override fun call(contentTyleListRemote: List<PublisherType>, languageTyleListRemote: List<PublisherType>): Any {
-//                refreshPubliserTypeList(contentTyleListRemote, languageTyleListRemote)
-//                return Any()
-//            }
-//        })?.subscribe()
-//
-//        val contentTypeListLocalCacheObservable = publisherInfoMap.get(PublisherDataSource
-//                .PublisherInfoType.CONTENT_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
-//        val languageTypeListLocalCacheObservable = publisherInfoMap.get(PublisherDataSource
-//                .PublisherInfoType.LANGUAGE_TYPES_LOCAL_CACHE) as? Observable<List<PublisherType>>
-//        Observable.zip(contentTypeListLocalCacheObservable, languageTypeListLocalCacheObservable, object : Func2<List<PublisherType>, List<PublisherType>, Any> {
-//            override fun call(contentTyleListRemote: List<PublisherType>, languageTyleListRemote: List<PublisherType>): Any {
-//                refreshPubliserTypeList(contentTyleListRemote, languageTyleListRemote)
-//                return Any()
-//            }
-//        })?.subscribe()
+        (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERTYPES_REMOTE) as? Observable<EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>>)
+                ?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Action1<EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>> {
+                    override fun call(publisherTypeInfoMap: EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>?) {
+                        refreshPubliserTypeList(publisherTypeInfoMap?.get(PublisherDataSource.PublisherTypeInfoType.CONTENT_TYPES_REMOTE)!!,
+                                publisherTypeInfoMap.get(PublisherDataSource.PublisherTypeInfoType.LANGUAGE_TYPES_REMOTE)!!)
+                    }
+                })
+
+        //负责的场景的io切换
+        //参考：https://blog.piasy.com/2016/10/14/Complex-RxJava-2-scheduler/index.html
+        (publisherInfoMap.get(PublisherDataSource.PublisherInfoType.PUBLISHERTYPES_LOCAL_CACHE) as? Observable<EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>>)
+                ?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Action1<EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>> {
+                    override fun call(publisherTypeInfoMap: EnumMap<PublisherDataSource.PublisherTypeInfoType, List<PublisherType>>?) {
+                        refreshPubliserTypeList(publisherTypeInfoMap?.get(PublisherDataSource.PublisherTypeInfoType.CONTENT_TYPES_LOCAL_CACHE)!!,
+                                publisherTypeInfoMap.get(PublisherDataSource.PublisherTypeInfoType.LANGUAGE_TYPES_LOCAL_CACHE)!!)
+                    }
+                })
     }
 
     override fun onCompleted() {
-        Log.i("XProject","onCompleted")
+        Log.i("XProject", "onCompleted")
     }
 }

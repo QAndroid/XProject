@@ -8,6 +8,8 @@ import rx.functions.Func3
 import workshop1024.com.xproject.main.publisher.data.Publisher
 import workshop1024.com.xproject.main.publisher.data.PublisherType
 import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource.PublisherInfoType
+import workshop1024.com.xproject.main.publisher.data.source.PublisherDataSource.PublisherTypeInfoType
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -26,18 +28,16 @@ class PublisherRemoteDataSource : PublisherDataSource {
                 subscriber.onNext(ArrayList(PUBLISHERS_SERVICE_DATA.values))
             }
         }))
-        publisherInfoMap.put(PublisherDataSource.PublisherInfoType.CONTENT_TYPES_REMOTE, Observable.create(object
-            : Observable.OnSubscribe<List<PublisherType>> {
-            override fun call(subscriber: Subscriber<in List<PublisherType>>) {
+
+        publisherInfoMap.put(PublisherInfoType.PUBLISHERTYPES_REMOTE, Observable.create(object
+            : Observable.OnSubscribe<EnumMap<PublisherTypeInfoType, List<PublisherType>>> {
+            override fun call(subscriber: Subscriber<in EnumMap<PublisherTypeInfoType, List<PublisherType>>>) {
                 //Todo 异步执行网络请求
-                subscriber.onNext(ArrayList(CONTENT_SERVICE_DATA.values))
-            }
-        }))
-        publisherInfoMap.put(PublisherDataSource.PublisherInfoType.LANGUAGE_TYPES_REMOTE, Observable.create(object
-            : Observable.OnSubscribe<List<PublisherType>> {
-            override fun call(subscriber: Subscriber<in List<PublisherType>>) {
-                //Todo 异步执行网络请求
-                subscriber.onNext(ArrayList(LANGUAGE_SERVICE_DATA.values))
+                val publisherTypeInfoMap = EnumMap<PublisherTypeInfoType, List<PublisherType>>(PublisherTypeInfoType::class.java)
+                publisherTypeInfoMap.put(PublisherTypeInfoType.CONTENT_TYPES_REMOTE, ArrayList(CONTENT_SERVICE_DATA.values))
+                publisherTypeInfoMap.put(PublisherTypeInfoType.LANGUAGE_TYPES_REMOTE, ArrayList(LANGUAGE_SERVICE_DATA.values))
+
+                subscriber.onNext(publisherTypeInfoMap)
             }
         }))
 
@@ -96,7 +96,7 @@ class PublisherRemoteDataSource : PublisherDataSource {
     }
 
     companion object {
-        private const val SERVICE_LATENCY_IN_MILLIS = 1000L
+        private const val SERVICE_LATENCY_IN_MILLIS = 1500L
 
         private var PUBLISHERS_SERVICE_DATA: MutableMap<String, Publisher> = LinkedHashMap(2)
         private var CONTENT_SERVICE_DATA: MutableMap<String, PublisherType> = LinkedHashMap(2)
