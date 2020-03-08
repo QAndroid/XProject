@@ -135,7 +135,7 @@ project.ext {
             extension.apply plugin: 'kotlin-kapt'
 
             //引入额外Gradle配置文件
-            extension.apply from: "${rootProject.rootDir}/versions_build.gradle"
+            extension.apply from: "${rootProject.rootDir}/gradle/config/versions_build.gradle"
 
             setAndroidConfig extension.android
             setDependencies extension.dependencies
